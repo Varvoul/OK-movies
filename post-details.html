@@ -808,7 +808,7 @@
         
         .recommendations-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: var(--space-lg);
         }
         
@@ -988,7 +988,7 @@
             }
             
             .recommendations-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                grid-template-columns: repeat(3, 1fr);
             }
             
             .recommendation-card {
@@ -1041,7 +1041,7 @@
             }
             
             .recommendations-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                grid-template-columns: repeat(3, 1fr);
                 gap: 16px;
             }
             
@@ -1392,7 +1392,7 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="https://quravel.blogspot.com/sent-your-request">Sent Request</a></li>
-                    <li><a href="mailto:foogyfogg@proton.me">Contact Us</a></li>
+                    <li><a href="/cdn-cgi/l/email-protection#45232a2a223c232a22220535372a312a2b6b2820">Contact Us</a></li>
                     <li><a href="#movies">Movies</a></li>
                     <li><a href="#tv-series">TV Series</a></li>
                 </ul>
@@ -1426,7 +1426,7 @@
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Load posts from JSON file
         let allPosts = [];
         
@@ -1458,7 +1458,6 @@
             loadPostsData();
             updatePageContent();
             initializeWatchlist();
-            loadRecommendations();
             initializeHeaderNavigation();
             initializeSearch();
         }
@@ -1469,6 +1468,7 @@
                 const response = await fetch('data/posts.json');
                 const data = await response.json();
                 allPosts = data.posts;
+                console.log('Loaded posts from JSON:', allPosts.length);
             } catch (error) {
                 console.error('Error loading posts:', error);
                 // Fallback to sample data
@@ -1552,9 +1552,172 @@
                         description: 'Yuji Itadori is a boy with tremendous physical strength.',
                         poster: 'https://image.tmdb.org/t/p/w500/vD8UUUVkHnf1c0EIyJXU7dRjsfm.jpg',
                         genres: ['Animation', 'Action', 'Fantasy']
+                    },
+                    {
+                        id: 'oppenheimer',
+                        title: 'Oppenheimer',
+                        type: 'movie',
+                        year: 2023,
+                        rating: 8.4,
+                        description: 'The story of American scientist J. Robert Oppenheimer.',
+                        poster: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
+                        genres: ['Drama', 'History', 'Biography']
+                    },
+                    {
+                        id: 'the-bear-s3',
+                        title: 'The Bear Season 3',
+                        type: 'tv-show',
+                        year: 2024,
+                        rating: 8.7,
+                        description: 'Carmy Berzatto returns to run his family\'s Italian beef sandwich shop.',
+                        poster: 'https://image.tmdb.org/t/p/w500/sHFlbKSYoKB5D1I9zUs2Lm4HVMZ.jpg',
+                        genres: ['Drama', 'Comedy']
+                    },
+                    {
+                        id: 'one-piece-live-action',
+                        title: 'One Piece Live Action',
+                        type: 'tv-show',
+                        year: 2023,
+                        rating: 8.1,
+                        description: 'A young pirate with a stretching ability sets out to find the legendary treasure.',
+                        poster: 'https://image.tmdb.org/t/p/w500/cMD9Ygx11XHkK0eOUPLzGct2PCV.jpg',
+                        genres: ['Action', 'Adventure', 'Comedy']
+                    },
+                    {
+                        id: 'goku-ultra-instinct',
+                        title: 'Dragon Ball Super: Ultra Instinct',
+                        type: 'anime',
+                        year: 2025,
+                        rating: 8.9,
+                        description: 'Goku achieves the legendary Ultra Instinct transformation.',
+                        poster: 'https://image.tmdb.org/t/p/w500/xRwU4u9I5Tu5iSwaFiGHMi6J99w.jpg',
+                        genres: ['Animation', 'Action', 'Adventure']
+                    },
+                    {
+                        id: 'guardians-galaxy-3',
+                        title: 'Guardians of the Galaxy Vol. 3',
+                        type: 'movie',
+                        year: 2023,
+                        rating: 7.9,
+                        description: 'The Guardians embark on a mission to protect one of their own.',
+                        poster: 'https://image.tmdb.org/t/p/w500/r2jdM9Z7bMsBA5F6rQimG6uLdjZ.jpg',
+                        genres: ['Action', 'Adventure', 'Comedy']
+                    },
+                    {
+                        id: 'chernobyl',
+                        title: 'Chernobyl',
+                        type: 'tv-show',
+                        year: 2019,
+                        rating: 9.4,
+                        description: 'The true story of one of the worst man-made catastrophes in history.',
+                        poster: 'https://image.tmdb.org/t/p/w500/hlLXt2tOPTJRRRjyPKZA4QK4NYk.jpg',
+                        genres: ['Drama', 'History', 'Thriller']
+                    },
+                    {
+                        id: 'chainsaw-man',
+                        title: 'Chainsaw Man',
+                        type: 'anime',
+                        year: 2022,
+                        rating: 8.2,
+                        description: 'Denji becomes a devil hunter to pay off his debt.',
+                        poster: 'https://image.tmdb.org/t/p/w500/x9cMBQiyPjclpm1aMjlF4qMWmsZ.jpg',
+                        genres: ['Animation', 'Action', 'Horror']
+                    },
+                    {
+                        id: 'top-gun-maverick',
+                        title: 'Top Gun: Maverick',
+                        type: 'movie',
+                        year: 2022,
+                        rating: 8.3,
+                        description: 'Pete "Maverick" Mitchell trains a new generation of pilots.',
+                        poster: 'https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg',
+                        genres: ['Action', 'Drama']
+                    },
+                    {
+                        id: 'stranger-things-s4',
+                        title: 'Stranger Things Season 4',
+                        type: 'tv-show',
+                        year: 2022,
+                        rating: 8.7,
+                        description: 'The gang faces their biggest threat yet in Hawkins.',
+                        poster: 'https://image.tmdb.org/t/p/w500/W1q8w8zG8z6Loi7dL5kJ7XWw3a.jpg',
+                        genres: ['Drama', 'Fantasy', 'Horror']
+                    },
+                    {
+                        id: 'violet-evergarden',
+                        title: 'Violet Evergarden',
+                        type: 'anime',
+                        year: 2018,
+                        rating: 8.5,
+                        description: 'A former child soldier learns to understand emotions.',
+                        poster: 'https://image.tmdb.org/t/p/w500/8KyOhyPRkEIQ4lQ9P3m5aR4F9nV.jpg',
+                        genres: ['Animation', 'Drama', 'Romance']
+                    },
+                    {
+                        id: 'the-flash',
+                        title: 'The Flash',
+                        type: 'movie',
+                        year: 2023,
+                        rating: 6.2,
+                        description: 'Barry Allen runs through the multiverse to save his world.',
+                        poster: 'https://image.tmdb.org/t/p/w500/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg',
+                        genres: ['Action', 'Adventure', 'Fantasy']
+                    },
+                    {
+                        id: 'house-of-the-dragon',
+                        title: 'House of the Dragon',
+                        type: 'tv-show',
+                        year: 2022,
+                        rating: 8.4,
+                        description: 'The Targaryen civil war begins 200 years before Game of Thrones.',
+                        poster: 'https://image.tmdb.org/t/p/w500/17TTFF2iE8y2bK3z2w4xV4gCj3N.jpg',
+                        genres: ['Drama', 'Fantasy', 'Action']
+                    },
+                    {
+                        id: 'death-note',
+                        title: 'Death Note',
+                        type: 'anime',
+                        year: 2006,
+                        rating: 9.0,
+                        description: 'A high school student discovers a notebook that can kill.',
+                        poster: 'https://image.tmdb.org/t/p/w500/3tJcfbJKQP6kM5d1v0m8Yv7d5zY.jpg',
+                        genres: ['Animation', 'Crime', 'Fantasy']
+                    },
+                    {
+                        id: 'the-witcher-s3',
+                        title: 'The Witcher Season 3',
+                        type: 'tv-show',
+                        year: 2023,
+                        rating: 7.2,
+                        description: 'Geralt embarks on his most dangerous journey yet.',
+                        poster: 'https://image.tmdb.org/t/p/w500/9n2tJplKmULR8Gcv4Uhbbbba2j8.jpg',
+                        genres: ['Action', 'Adventure', 'Drama']
+                    },
+                    {
+                        id: 'your-name',
+                        title: 'Your Name',
+                        type: 'anime',
+                        year: 2016,
+                        rating: 8.4,
+                        description: 'Two teenagers share a profound, magical connection.',
+                        poster: 'https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg',
+                        genres: ['Animation', 'Romance', 'Drama']
+                    },
+                    {
+                        id: 'mission-impossible-7',
+                        title: 'Mission: Impossible – Dead Reckoning Part One',
+                        type: 'movie',
+                        year: 2023,
+                        rating: 7.7,
+                        description: 'Ethan Hunt and his IMF team race against time.',
+                        poster: 'https://image.tmdb.org/t/p/w500/Ai4QdM1tH9jAKLLN7KjRR6qLHGj.jpg',
+                        genres: ['Action', 'Adventure', 'Thriller']
                     }
                 ];
+                console.log('Using fallback posts data:', allPosts.length);
             }
+            // Load recommendations after data is ready
+            loadRecommendations();
         }
         
         // Update page content based on post ID
@@ -1598,6 +1761,14 @@
 
         // Load recommendations - All posts added with increased height
         function loadRecommendations() {
+            // Ensure we have posts to display
+            if (!allPosts || allPosts.length === 0) {
+                console.log('No posts available for recommendations');
+                return;
+            }
+            
+            console.log(`Loading ${allPosts.length} recommendations`);
+            
             // Use all posts for recommendations
             const recommendations = allPosts.map(post => ({
                 title: post.title,
@@ -1607,6 +1778,11 @@
             }));
             
             const grid = document.getElementById('recommendationsGrid');
+            if (!grid) {
+                console.error('Recommendations grid not found');
+                return;
+            }
+            
             grid.innerHTML = recommendations.map(rec => `
                 <a href="post-details.html?id=${rec.id}" class="recommendation-card" data-content="${rec.title.toLowerCase().replace(/\s+/g, '-')}">
                     <div class="recommendation-image">
@@ -1618,6 +1794,8 @@
                     </div>
                 </a>
             `).join('');
+            
+            console.log('Recommendations loaded successfully');
         }
         
         // Watchlist management
