@@ -1,0 +1,2682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer & Settings - Quravel Admin</title>
+    <style>
+        /* =============================================================================
+           ADMIN PANEL STYLES (Embedded from admin.css and main.css)
+           ============================================================================= */
+        
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            color: #e8eaf6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .admin-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Admin Header */
+        .admin-header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .admin-nav .logo img {
+            height: 40px;
+            max-width: 150px;
+        }
+
+        .admin-nav-links-container {
+            position: relative;
+            flex: 1;
+            margin: 0 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-scroll-btn {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #8b5cf6;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .nav-scroll-btn:hover {
+            background: rgba(139, 92, 246, 0.3);
+            transform: scale(1.1);
+        }
+
+        .nav-scroll-btn.left {
+            margin-right: 0.5rem;
+        }
+
+        .nav-scroll-btn.right {
+            margin-left: 0.5rem;
+        }
+
+        .nav-scroll-btn.hidden {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .admin-nav-links {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0.5rem 0;
+            scroll-behavior: smooth;
+            flex: 1;
+        }
+
+        .admin-nav-links::-webkit-scrollbar {
+            display: none;
+        }
+
+        .admin-nav-link {
+            color: #a5b4fc;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-width: max-content;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            color: #f5f3ff;
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .admin-nav-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* Responsive navigation */
+        @media (max-width: 1200px) {
+            .admin-nav-links-container {
+                margin: 0 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .admin-nav-links-container {
+                width: 100%;
+                margin: 0;
+            }
+            
+            .nav-scroll-btn {
+                display: none;
+            }
+            
+            .admin-nav-links {
+                justify-content: flex-start;
+                padding: 0.5rem;
+            }
+        }
+
+        /* Admin Main Content */
+        .admin-main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .admin-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .admin-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .admin-header-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #415b82;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(65, 91, 130, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(139, 92, 246, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* Settings Tabs */
+        .settings-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .settings-tabs .tab-btn {
+            background: none;
+            border: none;
+            color: #a5b4fc;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .settings-tabs .tab-btn:hover {
+            color: #f5f3ff;
+        }
+
+        .settings-tabs .tab-btn.active {
+            color: #8b5cf6;
+            border-bottom-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .tab-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .settings-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .settings-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Settings Sections */
+        .settings-section {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .settings-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #f5f3ff;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .setting-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .setting-card h4 {
+            color: #f5f3ff;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Form Styles */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            color: #f5f3ff;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.8);
+            color: #e8eaf6;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .char-count {
+            color: #a5b4fc;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            text-align: right;
+        }
+
+        /* Checkbox Groups */
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: #e8eaf6;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            display: none;
+        }
+
+        .checkmark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .checkbox-label input[type="checkbox"]:checked + .checkmark {
+            background: #8b5cf6;
+            border-color: #8b5cf6;
+        }
+
+        .checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        /* Favicon Upload */
+        .favicon-upload {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .favicon-upload input[type="file"] {
+            flex: 1;
+        }
+
+        .favicon-preview {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .favicon-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Page Meta Tabs */
+        .page-meta-tabs {
+            display: flex;
+            gap: 8px;
+            margin: 16px 0;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .page-meta-tabs .tab-btn {
+            background: none;
+            border: none;
+            color: #a5b4fc;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .page-meta-tabs .tab-btn.active {
+            color: #8b5cf6;
+            border-bottom-color: #8b5cf6;
+        }
+
+        .meta-content {
+            display: none;
+        }
+
+        .meta-content.active {
+            display: block;
+        }
+
+        /* Redirects Manager */
+        .redirects-manager {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .redirects-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .redirects-header h3 {
+            color: #f5f3ff;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .redirects-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .redirect-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .redirect-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .redirect-info {
+            flex: 1;
+        }
+
+        .redirect-url {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .from-url {
+            color: #f5f3ff;
+        }
+
+        .redirect-arrow {
+            color: #8b5cf6;
+            font-weight: bold;
+        }
+
+        .to-url {
+            color: #a5b4fc;
+        }
+
+        .redirect-meta {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        .redirect-type {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .redirect-date {
+            color: #a5b4fc;
+        }
+
+        .redirect-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .no-redirects {
+            text-align: center;
+            color: #a5b4fc;
+            padding: 2rem;
+            font-style: italic;
+        }
+
+        /* Footer Layout Options */
+        .footer-layout-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .layout-option {
+            background: rgba(30, 41, 59, 0.5);
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .layout-option:hover {
+            border-color: rgba(139, 92, 246, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .layout-option.selected {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.1);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+        }
+
+        .layout-preview {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: center;
+            align-items: flex-end;
+            height: 60px;
+        }
+
+        .footer-section {
+            width: 40px;
+            height: 30px;
+            background: #8b5cf6;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .simple-layout .footer-section:nth-child(1) { height: 40px; }
+        .simple-layout .footer-section:nth-child(2) { height: 30px; }
+        .simple-layout .footer-section:nth-child(3) { height: 35px; }
+
+        .detailed-layout .footer-section:nth-child(1) { height: 45px; }
+        .detailed-layout .footer-section:nth-child(2) { height: 35px; }
+        .detailed-layout .footer-section:nth-child(3) { height: 30px; }
+        .detailed-layout .footer-section:nth-child(4) { height: 40px; }
+
+        .custom-layout .footer-section:nth-child(1) { height: 50px; }
+        .custom-layout .footer-section:nth-child(2) { height: 25px; }
+
+        .layout-option h4 {
+            color: #f5f3ff;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .layout-option p {
+            color: #a5b4fc;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        /* Footer Sections */
+        .footer-sections {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section-editor {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h4 {
+            color: #f5f3ff;
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .section-content-preview {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .modal-header h2 {
+            color: #f5f3ff;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close {
+            color: #a5b4fc;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #f5f3ff;
+        }
+
+        #add-redirect-form {
+            padding: 1.5rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            border-left: 4px solid #22C55E;
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            border-left: 4px solid #EF4444;
+        }
+
+        .notification.warning {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            border-left: 4px solid #F59E0B;
+        }
+
+        .notification.info {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            border-left: 4px solid #3B82F6;
+        }
+
+        .notification button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0;
+            margin-left: auto;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .notification button:hover {
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .admin-main {
+                padding: 1.5rem;
+            }
+            
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-layout-options {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-main {
+                padding: 1rem;
+            }
+            
+            .admin-header {
+                padding: 1rem;
+            }
+            
+            .admin-header-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .admin-header-section h1 {
+                font-size: 2rem;
+            }
+            
+            .admin-actions {
+                flex-direction: column;
+            }
+            
+            .settings-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .settings-tabs .tab-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+            
+            .redirects-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .redirect-item {
+                flex-direction: column;
+                gap: 0.75rem;
+                align-items: stretch;
+            }
+            
+            .redirect-url {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+            
+            .redirect-meta {
+                justify-content: space-between;
+            }
+            
+            .footer-layout-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .notification {
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .admin-nav-links {
+                gap: 0.25rem;
+            }
+            
+            .admin-nav-link {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .settings-section {
+                padding: 1rem;
+            }
+            
+            .setting-card {
+                padding: 1rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+        }
+
+        /* Site Footer */
+        .site-footer {
+            background-color: #3D4249;
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin-top: auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #8b5cf6;
+        }
+
+        .footer-logo {
+            margin: 20px 0;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .footer-copyright {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .footer-disclaimer {
+            font-size: 12px;
+            line-height: 1.5;
+            opacity: 0.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <div class="admin-nav">
+                <a href="index.html" class="logo">
+                    <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo">
+                </a>
+                
+                <div class="admin-nav-links-container">
+                    <button class="nav-scroll-btn left hidden" id="navScrollLeft">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+                        </svg>
+                    </button>
+                    
+                    <nav class="admin-nav-links" id="adminNavLinks">
+                        <a href="admin.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                            </svg>
+                            Dashboard
+                        </a>
+                        <a href="admin-status.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+                            </svg>
+                            Status
+                        </a>
+                        <a href="admin-header.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+                            </svg>
+                            Header and Menu
+                        </a>
+                        <a href="admin-homepage.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                            </svg>
+                            Homepage
+                        </a>
+                        <a href="admin-slideshow.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M10 8v8l5-4-5-4zm9-5H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
+                            </svg>
+                            Slideshow
+                        </a>
+                        <a href="admin-posts.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                            </svg>
+                            Posts
+                        </a>
+                        <a href="admin-streaming.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/>
+                            </svg>
+                            Streaming Page
+                        </a>
+                        <a href="admin-footer.html" class="admin-nav-link active">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/>
+                            </svg>
+                            Footer and Settings
+                        </a>
+                    </nav>
+                    
+                    <button class="nav-scroll-btn right" id="navScrollRight">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <div class="admin-content">
+                <div class="admin-header-section">
+                    <h1>Footer & Website Settings</h1>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" onclick="saveAllSettings()">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z" fill="white"/>
+                            </svg>
+                            Save All Settings
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetToDefaults()">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                            </svg>
+                            Reset to Defaults
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportSettings()">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                            Export Settings
+                        </button>
+                        <button class="btn btn-secondary" onclick="importSettings()">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/>
+                            </svg>
+                            Import Settings
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Settings Tabs -->
+                <div class="settings-tabs">
+                    <button class="tab-btn active" onclick="switchSettingsTab('general')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+                        </svg>
+                        General
+                    </button>
+                    <button class="tab-btn" onclick="switchSettingsTab('seo')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,1L3,5v6c0,5.55,3.84,10.74,9,12c5.16-1.26,9-6.45,9-12V5L12,1z M19.5,16.59c0,2.73-2.61,4.94-5.83,4.94 c-3.23,0-5.83-2.2-5.83-4.94c0-0.69,0.18-1.34,0.49-1.92l2.31,0.96c-0.1,0.26-0.15,0.54-0.15,0.83c0,1.38,1.54,2.5,3.44,2.5 c1.93,0,3.44-1.12,3.44-2.5c0-0.83-0.56-1.54-1.33-1.96l-0.61-0.26l-1.04,0.43L12,13.69l-1.04-0.43l-1.04,0.43l-0.61,0.26 c-0.77,0.42-1.33,1.13-1.33,1.96c0,0.29,0.05,0.57,0.15,0.83l2.31-0.96c-0.31-0.58-0.49-1.23-0.49-1.92c0-2.73,2.61-4.94,5.83-4.94 c3.23,0,5.83,2.2,5.83,4.94H19.5z"/>
+                        </svg>
+                        SEO & Meta
+                    </button>
+                    <button class="tab-btn" onclick="switchSettingsTab('tracking')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                        </svg>
+                        Analytics & Tracking
+                    </button>
+                    <button class="tab-btn" onclick="switchSettingsTab('robots')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        Robots & Crawlers
+                    </button>
+                    <button class="tab-btn" onclick="switchSettingsTab('errors')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                        Errors & Redirects
+                    </button>
+                    <button class="tab-btn" onclick="switchSettingsTab('footer')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/>
+                        </svg>
+                        Footer Management
+                    </button>
+                </div>
+
+                <!-- General Settings -->
+                <div id="general-settings" class="settings-content active">
+                    <div class="settings-section">
+                        <h2>Website Information</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="website-title">Website Title</label>
+                                    <input type="text" id="website-title" placeholder="Enter website title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="website-description">Website Description</label>
+                                    <textarea id="website-description" rows="3" placeholder="Enter website description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="website-keywords">Keywords (comma-separated)</label>
+                                    <input type="text" id="website-keywords" placeholder="Enter keywords">
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="favicon-upload">Favicon</label>
+                                    <div class="favicon-upload">
+                                        <input type="file" id="favicon-upload" accept="image/*">
+                                        <div class="favicon-preview" id="favicon-preview">
+                                            <img src="https://via.placeholder.com/32x32" alt="Favicon Preview">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="timezone">Timezone</label>
+                                    <select id="timezone">
+                                        <option value="UTC">UTC</option>
+                                        <option value="America/New_York">Eastern Time</option>
+                                        <option value="America/Chicago">Central Time</option>
+                                        <option value="America/Denver">Mountain Time</option>
+                                        <option value="America/Los_Angeles">Pacific Time</option>
+                                        <option value="Europe/London">GMT</option>
+                                        <option value="Europe/Paris">CET</option>
+                                        <option value="Asia/Tokyo">JST</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="language">Default Language</label>
+                                    <select id="language">
+                                        <option value="en">English</option>
+                                        <option value="es">Spanish</option>
+                                        <option value="fr">French</option>
+                                        <option value="de">German</option>
+                                        <option value="it">Italian</option>
+                                        <option value="pt">Portuguese</option>
+                                        <option value="zh">Chinese</option>
+                                        <option value="ja">Japanese</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Contact Information</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="contact-email">Contact Email</label>
+                                    <input type="email" id="contact-email" placeholder="contact@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="support-email">Support Email</label>
+                                    <input type="email" id="support-email" placeholder="support@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="privacy-email">Privacy Email</label>
+                                    <input type="email" id="privacy-email" placeholder="privacy@example.com">
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="phone-number">Phone Number</label>
+                                    <input type="tel" id="phone-number" placeholder="+1 (555) 123-4567">
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <textarea id="address" rows="3" placeholder="Enter business address"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="business-hours">Business Hours</label>
+                                    <input type="text" id="business-hours" placeholder="Mon-Fri 9AM-5PM">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEO & Meta Settings -->
+                <div id="seo-settings" class="settings-content">
+                    <div class="settings-section">
+                        <h2>Meta Tags</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="meta-description">Meta Description</label>
+                                    <textarea id="meta-description" rows="3" placeholder="Enter meta description for homepage"></textarea>
+                                    <small class="char-count">0/160 characters</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="meta-keywords">Meta Keywords</label>
+                                    <textarea id="meta-keywords" rows="3" placeholder="Enter meta keywords"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="meta-author">Meta Author</label>
+                                    <input type="text" id="meta-author" placeholder="Author name">
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="og-title">Open Graph Title</label>
+                                    <input type="text" id="og-title" placeholder="Title for social media sharing">
+                                </div>
+                                <div class="form-group">
+                                    <label for="og-description">Open Graph Description</label>
+                                    <textarea id="og-description" rows="3" placeholder="Description for social media sharing"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="og-image">Open Graph Image URL</label>
+                                    <input type="url" id="og-image" placeholder="https://example.com/image.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Page-Specific Meta Tags</h2>
+                        <div class="page-meta-tabs">
+                            <button class="tab-btn active" onclick="switchMetaTab('homepage')">Homepage</button>
+                            <button class="tab-btn" onclick="switchMetaTab('archive')">Archive & Search</button>
+                            <button class="tab-btn" onclick="switchMetaTab('content')">Post & Page</button>
+                        </div>
+
+                        <div id="homepage-meta" class="meta-content active">
+                            <div class="form-group">
+                                <label for="homepage-title-tag">Homepage Title Tag</label>
+                                <input type="text" id="homepage-title-tag" placeholder="Enter custom title tag">
+                            </div>
+                            <div class="form-group">
+                                <label for="homepage-meta-description">Homepage Meta Description</label>
+                                <textarea id="homepage-meta-description" rows="2"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="archive-meta" class="meta-content">
+                            <div class="form-group">
+                                <label for="archive-title-tag">Archive Title Tag</label>
+                                <input type="text" id="archive-title-tag" placeholder="Enter archive title tag">
+                            </div>
+                            <div class="form-group">
+                                <label for="search-title-tag">Search Title Tag</label>
+                                <input type="text" id="search-title-tag" placeholder="Enter search title tag">
+                            </div>
+                        </div>
+
+                        <div id="content-meta" class="meta-content">
+                            <div class="form-group">
+                                <label for="post-title-pattern">Post Title Pattern</label>
+                                <input type="text" id="post-title-pattern" placeholder="{post_title} - {site_name}">
+                                <small>Use {post_title}, {site_name}, {category} variables</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="post-meta-description">Auto-generate Meta Description</label>
+                                <select id="post-meta-description">
+                                    <option value="excerpt">From Post Excerpt</option>
+                                    <option value="content">From Content (first 160 chars)</option>
+                                    <option value="custom">Custom Field</option>
+                                    <option value="disabled">Disabled</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Google Search Console</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label for="google-search-console">Google Search Console Verification Code</label>
+                                <input type="text" id="google-search-console" placeholder="Enter verification code">
+                            </div>
+                            <div class="form-group">
+                                <label for="google-analytics-id">Google Analytics Tracking ID</label>
+                                <input type="text" id="google-analytics-id" placeholder="GA_TRACKING_ID">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics & Tracking Settings -->
+                <div id="tracking-settings" class="settings-content">
+                    <div class="settings-section">
+                        <h2>Google Analytics & Tag Manager</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <h4>Google Tag Manager</h4>
+                                <div class="form-group">
+                                    <label for="gtm-container-id">GTM Container ID</label>
+                                    <input type="text" id="gtm-container-id" placeholder="GTM-XXXXXXX">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gtm-code">Custom GTM Code</label>
+                                    <textarea id="gtm-code" rows="8" placeholder="Paste your GTM code here"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="enable-gtm">
+                                        <span class="checkmark"></span>
+                                        Enable Google Tag Manager
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4>Google Analytics 4</h4>
+                                <div class="form-group">
+                                    <label for="ga4-measurement-id">GA4 Measurement ID</label>
+                                    <input type="text" id="ga4-measurement-id" placeholder="G-XXXXXXXXXX">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ga4-api-secret">GA4 API Secret</label>
+                                    <input type="text" id="ga4-api-secret" placeholder="Enter API secret">
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="enable-ga4">
+                                        <span class="checkmark"></span>
+                                        Enable Google Analytics 4
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Microsoft Analytics</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="bing-webmaster-key">Bing Webmaster Tools API Key</label>
+                                    <input type="text" id="bing-webmaster-key" placeholder="Enter Bing API key">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bing-site-verification">Bing Site Verification Code</label>
+                                    <input type="text" id="bing-site-verification" placeholder="Enter verification code">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bing-ads-id">Bing Ads ID</label>
+                                    <input type="text" id="bing-ads-id" placeholder="Enter Bing Ads ID">
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4>Additional Tracking Codes</h4>
+                                <div class="form-group">
+                                    <label for="facebook-pixel">Facebook Pixel ID</label>
+                                    <input type="text" id="facebook-pixel" placeholder="Enter Facebook Pixel ID">
+                                </div>
+                                <div class="form-group">
+                                    <label for="custom-tracking-code">Custom Tracking Code</label>
+                                    <textarea id="custom-tracking-code" rows="6" placeholder="Enter any additional tracking code"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="enable-custom-tracking">
+                                        <span class="checkmark"></span>
+                                        Enable Custom Tracking
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Robots & Crawlers Settings -->
+                <div id="robots-settings" class="settings-content">
+                    <div class="settings-section">
+                        <h2>Robots.txt Configuration</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-custom-robots">
+                                    <span class="checkmark"></span>
+                                    Enable Custom robots.txt
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="custom-robots-txt">Custom robots.txt Content</label>
+                                <textarea id="custom-robots-txt" rows="10" placeholder="Enter robots.txt content"></textarea>
+                                <small>Leave empty to use default robots.txt</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Robots Meta Tags</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-custom-robots-header">
+                                    <span class="checkmark"></span>
+                                    Enable custom robots header tags
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="default-robots-meta">Default Robots Meta Tag</label>
+                                <select id="default-robots-meta">
+                                    <option value="index,follow">index, follow</option>
+                                    <option value="noindex,nofollow">noindex, nofollow</option>
+                                    <option value="index,nofollow">index, nofollow</option>
+                                    <option value="noindex,follow">noindex, follow</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Sitemap Configuration</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-auto-sitemap">
+                                    <span class="checkmark"></span>
+                                    Auto-generate XML sitemap
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="sitemap-url">Sitemap URL</label>
+                                <input type="url" id="sitemap-url" placeholder="https://example.com/sitemap.xml">
+                            </div>
+                            <div class="form-group">
+                                <label for="sitemap-include">Include in Sitemap</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-posts">
+                                        <span class="checkmark"></span>
+                                        Posts
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-pages">
+                                        <span class="checkmark"></span>
+                                        Pages
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-categories">
+                                        <span class="checkmark"></span>
+                                        Categories
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-tags">
+                                        <span class="checkmark"></span>
+                                        Tags
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Errors & Redirects Settings -->
+                <div id="errors-settings" class="settings-content">
+                    <div class="settings-section">
+                        <h2>Custom 404 Error Page</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-custom-404">
+                                    <span class="checkmark"></span>
+                                    Enable custom 404 error page
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="custom-404-content">Custom 404 Page Content</label>
+                                <textarea id="custom-404-content" rows="10" placeholder="Enter HTML content for 404 page"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="404-page-title">404 Page Title</label>
+                                <input type="text" id="404-page-title" placeholder="Page Not Found">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>URL Redirects</h2>
+                        <div class="redirects-manager">
+                            <div class="redirects-header">
+                                <h3>Manage Redirects</h3>
+                                <button class="btn btn-primary" onclick="showAddRedirectModal()">
+                                    <svg viewBox="0 0 24 24" width="16" height="16">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="white"/>
+                                    </svg>
+                                    Add Redirect
+                                </button>
+                            </div>
+                            <div class="redirects-list" id="redirects-list">
+                                <!-- Redirects will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Error Monitoring</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-error-logging">
+                                    <span class="checkmark"></span>
+                                    Enable error logging
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="error-notification-email">Error Notification Email</label>
+                                <input type="email" id="error-notification-email" placeholder="admin@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="max-error-logs">Maximum Error Logs to Keep</label>
+                                <input type="number" id="max-error-logs" value="100" min="10" max="1000">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Management -->
+                <div id="footer-settings" class="settings-content">
+                    <div class="settings-section">
+                        <h2>Footer Layout</h2>
+                        <div class="footer-layout-options">
+                            <div class="layout-option" onclick="selectFooterLayout('simple')">
+                                <div class="layout-preview simple-layout">
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                </div>
+                                <h4>Simple Layout</h4>
+                                <p>Three columns with links and copyright</p>
+                            </div>
+
+                            <div class="layout-option selected" onclick="selectFooterLayout('detailed')">
+                                <div class="layout-preview detailed-layout">
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                </div>
+                                <h4>Detailed Layout</h4>
+                                <p>Four columns with social links and newsletter</p>
+                            </div>
+
+                            <div class="layout-option" onclick="selectFooterLayout('custom')">
+                                <div class="layout-preview custom-layout">
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                </div>
+                                <h4>Custom Layout</h4>
+                                <p>Build your own footer structure</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Footer Content</h2>
+                        <div class="footer-editor">
+                            <div class="footer-sections" id="footer-sections">
+                                <!-- Footer sections will be loaded here -->
+                            </div>
+                            <button class="btn btn-secondary" onclick="addFooterSection()">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                </svg>
+                                Add Footer Section
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Copyright & Legal</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="copyright-text">Copyright Text</label>
+                                    <input type="text" id="copyright-text" placeholder="© 2025 Your Website Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="company-name">Company/Organization Name</label>
+                                    <input type="text" id="company-name" placeholder="Your Company Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="legal-links">Legal Page Links</label>
+                                    <textarea id="legal-links" rows="3" placeholder="Privacy Policy|Terms of Service|Contact Us"></textarea>
+                                    <small>Separate multiple links with | (pipe) symbol</small>
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4>Social Media Links</h4>
+                                <div class="form-group">
+                                    <label for="facebook-url">Facebook</label>
+                                    <input type="url" id="facebook-url" placeholder="https://facebook.com/yourpage">
+                                </div>
+                                <div class="form-group">
+                                    <label for="twitter-url">Twitter</label>
+                                    <input type="url" id="twitter-url" placeholder="https://twitter.com/yourpage">
+                                </div>
+                                <div class="form-group">
+                                    <label for="instagram-url">Instagram</label>
+                                    <input type="url" id="instagram-url" placeholder="https://instagram.com/yourpage">
+                                </div>
+                                <div class="form-group">
+                                    <label for="youtube-url">YouTube</label>
+                                    <input type="url" id="youtube-url" placeholder="https://youtube.com/yourchannel">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Redirect Modal -->
+    <div id="add-redirect-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Redirect</h2>
+                <span class="close" onclick="closeAddRedirectModal()">&times;</span>
+            </div>
+            <form id="add-redirect-form">
+                <div class="form-group">
+                    <label for="redirect-from">From URL</label>
+                    <input type="text" id="redirect-from" placeholder="/old-page" required>
+                </div>
+                <div class="form-group">
+                    <label for="redirect-to">To URL</label>
+                    <input type="url" id="redirect-to" placeholder="/new-page" required>
+                </div>
+                <div class="form-group">
+                    <label for="redirect-type">Redirect Type</label>
+                    <select id="redirect-type">
+                        <option value="301">301 Permanent</option>
+                        <option value="302">302 Temporary</option>
+                        <option value="307">307 Temporary Redirect</option>
+                        <option value="410">410 Gone</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddRedirectModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Redirect</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="https://quravel.blogspot.com">Home</a>
+            <a href="mailto:foogyfogg@proton.me">Contact Us</a>
+            <a href="https://quravel.blogspot.com/p/sent-your-movie-request.html">Sent Request</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+
+        <div class="footer-logo">
+            <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo">
+            <p class="footer-copyright">@ 2025 Quravel</p>
+        </div>
+
+        <div class="footer-disclaimer">
+            <p>This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.</p>
+            <p>watch free movies, watch free tv shows, free movies online</p>
+        </div>
+    </footer>
+
+    <script>
+        // =============================================================================
+        // NAVIGATION SCROLLING FUNCTIONALITY
+        // =============================================================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.getElementById('adminNavLinks');
+            const scrollLeftBtn = document.getElementById('navScrollLeft');
+            const scrollRightBtn = document.getElementById('navScrollRight');
+            
+            // Update scroll button visibility
+            function updateScrollButtons() {
+                const scrollLeft = navLinks.scrollLeft;
+                const scrollWidth = navLinks.scrollWidth;
+                const clientWidth = navLinks.clientWidth;
+                
+                scrollLeftBtn.classList.toggle('hidden', scrollLeft <= 0);
+                scrollRightBtn.classList.toggle('hidden', scrollLeft + clientWidth >= scrollWidth);
+            }
+            
+            // Scroll left
+            scrollLeftBtn.addEventListener('click', function() {
+                navLinks.scrollBy({ left: -200, behavior: 'smooth' });
+            });
+            
+            // Scroll right
+            scrollRightBtn.addEventListener('click', function() {
+                navLinks.scrollBy({ left: 200, behavior: 'smooth' });
+            });
+            
+            // Update buttons on scroll
+            navLinks.addEventListener('scroll', updateScrollButtons);
+            
+            // Initial update
+            updateScrollButtons();
+            
+            // Also update on window resize
+            window.addEventListener('resize', updateScrollButtons);
+            
+            // Initialize the page with admin-footer.js functionality
+            initializeSettingsManagement();
+            
+            // Initialize main app functionality
+            initializeMainApp();
+        });
+        
+        // =============================================================================
+        // ADMIN FOOTER & SETTINGS MANAGEMENT (From admin-footer.js)
+        // =============================================================================
+        
+        // Global variables
+        let redirects = [];
+        let selectedFooterLayout = 'detailed';
+        let websiteSettings = {};
+
+        // Default settings
+        const defaultSettings = {
+            general: {
+                websiteTitle: 'Quravel - Watch Movies & TV Shows Online',
+                websiteDescription: 'Watch free movies and TV shows online. Stream your favorite content on Quravel.',
+                websiteKeywords: 'movies, tv shows, streaming, free, online',
+                favicon: '',
+                timezone: 'UTC',
+                language: 'en',
+                contactEmail: 'contact@quravel.com',
+                supportEmail: 'support@quravel.com',
+                privacyEmail: 'privacy@quravel.com',
+                phoneNumber: '',
+                address: '',
+                businessHours: '24/7'
+            },
+            seo: {
+                metaDescription: 'Watch free movies and TV shows online on Quravel. Stream your favorite content anytime, anywhere.',
+                metaKeywords: 'free movies, tv shows, streaming, online watch',
+                metaAuthor: 'Quravel Team',
+                ogTitle: 'Quravel - Free Movies & TV Shows',
+                ogDescription: 'Watch free movies and TV shows online. Stream your favorite content on Quravel.',
+                ogImage: '',
+                homepageTitleTag: 'Quravel - Free Movies & TV Shows Online',
+                archiveTitleTag: 'Archive - {site_name}',
+                searchTitleTag: 'Search Results - {site_name}',
+                postTitlePattern: '{post_title} - {site_name}',
+                postMetaDescription: 'excerpt',
+                googleSearchConsole: '',
+                googleAnalyticsId: ''
+            },
+            tracking: {
+                gtmContainerId: '',
+                gtmCode: '',
+                enableGtm: true,
+                ga4MeasurementId: '',
+                ga4ApiSecret: '',
+                enableGa4: true,
+                bingWebmasterKey: '',
+                bingSiteVerification: '',
+                bingAdsId: '',
+                facebookPixel: '',
+                customTrackingCode: '',
+                enableCustomTracking: false
+            },
+            robots: {
+                enableCustomRobots: false,
+                customRobotsTxt: '',
+                enableCustomRobotsHeader: false,
+                defaultRobotsMeta: 'index,follow',
+                enableAutoSitemap: true,
+                sitemapUrl: 'https://yourdomain.com/sitemap.xml',
+                includePosts: true,
+                includePages: true,
+                includeCategories: false,
+                includeTags: false
+            },
+            errors: {
+                enableCustom404: true,
+                custom404Content: '<h1>404 - Page Not Found</h1><p>The page you are looking for does not exist.</p>',
+                error404Title: '404 - Page Not Found',
+                enableErrorLogging: true,
+                errorNotificationEmail: 'admin@quravel.com',
+                maxErrorLogs: 100
+            },
+            footer: {
+                layout: 'detailed',
+                copyrightText: '© 2025 Quravel',
+                companyName: 'Quravel',
+                legalLinks: 'Privacy Policy|Terms of Service|Contact Us',
+                facebookUrl: '',
+                twitterUrl: '',
+                instagramUrl: '',
+                youtubeUrl: '',
+                sections: [
+                    {
+                        id: 'footer-about',
+                        title: 'About Quravel',
+                        content: 'Your ultimate destination for free movies and TV shows.'
+                    },
+                    {
+                        id: 'footer-links',
+                        title: 'Quick Links',
+                        content: '<ul><li><a href="/movies">Movies</a></li><li><a href="/tv-shows">TV Shows</a></li><li><a href="/categories">Categories</a></li></ul>'
+                    },
+                    {
+                        id: 'footer-support',
+                        title: 'Support',
+                        content: '<ul><li><a href="/contact">Contact Us</a></li><li><a href="/dmca">DMCA</a></li><li><a href="/report">Report Issue</a></li></ul>'
+                    }
+                ]
+            }
+        };
+
+        // Initialize Settings Management
+        function initializeSettingsManagement() {
+            loadSettings();
+            loadRedirects();
+            setupEventListeners();
+            initializeCharCounters();
+            initializeTooltips();
+        }
+
+        // Load Settings
+        function loadSettings() {
+            const saved = localStorage.getItem('quravel_website_settings');
+            if (saved) {
+                websiteSettings = { ...defaultSettings, ...JSON.parse(saved) };
+            } else {
+                websiteSettings = { ...defaultSettings };
+            }
+            populateSettingsForm();
+        }
+
+        // Save Settings
+        function saveSettings() {
+            localStorage.setItem('quravel_website_settings', JSON.stringify(websiteSettings));
+        }
+
+        // Load Redirects
+        function loadRedirects() {
+            const saved = localStorage.getItem('quravel_redirects');
+            if (saved) {
+                redirects = JSON.parse(saved);
+            }
+            renderRedirectsList();
+        }
+
+        // Save Redirects
+        function saveRedirects() {
+            localStorage.setItem('quravel_redirects', JSON.stringify(redirects));
+        }
+
+        // Populate Settings Form
+        function populateSettingsForm() {
+            // General Settings
+            document.getElementById('website-title').value = websiteSettings.general.websiteTitle;
+            document.getElementById('website-description').value = websiteSettings.general.websiteDescription;
+            document.getElementById('website-keywords').value = websiteSettings.general.websiteKeywords;
+            document.getElementById('timezone').value = websiteSettings.general.timezone;
+            document.getElementById('language').value = websiteSettings.general.language;
+            document.getElementById('contact-email').value = websiteSettings.general.contactEmail;
+            document.getElementById('support-email').value = websiteSettings.general.supportEmail;
+            document.getElementById('privacy-email').value = websiteSettings.general.privacyEmail;
+            document.getElementById('phone-number').value = websiteSettings.general.phoneNumber;
+            document.getElementById('address').value = websiteSettings.general.address;
+            document.getElementById('business-hours').value = websiteSettings.general.businessHours;
+
+            // SEO Settings
+            document.getElementById('meta-description').value = websiteSettings.seo.metaDescription;
+            document.getElementById('meta-keywords').value = websiteSettings.seo.metaKeywords;
+            document.getElementById('meta-author').value = websiteSettings.seo.metaAuthor;
+            document.getElementById('og-title').value = websiteSettings.seo.ogTitle;
+            document.getElementById('og-description').value = websiteSettings.seo.ogDescription;
+            document.getElementById('og-image').value = websiteSettings.seo.ogImage;
+            document.getElementById('homepage-title-tag').value = websiteSettings.seo.homepageTitleTag;
+            document.getElementById('archive-title-tag').value = websiteSettings.seo.archiveTitleTag;
+            document.getElementById('search-title-tag').value = websiteSettings.seo.searchTitleTag;
+            document.getElementById('post-title-pattern').value = websiteSettings.seo.postTitlePattern;
+            document.getElementById('post-meta-description').value = websiteSettings.seo.postMetaDescription;
+            document.getElementById('google-search-console').value = websiteSettings.seo.googleSearchConsole;
+            document.getElementById('google-analytics-id').value = websiteSettings.seo.googleAnalyticsId;
+
+            // Tracking Settings
+            document.getElementById('gtm-container-id').value = websiteSettings.tracking.gtmContainerId;
+            document.getElementById('gtm-code').value = websiteSettings.tracking.gtmCode;
+            document.getElementById('enable-gtm').checked = websiteSettings.tracking.enableGtm;
+            document.getElementById('ga4-measurement-id').value = websiteSettings.tracking.ga4MeasurementId;
+            document.getElementById('ga4-api-secret').value = websiteSettings.tracking.ga4ApiSecret;
+            document.getElementById('enable-ga4').checked = websiteSettings.tracking.enableGa4;
+            document.getElementById('bing-webmaster-key').value = websiteSettings.tracking.bingWebmasterKey;
+            document.getElementById('bing-site-verification').value = websiteSettings.tracking.bingSiteVerification;
+            document.getElementById('bing-ads-id').value = websiteSettings.tracking.bingAdsId;
+            document.getElementById('facebook-pixel').value = websiteSettings.tracking.facebookPixel;
+            document.getElementById('custom-tracking-code').value = websiteSettings.tracking.customTrackingCode;
+            document.getElementById('enable-custom-tracking').checked = websiteSettings.tracking.enableCustomTracking;
+
+            // Robots Settings
+            document.getElementById('enable-custom-robots').checked = websiteSettings.robots.enableCustomRobots;
+            document.getElementById('custom-robots-txt').value = websiteSettings.robots.customRobotsTxt;
+            document.getElementById('enable-custom-robots-header').checked = websiteSettings.robots.enableCustomRobotsHeader;
+            document.getElementById('default-robots-meta').value = websiteSettings.robots.defaultRobotsMeta;
+            document.getElementById('enable-auto-sitemap').checked = websiteSettings.robots.enableAutoSitemap;
+            document.getElementById('sitemap-url').value = websiteSettings.robots.sitemapUrl;
+            document.getElementById('include-posts').checked = websiteSettings.robots.includePosts;
+            document.getElementById('include-pages').checked = websiteSettings.robots.includePages;
+            document.getElementById('include-categories').checked = websiteSettings.robots.includeCategories;
+            document.getElementById('include-tags').checked = websiteSettings.robots.includeTags;
+
+            // Errors Settings
+            document.getElementById('enable-custom-404').checked = websiteSettings.errors.enableCustom404;
+            document.getElementById('custom-404-content').value = websiteSettings.errors.custom404Content;
+            document.getElementById('404-page-title').value = websiteSettings.errors.error404Title;
+            document.getElementById('enable-error-logging').checked = websiteSettings.errors.enableErrorLogging;
+            document.getElementById('error-notification-email').value = websiteSettings.errors.errorNotificationEmail;
+            document.getElementById('max-error-logs').value = websiteSettings.errors.maxErrorLogs;
+
+            // Footer Settings
+            selectedFooterLayout = websiteSettings.footer.layout;
+            selectFooterLayout(selectedFooterLayout);
+            document.getElementById('copyright-text').value = websiteSettings.footer.copyrightText;
+            document.getElementById('company-name').value = websiteSettings.footer.companyName;
+            document.getElementById('legal-links').value = websiteSettings.footer.legalLinks;
+            document.getElementById('facebook-url').value = websiteSettings.footer.facebookUrl;
+            document.getElementById('twitter-url').value = websiteSettings.footer.twitterUrl;
+            document.getElementById('instagram-url').value = websiteSettings.footer.instagramUrl;
+            document.getElementById('youtube-url').value = websiteSettings.footer.youtubeUrl;
+            
+            renderFooterSections();
+            updateCharCounters();
+        }
+
+        // Collect Settings Data
+        function collectSettingsData() {
+            // General Settings
+            websiteSettings.general.websiteTitle = document.getElementById('website-title').value;
+            websiteSettings.general.websiteDescription = document.getElementById('website-description').value;
+            websiteSettings.general.websiteKeywords = document.getElementById('website-keywords').value;
+            websiteSettings.general.timezone = document.getElementById('timezone').value;
+            websiteSettings.general.language = document.getElementById('language').value;
+            websiteSettings.general.contactEmail = document.getElementById('contact-email').value;
+            websiteSettings.general.supportEmail = document.getElementById('support-email').value;
+            websiteSettings.general.privacyEmail = document.getElementById('privacy-email').value;
+            websiteSettings.general.phoneNumber = document.getElementById('phone-number').value;
+            websiteSettings.general.address = document.getElementById('address').value;
+            websiteSettings.general.businessHours = document.getElementById('business-hours').value;
+
+            // SEO Settings
+            websiteSettings.seo.metaDescription = document.getElementById('meta-description').value;
+            websiteSettings.seo.metaKeywords = document.getElementById('meta-keywords').value;
+            websiteSettings.seo.metaAuthor = document.getElementById('meta-author').value;
+            websiteSettings.seo.ogTitle = document.getElementById('og-title').value;
+            websiteSettings.seo.ogDescription = document.getElementById('og-description').value;
+            websiteSettings.seo.ogImage = document.getElementById('og-image').value;
+            websiteSettings.seo.homepageTitleTag = document.getElementById('homepage-title-tag').value;
+            websiteSettings.seo.archiveTitleTag = document.getElementById('archive-title-tag').value;
+            websiteSettings.seo.searchTitleTag = document.getElementById('search-title-tag').value;
+            websiteSettings.seo.postTitlePattern = document.getElementById('post-title-pattern').value;
+            websiteSettings.seo.postMetaDescription = document.getElementById('post-meta-description').value;
+            websiteSettings.seo.googleSearchConsole = document.getElementById('google-search-console').value;
+            websiteSettings.seo.googleAnalyticsId = document.getElementById('google-analytics-id').value;
+
+            // Tracking Settings
+            websiteSettings.tracking.gtmContainerId = document.getElementById('gtm-container-id').value;
+            websiteSettings.tracking.gtmCode = document.getElementById('gtm-code').value;
+            websiteSettings.tracking.enableGtm = document.getElementById('enable-gtm').checked;
+            websiteSettings.tracking.ga4MeasurementId = document.getElementById('ga4-measurement-id').value;
+            websiteSettings.tracking.ga4ApiSecret = document.getElementById('ga4-api-secret').value;
+            websiteSettings.tracking.enableGa4 = document.getElementById('enable-ga4').checked;
+            websiteSettings.tracking.bingWebmasterKey = document.getElementById('bing-webmaster-key').value;
+            websiteSettings.tracking.bingSiteVerification = document.getElementById('bing-site-verification').value;
+            websiteSettings.tracking.bingAdsId = document.getElementById('bing-ads-id').value;
+            websiteSettings.tracking.facebookPixel = document.getElementById('facebook-pixel').value;
+            websiteSettings.tracking.customTrackingCode = document.getElementById('custom-tracking-code').value;
+            websiteSettings.tracking.enableCustomTracking = document.getElementById('enable-custom-tracking').checked;
+
+            // Robots Settings
+            websiteSettings.robots.enableCustomRobots = document.getElementById('enable-custom-robots').checked;
+            websiteSettings.robots.customRobotsTxt = document.getElementById('custom-robots-txt').value;
+            websiteSettings.robots.enableCustomRobotsHeader = document.getElementById('enable-custom-robots-header').checked;
+            websiteSettings.robots.defaultRobotsMeta = document.getElementById('default-robots-meta').value;
+            websiteSettings.robots.enableAutoSitemap = document.getElementById('enable-auto-sitemap').checked;
+            websiteSettings.robots.sitemapUrl = document.getElementById('sitemap-url').value;
+            websiteSettings.robots.includePosts = document.getElementById('include-posts').checked;
+            websiteSettings.robots.includePages = document.getElementById('include-pages').checked;
+            websiteSettings.robots.includeCategories = document.getElementById('include-categories').checked;
+            websiteSettings.robots.includeTags = document.getElementById('include-tags').checked;
+
+            // Errors Settings
+            websiteSettings.errors.enableCustom404 = document.getElementById('enable-custom-404').checked;
+            websiteSettings.errors.custom404Content = document.getElementById('custom-404-content').value;
+            websiteSettings.errors.error404Title = document.getElementById('404-page-title').value;
+            websiteSettings.errors.enableErrorLogging = document.getElementById('enable-error-logging').checked;
+            websiteSettings.errors.errorNotificationEmail = document.getElementById('error-notification-email').value;
+            websiteSettings.errors.maxErrorLogs = parseInt(document.getElementById('max-error-logs').value) || 100;
+
+            // Footer Settings
+            websiteSettings.footer.copyrightText = document.getElementById('copyright-text').value;
+            websiteSettings.footer.companyName = document.getElementById('company-name').value;
+            websiteSettings.footer.legalLinks = document.getElementById('legal-links').value;
+            websiteSettings.footer.facebookUrl = document.getElementById('facebook-url').value;
+            websiteSettings.footer.twitterUrl = document.getElementById('twitter-url').value;
+            websiteSettings.footer.instagramUrl = document.getElementById('instagram-url').value;
+            websiteSettings.footer.youtubeUrl = document.getElementById('youtube-url').value;
+        }
+
+        // =============================================================================
+        // SETTINGS TAB MANAGEMENT
+        // =============================================================================
+        
+        function switchSettingsTab(tabName) {
+            // Update active tab
+            document.querySelectorAll('.settings-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[onclick="switchSettingsTab('${tabName}')"]`).classList.add('active');
+            
+            // Update active content
+            document.querySelectorAll('.settings-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`${tabName}-settings`).classList.add('active');
+        }
+        
+        function switchMetaTab(tabName) {
+            // Update active tab
+            document.querySelectorAll('.page-meta-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[onclick="switchMetaTab('${tabName}')"]`).classList.add('active');
+            
+            // Update active content
+            document.querySelectorAll('.meta-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`${tabName}-meta`).classList.add('active');
+        }
+        
+        // =============================================================================
+        // SETTINGS MANAGEMENT FUNCTIONS
+        // =============================================================================
+        
+        function saveAllSettings() {
+            collectSettingsData();
+            saveSettings();
+            showNotification('All settings saved successfully', 'success');
+        }
+        
+        function resetToDefaults() {
+            if (!confirm('Are you sure you want to reset all settings to defaults? This will overwrite your current settings.')) return;
+            
+            websiteSettings = { ...defaultSettings };
+            saveSettings();
+            populateSettingsForm();
+            showNotification('Settings reset to defaults', 'success');
+        }
+        
+        function exportSettings() {
+            collectSettingsData();
+            const exportData = {
+                settings: websiteSettings,
+                redirects: redirects,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'quravel-settings-export.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Settings exported successfully', 'success');
+        }
+        
+        function importSettings() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importData = JSON.parse(e.target.result);
+                        
+                        if (importData.settings) {
+                            websiteSettings = { ...defaultSettings, ...importData.settings };
+                            saveSettings();
+                            populateSettingsForm();
+                        }
+                        
+                        if (importData.redirects) {
+                            redirects = importData.redirects;
+                            saveRedirects();
+                            renderRedirectsList();
+                        }
+                        
+                        showNotification('Settings imported successfully', 'success');
+                    } catch (error) {
+                        showNotification('Error importing settings: ' + error.message, 'error');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+        
+        // =============================================================================
+        // FOOTER MANAGEMENT
+        // =============================================================================
+        
+        function selectFooterLayout(layoutType) {
+            selectedFooterLayout = layoutType;
+            websiteSettings.footer.layout = layoutType;
+            
+            // Update layout selection
+            document.querySelectorAll('.footer-layout-options .layout-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Find and select the clicked layout option
+            let targetElement = event.target;
+            while (targetElement && !targetElement.classList.contains('layout-option')) {
+                targetElement = targetElement.parentElement;
+            }
+            if (targetElement) {
+                targetElement.classList.add('selected');
+            }
+        }
+        
+        function renderFooterSections() {
+            const container = document.getElementById('footer-sections');
+            container.innerHTML = '';
+            
+            websiteSettings.footer.sections.forEach((section, index) => {
+                const sectionElement = document.createElement('div');
+                sectionElement.className = 'footer-section-editor';
+                sectionElement.innerHTML = `
+                    <div class="section-header">
+                        <h4>${section.title}</h4>
+                        <div class="section-controls">
+                            <button class="btn btn-small btn-secondary" onclick="editFooterSection('${section.id}')">Edit</button>
+                            <button class="btn btn-small btn-danger" onclick="deleteFooterSection('${section.id}')">Delete</button>
+                        </div>
+                    </div>
+                    <div class="section-content-preview">
+                        ${section.content}
+                    </div>
+                `;
+                container.appendChild(sectionElement);
+            });
+        }
+        
+        function addFooterSection() {
+            const sectionName = prompt('Enter section name:');
+            if (!sectionName) return;
+            
+            const sectionContent = prompt('Enter section content (HTML allowed):');
+            if (!sectionContent) return;
+            
+            const newSection = {
+                id: 'footer_' + Date.now(),
+                title: sectionName,
+                content: sectionContent
+            };
+            
+            websiteSettings.footer.sections.push(newSection);
+            renderFooterSections();
+            saveSettings();
+            
+            showNotification('Footer section added successfully', 'success');
+        }
+        
+        function editFooterSection(sectionId) {
+            const section = websiteSettings.footer.sections.find(s => s.id === sectionId);
+            if (!section) return;
+            
+            const newTitle = prompt('Enter section name:', section.title);
+            if (!newTitle) return;
+            
+            const newContent = prompt('Enter section content (HTML allowed):', section.content);
+            if (!newContent) return;
+            
+            section.title = newTitle;
+            section.content = newContent;
+            
+            renderFooterSections();
+            saveSettings();
+            
+            showNotification('Footer section updated successfully', 'success');
+        }
+        
+        function deleteFooterSection(sectionId) {
+            if (!confirm('Are you sure you want to delete this footer section?')) return;
+            
+            websiteSettings.footer.sections = websiteSettings.footer.sections.filter(s => s.id !== sectionId);
+            renderFooterSections();
+            saveSettings();
+            
+            showNotification('Footer section deleted successfully', 'success');
+        }
+        
+        // =============================================================================
+        // REDIRECTS MANAGEMENT
+        // =============================================================================
+        
+        function renderRedirectsList() {
+            const container = document.getElementById('redirects-list');
+            container.innerHTML = '';
+            
+            if (redirects.length === 0) {
+                container.innerHTML = '<p class="no-redirects">No redirects configured</p>';
+                return;
+            }
+            
+            redirects.forEach((redirect, index) => {
+                const redirectElement = document.createElement('div');
+                redirectElement.className = 'redirect-item';
+                redirectElement.innerHTML = `
+                    <div class="redirect-info">
+                        <div class="redirect-url">
+                            <span class="from-url">${redirect.from}</span>
+                            <span class="redirect-arrow">→</span>
+                            <span class="to-url">${redirect.to}</span>
+                        </div>
+                        <div class="redirect-meta">
+                            <span class="redirect-type">${redirect.type}</span>
+                            <span class="redirect-date">${new Date(redirect.created).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                    <div class="redirect-controls">
+                        <button class="btn btn-small btn-secondary" onclick="editRedirect(${index})">Edit</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteRedirect(${index})">Delete</button>
+                    </div>
+                `;
+                container.appendChild(redirectElement);
+            });
+        }
+        
+        function showAddRedirectModal() {
+            document.getElementById('add-redirect-modal').classList.add('active');
+        }
+        
+        function closeAddRedirectModal() {
+            document.getElementById('add-redirect-modal').classList.remove('active');
+            document.getElementById('add-redirect-form').reset();
+        }
+        
+        function addRedirect(event) {
+            event.preventDefault();
+            
+            const from = document.getElementById('redirect-from').value;
+            const to = document.getElementById('redirect-to').value;
+            const type = document.getElementById('redirect-type').value;
+            
+            const newRedirect = {
+                from: from,
+                to: to,
+                type: type,
+                created: new Date().toISOString()
+            };
+            
+            redirects.push(newRedirect);
+            saveRedirects();
+            renderRedirectsList();
+            
+            closeAddRedirectModal();
+            showNotification('Redirect added successfully', 'success');
+        }
+        
+        function editRedirect(index) {
+            const redirect = redirects[index];
+            if (!redirect) return;
+            
+            const newFrom = prompt('From URL:', redirect.from);
+            if (!newFrom) return;
+            
+            const newTo = prompt('To URL:', redirect.to);
+            if (!newTo) return;
+            
+            const newType = prompt('Redirect Type (301, 302, 307, 410):', redirect.type);
+            if (!newType) return;
+            
+            redirect.from = newFrom;
+            redirect.to = newTo;
+            redirect.type = newType;
+            
+            saveRedirects();
+            renderRedirectsList();
+            
+            showNotification('Redirect updated successfully', 'success');
+        }
+        
+        function deleteRedirect(index) {
+            if (!confirm('Are you sure you want to delete this redirect?')) return;
+            
+            redirects.splice(index, 1);
+            saveRedirects();
+            renderRedirectsList();
+            
+            showNotification('Redirect deleted successfully', 'success');
+        }
+        
+        // =============================================================================
+        // UTILITY FUNCTIONS
+        // =============================================================================
+        
+        function initializeCharCounters() {
+            const metaDescription = document.getElementById('meta-description');
+            if (metaDescription) {
+                metaDescription.addEventListener('input', updateCharCounters);
+                updateCharCounters();
+            }
+        }
+        
+        function updateCharCounters() {
+            const metaDescription = document.getElementById('meta-description');
+            if (metaDescription) {
+                const charCount = metaDescription.value.length;
+                const charCounter = document.querySelector('.char-count');
+                if (charCounter) {
+                    charCounter.textContent = `${charCount}/160 characters`;
+                    charCounter.style.color = charCount > 160 ? '#EF4444' : '#94A3B8';
+                }
+            }
+        }
+        
+        function initializeTooltips() {
+            // Add tooltips to form elements
+            const tooltips = {
+                'post-title-pattern': 'Use {post_title}, {site_name}, {category} variables',
+                'sitemap-url': 'Usually yourdomain.com/sitemap.xml',
+                'gtm-container-id': 'Format: GTM-XXXXXXX',
+                'ga4-measurement-id': 'Format: G-XXXXXXXXXX'
+            };
+            
+            Object.keys(tooltips).forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.title = tooltips[id];
+                }
+            });
+        }
+        
+        function setupEventListeners() {
+            // Add redirect form
+            document.getElementById('add-redirect-form').addEventListener('submit', addRedirect);
+            
+            // Favicon upload
+            document.getElementById('favicon-upload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const preview = document.querySelector('#favicon-preview img');
+                        if (preview) {
+                            preview.src = e.target.result;
+                        }
+                        websiteSettings.general.favicon = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Auto-save on input change
+            document.querySelectorAll('input, textarea, select').forEach(element => {
+                element.addEventListener('change', function() {
+                    collectSettingsData();
+                    saveSettings();
+                });
+            });
+        }
+        
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notification-container');
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()">&times;</button>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Show animation
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // =============================================================================
+        // MAIN.JS FUNCTIONALITY EMBEDDED
+        // =============================================================================
+
+        class QuravelApp {
+            constructor() {
+                this.currentSlide = 0;
+                this.slides = document.querySelectorAll('.carousel-item');
+                this.totalSlides = this.slides.length;
+                this.autoPlayInterval = null;
+                this.autoPlayDelay = 5000; // 5 seconds
+                this.postsData = [];
+                this.slideshowPosts = [];
+            }
+
+            async init() {
+                await this.loadData();
+                this.setupCarousel();
+                this.setupSearch();
+                this.populateContent();
+                this.setupNavigation();
+                this.setupScrollEffects();
+                this.startAutoPlay();
+            }
+
+            // Load data from JSON files
+            async loadData() {
+                try {
+                    // Load posts data (simulated for this demo)
+                    this.postsData = [
+                        {
+                            id: '1',
+                            title: 'Sample Movie',
+                            poster: 'https://via.placeholder.com/300x450',
+                            backdrop: 'https://via.placeholder.com/1920x1080',
+                            rating: '8.5',
+                            quality: 'HD',
+                            contentRating: 'PG-13',
+                            duration: '120m',
+                            year: '2024',
+                            type: 'movie',
+                            flags: {
+                                isTopAiring: true,
+                                isLatestMovie: true,
+                                isSlideshow: true,
+                                isRecommended: true
+                            },
+                            popularity: 95,
+                            dateAdded: '2024-01-15'
+                        },
+                        {
+                            id: '2',
+                            title: 'Sample TV Show',
+                            poster: 'https://via.placeholder.com/300x450',
+                            backdrop: 'https://via.placeholder.com/1920x1080',
+                            rating: '7.8',
+                            quality: '4K',
+                            contentRating: 'TV-14',
+                            episodeLength: '45m',
+                            year: '2023',
+                            type: 'tv-show',
+                            flags: {
+                                isTopAiring: true,
+                                isRecommended: true
+                            },
+                            popularity: 85,
+                            dateAdded: '2024-01-10'
+                        }
+                    ];
+                    
+                    // Load slideshow configuration
+                    const slideshowResponse = localStorage.getItem('quravel-slideshow');
+                    if (slideshowResponse) {
+                        const slideshowData = JSON.parse(slideshowResponse);
+                        this.slideshowPosts = slideshowData.posts || [];
+                    } else {
+                        // Default: use posts with isSlideshow flag
+                        this.slideshowPosts = this.postsData.filter(post => post.flags?.isSlideshow).slice(0, 10);
+                    }
+                    
+                } catch (error) {
+                    // Fallback to empty arrays
+                    this.postsData = [];
+                    this.slideshowPosts = [];
+                }
+            }
+
+            // Hero Carousel Functionality
+            setupCarousel() {
+                // This function will be called by updateHeroCarousel
+                // No setup needed here as slides are dynamically created
+            }
+
+            setupSlideControls() {
+                // This is a placeholder for carousel functionality
+                // In a real implementation, this would setup slide controls
+            }
+
+            showSlide(index) {
+                // Hide all slides
+                this.slides.forEach(slide => slide.classList.remove('active'));
+                
+                // Show current slide
+                if (this.slides[index]) {
+                    this.slides[index].classList.add('active');
+                }
+                
+                this.currentSlide = index;
+            }
+
+            nextSlide() {
+                this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                this.showSlide(this.currentSlide);
+            }
+
+            previousSlide() {
+                this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+                this.showSlide(this.currentSlide);
+            }
+
+            goToSlide(index) {
+                this.currentSlide = index;
+                this.showSlide(this.currentSlide);
+            }
+
+            startAutoPlay() {
+                this.autoPlayInterval = setInterval(() => {
+                    this.nextSlide();
+                }, this.autoPlayDelay);
+            }
+
+            resetAutoPlay() {
+                clearInterval(this.autoPlayInterval);
+                this.startAutoPlay();
+            }
+
+            // Search Functionality
+            setupSearch() {
+                // Search functionality placeholder
+                // In a real implementation, this would setup search controls
+            }
+
+            // Content Population
+            populateContent() {
+                // Content population placeholder
+                // This would populate various content sections on the homepage
+            }
+
+            // Utility Methods
+            getQualityClass(rating) {
+                if (!rating) return 'hd';
+                if (rating >= 8.5) return 'uhd';
+                if (rating >= 7.5) return '4k';
+                if (rating >= 6.5) return 'hd';
+                return 'sd';
+            }
+
+            getQualityLabel(rating) {
+                if (!rating) return 'HD';
+                if (rating >= 8.5) return 'UHD';
+                if (rating >= 7.5) return '4K';
+                if (rating >= 6.5) return 'HD';
+                return 'SD';
+            }
+        }
+
+        // Utility Functions
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+
+        // Initialize main app
+        function initializeMainApp() {
+            // Initialize the main app for demo purposes
+            window.app = new QuravelApp();
+            window.app.init();
+            
+            // Setup performance optimizations
+            optimizeImages();
+        }
+
+        function optimizeImages() {
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src || img.src;
+                            img.classList.remove('lazy');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+
+                images.forEach(img => imageObserver.observe(img));
+            }
+        }
+
+        // Global functions
+        function goToDetails(contentId) {
+            window.location.href = `post-details.html?id=${contentId}`;
+        }
+
+        function goToStreaming(contentId) {
+            window.location.href = `streaming.html?id=${contentId}`;
+        }
+    </script>
+</body>
+</html>

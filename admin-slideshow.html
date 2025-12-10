@@ -1,0 +1,2282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quravel - Slideshow Management</title>
+    <style>
+        /* =============================================================================
+           RESET AND BASE STYLES
+           ============================================================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            color: #e8eaf6;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* =============================================================================
+           ADMIN CONTAINER AND LAYOUT
+           ============================================================================= */
+        .admin-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* =============================================================================
+           ADMIN HEADER WITH SCROLLABLE NAVIGATION
+           ============================================================================= */
+        .admin-header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-nav .logo img {
+            height: 40px;
+            max-width: 150px;
+        }
+
+        /* Scrollable Navigation */
+        .nav-scroll-container {
+            position: relative;
+            flex: 1;
+            margin: 0 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-nav-links {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 0.5rem 1rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            flex: 1;
+        }
+
+        .admin-nav-links::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Navigation Scroll Arrows */
+        .nav-scroll-btn {
+            position: static;
+            background: rgba(139, 92, 246, 0.3);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+
+        .nav-scroll-btn:hover {
+            background: rgba(139, 92, 246, 0.7);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .scroll-left {
+            margin-right: 0.5rem;
+        }
+
+        .scroll-right {
+            margin-left: 0.5rem;
+        }
+
+        .admin-nav-link {
+            color: #a5b4fc;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            color: #f5f3ff;
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        /* =============================================================================
+           SVG ICON STYLES
+           ============================================================================= */
+        .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
+
+        /* =============================================================================
+           ADMIN MAIN CONTENT
+           ============================================================================= */
+        .admin-main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .admin-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .admin-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .admin-header-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* =============================================================================
+           BUTTON STYLES
+           ============================================================================= */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #415b82;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(65, 91, 130, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(139, 92, 246, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* =============================================================================
+           SLIDESHOW MANAGEMENT SECTIONS
+           ============================================================================= */
+        .slideshow-settings-section,
+        .current-slideshow-section,
+        .available-posts-section,
+        .html-compose-section {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .slideshow-settings-section h2,
+        .current-slideshow-section h2,
+        .available-posts-section h2,
+        .html-compose-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #f5f3ff;
+        }
+
+        /* Add New Post Button */
+        .add-new-post-btn {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .add-new-post-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Settings Grid */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .setting-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .setting-group label {
+            color: #e8eaf6;
+            font-weight: 500;
+        }
+
+        .setting-group input,
+        .setting-group select {
+            padding: 0.75rem;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.8);
+            color: #e8eaf6;
+            font-size: 0.9rem;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(139, 92, 246, 0.3);
+            transition: 0.3s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: #8b5cf6;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #8b5cf6;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Slideshow Posts Grid */
+        .slideshow-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .slideshow-post-card {
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .slideshow-post-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2);
+        }
+
+        .slideshow-post-card .post-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .slideshow-post-card .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 0.75rem;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+        }
+
+        .post-order {
+            background: rgba(139, 92, 246, 0.9);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .remove-btn {
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-btn:hover {
+            background: #ef4444;
+        }
+
+        .slideshow-post-card .post-info {
+            padding: 1rem;
+        }
+
+        .slideshow-post-card .post-info h3 {
+            color: #f5f3ff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .slideshow-post-card .post-info p {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-rating {
+            color: #fbbf24;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .post-actions {
+            padding: 0 1rem 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-up,
+        .btn-down {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-up:hover:not(:disabled),
+        .btn-down:hover:not(:disabled) {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .btn-up:disabled,
+        .btn-down:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Available Posts Section */
+        .posts-filter {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .posts-filter input,
+        .posts-filter select {
+            padding: 0.75rem;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.8);
+            color: #e8eaf6;
+            font-size: 0.9rem;
+            min-width: 200px;
+        }
+
+        .available-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .available-post-card {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .available-post-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .available-post-card .post-image {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .available-post-card .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .available-post-card .post-info {
+            padding: 1rem;
+        }
+
+        .available-post-card .post-info h3 {
+            color: #f5f3ff;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .available-post-card .post-info p {
+            color: #a5b4fc;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-popularity {
+            color: #8b5cf6;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 0 0 12px 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .add-btn:hover {
+            background: rgba(139, 92, 246, 0.3);
+        }
+
+        /* HTML Compose Section */
+        .compose-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .html-composer {
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .composer-tabs {
+            display: flex;
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            color: #a5b4fc;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: rgba(139, 92, 246, 0.2);
+            color: #f5f3ff;
+        }
+
+        .composer-content {
+            min-height: 300px;
+        }
+
+        .composer-tab {
+            display: none;
+        }
+
+        .composer-tab.active {
+            display: block;
+        }
+
+        #html-editor {
+            width: 100%;
+            min-height: 300px;
+            padding: 1rem;
+            border: none;
+            background: transparent;
+            color: #e8eaf6;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        #html-preview-content {
+            padding: 1rem;
+            color: #e8eaf6;
+            min-height: 300px;
+            overflow-y: auto;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 8px;
+        }
+
+        .composer-actions {
+            padding: 1rem;
+            background: rgba(139, 92, 246, 0.1);
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        /* Add Post Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .modal-header h2 {
+            color: #f5f3ff;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close {
+            color: #a5b4fc;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #f5f3ff;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #f5f3ff;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.8);
+            color: #e8eaf6;
+            font-size: 0.9rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            margin-top: 1.5rem;
+        }
+
+        /* Slideshow Preview */
+        .preview-content {
+            padding: 0;
+        }
+
+        .slideshow-preview {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1rem;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .indicator.active {
+            background: white;
+        }
+
+        /* =============================================================================
+           FOOTER STYLES - SERIAL WISE LAYOUT
+           ============================================================================= */
+        .footer {
+            background-color: #3D4249;
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .footer-link:hover {
+            color: #8b5cf6;
+        }
+
+        .footer-brand {
+            margin: 20px 0;
+        }
+
+        .footer-logo {
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .footer-disclaimer {
+            font-size: 12px;
+            line-height: 1.5;
+            opacity: 0.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* =============================================================================
+           NOTIFICATION STYLES
+           ============================================================================= */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 20px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10000;
+            max-width: 400px;
+            animation: slideIn 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification-success {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+        }
+
+        .notification-error {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+        }
+
+        .notification-warning {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+        }
+
+        .notification-info {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+        }
+
+        .notification button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            margin-left: auto;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .notification button:hover {
+            opacity: 1;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* =============================================================================
+           EMPTY STATES AND UTILITIES
+           ============================================================================= */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #a5b4fc;
+            font-style: italic;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            grid-column: 1 / -1;
+        }
+
+        .empty-preview {
+            text-align: center;
+            padding: 2rem;
+            color: #a5b4fc;
+            font-style: italic;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =============================================================================
+           RESPONSIVE DESIGN
+           ============================================================================= */
+        @media (max-width: 1200px) {
+            .nav-scroll-container {
+                margin: 0 1rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .slideshow-posts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .available-posts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-main {
+                padding: 1rem;
+            }
+
+            .admin-header {
+                padding: 1rem;
+            }
+
+            .admin-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-scroll-container {
+                width: 100%;
+                margin: 0;
+            }
+
+            .admin-nav-links {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .admin-header-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .admin-header-section h1 {
+                font-size: 2rem;
+            }
+
+            .admin-actions {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .posts-filter {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .posts-filter input,
+            .posts-filter select {
+                width: 100%;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .slideshow-posts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .available-posts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .compose-controls {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 1rem;
+            }
+
+            .footer-links {
+                flex-direction: row;
+                gap: 15px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .admin-actions {
+                flex-direction: column;
+            }
+
+            .slideshow-preview {
+                height: 300px;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+
+        /* =============================================================================
+           ANIMATIONS AND TRANSITIONS
+           ============================================================================= */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header with Scrollable Navigation -->
+        <header class="admin-header">
+            <div class="admin-nav">
+                <a href="index.html" class="logo">
+                    <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo">
+                </a>
+                
+                <div class="nav-scroll-container">
+                    <button class="nav-scroll-btn scroll-left">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                        </svg>
+                    </button>
+                    
+                    <nav class="admin-nav-links" id="adminNavLinks">
+                        <a href="admin.html" class="admin-nav-link">Dashboard</a>
+                        <a href="admin-status.html" class="admin-nav-link">Status</a>
+                        <a href="admin-header.html" class="admin-nav-link">Header and Menu</a>
+                        <a href="admin-homepage.html" class="admin-nav-link">Homepage</a>
+                        <a href="admin-slideshow.html" class="admin-nav-link active">Slideshow</a>
+                        <a href="admin-posts.html" class="admin-nav-link">Posts</a>
+                        <a href="admin-streaming.html" class="admin-nav-link">Streaming Page</a>
+                        <a href="admin-footer.html" class="admin-nav-link">Footer and Settings</a>
+                    </nav>
+                    
+                    <button class="nav-scroll-btn scroll-right">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M8.59 16.59L10 18l6-6-6-6L8.59 7.41 13.17 12z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <div class="admin-content">
+                <div class="admin-header-section">
+                    <h1>Slideshow Management</h1>
+                    <div class="admin-actions">
+                        <button class="btn btn-secondary" id="previewSlideshowBtn">
+                            <span class="icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                            </span>
+                            Preview
+                        </button>
+                        <button class="btn btn-primary" id="saveSlideshowBtn">
+                            <span class="icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                                </svg>
+                            </span>
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add New Post Button -->
+                <button class="add-new-post-btn" id="addNewPostBtn">
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                    </span>
+                    Add New Post to Slideshow
+                </button>
+
+                <!-- Slideshow Settings -->
+                <div class="slideshow-settings-section">
+                    <h2>Slideshow Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label for="autoplay-enabled">Auto-play</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="autoplay-enabled" checked>
+                                <span class="slider"></span>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label for="slide-interval">Slide Interval (seconds)</label>
+                            <input type="number" id="slide-interval" min="3" max="30" value="5">
+                        </div>
+                        <div class="setting-group">
+                            <label for="max-slides">Max Slides</label>
+                            <input type="number" id="max-slides" min="1" max="15" value="10">
+                        </div>
+                        <div class="setting-group">
+                            <label for="transition-effect">Transition Effect</label>
+                            <select id="transition-effect">
+                                <option value="fade">Fade</option>
+                                <option value="slide">Slide</option>
+                                <option value="zoom">Zoom</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Slideshow Posts -->
+                <div class="current-slideshow-section">
+                    <h2>Current Slideshow Posts</h2>
+                    <div class="slideshow-posts-grid" id="current-slideshow-posts">
+                        <!-- Current slideshow posts will be loaded here -->
+                        <div class="empty-state">No slideshow posts added yet. Add posts from the available posts section below.</div>
+                    </div>
+                </div>
+
+                <!-- Available Posts -->
+                <div class="available-posts-section">
+                    <h2>Available Posts</h2>
+                    <div class="posts-filter">
+                        <input type="text" id="post-search" placeholder="Search posts...">
+                        <select id="type-filter">
+                            <option value="">All Types</option>
+                            <option value="movie">Movies</option>
+                            <option value="anime">Anime</option>
+                            <option value="tv-show">TV Shows</option>
+                        </select>
+                        <select id="sort-filter">
+                            <option value="title">Sort by Title</option>
+                            <option value="popularity">Sort by Popularity</option>
+                            <option value="dateAdded">Sort by Date Added</option>
+                        </select>
+                    </div>
+                    <div class="available-posts-grid" id="available-posts-grid">
+                        <!-- Available posts will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- HTML Compose Section -->
+                <div class="html-compose-section">
+                    <h2>HTML Compose Mode</h2>
+                    <div class="compose-controls">
+                        <button class="btn btn-secondary" id="toggleComposeBtn">
+                            <span class="icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                                </svg>
+                            </span>
+                            Toggle Compose Mode
+                        </button>
+                        <button class="btn btn-secondary" id="validateHTMLBtn">
+                            <span class="icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                </svg>
+                            </span>
+                            Validate HTML
+                        </button>
+                        <button class="btn btn-secondary" id="previewHTMLBtn">
+                            <span class="icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                            </span>
+                            Preview HTML
+                        </button>
+                    </div>
+                    <div class="html-composer" id="html-composer" style="display: none;">
+                        <div class="composer-tabs">
+                            <button class="tab-btn active" data-tab="edit">HTML Editor</button>
+                            <button class="tab-btn" data-tab="preview">Preview</button>
+                        </div>
+                        <div class="composer-content">
+                            <div id="html-edit-tab" class="composer-tab active">
+                                <textarea id="html-editor" placeholder="Enter custom HTML for slideshow..."></textarea>
+                            </div>
+                            <div id="html-preview-tab" class="composer-tab">
+                                <div id="html-preview-content"></div>
+                            </div>
+                        </div>
+                        <div class="composer-actions">
+                            <button class="btn btn-primary" id="applyHTMLBtn">
+                                <span class="icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                    </svg>
+                                </span>
+                                Apply HTML
+                            </button>
+                            <button class="btn btn-secondary" id="resetHTMLBtn">
+                                <span class="icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                                    </svg>
+                                </span>
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Post Modal -->
+    <div id="addPostModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Post to Slideshow</h2>
+                <span class="close" id="closeAddPostModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addPostForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="post-title">Post Title *</label>
+                            <input type="text" id="post-title" required placeholder="Enter post title">
+                        </div>
+                        <div class="form-group">
+                            <label for="post-type">Post Type *</label>
+                            <select id="post-type" required>
+                                <option value="">Select type</option>
+                                <option value="movie">Movie</option>
+                                <option value="anime">Anime</option>
+                                <option value="tv-show">TV Show</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="post-year">Year *</label>
+                            <input type="number" id="post-year" required min="1900" max="2030" placeholder="2024">
+                        </div>
+                        <div class="form-group">
+                            <label for="post-rating">Rating (0-10)</label>
+                            <input type="number" id="post-rating" min="0" max="10" step="0.1" placeholder="8.5">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="post-duration">Duration</label>
+                            <input type="text" id="post-duration" placeholder="2h 30m or 24m/ep">
+                        </div>
+                        <div class="form-group">
+                            <label for="post-popularity">Popularity (0-100)</label>
+                            <input type="number" id="post-popularity" min="0" max="100" placeholder="85">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="post-description">Description</label>
+                        <textarea id="post-description" placeholder="Enter post description"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="post-image-url">Image URL</label>
+                            <input type="url" id="post-image-url" placeholder="https://example.com/image.jpg">
+                        </div>
+                        <div class="form-group">
+                            <label for="post-backdrop-url">Backdrop URL</label>
+                            <input type="url" id="post-backdrop-url" placeholder="https://example.com/backdrop.jpg">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelAddPost">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slideshow Preview Modal -->
+    <div id="slideshow-preview-modal" class="modal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <div class="modal-header">
+                <h2>Slideshow Preview</h2>
+                <span class="close" id="closePreviewModal">&times;</span>
+            </div>
+            <div class="preview-content">
+                <div class="slideshow-preview" id="slideshow-preview-container">
+                    <!-- Slideshow preview will be rendered here -->
+                    <div class="empty-preview">No slideshow content to preview. Add posts to the slideshow first.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section with Serial Layout -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://quravel.blogspot.com" class="footer-link">Home</a>
+            <a href="https://quravel.blogspot.com/p/sent-your-movie-request.html" class="footer-link">Sent Request</a>
+            <a href="mailto:foogyfogg@proton.me" class="footer-link">Contact Us</a>
+        </div>
+
+        <div class="footer-brand">
+            <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo" class="footer-logo">
+            <p>@ 2025 Quravel</p>
+        </div>
+
+        <div class="footer-disclaimer">
+            <p>This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.</p>
+            <p>watch free movies, watch free tv shows, free movies online</p>
+        </div>
+    </footer>
+
+    <script>
+        // =============================================================================
+        // MAIN APPLICATION CLASS - Combined from main.js and slideshow-admin.js
+        // =============================================================================
+        class SlideshowManager {
+            constructor() {
+                this.postsData = [];
+                this.slideshowPosts = [];
+                this.slideshowSettings = {
+                    autoplayEnabled: true,
+                    slideInterval: 5,
+                    maxSlides: 10,
+                    transitionEffect: 'fade'
+                };
+                this.currentPreviewSlide = 0;
+                
+                this.init();
+            }
+
+            async init() {
+                // Initialize scrollable navigation
+                this.setupScrollableNavigation();
+                
+                // Load data
+                await this.loadPostsData();
+                await this.loadSlideshowData();
+                
+                // Setup event listeners
+                this.setupEventListeners();
+                
+                // Update UI
+                this.updateCurrentSlideshow();
+                this.updateAvailablePosts();
+                this.updateSettingsUI();
+                
+                // Show welcome notification
+                setTimeout(() => {
+                    this.showNotification('Slideshow Management Loaded! Add posts to create your slideshow.', 'info');
+                }, 1000);
+            }
+
+            // =============================================================================
+            // SCROLLABLE NAVIGATION
+            // =============================================================================
+            setupScrollableNavigation() {
+                const navLinks = document.getElementById('adminNavLinks');
+                const scrollLeftBtn = document.querySelector('.scroll-left');
+                const scrollRightBtn = document.querySelector('.scroll-right');
+
+                // Scroll navigation
+                scrollLeftBtn.addEventListener('click', () => {
+                    navLinks.scrollBy({ left: -200, behavior: 'smooth' });
+                });
+
+                scrollRightBtn.addEventListener('click', () => {
+                    navLinks.scrollBy({ left: 200, behavior: 'smooth' });
+                });
+
+                // Update scroll button visibility
+                const updateScrollButtons = () => {
+                    const scrollLeft = navLinks.scrollLeft;
+                    const maxScrollLeft = navLinks.scrollWidth - navLinks.clientWidth;
+                    
+                    scrollLeftBtn.style.opacity = scrollLeft > 0 ? '0.7' : '0.3';
+                    scrollRightBtn.style.opacity = scrollLeft < maxScrollLeft ? '0.7' : '0.3';
+                };
+
+                navLinks.addEventListener('scroll', updateScrollButtons);
+                window.addEventListener('resize', updateScrollButtons);
+                updateScrollButtons();
+            }
+
+            // =============================================================================
+            // DATA MANAGEMENT
+            // =============================================================================
+            async loadPostsData() {
+                try {
+                    // Sample data for demonstration
+                    this.postsData = [
+                        {
+                            id: '1',
+                            title: 'Avengers: Endgame',
+                            description: 'The remaining Avengers must figure out a way to bring back their vanquished allies for a final showdown with Thanos.',
+                            type: 'movie',
+                            rating: 8.4,
+                            popularity: 95,
+                            year: 2019,
+                            duration: '3h 1m',
+                            poster: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=400&h=600&fit=crop',
+                            backdrop: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=1200&h=600&fit=crop'
+                        },
+                        {
+                            id: '2',
+                            title: 'Attack on Titan',
+                            description: 'Humans fight for survival against giant humanoid creatures known as Titans.',
+                            type: 'anime',
+                            rating: 9.0,
+                            popularity: 92,
+                            year: 2013,
+                            duration: '24m/ep',
+                            poster: 'https://images.unsplash.com/photo-1541562232579-512a21360020?w=400&h=600&fit=crop',
+                            backdrop: 'https://images.unsplash.com/photo-1541562232579-512a21360020?w=1200&h=600&fit=crop'
+                        },
+                        {
+                            id: '3',
+                            title: 'Stranger Things',
+                            description: 'A group of kids in a small town uncover supernatural mysteries and government conspiracies.',
+                            type: 'tv-show',
+                            rating: 8.7,
+                            popularity: 88,
+                            year: 2016,
+                            seasons: 4,
+                            poster: 'https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?w=400&h=600&fit=crop',
+                            backdrop: 'https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?w=1200&h=600&fit=crop'
+                        },
+                        {
+                            id: '4',
+                            title: 'Spider-Man: No Way Home',
+                            description: 'Peter Parker\'s secret identity is revealed, and he seeks help from Doctor Strange to fix the problem.',
+                            type: 'movie',
+                            rating: 8.3,
+                            popularity: 90,
+                            year: 2021,
+                            duration: '2h 28m',
+                            poster: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=400&h=600&fit=crop',
+                            backdrop: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=1200&h=600&fit=crop'
+                        },
+                        {
+                            id: '5',
+                            title: 'Demon Slayer',
+                            description: 'A kind-hearted boy becomes a demon slayer after his family is slaughtered by demons.',
+                            type: 'anime',
+                            rating: 8.7,
+                            popularity: 87,
+                            year: 2019,
+                            duration: '24m/ep',
+                            poster: 'https://images.unsplash.com/photo-1541562232579-512a21360020?w=400&h=600&fit=crop',
+                            backdrop: 'https://images.unsplash.com/photo-1541562232579-512a21360020?w=1200&h=600&fit=crop'
+                        },
+                        {
+                            id: '6',
+                            title: 'The Mandalorian',
+                            description: 'A lone bounty hunter navigates the outer reaches of the galaxy far from the New Republic\'s authority.',
+                            type: 'tv-show',
+                            rating: 8.8,
+                            popularity: 85,
+                            year: 2019,
+                            seasons: 3,
+                            poster: 'https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?w=400&h=600&fit=crop',
+                            backdrop: 'https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?w=1200&h=600&fit=crop'
+                        }
+                    ];
+                } catch (error) {
+                    this.showNotification('Error loading posts data', 'error');
+                }
+            }
+
+            async loadSlideshowData() {
+                const savedSlideshow = localStorage.getItem('quravel-slideshow');
+                if (savedSlideshow) {
+                    const data = JSON.parse(savedSlideshow);
+                    this.slideshowPosts = data.posts || [];
+                    this.slideshowSettings = { ...this.slideshowSettings, ...data.settings };
+                } else {
+                    // Default: first 3 posts for slideshow
+                    this.slideshowPosts = this.postsData.slice(0, 3);
+                }
+            }
+
+            // =============================================================================
+            // SLIDESHOW POSTS MANAGEMENT
+            // =============================================================================
+            updateCurrentSlideshow() {
+                const container = document.getElementById('current-slideshow-posts');
+                if (!container) return;
+
+                if (this.slideshowPosts.length === 0) {
+                    container.innerHTML = '<div class="empty-state">No slideshow posts added yet. Add posts from the available posts section below.</div>';
+                    return;
+                }
+
+                container.innerHTML = this.slideshowPosts.map((post, index) => `
+                    <div class="slideshow-post-card" data-id="${post.id}">
+                        <div class="post-image">
+                            <img src="${post.poster}" alt="${post.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">
+                            <div class="post-overlay">
+                                <div class="post-order">${index + 1}</div>
+                                <button class="remove-btn" data-id="${post.id}">&times;</button>
+                            </div>
+                        </div>
+                        <div class="post-info">
+                            <h3>${post.title}</h3>
+                            <p>${post.type} • ${post.year}</p>
+                            <div class="post-rating">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="#fbbf24"/>
+                                </svg>
+                                ${post.rating || 'N/A'}
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="btn-up" data-index="${index}" ${index === 0 ? 'disabled' : ''}>
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M7 14l5-5 5 5z"/>
+                                </svg>
+                                Move Up
+                            </button>
+                            <button class="btn-down" data-index="${index}" ${index === this.slideshowPosts.length - 1 ? 'disabled' : ''}>
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M7 10l5 5 5-5z"/>
+                                </svg>
+                                Move Down
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateAvailablePosts() {
+                const container = document.getElementById('available-posts-grid');
+                if (!container) return;
+
+                const availablePosts = this.postsData.filter(post => 
+                    !this.slideshowPosts.some(slide => slide.id === post.id)
+                );
+
+                if (availablePosts.length === 0) {
+                    container.innerHTML = '<div class="empty-state">No posts available. All posts have been added to the slideshow.</div>';
+                    return;
+                }
+
+                container.innerHTML = availablePosts.map(post => `
+                    <div class="available-post-card" data-id="${post.id}">
+                        <div class="post-image">
+                            <img src="${post.poster}" alt="${post.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">
+                        </div>
+                        <div class="post-info">
+                            <h3>${post.title}</h3>
+                            <p>${post.type} • ${post.year}</p>
+                            <div class="post-rating">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="#fbbf24"/>
+                                </svg>
+                                ${post.rating || 'N/A'}
+                            </div>
+                            <div class="post-popularity">Popularity: ${post.popularity || 0}%</div>
+                        </div>
+                        <button class="add-btn" data-id="${post.id}">
+                            <svg viewBox="0 0 24 24" width="16" height="16">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
+                            Add to Slideshow
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            filterPosts() {
+                const searchTerm = document.getElementById('post-search').value.toLowerCase();
+                const typeFilter = document.getElementById('type-filter').value;
+                const sortFilter = document.getElementById('sort-filter').value;
+                
+                let filteredPosts = this.postsData.filter(post => 
+                    !this.slideshowPosts.some(slide => slide.id === post.id)
+                );
+                
+                // Apply search filter
+                if (searchTerm) {
+                    filteredPosts = filteredPosts.filter(post =>
+                        post.title.toLowerCase().includes(searchTerm) ||
+                        (post.description && post.description.toLowerCase().includes(searchTerm))
+                    );
+                }
+                
+                // Apply type filter
+                if (typeFilter) {
+                    filteredPosts = filteredPosts.filter(post => post.type === typeFilter);
+                }
+                
+                // Apply sort
+                filteredPosts.sort((a, b) => {
+                    switch (sortFilter) {
+                        case 'popularity':
+                            return (b.popularity || 0) - (a.popularity || 0);
+                        case 'dateAdded':
+                            // For demo, use ID as date indicator
+                            return b.id - a.id;
+                        default:
+                            return a.title.localeCompare(b.title);
+                    }
+                });
+                
+                // Update display
+                const container = document.getElementById('available-posts-grid');
+                if (!container) return;
+
+                if (filteredPosts.length === 0) {
+                    container.innerHTML = '<div class="empty-state">No posts match your search criteria.</div>';
+                    return;
+                }
+
+                container.innerHTML = filteredPosts.map(post => `
+                    <div class="available-post-card" data-id="${post.id}">
+                        <div class="post-image">
+                            <img src="${post.poster}" alt="${post.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZHRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">
+                        </div>
+                        <div class="post-info">
+                            <h3>${post.title}</h3>
+                            <p>${post.type} • ${post.year}</p>
+                            <div class="post-rating">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="#fbbf24"/>
+                                </svg>
+                                ${post.rating || 'N/A'}
+                            </div>
+                            <div class="post-popularity">Popularity: ${post.popularity || 0}%</div>
+                        </div>
+                        <button class="add-btn" data-id="${post.id}">
+                            <svg viewBox="0 0 24 24" width="16" height="16">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
+                            Add to Slideshow
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            addToSlideshow(postId) {
+                if (this.slideshowPosts.length >= this.slideshowSettings.maxSlides) {
+                    this.showNotification(`Maximum ${this.slideshowSettings.maxSlides} slides allowed`, 'error');
+                    return;
+                }
+                
+                const post = this.postsData.find(p => p.id === postId);
+                if (post) {
+                    this.slideshowPosts.push(post);
+                    this.updateCurrentSlideshow();
+                    this.updateAvailablePosts();
+                    this.showNotification(`${post.title} added to slideshow`, 'success');
+                }
+            }
+
+            removeFromSlideshow(postId) {
+                const post = this.slideshowPosts.find(p => p.id === postId);
+                this.slideshowPosts = this.slideshowPosts.filter(p => p.id !== postId);
+                this.updateCurrentSlideshow();
+                this.updateAvailablePosts();
+                this.showNotification(`${post?.title || 'Post'} removed from slideshow`, 'info');
+            }
+
+            moveSlideUp(index) {
+                if (index > 0) {
+                    [this.slideshowPosts[index - 1], this.slideshowPosts[index]] = 
+                    [this.slideshowPosts[index], this.slideshowPosts[index - 1]];
+                    this.updateCurrentSlideshow();
+                }
+            }
+
+            moveSlideDown(index) {
+                if (index < this.slideshowPosts.length - 1) {
+                    [this.slideshowPosts[index + 1], this.slideshowPosts[index]] = 
+                    [this.slideshowPosts[index], this.slideshowPosts[index + 1]];
+                    this.updateCurrentSlideshow();
+                }
+            }
+
+            addNewPost(formData) {
+                if (this.slideshowPosts.length >= this.slideshowSettings.maxSlides) {
+                    this.showNotification(`Maximum ${this.slideshowSettings.maxSlides} slides allowed`, 'error');
+                    return false;
+                }
+
+                // Generate new ID
+                const newId = (this.postsData.length + 1).toString();
+                
+                const newPost = {
+                    id: newId,
+                    title: formData.title,
+                    description: formData.description,
+                    type: formData.type,
+                    rating: parseFloat(formData.rating) || 0,
+                    popularity: parseInt(formData.popularity) || 0,
+                    year: parseInt(formData.year) || 2024,
+                    duration: formData.duration || 'N/A',
+                    poster: formData.imageUrl || 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=400&h=600&fit=crop',
+                    backdrop: formData.backdropUrl || 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=1200&h=600&fit=crop'
+                };
+
+                // Add to both arrays
+                this.postsData.push(newPost);
+                this.slideshowPosts.push(newPost);
+                
+                this.updateCurrentSlideshow();
+                this.updateAvailablePosts();
+                
+                return true;
+            }
+
+            // =============================================================================
+            // SETTINGS MANAGEMENT
+            // =============================================================================
+            updateSettingsUI() {
+                document.getElementById('autoplay-enabled').checked = this.slideshowSettings.autoplayEnabled;
+                document.getElementById('slide-interval').value = this.slideshowSettings.slideInterval;
+                document.getElementById('max-slides').value = this.slideshowSettings.maxSlides;
+                document.getElementById('transition-effect').value = this.slideshowSettings.transitionEffect;
+            }
+
+            updateSettingsFromUI() {
+                this.slideshowSettings = {
+                    autoplayEnabled: document.getElementById('autoplay-enabled').checked,
+                    slideInterval: parseInt(document.getElementById('slide-interval').value),
+                    maxSlides: parseInt(document.getElementById('max-slides').value),
+                    transitionEffect: document.getElementById('transition-effect').value
+                };
+            }
+
+            saveSlideshow() {
+                this.updateSettingsFromUI();
+                
+                const slideshowData = {
+                    posts: this.slideshowPosts,
+                    settings: this.slideshowSettings,
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                localStorage.setItem('quravel-slideshow', JSON.stringify(slideshowData));
+                this.showNotification('Slideshow configuration saved!', 'success');
+            }
+
+            // =============================================================================
+            // PREVIEW FUNCTIONALITY
+            // =============================================================================
+            previewSlideshow() {
+                if (this.slideshowPosts.length === 0) {
+                    this.showNotification('Add some posts to the slideshow first!', 'warning');
+                    return;
+                }
+
+                const modal = document.getElementById('slideshow-preview-modal');
+                const container = document.getElementById('slideshow-preview-container');
+
+                container.innerHTML = `
+                    ${this.slideshowPosts.map((post, index) => `
+                        <div class="hero-slide ${index === 0 ? 'active' : ''}" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${post.backdrop}') center/cover;">
+                            <div style="position: absolute; bottom: 40px; left: 40px; right: 40px; color: white;">
+                                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">${post.title}</h2>
+                                <div style="display: flex; gap: 2rem; margin-bottom: 1rem; align-items: center;">
+                                    <span style="color: #FFD700; display: flex; align-items: center; gap: 5px;">
+                                        <svg viewBox="0 0 24 24" width="20" height="20">
+                                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="#FFD700"/>
+                                        </svg>
+                                        ${post.rating}/10
+                                    </span>
+                                    <span>${post.year}</span>
+                                    <span>${post.duration}</span>
+                                </div>
+                                <p style="max-width: 600px; margin-bottom: 2rem; font-size: 1.1rem;">${post.description}</p>
+                                <div style="display: flex; gap: 1rem;">
+                                    <button class="btn btn-primary" style="background: #415b82; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                        <svg viewBox="0 0 24 24" width="20" height="20">
+                                            <path d="M8 5v14l11-7z" fill="white"/>
+                                        </svg>
+                                        Watch Now
+                                    </button>
+                                    <button class="btn btn-secondary" style="background: transparent; color: white; border: 2px solid rgba(255,255,255,0.3); padding: 12px 24px; border-radius: 8px; cursor: pointer;">
+                                        More Info
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                    <div class="carousel-nav">
+                        <button class="nav-btn prev">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="white"/>
+                            </svg>
+                        </button>
+                        <button class="nav-btn next">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path d="M8.59 16.59L10 18l6-6-6-6L8.59 7.41 13.17 12z" fill="white"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="carousel-indicators">
+                        ${this.slideshowPosts.map((_, index) => `
+                            <button class="indicator ${index === 0 ? 'active' : ''}"></button>
+                        `).join('')}
+                    </div>
+                `;
+
+                modal.style.display = 'block';
+                this.currentPreviewSlide = 0;
+                
+                // Add preview navigation
+                this.setupPreviewNavigation();
+            }
+
+            setupPreviewNavigation() {
+                const prevBtn = document.querySelector('.nav-btn.prev');
+                const nextBtn = document.querySelector('.nav-btn.next');
+                const indicators = document.querySelectorAll('.indicator');
+
+                prevBtn.addEventListener('click', () => this.previewSlide(-1));
+                nextBtn.addEventListener('click', () => this.previewSlide(1));
+                
+                indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => this.previewSlideTo(index));
+                });
+            }
+
+            previewSlide(direction) {
+                const slides = document.querySelectorAll('.hero-slide');
+                const indicators = document.querySelectorAll('.indicator');
+                
+                slides[this.currentPreviewSlide].classList.remove('active');
+                indicators[this.currentPreviewSlide].classList.remove('active');
+                
+                this.currentPreviewSlide = (this.currentPreviewSlide + direction + slides.length) % slides.length;
+                
+                slides[this.currentPreviewSlide].classList.add('active');
+                indicators[this.currentPreviewSlide].classList.add('active');
+            }
+
+            previewSlideTo(index) {
+                const slides = document.querySelectorAll('.hero-slide');
+                const indicators = document.querySelectorAll('.indicator');
+                
+                slides[this.currentPreviewSlide].classList.remove('active');
+                indicators[this.currentPreviewSlide].classList.remove('active');
+                
+                this.currentPreviewSlide = index;
+                
+                slides[this.currentPreviewSlide].classList.add('active');
+                indicators[this.currentPreviewSlide].classList.add('active');
+            }
+
+            closeSlideshowPreview() {
+                document.getElementById('slideshow-preview-modal').style.display = 'none';
+            }
+
+            // =============================================================================
+            // HTML COMPOSE MODE
+            // =============================================================================
+            toggleComposeMode() {
+                const composer = document.getElementById('html-composer');
+                const isVisible = composer.style.display !== 'none';
+                
+                if (!isVisible) {
+                    composer.style.display = 'block';
+                    if (!document.getElementById('html-editor').value) {
+                        document.getElementById('html-editor').value = this.generateHTMLTemplate();
+                    }
+                    this.showNotification('Compose mode activated', 'info');
+                } else {
+                    composer.style.display = 'none';
+                    this.showNotification('Compose mode deactivated', 'info');
+                }
+            }
+
+            switchComposerTab(tab) {
+                const tabs = document.querySelectorAll('.tab-btn');
+                const tabContents = document.querySelectorAll('.composer-tab');
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                event.target.classList.add('active');
+                document.getElementById(`html-${tab}-tab`).classList.add('active');
+                
+                if (tab === 'preview') {
+                    this.updateHTMLPreview();
+                }
+            }
+
+            generateHTMLTemplate() {
+                return `<!-- Quravel Slideshow Template -->
+<div class="hero-carousel">
+    ${this.slideshowPosts.map((post, index) => `
+    <div class="hero-slide ${index === 0 ? 'active' : ''}">
+        <div class="hero-background">
+            <img src="${post.backdrop || post.poster}" alt="${post.title}" onerror="this.style.display='none'">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-info">
+                <h1 class="hero-title">${post.title}</h1>
+                <div class="hero-meta">
+                    <span class="hero-rating">
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="#FFD700"/>
+                        </svg>
+                        ${post.rating || 'N/A'}
+                    </span>
+                    <span class="hero-year">${post.year}</span>
+                    <span class="hero-duration">${post.duration}</span>
+                </div>
+                <p class="hero-description">${post.description || 'No description available.'}</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M8 5v14l11-7z" fill="white"/>
+                        </svg>
+                        Play Now
+                    </button>
+                    <button class="btn btn-secondary">More Info</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `).join('')}
+</div>`;
+            }
+
+            updateHTMLPreview() {
+                const editor = document.getElementById('html-editor');
+                const preview = document.getElementById('html-preview-content');
+                
+                // Simple preview - replace template variables
+                let html = editor.value;
+                preview.innerHTML = html;
+            }
+
+            validateHTML() {
+                const editor = document.getElementById('html-editor');
+                try {
+                    // Basic HTML validation
+                    const temp = document.createElement('div');
+                    temp.innerHTML = editor.value;
+                    
+                    if (temp.innerHTML !== editor.value) {
+                        throw new Error('Invalid HTML structure');
+                    }
+                    
+                    this.showNotification('HTML is valid!', 'success');
+                } catch (error) {
+                    this.showNotification('HTML validation error: ' + error.message, 'error');
+                }
+            }
+
+            applyHTML() {
+                const editor = document.getElementById('html-editor');
+                
+                // Save custom HTML to localStorage
+                localStorage.setItem('quravel-custom-slideshow', editor.value);
+                
+                this.showNotification('Custom HTML applied!', 'success');
+                this.toggleComposeMode();
+            }
+
+            resetHTML() {
+                if (confirm('Reset to default HTML template?')) {
+                    document.getElementById('html-editor').value = this.generateHTMLTemplate();
+                    this.updateHTMLPreview();
+                    this.showNotification('HTML reset to template', 'info');
+                }
+            }
+
+            // =============================================================================
+            // ADD NEW POST MODAL
+            // =============================================================================
+            openAddPostModal() {
+                document.getElementById('addPostModal').style.display = 'block';
+            }
+
+            closeAddPostModal() {
+                document.getElementById('addPostModal').style.display = 'none';
+                document.getElementById('addPostForm').reset();
+            }
+
+            // =============================================================================
+            // EVENT LISTENERS SETUP
+            // =============================================================================
+            setupEventListeners() {
+                // Main buttons
+                document.getElementById('previewSlideshowBtn').addEventListener('click', () => this.previewSlideshow());
+                document.getElementById('saveSlideshowBtn').addEventListener('click', () => this.saveSlideshow());
+                document.getElementById('addNewPostBtn').addEventListener('click', () => this.openAddPostModal());
+                
+                // Filter controls
+                document.getElementById('post-search').addEventListener('input', () => this.filterPosts());
+                document.getElementById('type-filter').addEventListener('change', () => this.filterPosts());
+                document.getElementById('sort-filter').addEventListener('change', () => this.filterPosts());
+                
+                // Settings controls
+                document.getElementById('autoplay-enabled').addEventListener('change', (e) => {
+                    this.slideshowSettings.autoplayEnabled = e.target.checked;
+                });
+                document.getElementById('slide-interval').addEventListener('change', (e) => {
+                    this.slideshowSettings.slideInterval = parseInt(e.target.value);
+                });
+                document.getElementById('max-slides').addEventListener('change', (e) => {
+                    this.slideshowSettings.maxSlides = parseInt(e.target.value);
+                });
+                document.getElementById('transition-effect').addEventListener('change', (e) => {
+                    this.slideshowSettings.transitionEffect = e.target.value;
+                });
+                
+                // HTML Compose buttons
+                document.getElementById('toggleComposeBtn').addEventListener('click', () => this.toggleComposeMode());
+                document.getElementById('validateHTMLBtn').addEventListener('click', () => this.validateHTML());
+                document.getElementById('previewHTMLBtn').addEventListener('click', () => {
+                    this.updateHTMLPreview();
+                    this.switchComposerTab('preview');
+                });
+                document.getElementById('applyHTMLBtn').addEventListener('click', () => this.applyHTML());
+                document.getElementById('resetHTMLBtn').addEventListener('click', () => this.resetHTML());
+                
+                // Tab switching
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const tab = e.target.dataset.tab;
+                        this.switchComposerTab(tab);
+                    });
+                });
+                
+                // Add post form
+                document.getElementById('addPostForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const formData = {
+                        title: document.getElementById('post-title').value,
+                        type: document.getElementById('post-type').value,
+                        year: document.getElementById('post-year').value,
+                        rating: document.getElementById('post-rating').value,
+                        duration: document.getElementById('post-duration').value,
+                        popularity: document.getElementById('post-popularity').value,
+                        description: document.getElementById('post-description').value,
+                        imageUrl: document.getElementById('post-image-url').value,
+                        backdropUrl: document.getElementById('post-backdrop-url').value
+                    };
+                    
+                    if (this.addNewPost(formData)) {
+                        this.closeAddPostModal();
+                        this.showNotification('New post added successfully!', 'success');
+                    }
+                });
+                
+                document.getElementById('cancelAddPost').addEventListener('click', () => this.closeAddPostModal());
+                document.getElementById('closeAddPostModal').addEventListener('click', () => this.closeAddPostModal());
+                
+                // Close preview modal
+                document.getElementById('closePreviewModal').addEventListener('click', () => this.closeSlideshowPreview());
+                
+                // Close modals when clicking outside
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            modal.style.display = 'none';
+                        }
+                    });
+                });
+                
+                // Close modals with Escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        document.querySelectorAll('.modal').forEach(modal => {
+                            modal.style.display = 'none';
+                        });
+                    }
+                });
+                
+                // Delegated event listeners for dynamic content
+                document.addEventListener('click', (e) => {
+                    // Add to slideshow buttons
+                    if (e.target.closest('.add-btn')) {
+                        const postId = e.target.closest('.add-btn').dataset.id;
+                        this.addToSlideshow(postId);
+                    }
+                    
+                    // Remove from slideshow buttons
+                    if (e.target.closest('.remove-btn')) {
+                        const postId = e.target.closest('.remove-btn').dataset.id;
+                        this.removeFromSlideshow(postId);
+                    }
+                    
+                    // Move up buttons
+                    if (e.target.closest('.btn-up')) {
+                        const index = parseInt(e.target.closest('.btn-up').dataset.index);
+                        this.moveSlideUp(index);
+                    }
+                    
+                    // Move down buttons
+                    if (e.target.closest('.btn-down')) {
+                        const index = parseInt(e.target.closest('.btn-down').dataset.index);
+                        this.moveSlideDown(index);
+                    }
+                });
+            }
+
+            // =============================================================================
+            // NOTIFICATION SYSTEM
+            // =============================================================================
+            showNotification(message, type = 'info') {
+                // Remove existing notifications
+                document.querySelectorAll('.notification').forEach(n => n.remove());
+                
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.innerHTML = `
+                    <span>${message}</span>
+                    <button>&times;</button>
+                `;
+                
+                // Add type-specific styling
+                switch(type) {
+                    case 'success':
+                        notification.style.background = 'linear-gradient(135deg, #22C55E, #16A34A)';
+                        break;
+                    case 'error':
+                        notification.style.background = 'linear-gradient(135deg, #EF4444, #DC2626)';
+                        break;
+                    case 'warning':
+                        notification.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
+                        break;
+                    default:
+                        notification.style.background = 'linear-gradient(135deg, #3B82F6, #2563EB)';
+                }
+                
+                // Close button
+                notification.querySelector('button').addEventListener('click', () => {
+                    notification.remove();
+                });
+                
+                document.body.appendChild(notification);
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 5000);
+            }
+        }
+
+        // =============================================================================
+        // INITIALIZE APPLICATION
+        // =============================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize the slideshow manager
+            window.slideshowManager = new SlideshowManager();
+        });
+    </script>
+</body>
+</html>

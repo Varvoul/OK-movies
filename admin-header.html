@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quravel - Header & Menu Management</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            color: #e8eaf6;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Color System */
+        :root {
+            --primary-500: #415b82;
+            --primary-700: #2d4566;
+            --bg-page: #252433;
+            --bg-surface-1: #2D2F40;
+            --bg-surface-2: #3A3C52;
+            --text-primary: #E8E8F0;
+            --text-secondary: #B8B8C8;
+            --text-disabled: #8E8E9E;
+            --border-standard: #3D3F4A;
+            --border-focus: #415b82;
+            --badge-4k: #A162F7;
+            --badge-hd: #4D8AF0;
+            --interactive-500: #22D3EE;
+            --semantic-success: #22C55E;
+            --semantic-error: #EF4444;
+            --semantic-warning: #F59E0B;
+            
+            /* Spacing */
+            --spacing-xs: 8px;
+            --spacing-sm: 12px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-xxl: 64px;
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            
+            /* Container */
+            --container-max-width: 1400px;
+            --container-padding: 2rem;
+        }
+
+        /* Admin Container */
+        .admin-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Admin Header */
+        .admin-header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(65, 91, 130, 0.2);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .admin-nav .logo img {
+            height: 40px;
+            max-width: 150px;
+        }
+
+        /* Scrollable Navigation */
+        .admin-nav-links-wrapper {
+            position: relative;
+            flex: 1;
+            margin: 0 2rem;
+            overflow: hidden;
+        }
+
+        .admin-nav-links {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 0.5rem 0;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(65, 91, 130, 0.5) transparent;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .admin-nav-links::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .admin-nav-links::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .admin-nav-links::-webkit-scrollbar-thumb {
+            background: rgba(65, 91, 130, 0.5);
+            border-radius: 2px;
+        }
+
+        .admin-nav-links::-webkit-scrollbar-thumb:hover {
+            background: rgba(65, 91, 130, 0.7);
+        }
+
+        /* Scroll buttons */
+        .nav-scroll-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(65, 91, 130, 0.3);
+            color: var(--text-primary);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            opacity: 0.7;
+        }
+
+        .nav-scroll-btn:hover {
+            opacity: 1;
+            background: rgba(65, 91, 130, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-scroll-btn.left {
+            left: 0;
+        }
+
+        .nav-scroll-btn.right {
+            right: 0;
+        }
+
+        .nav-scroll-btn.hidden {
+            display: none;
+        }
+
+        .admin-nav-link {
+            color: #a5b4fc;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-width: max-content;
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            color: #f5f3ff;
+            background: rgba(65, 91, 130, 0.1);
+        }
+
+        /* Admin Main Content */
+        .admin-main {
+            flex: 1;
+            padding: var(--container-padding);
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .admin-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .admin-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .admin-header-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #415b82, #4a6fa5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: #415b82;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(65, 91, 130, 0.3);
+            background: #2d4566;
+        }
+
+        .btn-secondary {
+            background: rgba(65, 91, 130, 0.1);
+            color: #8b5cf6;
+            border: 1px solid rgba(65, 91, 130, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(65, 91, 130, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        /* Settings Sections */
+        .settings-section {
+            margin-bottom: 2rem;
+        }
+
+        .settings-section h2 {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .setting-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(65, 91, 130, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .setting-card h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .color-input-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .color-input-group input[type="text"] {
+            flex: 1;
+            padding: 0.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(65, 91, 130, 0.3);
+            border-radius: 6px;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .color-input-group input[type="text"]:focus {
+            outline: none;
+            border-color: #415b82;
+            box-shadow: 0 0 0 2px rgba(65, 91, 130, 0.2);
+        }
+
+        .color-input-group input[type="color"] {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: none;
+        }
+
+        .setting-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .setting-card input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(65, 91, 130, 0.3);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .setting-card input[type="text"]:focus {
+            outline: none;
+            border-color: #415b82;
+            box-shadow: 0 0 0 2px rgba(65, 91, 130, 0.2);
+        }
+
+        /* Menu Management */
+        .menu-management-section {
+            margin-bottom: 2rem;
+        }
+
+        .menu-management-section h2 {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .menu-items-table-container {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(65, 91, 130, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .menu-items-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .menu-items-table th {
+            background: rgba(15, 23, 42, 0.8);
+            color: #ffffff;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(65, 91, 130, 0.2);
+        }
+
+        .menu-items-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(65, 91, 130, 0.1);
+            color: #e8eaf6;
+        }
+
+        .menu-items-table tr:hover {
+            background: rgba(65, 91, 130, 0.05);
+        }
+
+        .menu-items-table code {
+            background: rgba(15, 23, 42, 0.8);
+            color: #22D3EE;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-badge.active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .status-badge.inactive {
+            background: rgba(156, 163, 175, 0.2);
+            color: #9CA3AF;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: #9CA3AF;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-icon:hover {
+            background: rgba(65, 91, 130, 0.2);
+            color: #415b82;
+        }
+
+        .btn-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Preview Section */
+        .preview-section {
+            margin-bottom: 2rem;
+        }
+
+        .preview-section h2 {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-preview {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(65, 91, 130, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid rgba(65, 91, 130, 0.2);
+        }
+
+        .hamburger-menu-preview {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hamburger-menu-preview span {
+            width: 20px;
+            height: 2px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+            border-radius: 1px;
+        }
+
+        .logo-preview {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo-preview img {
+            height: 40px;
+            width: auto;
+            max-width: 160px;
+            object-fit: contain;
+        }
+
+        .search-btn-preview {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .search-btn-preview svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .preview-menu {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .preview-menu-content {
+            padding: 1.5rem;
+        }
+
+        .preview-menu-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-menu-header h2 {
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .preview-menu-nav {
+            margin-top: 1rem;
+        }
+
+        .preview-menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .preview-menu-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-menu-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            color: inherit;
+        }
+
+        .preview-menu-item:hover {
+            background: rgba(34, 211, 238, 0.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border: 1px solid rgba(65, 91, 130, 0.3);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-large {
+            max-width: 1000px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(65, 91, 130, 0.2);
+        }
+
+        .modal-header h2 {
+            color: #f5f3ff;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            color: #a5b4fc;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: #f5f3ff;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(65, 91, 130, 0.3);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #415b82;
+            box-shadow: 0 0 0 2px rgba(65, 91, 130, 0.2);
+        }
+
+        .form-group small {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .form-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(65, 91, 130, 0.2);
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: #ffffff;
+            font-weight: 500;
+            z-index: 10000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: rgba(34, 197, 94, 0.9);
+            border-left: 4px solid #22C55E;
+        }
+
+        .notification.error {
+            background: rgba(239, 68, 68, 0.9);
+            border-left: 4px solid #EF4444;
+        }
+
+        .notification.info {
+            background: rgba(59, 130, 246, 0.9);
+            border-left: 4px solid #3B82F6;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            margin-left: auto;
+            padding: 0;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .notification-close:hover {
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .admin-main {
+                padding: 1.5rem;
+            }
+            
+            .admin-nav-links-wrapper {
+                margin: 0 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --container-padding: 1rem;
+            }
+            
+            .admin-header {
+                padding: 1rem;
+            }
+            
+            .admin-nav {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .admin-nav-links-wrapper {
+                margin: 0;
+                order: 3;
+            }
+            
+            .admin-nav-links {
+                padding: 0.5rem;
+            }
+            
+            .nav-scroll-btn {
+                display: none !important;
+            }
+            
+            .admin-header-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .admin-header-section h1 {
+                font-size: 2rem;
+            }
+            
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-items-table {
+                font-size: 0.85rem;
+            }
+            
+            .menu-items-table th,
+            .menu-items-table td {
+                padding: 0.75rem 0.5rem;
+            }
+            
+            .preview-header {
+                padding: 1rem;
+            }
+            
+            .preview-menu-content {
+                padding: 1rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .admin-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .admin-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .action-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .modal-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #2D2F40 25%, #3A3C52 50%, #2D2F40 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid #415b82;
+            outline-offset: 2px;
+        }
+
+        /* Form validation styles */
+        input:invalid {
+            border-color: #ef4444;
+        }
+
+        input:valid {
+            border-color: #22c55e;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #a5b4fc;
+            font-style: italic;
+        }
+
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <div class="admin-nav">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="Quravel Logo">
+                </a>
+                <div class="admin-nav-links-wrapper">
+                    <button class="nav-scroll-btn left hidden" onclick="scrollNavLeft()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    <nav class="admin-nav-links">
+                        <a href="admin.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 6px;">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                                <path d="M9 22V12h6v10"/>
+                            </svg>
+                            Dashboard
+                        </a>
+                        <a href="admin-status.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 6px;">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                            Status
+                        </a>
+                        <a href="admin-header.html" class="admin-nav-link active">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 6px;">
+                                <path d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                            Header and Menu
+                        </a>
+                        <a href="admin-homepage.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 6px;">
+                                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            Homepage
+                        </a>
+                        <a href="admin-slideshow.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 6px;">
+                                <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            Slideshow
+                        </a>
+                        <a href="admin-posts.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 6px;">
+                                <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                            </svg>
+                            Posts
+                        </a>
+                        <a href="admin-streaming.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 6px;">
+                                <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                            Streaming Page
+                        </a>
+                        <a href="admin-footer.html" class="admin-nav-link">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 6px;">
+                                <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                            Footer and Settings
+                        </a>
+                    </nav>
+                    <button class="nav-scroll-btn right" onclick="scrollNavRight()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <div class="admin-content">
+                <div class="admin-header-section">
+                    <h1>Header & Menu Management</h1>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" onclick="showAddMenuItemModal()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                                <path d="M12 4v16m8-8H4"/>
+                            </svg>
+                            Add Menu Item
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportHeaderConfig()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                            </svg>
+                            Export Config
+                        </button>
+                        <button class="btn btn-secondary" onclick="importHeaderConfig()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                            </svg>
+                            Import Config
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Header Settings -->
+                <div class="settings-section">
+                    <h2>Header Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <h3>Background Color</h3>
+                            <div class="color-input-group">
+                                <input type="text" id="header-bg-color" value="#1c1f24" placeholder="#1c1f24" maxlength="7" oninput="updateHeaderBgColor(this.value)">
+                                <input type="color" id="header-bg-color-picker" value="#1c1f24" onchange="updateHeaderBgColor(this.value)">
+                            </div>
+                            <p class="setting-description">Menu background color</p>
+                        </div>
+                        
+                        <div class="setting-card">
+                            <h3>Text Color</h3>
+                            <div class="color-input-group">
+                                <input type="text" id="header-text-color" value="#ffffff" placeholder="#ffffff" maxlength="7" oninput="updateHeaderTextColor(this.value)">
+                                <input type="color" id="header-text-color-picker" value="#ffffff" onchange="updateHeaderTextColor(this.value)">
+                            </div>
+                            <p class="setting-description">Menu text color</p>
+                        </div>
+                        
+                        <div class="setting-card">
+                            <h3>Active Color</h3>
+                            <div class="color-input-group">
+                                <input type="text" id="header-active-color" value="#22D3EE" placeholder="#22D3EE" maxlength="7" oninput="updateHeaderActiveColor(this.value)">
+                                <input type="color" id="header-active-color-picker" value="#22D3EE" onchange="updateHeaderActiveColor(this.value)">
+                            </div>
+                            <p class="setting-description">Active menu item color</p>
+                        </div>
+                        
+                        <div class="setting-card">
+                            <h3>Logo URL</h3>
+                            <input type="text" id="logo-url" value="images/logo.png" placeholder="images/logo.png" oninput="updateLogoUrl(this.value)">
+                            <p class="setting-description">Path to logo image</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Items Management -->
+                <div class="menu-management-section">
+                    <h2>Menu Items</h2>
+                    <div class="menu-items-table-container">
+                        <table class="menu-items-table" id="menuItemsTable">
+                            <thead>
+                                <tr>
+                                    <th>Menu Text</th>
+                                    <th>Menu ID</th>
+                                    <th>URL</th>
+                                    <th>Active</th>
+                                    <th>Order</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="menuItemsTableBody">
+                                <!-- Menu items will be loaded here -->
+                                <tr class="skeleton">
+                                    <td colspan="6" style="padding: 2rem;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Preview Section -->
+                <div class="preview-section">
+                    <h2>Header Preview</h2>
+                    <div class="header-preview">
+                        <div class="preview-header">
+                            <button class="hamburger-menu-preview">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                            <div class="logo-preview">
+                                <img src="images/logo.png" alt="Quravel Logo" id="previewLogo">
+                            </div>
+                            <button class="search-btn-preview">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"/>
+                                    <path d="m21 21-4.35-4.35"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="preview-menu" id="previewMenu">
+                            <div class="preview-menu-content">
+                                <div class="preview-menu-header">
+                                    <h2>Navigation</h2>
+                                </div>
+                                <nav class="preview-menu-nav">
+                                    <ul class="preview-menu-list" id="previewMenuList">
+                                        <!-- Menu items will be previewed here -->
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Menu Item Modal -->
+    <div class="modal" id="addMenuItemModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="menuItemModalTitle">Add Menu Item</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="menuItemForm">
+                <div class="form-group">
+                    <label for="menuText">Menu Text *</label>
+                    <input type="text" id="menuText" name="menuText" required placeholder="Enter menu text">
+                </div>
+                
+                <div class="form-group">
+                    <label for="menuId">Menu ID *</label>
+                    <input type="text" id="menuId" name="menuId" required placeholder="e.g., home, top-imdb" pattern="[a-z0-9-]+" title="Only lowercase letters, numbers, and hyphens">
+                    <small>Used for data attributes. Only lowercase letters, numbers, and hyphens.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="menuUrl">URL</label>
+                    <input type="text" id="menuUrl" name="menuUrl" placeholder="e.g., #, /top-imdb">
+                </div>
+                
+                <div class="form-group">
+                    <label for="menuOrder">Order</label>
+                    <input type="number" id="menuOrder" name="menuOrder" value="1" min="1">
+                    <small>Display order (1 = first)</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="menuActive">
+                        <input type="checkbox" id="menuActive" name="menuActive" checked>
+                        Set as active by default
+                    </label>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeMenuItemModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Menu Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+
+    <script>
+        // =============================================================================
+        // ADMIN HEADER & MENU MANAGEMENT FUNCTIONS
+        // =============================================================================
+
+        // Menu items data structure
+        let menuItemsData = [
+            {
+                id: 1,
+                text: 'Home',
+                menuId: 'home',
+                url: '#',
+                active: true,
+                order: 1
+            },
+            {
+                id: 2,
+                text: 'Top IMDB',
+                menuId: 'top-imdb',
+                url: '#',
+                active: false,
+                order: 2
+            },
+            {
+                id: 3,
+                text: 'Top Rated',
+                menuId: 'top-rated',
+                url: '#',
+                active: false,
+                order: 3
+            },
+            {
+                id: 4,
+                text: 'Top Anime',
+                menuId: 'top-anime',
+                url: '#',
+                active: false,
+                order: 4
+            }
+        ];
+
+        // Header configuration
+        let headerConfig = {
+            backgroundColor: '#1c1f24',
+            textColor: '#ffffff',
+            activeColor: '#22D3EE',
+            logoUrl: 'images/logo.png'
+        };
+
+        // Current editing item
+        let editingMenuItem = null;
+
+        // =============================================================================
+        // INITIALIZATION
+        // =============================================================================
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize navigation scroll
+            setupNavScroll();
+            
+            // Load data
+            loadMenuItems();
+            loadHeaderConfig();
+            initializeColorPickers();
+            updatePreview();
+            
+            // Setup modal close buttons
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                    editingMenuItem = null;
+                });
+            });
+            
+            // Setup form submission
+            document.getElementById('menuItemForm').addEventListener('submit', saveMenuItem);
+            
+            // Close modal when clicking outside
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                        editingMenuItem = null;
+                    }
+                });
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    const modal = document.getElementById('addMenuItemModal');
+                    if (modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                        editingMenuItem = null;
+                    }
+                }
+            });
+            
+            // Remove skeleton loading
+            setTimeout(() => {
+                const skeleton = document.querySelector('.skeleton');
+                if (skeleton) {
+                    skeleton.style.display = 'none';
+                }
+            }, 500);
+        });
+
+        // =============================================================================
+        // NAVIGATION SCROLL FUNCTIONS
+        // =============================================================================
+
+        // Navigation scroll functionality
+        function setupNavScroll() {
+            const navLinks = document.querySelector('.admin-nav-links');
+            const leftBtn = document.querySelector('.nav-scroll-btn.left');
+            const rightBtn = document.querySelector('.nav-scroll-btn.right');
+            
+            function updateScrollButtons() {
+                if (!navLinks || !leftBtn || !rightBtn) return;
+                
+                const scrollLeft = navLinks.scrollLeft;
+                const scrollWidth = navLinks.scrollWidth;
+                const clientWidth = navLinks.clientWidth;
+                
+                leftBtn.classList.toggle('hidden', scrollLeft === 0);
+                rightBtn.classList.toggle('hidden', scrollLeft + clientWidth >= scrollWidth - 1);
+            }
+            
+            if (navLinks) {
+                navLinks.addEventListener('scroll', updateScrollButtons);
+                window.addEventListener('resize', updateScrollButtons);
+                updateScrollButtons();
+            }
+        }
+
+        function scrollNavLeft() {
+            const navLinks = document.querySelector('.admin-nav-links');
+            if (navLinks) {
+                navLinks.scrollBy({ left: -200, behavior: 'smooth' });
+            }
+        }
+
+        function scrollNavRight() {
+            const navLinks = document.querySelector('.admin-nav-links');
+            if (navLinks) {
+                navLinks.scrollBy({ left: 200, behavior: 'smooth' });
+            }
+        }
+
+        // =============================================================================
+        // DATA MANAGEMENT FUNCTIONS
+        // =============================================================================
+
+        // Load menu items from localStorage
+        function loadMenuItems() {
+            try {
+                const savedItems = localStorage.getItem('quravel_menu_items');
+                if (savedItems) {
+                    const parsed = JSON.parse(savedItems);
+                    if (Array.isArray(parsed)) {
+                        menuItemsData = parsed;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading menu items:', error);
+                // Keep default data
+            }
+            
+            renderMenuItemsTable();
+            updateMenuItemsCount();
+        }
+
+        // Save menu items to localStorage
+        function saveMenuItems() {
+            try {
+                localStorage.setItem('quravel_menu_items', JSON.stringify(menuItemsData));
+            } catch (error) {
+                console.error('Error saving menu items:', error);
+                showNotification('Error saving menu items', 'error');
+            }
+        }
+
+        // Load header configuration
+        function loadHeaderConfig() {
+            try {
+                const saved = localStorage.getItem('quravel_header_config');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    headerConfig = { ...headerConfig, ...parsed };
+                    
+                    // Update form values
+                    document.getElementById('header-bg-color').value = headerConfig.backgroundColor;
+                    document.getElementById('header-bg-color-picker').value = headerConfig.backgroundColor;
+                    document.getElementById('header-text-color').value = headerConfig.textColor;
+                    document.getElementById('header-text-color-picker').value = headerConfig.textColor;
+                    document.getElementById('header-active-color').value = headerConfig.activeColor;
+                    document.getElementById('header-active-color-picker').value = headerConfig.activeColor;
+                    document.getElementById('logo-url').value = headerConfig.logoUrl;
+                }
+            } catch (error) {
+                console.error('Error loading header config:', error);
+                // Keep default config
+            }
+        }
+
+        // Save header configuration
+        function saveHeaderConfig() {
+            try {
+                localStorage.setItem('quravel_header_config', JSON.stringify(headerConfig));
+            } catch (error) {
+                console.error('Error saving header config:', error);
+                showNotification('Error saving configuration', 'error');
+            }
+        }
+
+        // Update menu items count
+        function updateMenuItemsCount() {
+            const countElement = document.getElementById('menu-items');
+            if (countElement) {
+                countElement.textContent = menuItemsData.length;
+            }
+        }
+
+        // =============================================================================
+        // MENU ITEMS TABLE FUNCTIONS
+        // =============================================================================
+
+        // Render menu items table
+        function renderMenuItemsTable() {
+            const tbody = document.getElementById('menuItemsTableBody');
+            if (!tbody) return;
+
+            // Sort by order
+            const sortedItems = [...menuItemsData].sort((a, b) => a.order - b.order);
+            
+            if (sortedItems.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            No menu items found. Add your first menu item!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = sortedItems.map(item => `
+                <tr>
+                    <td>${escapeHtml(item.text)}</td>
+                    <td><code>${escapeHtml(item.menuId)}</code></td>
+                    <td>${escapeHtml(item.url) || '-'}</td>
+                    <td>${item.active ? '<span class="status-badge active">Active</span>' : '<span class="status-badge inactive">Inactive</span>'}</td>
+                    <td>${item.order}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick="editMenuItem(${item.id})" title="Edit">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon" onclick="deleteMenuItem(${item.id})" title="Delete">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3,6 5,6 21,6"/>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                    <line x1="10" y1="11" x2="10" y2="17"/>
+                                    <line x1="14" y1="11" x2="14" y2="17"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // =============================================================================
+        // MODAL FUNCTIONS
+        // =============================================================================
+
+        // Show add menu item modal
+        function showAddMenuItemModal() {
+            editingMenuItem = null;
+            document.getElementById('menuItemModalTitle').textContent = 'Add Menu Item';
+            document.getElementById('menuItemForm').reset();
+            document.getElementById('menuActive').checked = true;
+            document.getElementById('menuOrder').value = menuItemsData.length > 0 ? 
+                Math.max(...menuItemsData.map(item => item.order)) + 1 : 1;
+            document.getElementById('addMenuItemModal').style.display = 'block';
+            
+            // Focus on first input
+            setTimeout(() => {
+                document.getElementById('menuText').focus();
+            }, 100);
+        }
+
+        // Edit menu item
+        function editMenuItem(id) {
+            const item = menuItemsData.find(item => item.id === id);
+            if (!item) {
+                showNotification('Menu item not found', 'error');
+                return;
+            }
+
+            editingMenuItem = item;
+            document.getElementById('menuItemModalTitle').textContent = 'Edit Menu Item';
+            document.getElementById('menuText').value = item.text;
+            document.getElementById('menuId').value = item.menuId;
+            document.getElementById('menuUrl').value = item.url || '';
+            document.getElementById('menuOrder').value = item.order;
+            document.getElementById('menuActive').checked = item.active;
+            document.getElementById('addMenuItemModal').style.display = 'block';
+            
+            // Focus on first input
+            setTimeout(() => {
+                document.getElementById('menuText').focus();
+            }, 100);
+        }
+
+        // Close menu item modal
+        function closeMenuItemModal() {
+            document.getElementById('addMenuItemModal').style.display = 'none';
+            editingMenuItem = null;
+        }
+
+        // Save menu item
+        function saveMenuItem(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const menuText = formData.get('menuText').trim();
+            const menuId = formData.get('menuId').trim();
+            const menuUrl = formData.get('menuUrl').trim();
+            const menuOrder = parseInt(formData.get('menuOrder')) || 1;
+            const menuActive = formData.get('menuActive') === 'on';
+
+            // Validation
+            if (!menuText) {
+                showNotification('Menu text is required', 'error');
+                document.getElementById('menuText').focus();
+                return;
+            }
+            
+            if (!menuId) {
+                showNotification('Menu ID is required', 'error');
+                document.getElementById('menuId').focus();
+                return;
+            }
+            
+            if (!menuId.match(/^[a-z0-9-]+$/)) {
+                showNotification('Menu ID must contain only lowercase letters, numbers, and hyphens', 'error');
+                document.getElementById('menuId').focus();
+                return;
+            }
+            
+            // Check for duplicate menu ID (excluding current editing item)
+            const existingItem = menuItemsData.find(item => 
+                item.menuId === menuId && 
+                (!editingMenuItem || item.id !== editingMenuItem.id)
+            );
+            
+            if (existingItem) {
+                showNotification('Menu ID already exists', 'error');
+                document.getElementById('menuId').focus();
+                return;
+            }
+
+            const menuItem = {
+                text: menuText,
+                menuId: menuId,
+                url: menuUrl || '#',
+                order: menuOrder,
+                active: menuActive
+            };
+
+            if (editingMenuItem) {
+                // Update existing item
+                const index = menuItemsData.findIndex(item => item.id === editingMenuItem.id);
+                if (index !== -1) {
+                    menuItem.id = editingMenuItem.id;
+                    menuItemsData[index] = menuItem;
+                    showNotification('Menu item updated successfully!', 'success');
+                }
+            } else {
+                // Add new item
+                const newId = menuItemsData.length > 0 ? 
+                    Math.max(...menuItemsData.map(item => item.id)) + 1 : 1;
+                menuItem.id = newId;
+                menuItemsData.push(menuItem);
+                showNotification('Menu item added successfully!', 'success');
+            }
+
+            saveMenuItems();
+            renderMenuItemsTable();
+            updatePreview();
+            updateMenuItemsCount();
+            closeMenuItemModal();
+        }
+
+        // Delete menu item
+        function deleteMenuItem(id) {
+            if (confirm('Are you sure you want to delete this menu item?')) {
+                const initialLength = menuItemsData.length;
+                menuItemsData = menuItemsData.filter(item => item.id !== id);
+                
+                if (menuItemsData.length < initialLength) {
+                    saveMenuItems();
+                    renderMenuItemsTable();
+                    updatePreview();
+                    updateMenuItemsCount();
+                    showNotification('Menu item deleted successfully!', 'success');
+                }
+            }
+        }
+
+        // =============================================================================
+        // COLOR PICKER FUNCTIONS
+        // =============================================================================
+
+        // Initialize color pickers
+        function initializeColorPickers() {
+            // Color input event listeners
+            const bgColorInput = document.getElementById('header-bg-color');
+            const textColorInput = document.getElementById('header-text-color');
+            const activeColorInput = document.getElementById('header-active-color');
+            const logoUrlInput = document.getElementById('logo-url');
+            
+            if (bgColorInput) {
+                bgColorInput.addEventListener('input', function() {
+                    if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                        updateHeaderBgColor(this.value);
+                    }
+                });
+            }
+            
+            if (textColorInput) {
+                textColorInput.addEventListener('input', function() {
+                    if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                        updateHeaderTextColor(this.value);
+                    }
+                });
+            }
+            
+            if (activeColorInput) {
+                activeColorInput.addEventListener('input', function() {
+                    if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                        updateHeaderActiveColor(this.value);
+                    }
+                });
+            }
+            
+            if (logoUrlInput) {
+                logoUrlInput.addEventListener('change', function() {
+                    updateLogoUrl(this.value);
+                });
+                logoUrlInput.addEventListener('blur', function() {
+                    updateLogoUrl(this.value);
+                });
+            }
+        }
+
+        // Update header background color
+        function updateHeaderBgColor(color) {
+            if (!color.match(/^#[0-9A-F]{6}$/i)) return;
+            
+            headerConfig.backgroundColor = color;
+            document.getElementById('header-bg-color').value = color;
+            document.getElementById('header-bg-color-picker').value = color;
+            updatePreview();
+            saveHeaderConfig();
+            showNotification('Background color updated', 'success');
+        }
+
+        // Update header text color
+        function updateHeaderTextColor(color) {
+            if (!color.match(/^#[0-9A-F]{6}$/i)) return;
+            
+            headerConfig.textColor = color;
+            document.getElementById('header-text-color').value = color;
+            document.getElementById('header-text-color-picker').value = color;
+            updatePreview();
+            saveHeaderConfig();
+            showNotification('Text color updated', 'success');
+        }
+
+        // Update header active color
+        function updateHeaderActiveColor(color) {
+            if (!color.match(/^#[0-9A-F]{6}$/i)) return;
+            
+            headerConfig.activeColor = color;
+            document.getElementById('header-active-color').value = color;
+            document.getElementById('header-active-color-picker').value = color;
+            updatePreview();
+            saveHeaderConfig();
+            showNotification('Active color updated', 'success');
+        }
+
+        // Update logo URL
+        function updateLogoUrl(url) {
+            headerConfig.logoUrl = url;
+            document.getElementById('logo-url').value = url;
+            updatePreview();
+            saveHeaderConfig();
+            showNotification('Logo URL updated', 'success');
+        }
+
+        // =============================================================================
+        // PREVIEW FUNCTIONS
+        // =============================================================================
+
+        // Update preview
+        function updatePreview() {
+            const previewMenuList = document.getElementById('previewMenuList');
+            const previewLogo = document.getElementById('previewLogo');
+            const previewMenu = document.getElementById('previewMenu');
+            
+            if (!previewMenuList || !previewLogo || !previewMenu) return;
+
+            // Update logo
+            previewLogo.src = headerConfig.logoUrl || 'images/logo.png';
+            previewLogo.onerror = function() {
+                this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkxPR088L3RleHQ+PC9zdmc+';
+            };
+
+            // Update menu background
+            previewMenu.style.backgroundColor = headerConfig.backgroundColor;
+
+            // Sort by order and create menu items
+            const sortedItems = [...menuItemsData].sort((a, b) => a.order - b.order);
+            
+            previewMenuList.innerHTML = sortedItems.map(item => {
+                const icon = getIconForMenu(item.menuId);
+                const color = item.active ? headerConfig.activeColor : headerConfig.textColor;
+                
+                return `
+                    <li>
+                        <a href="${escapeHtml(item.url)}" class="preview-menu-item" style="color: ${color};" data-menu="${escapeHtml(item.menuId)}">
+                            ${icon}
+                            ${escapeHtml(item.text)}
+                        </a>
+                    </li>
+                `;
+            }).join('');
+        }
+
+        // Get icon for menu item
+        function getIconForMenu(menuId) {
+            const icons = {
+                'home': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: middle;"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>',
+                'top-imdb': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: middle;"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>',
+                'top-rated': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: middle;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
+                'top-anime': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: middle;"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M12 6v6l4 2"/></svg>',
+                'movies': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: middle;"><path d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>',
+                'tv-shows': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: middle;"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M17 2l-5 5-5-5"/></svg>',
+                'anime': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: middle;"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M12 6v6l4 2"/></svg>'
+            };
+            
+            return icons[menuId] || '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: middle;"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>';
+        }
+
+        // =============================================================================
+        // IMPORT/EXPORT FUNCTIONS
+        // =============================================================================
+
+        // Export header configuration
+        function exportHeaderConfig() {
+            const config = {
+                menuItems: menuItemsData,
+                headerConfig: headerConfig,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const dataStr = JSON.stringify(config, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `quravel-header-config-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            URL.revokeObjectURL(url);
+            showNotification('Header configuration exported!', 'success');
+        }
+
+        // Import header configuration
+        function importHeaderConfig() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const config = JSON.parse(e.target.result);
+                        
+                        if (!config.menuItems || !config.headerConfig) {
+                            throw new Error('Invalid configuration file');
+                        }
+                        
+                        // Validate menu items
+                        if (!Array.isArray(config.menuItems)) {
+                            throw new Error('Invalid menu items format');
+                        }
+                        
+                        // Validate header config
+                        const requiredProps = ['backgroundColor', 'textColor', 'activeColor', 'logoUrl'];
+                        for (const prop of requiredProps) {
+                            if (typeof config.headerConfig[prop] !== 'string') {
+                                throw new Error(`Invalid header config: missing ${prop}`);
+                            }
+                        }
+                        
+                        // Update data
+                        menuItemsData = config.menuItems;
+                        headerConfig = { ...headerConfig, ...config.headerConfig };
+                        
+                        // Save and update UI
+                        saveMenuItems();
+                        saveHeaderConfig();
+                        loadHeaderConfig();
+                        renderMenuItemsTable();
+                        updatePreview();
+                        updateMenuItemsCount();
+                        
+                        showNotification('Header configuration imported successfully!', 'success');
+                    } catch (error) {
+                        console.error('Import error:', error);
+                        showNotification('Error importing configuration: ' + error.message, 'error');
+                    }
+                };
+                
+                reader.onerror = function() {
+                    showNotification('Error reading file', 'error');
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+
+        // =============================================================================
+        // UTILITY FUNCTIONS
+        // =============================================================================
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            if (!container) return;
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <span>${escapeHtml(message)}</span>
+                <button class="notification-close">&times;</button>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Close button
+            notification.querySelector('.notification-close').addEventListener('click', () => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            });
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                if (notification.classList.contains('show')) {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Throttle function
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            };
+        }
+
+        // =============================================================================
+        // MAIN.JS FUNCTIONALITY (Adapted for Admin)
+        // =============================================================================
+
+        // Utility functions from main.js
+        function optimizeImages() {
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src || img.src;
+                            img.classList.remove('lazy');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+
+                images.forEach(img => imageObserver.observe(img));
+            }
+        }
+
+        // Initialize image optimization
+        document.addEventListener('DOMContentLoaded', optimizeImages);
+    </script>
+</body>
+</html>

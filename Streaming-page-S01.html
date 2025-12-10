@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quravel - Anime Streaming Platform</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0A101C;
+            color: #ffffff;
+            line-height: 1.6;
+            padding-top: 70px;
+        }
+
+        /* Midnight Violet Shift Color */
+        :root {
+            --midnight-violet: #202024;
+            --midnight-violet-light: #2d2d33;
+            --midnight-violet-dark: #17171a;
+            --primary-accent: #4ecdc4;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d1b69 100%);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Video Player Section - Centered */
+        .video-section {
+            background: #1a1a1a;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 768px) {
+            .video-section {
+                flex-direction: row;
+                min-height: 500px;
+            }
+        }
+
+        /* Centered video container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            background: #000;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        #main-video {
+            width: 100%;
+            height: 100%;
+            max-height: 70vh;
+            background: #000;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Centered video controls */
+        .video-controls {
+            padding: 20px;
+            background: #1a1a1a;
+            flex: 0 0 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .video-info {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .video-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            color: #cccccc;
+            font-size: 14px;
+            flex-wrap: wrap;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Updated control button colors to Midnight Violet */
+        .control-btn {
+            padding: 12px 24px;
+            background: var(--midnight-violet);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            border: 1px solid #333;
+        }
+
+        .control-btn:hover {
+            background: var(--midnight-violet-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(32, 32, 36, 0.4);
+        }
+
+        .control-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Add to List Container */
+        .add-to-list-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .add-to-list-btn {
+            padding: 12px 24px;
+            background: var(--midnight-violet);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-to-list-btn:hover {
+            background: var(--midnight-violet-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(32, 32, 36, 0.4);
+        }
+
+        .add-to-list-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        /* Dropdown Styles */
+        .dropdown-content {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: var(--midnight-violet-dark);
+            border: 1px solid #333;
+            border-radius: 10px;
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: none;
+            overflow: hidden;
+        }
+
+        .dropdown-content.active {
+            display: block;
+            animation: dropdownSlide 200ms ease-out;
+        }
+
+        @keyframes dropdownSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: #ffffff;
+            border-bottom: 1px solid #333;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: var(--midnight-violet-light);
+        }
+
+        .dropdown-item.active {
+            background: var(--midnight-violet);
+            color: var(--primary-accent);
+        }
+
+        .dropdown-item.remove {
+            color: #ff6b6b;
+        }
+
+        .dropdown-item.remove:hover {
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        .dropdown-item svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        .server-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .server-type {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+        }
+
+        .server-type-title {
+            font-weight: bold;
+            min-width: 40px;
+            color: var(--primary-accent);
+            text-align: right;
+        }
+
+        .server-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .server-btn {
+            padding: 10px 18px;
+            background: var(--midnight-violet);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            border: 1px solid #333;
+        }
+
+        .server-btn.active {
+            background: var(--midnight-violet-light);
+            color: var(--primary-accent);
+            font-weight: 600;
+            border-color: var(--primary-accent);
+        }
+
+        .server-btn:hover {
+            background: var(--midnight-violet-light);
+            transform: translateY(-2px);
+        }
+
+        .server-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .episode-selector {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .episode-selector-title {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--primary-accent);
+            font-size: 18px;
+        }
+
+        .episode-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 10px;
+            background: #0f0f0f;
+            margin: 0 auto;
+            max-width: 500px;
+        }
+
+        .episode-item {
+            padding: 10px;
+            margin-bottom: 5px;
+            background: var(--midnight-violet);
+            border: 1px solid #333;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .episode-item:hover {
+            background: var(--midnight-violet-light);
+            transform: translateX(5px);
+        }
+
+        .episode-item.active {
+            background: var(--midnight-violet-light);
+            color: var(--primary-accent);
+            font-weight: 600;
+            border-color: var(--primary-accent);
+        }
+
+        .current-episode-message {
+            text-align: center;
+            padding: 10px;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 10px;
+            margin-top: 10px;
+            font-style: italic;
+            color: var(--primary-accent);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        /* Video error message */
+        .video-error {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+            display: none;
+            z-index: 100;
+            max-width: 80%;
+        }
+
+        .video-error.show {
+            display: block;
+        }
+
+        .video-error h3 {
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+
+        .video-error p {
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .retry-btn {
+            padding: 10px 20px;
+            background: var(--midnight-violet);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .retry-btn:hover {
+            background: var(--midnight-violet-light);
+        }
+
+        /* Anime Sections */
+        .section {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .view-all {
+            color: var(--primary-accent);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .anime-card {
+            background: var(--midnight-violet);
+            border: 1px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            border-color: var(--primary-accent);
+        }
+
+        .anime-poster {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .anime-info {
+            padding: 15px;
+        }
+
+        .anime-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .anime-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #cccccc;
+            font-size: 12px;
+        }
+
+        .episode-badge {
+            background: var(--primary-accent);
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--midnight-violet);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            font-weight: 600;
+            max-width: 300px;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-color: var(--primary-accent);
+        }
+
+        .toast svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        /* Video loading overlay */
+        .video-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary-accent);
+            font-size: 18px;
+            z-index: 100;
+        }
+
+        .video-loading.hidden {
+            display: none;
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-accent);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 767px) {
+            .video-section {
+                flex-direction: column;
+                margin: 0 10px 30px;
+            }
+            
+            .video-container {
+                min-height: 300px;
+            }
+            
+            .video-controls {
+                flex: 1;
+                padding: 15px;
+            }
+            
+            #main-video {
+                max-height: 40vh;
+            }
+            
+            .anime-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                padding: 0 10px;
+            }
+            
+            .server-buttons {
+                gap: 5px;
+            }
+            
+            .server-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .control-btn, .add-to-list-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .logo-img {
+                height: 45px;
+            }
+            
+            .header {
+                padding: 15px 0;
+            }
+            
+            body {
+                padding-top: 65px;
+            }
+            
+            .section-title {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+                padding: 0 10px;
+            }
+            
+            .server-type {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+            
+            .server-type-title {
+                min-width: 40px;
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-img {
+                height: 40px;
+            }
+            
+            .video-container {
+                min-height: 250px;
+            }
+            
+            .anime-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .anime-poster {
+                height: 220px;
+            }
+            
+            .server-type {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .server-type-title {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="https://cdn.imgchest.com/files/449aa5626e23.png" alt="Quravel" class="logo-img">
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Video Player Section -->
+            <section class="video-section">
+                <div class="video-container">
+                    <div class="video-loading hidden" id="videoLoading">
+                        Loading video...
+                        <div class="loading-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="video-error" id="videoError">
+                        <h3>Video Playback Error</h3>
+                        <p>Unable to load the video. This could be due to:</p>
+                        <ul style="text-align: left; margin: 10px 0;">
+                            <li>Video format not supported by your browser</li>
+                            <li>Network connectivity issues</li>
+                            <li>Server temporarily unavailable</li>
+                        </ul>
+                        <button class="retry-btn" id="retryBtn">Retry</button>
+                    </div>
+                    
+                    <video id="main-video" controls poster="https://cdn.imgchest.com/files/837e9f15d946.jpeg">
+                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="video-controls">
+                    <div class="video-info">
+                        <h2 class="video-title" id="currentVideoTitle">Secret of the silent witch - Episode 1</h2>
+                        <div class="video-meta">
+                            <span>TV Series</span>
+                            <span>24m</span>
+                            <span>HD</span>
+                            <span>★ 8.2</span>
+                        </div>
+                    </div>
+                    
+                    <div class="server-selector">
+                        <!-- Raw Server -->
+                        <div class="server-type">
+                            <span class="server-type-title">Raw:</span>
+                            <div class="server-buttons">
+                                <button class="server-btn" data-type="raw" data-server="hd01">
+                                    HD-01
+                                </button>
+                                <button class="server-btn" data-type="raw" data-server="hd02">
+                                    HD-02
+                                </button>
+                                <button class="server-btn" data-type="raw" data-server="hd03">
+                                    HD-03
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Sub Server -->
+                        <div class="server-type">
+                            <span class="server-type-title">Sub:</span>
+                            <div class="server-buttons">
+                                <button class="server-btn active" data-type="sub" data-server="hd01">
+                                    HD-01
+                                </button>
+                                <button class="server-btn" data-type="sub" data-server="hd02">
+                                    HD-02
+                                </button>
+                                <button class="server-btn" data-type="sub" data-server="hd03">
+                                    HD-03
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Dub Server -->
+                        <div class="server-type">
+                            <span class="server-type-title">Dub:</span>
+                            <div class="server-buttons">
+                                <button class="server-btn" data-type="dub" data-server="hd01">
+                                    HD-01
+                                </button>
+                                <button class="server-btn" data-type="dub" data-server="hd02">
+                                    HD-02
+                                </button>
+                                <button class="server-btn" data-type="dub" data-server="hd03">
+                                    HD-03
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="control-buttons">
+                        <button class="control-btn secondary" id="prevBtn">Previous Episode</button>
+                        <button class="control-btn" id="nextBtn">Next Episode</button>
+                        <div class="add-to-list-container">
+                            <button class="add-to-list-btn" id="addToListBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span id="listButtonText">Add to List</span>
+                            </button>
+                            <div class="dropdown-content" id="listDropdown">
+                                <div class="dropdown-item" data-status="planning">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="9" y1="9" x2="15" y2="9"></line>
+                                        <line x1="9" y1="15" x2="15" y2="15"></line>
+                                    </svg>
+                                    Planning to watch
+                                </div>
+                                <div class="dropdown-item" data-status="watching">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    Watching
+                                </div>
+                                <div class="dropdown-item" data-status="completed">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                    Completed
+                                </div>
+                                <div class="dropdown-item" data-status="rewatching">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="23 4 23 10 17 10"></polyline>
+                                        <polyline points="1 20 1 14 7 14"></polyline>
+                                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                                    </svg>
+                                    Re-watching
+                                </div>
+                                <div class="dropdown-item" data-status="dropped">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                                    </svg>
+                                    Dropped
+                                </div>
+                                <div class="dropdown-item remove" data-status="remove">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                    Remove from list
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="episode-selector">
+                        <div class="episode-selector-title">Episodes:</div>
+                        <div class="episode-list" id="episodeList">
+                            <!-- Episode list will be generated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="current-episode-message" id="currentEpisodeMessage">
+                        You are currently watching episode 1 (Sub - HD-01)
+                    </div>
+                </div>
+            </section>
+
+            <!-- You May Like This -->
+            <section class="section">
+                <h2 class="section-title">
+                    You May Like This
+                    <a href="#" class="view-all">View All</a>
+                </h2>
+                <div class="anime-grid" id="popularAnime">
+                    <!-- Popular anime will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Recommended -->
+            <section class="section">
+                <h2 class="section-title">
+                    Recommended
+                    <a href="#" class="view-all">View All</a>
+                </h2>
+                <div class="anime-grid" id="newReleases">
+                    <!-- New releases will be loaded here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Working video streaming URLs for testing
+        const videoSources = {
+            raw: {
+                hd01: [
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4"
+                ],
+                hd02: [
+                    "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/480/big_buck_bunny_480p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/360/big_buck_bunny_360p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/480/big_buck_bunny_480p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/360/big_buck_bunny_360p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_5mb.mp4",
+                    "https://sample-videos.com/video123/mp4/480/big_buck_bunny_480p_5mb.mp4",
+                    "https://sample-videos.com/video123/mp4/360/big_buck_bunny_360p_5mb.mp4",
+                    "https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_5mb.mp4"
+                ],
+                hd03: [
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4"
+                ]
+            },
+            sub: {
+                hd01: [
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4"
+                ],
+                hd02: [
+                    "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/480/big_buck_bunny_480p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/360/big_buck_bunny_360p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/480/big_buck_bunny_480p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/360/big_buck_bunny_360p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_5mb.mp4",
+                    "https://sample-videos.com/video123/mp4/480/big_buck_bunny_480p_5mb.mp4",
+                    "https://sample-videos.com/video123/mp4/360/big_buck_bunny_360p_5mb.mp4",
+                    "https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_5mb.mp4"
+                ],
+                hd03: [
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4"
+                ]
+            },
+            dub: {
+                hd01: [
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4"
+                ],
+                hd02: [
+                    "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/480/big_buck_bunny_480p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/360/big_buck_bunny_360p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_1mb.mp4",
+                    "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/480/big_buck_bunny_480p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/360/big_buck_bunny_360p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_2mb.mp4",
+                    "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_5mb.mp4",
+                    "https://sample-videos.com/video123/mp4/480/big_buck_bunny_480p_5mb.mp4",
+                    "https://sample-videos.com/video123/mp4/360/big_buck_bunny_360p_5mb.mp4",
+                    "https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_5mb.mp4"
+                ],
+                hd03: [
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4"
+                ]
+            }
+        };
+
+        // Current anime state
+        const currentAnime = "secret-of-the-silent-witch";
+        let currentEpisode = 1;
+        let currentType = "sub";
+        let currentServer = "hd01";
+        
+        // Watchlist management with localStorage
+        let watchlist = JSON.parse(localStorage.getItem('quravel_watchlist')) || {};
+
+        // Anime Database
+        const animeData = [
+            {
+                id: 1,
+                title: "Secret of the silent witch",
+                poster: "https://cdn.imgchest.com/files/837e9f15d946.jpeg",
+                background: "https://cdn.imgchest.com/files/7lxcp5kalb7.jpg",
+                description: "A mysterious witch who possesses incredible magical powers but chooses to remain silent about her past and abilities.",
+                episodes: 12,
+                currentEpisode: 1,
+                progress: 0,
+                rating: 8.2,
+                year: 2025,
+                genres: ["Fantasy", "Magic", "Mystery"],
+                isWatching: true,
+                link: "https://quravel.blogspot.com/"
+            },
+            {
+                id: 2,
+                title: "Demon Slayer: Hashira Training Arc",
+                poster: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=300&h=400&fit=crop",
+                background: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&h=400&fit=crop",
+                description: "Tanjiro and his friends begin training with the Hashira to prepare for the final battle against Muzan Kibutsuji.",
+                episodes: 11,
+                currentEpisode: 3,
+                progress: 45,
+                rating: 9.1,
+                year: 2024,
+                genres: ["Action", "Fantasy", "Supernatural"],
+                isWatching: true,
+                link: "https://quravel.blogspot.com/"
+            },
+            {
+                id: 3,
+                title: "Attack on Titan: Final Season",
+                poster: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=400&fit=crop",
+                background: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop",
+                description: "The epic conclusion to the story of Eren Yeager and the battle for Paradis Island.",
+                episodes: 16,
+                currentEpisode: 12,
+                progress: 80,
+                rating: 9.5,
+                year: 2023,
+                genres: ["Action", "Drama", "Fantasy"],
+                isWatching: true,
+                link: "https://quravel.blogspot.com/"
+            },
+            {
+                id: 4,
+                title: "Jujutsu Kaisen Season 2",
+                poster: "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=300&h=400&fit=crop",
+                background: "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=800&h=400&fit=crop",
+                description: "Yuji Itadori continues his journey as a Jujutsu Sorcerer while battling powerful curses.",
+                episodes: 23,
+                currentEpisode: 1,
+                progress: 0,
+                rating: 8.9,
+                year: 2023,
+                genres: ["Action", "Supernatural", "Horror"],
+                isWatching: false,
+                link: "https://quravel.blogspot.com/"
+            },
+            {
+                id: 5,
+                title: "One Piece: Wano Country Arc",
+                poster: "https://images.unsplash.com/photo-1541562232579-512a21360020?w=300&h=400&fit=crop",
+                background: "https://images.unsplash.com/photo-1541562232579-512a21360020?w=800&h=400&fit=crop",
+                description: "Luffy and his crew take on Kaido in the land of Wano to liberate the country from tyranny.",
+                episodes: 189,
+                currentEpisode: 156,
+                progress: 82,
+                rating: 9.3,
+                year: 2024,
+                genres: ["Action", "Adventure", "Fantasy"],
+                isWatching: true,
+                link: "https://quravel.blogspot.com/"
+            },
+            {
+                id: 6,
+                title: "My Hero Academia Season 6",
+                poster: "https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=300&h=400&fit=crop",
+                background: "https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=800&h=400&fit=crop",
+                description: "The heroes face their greatest challenge yet against the Paranormal Liberation Front.",
+                episodes: 25,
+                currentEpisode: 8,
+                progress: 32,
+                rating: 8.7,
+                year: 2022,
+                genres: ["Action", "Superhero", "School"],
+                isWatching: false,
+                link: "https://quravel.blogspot.com/"
+            },
+            {
+                id: 7,
+                title: "Chainsaw Man: Part 2",
+                poster: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=300&h=400&fit=crop",
+                background: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&h=400&fit=crop",
+                description: "Denji continues his life as a devil hunter in this thrilling continuation of the Chainsaw Man story.",
+                episodes: 12,
+                currentEpisode: 5,
+                progress: 42,
+                rating: 8.8,
+                year: 2025,
+                genres: ["Action", "Horror", "Supernatural"],
+                isWatching: true,
+                link: "https://quravel.blogspot.com/"
+            },
+            {
+                id: 8,
+                title: "Solo Leveling",
+                poster: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=400&fit=crop",
+                background: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop",
+                description: "In a world where hunters battle monsters to save humanity, Sung Jin-Woo starts as the weakest E-rank hunter.",
+                episodes: 24,
+                currentEpisode: 1,
+                progress: 0,
+                rating: 9.2,
+                year: 2024,
+                genres: ["Action", "Adventure", "Fantasy"],
+                isWatching: false,
+                link: "https://quravel.blogspot.com/"
+            }
+        ];
+
+        // Initialize the streaming platform
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePlatform();
+            loadAnimeSections();
+            setupEventListeners();
+            generateEpisodeList();
+            updateWatchlistButton();
+            loadVideo(currentEpisode);
+        });
+
+        function initializePlatform() {
+            // Load watch history
+            loadWatchHistory();
+        }
+
+        function loadAnimeSections() {
+            loadPopularAnime();
+            loadNewReleases();
+        }
+
+        function loadPopularAnime() {
+            const container = document.getElementById('popularAnime');
+            const popularAnime = [...animeData].sort((a, b) => b.rating - a.rating).slice(0, 8);
+            
+            container.innerHTML = popularAnime.map(anime => `
+                <a href="${anime.link}" class="anime-card" data-id="${anime.id}" target="_blank">
+                    <img src="${anime.poster}" alt="${anime.title}" class="anime-poster">
+                    <div class="anime-info">
+                        <div class="anime-name">${anime.title}</div>
+                        <div class="anime-meta">
+                            <span>★ ${anime.rating}</span>
+                            <span>${anime.year}</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        function loadNewReleases() {
+            const container = document.getElementById('newReleases');
+            const newReleases = [...animeData].filter(anime => anime.year >= 2024).slice(0, 8);
+            
+            container.innerHTML = newReleases.map(anime => `
+                <a href="${anime.link}" class="anime-card" data-id="${anime.id}" target="_blank">
+                    <img src="${anime.poster}" alt="${anime.title}" class="anime-poster">
+                    <div class="anime-info">
+                        <div class="anime-name">${anime.title}</div>
+                        <div class="anime-meta">
+                            <span>${anime.episodes} eps</span>
+                            <span class="episode-badge">New</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        function generateEpisodeList() {
+            const container = document.getElementById('episodeList');
+            let episodesHTML = '';
+            
+            for (let i = 1; i <= 12; i++) {
+                const activeClass = i === currentEpisode ? 'active' : '';
+                episodesHTML += `
+                    <div class="episode-item ${activeClass}" data-episode="${i}">
+                        <span>Episode ${i}</span>
+                        <span>24m</span>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = episodesHTML;
+        }
+
+        function setupEventListeners() {
+            // Server selection
+            document.querySelectorAll('.server-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const type = this.dataset.type;
+                    const server = this.dataset.server;
+                    selectServer(type, server);
+                });
+            });
+            
+            // Episode selection
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.episode-item')) {
+                    const episodeItem = e.target.closest('.episode-item');
+                    const episode = parseInt(episodeItem.dataset.episode);
+                    selectEpisode(episode);
+                }
+            });
+            
+            // Video controls
+            document.getElementById('prevBtn').addEventListener('click', prevEpisode);
+            document.getElementById('nextBtn').addEventListener('click', nextEpisode);
+            
+            // Add to List button
+            document.getElementById('addToListBtn').addEventListener('click', function(e) {
+                e.stopPropagation();
+                const dropdown = document.getElementById('listDropdown');
+                dropdown.classList.toggle('active');
+                updateDropdownActiveState();
+            });
+            
+            // Dropdown item clicks
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const status = this.dataset.status;
+                    setWatchlistStatus(status);
+                });
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                const dropdown = document.getElementById('listDropdown');
+                const container = document.querySelector('.add-to-list-container');
+                if (!container.contains(e.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+            
+            // Close dropdown on ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.getElementById('listDropdown').classList.remove('active');
+                }
+            });
+            
+            // Retry button for video errors
+            document.getElementById('retryBtn').addEventListener('click', function() {
+                document.getElementById('videoError').classList.remove('show');
+                loadVideo(currentEpisode);
+            });
+            
+            // Anime card clicks
+            document.addEventListener('click', function(e) {
+                const animeCard = e.target.closest('.anime-card');
+                if (animeCard) {
+                    const animeId = animeCard.dataset.id;
+                    selectAnime(animeId);
+                }
+            });
+
+            // Video event listeners
+            const video = document.getElementById('main-video');
+            const videoLoading = document.getElementById('videoLoading');
+            const videoError = document.getElementById('videoError');
+            
+            video.addEventListener('waiting', () => {
+                videoLoading.classList.remove('hidden');
+                videoError.classList.remove('show');
+            });
+            
+            video.addEventListener('canplay', () => {
+                videoLoading.classList.add('hidden');
+                videoError.classList.remove('show');
+            });
+            
+            video.addEventListener('playing', () => {
+                videoLoading.classList.add('hidden');
+                videoError.classList.remove('show');
+            });
+            
+            video.addEventListener('error', (e) => {
+                console.error('Video error:', video.error);
+                videoLoading.classList.add('hidden');
+                videoError.classList.add('show');
+                showToast('Error loading video. Please try another server.', 'error');
+            });
+        }
+
+        function loadVideo(episode) {
+            const video = document.getElementById('main-video');
+            const videoLoading = document.getElementById('videoLoading');
+            const videoError = document.getElementById('videoError');
+            
+            videoLoading.classList.remove('hidden');
+            videoError.classList.remove('show');
+            
+            try {
+                // Get video URL from current type, server and episode
+                const videoUrl = videoSources[currentType][currentServer][episode - 1];
+                
+                if (videoUrl) {
+                    // Clear current source
+                    video.innerHTML = '';
+                    
+                    // Add new source
+                    const source = document.createElement('source');
+                    source.src = videoUrl;
+                    source.type = 'video/mp4';
+                    video.appendChild(source);
+                    
+                    // Load and play video
+                    video.load();
+                    
+                    // Update UI
+                    document.getElementById('currentVideoTitle').textContent = 
+                        `Secret of the silent witch - Episode ${episode}`;
+                    
+                    document.getElementById('currentEpisodeMessage').textContent = 
+                        `You are currently watching episode ${episode} (${currentType.charAt(0).toUpperCase() + currentType.slice(1)} - ${currentServer.toUpperCase()})`;
+                    
+                    showToast(`Loading episode ${episode}...`);
+                    
+                    // Try to play automatically
+                    video.play().catch(e => {
+                        console.log('Autoplay prevented:', e);
+                    });
+                } else {
+                    showToast(`Episode ${episode} is not available on this server.`, 'error');
+                    videoError.classList.add('show');
+                }
+            } catch (error) {
+                console.error('Error loading video:', error);
+                videoError.classList.add('show');
+                showToast('Error loading video. Please try again.', 'error');
+            }
+        }
+
+        function selectServer(type, server) {
+            // Update active server button for current type
+            document.querySelectorAll(`[data-type="${type}"]`).forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"][data-server="${server}"]`).classList.add('active');
+            
+            currentType = type;
+            currentServer = server;
+            showToast(`Switched to ${type.toUpperCase()} - ${server.toUpperCase()}`);
+            
+            // Reload current episode with new server
+            loadVideo(currentEpisode);
+        }
+
+        function selectEpisode(episode) {
+            // Update active episode item
+            document.querySelectorAll('.episode-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-episode="${episode}"]`).classList.add('active');
+            
+            currentEpisode = episode;
+            loadVideo(episode);
+        }
+
+        function prevEpisode() {
+            if (currentEpisode > 1) {
+                currentEpisode--;
+                selectEpisode(currentEpisode);
+            } else {
+                showToast('This is the first episode');
+            }
+        }
+
+        function nextEpisode() {
+            if (currentEpisode < 12) {
+                currentEpisode++;
+                selectEpisode(currentEpisode);
+            } else {
+                showToast('This is the last episode available');
+            }
+        }
+
+        function setWatchlistStatus(status) {
+            const statusMap = {
+                'planning': 'Planning to watch',
+                'watching': 'Watching',
+                'completed': 'Completed',
+                'rewatching': 'Re-watching',
+                'dropped': 'Dropped'
+            };
+            
+            if (status === 'remove') {
+                delete watchlist[currentAnime];
+                localStorage.setItem('quravel_watchlist', JSON.stringify(watchlist));
+                showToast('Removed from your list', 'success');
+            } else {
+                watchlist[currentAnime] = {
+                    status: status,
+                    date: new Date().toISOString(),
+                    episode: currentEpisode
+                };
+                localStorage.setItem('quravel_watchlist', JSON.stringify(watchlist));
+                showToast(`Added to ${statusMap[status]}`, 'success');
+            }
+            
+            updateWatchlistButton();
+            document.getElementById('listDropdown').classList.remove('active');
+        }
+
+        function updateWatchlistButton() {
+            const buttonText = document.getElementById('listButtonText');
+            const button = document.getElementById('addToListBtn');
+            
+            if (watchlist[currentAnime]) {
+                const statusMap = {
+                    'planning': 'Planning to watch',
+                    'watching': 'Watching',
+                    'completed': 'Completed',
+                    'rewatching': 'Re-watching',
+                    'dropped': 'Dropped'
+                };
+                buttonText.textContent = statusMap[watchlist[currentAnime].status];
+                button.classList.add('active');
+            } else {
+                buttonText.textContent = 'Add to List';
+                button.classList.remove('active');
+            }
+        }
+
+        function updateDropdownActiveState() {
+            const items = document.querySelectorAll('.dropdown-item:not(.remove)');
+            items.forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            if (watchlist[currentAnime]) {
+                const statusMap = {
+                    'planning': 0,
+                    'watching': 1,
+                    'completed': 2,
+                    'rewatching': 3,
+                    'dropped': 4
+                };
+                const index = statusMap[watchlist[currentAnime].status];
+                if (index !== undefined) {
+                    items[index].classList.add('active');
+                }
+            }
+        }
+
+        function selectAnime(animeId) {
+            const anime = animeData.find(a => a.id == animeId);
+            if (anime) {
+                showToast(`Now playing: ${anime.title}`);
+                
+                // Scroll to video section
+                document.querySelector('.video-section').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            }
+        }
+
+        function loadWatchHistory() {
+            console.log('Loading watch history...');
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast';
+            
+            if (type === 'success') {
+                toast.classList.add('success');
+                toast.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span>${message}</span>
+                `;
+            } else if (type === 'error') {
+                toast.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    <span>${message}</span>
+                `;
+            } else {
+                toast.innerHTML = `<span>${message}</span>`;
+            }
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Simulate video progress tracking
+        setInterval(() => {
+            const video = document.getElementById('main-video');
+            if (!video.paused) {
+                // Save watch progress to localStorage
+                if (watchlist[currentAnime]) {
+                    watchlist[currentAnime].currentTime = video.currentTime;
+                    watchlist[currentAnime].duration = video.duration;
+                    watchlist[currentAnime].lastWatched = new Date().toISOString();
+                    localStorage.setItem('quravel_watchlist', JSON.stringify(watchlist));
+                }
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
