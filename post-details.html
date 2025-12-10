@@ -1501,21 +1501,25 @@
         // Load posts from JSON
         async function loadPostsData() {
             try {
-                const response = await fetch('./posts.json');
+                console.log('Attempting to load posts from JSON...');
+                const response = await fetch('./data/posts.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
                 allPosts = data.posts || [];
-                console.log('Loaded posts from JSON:', allPosts.length);
+                console.log('Successfully loaded posts from JSON:', allPosts.length);
                 
                 // Update current post data if available
                 const currentPost = allPosts.find(post => post.id === 'my-hero-academia-final');
                 if (currentPost) {
                     updatePostData(currentPost);
                 }
+                
+                // Load recommendations after JSON data is ready
+                loadRecommendations();
             } catch (error) {
-                console.error('Error loading posts:', error);
+                console.error('Error loading posts from JSON:', error);
                 // Fallback to sample data if JSON fails
                 console.log('Using fallback data');
                 allPosts = [
@@ -1762,7 +1766,7 @@
                 ];
                 console.log('Using fallback posts data:', allPosts.length);
             }
-            // Load recommendations after data is ready
+            // Load recommendations after data is ready (both JSON and fallback)
             loadRecommendations();
         }
         
@@ -1814,6 +1818,7 @@
             }
             
             console.log(`Loading ${allPosts.length} recommendations`);
+            console.log('Sample post data:', allPosts[0]); // Debug first post
             
             // Use all posts for recommendations
             const recommendations = allPosts.map(post => ({
@@ -1823,6 +1828,8 @@
                 id: post.id
             }));
             
+            console.log('Generated recommendations:', recommendations.length);
+            
             const grid = document.getElementById('recommendationsGrid');
             if (!grid) {
                 console.error('Recommendations grid not found');
@@ -1830,9 +1837,9 @@
             }
             
             grid.innerHTML = recommendations.map(rec => `
-                <a href="post-details.html?id=${rec.id}" class="recommendation-card" data-content="${rec.title.toLowerCase().replace(/\s+/g, '-')}">
+                <a href="index.html?id=${rec.id}" class="recommendation-card" data-content="${rec.title.toLowerCase().replace(/\s+/g, '-')}">
                     <div class="recommendation-image">
-                        <img src="${rec.image}" alt="${rec.title}" loading="lazy">
+                        <img src="${rec.image}" alt="${rec.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450/333/fff?text=No+Image'">
                     </div>
                     <div class="recommendation-content">
                         <h3 class="recommendation-title">${rec.title}</h3>
@@ -1841,6 +1848,7 @@
                 </a>
             `).join('');
             
+            console.log('Recommendations HTML generated. Grid children:', grid.children.length);
             console.log('Recommendations loaded successfully');
         }
         
