@@ -380,6 +380,30 @@
             font-weight: 500;
         }
         
+        .suggestion-rating {
+            color: #fbbf24;
+            font-weight: 500;
+        }
+        
+        .suggestion-creator {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        
+        .suggestion-cast {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            font-style: italic;
+        }
+        
+        .suggestion-genres {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+            opacity: 0.8;
+        }
+        
         .no-results {
             padding: 32px 20px;
             text-align: center;
@@ -823,7 +847,7 @@
             color: inherit;
             display: flex;
             flex-direction: column;
-            height: 420px; /* Increased height as requested */
+            height: 380px; /* Updated height as requested */
         }
         
         .recommendation-card:hover {
@@ -834,7 +858,7 @@
         
         .recommendation-image {
             width: 100%;
-            height: 300px; /* Increased height to match card */
+            height: 260px; /* Updated height to match card */
             overflow: hidden;
             position: relative;
         }
@@ -992,11 +1016,11 @@
             }
             
             .recommendation-card {
-                height: 400px;
+                height: 380px;
             }
             
             .recommendation-image {
-                height: 280px;
+                height: 260px;
             }
         }
         
@@ -1465,13 +1489,23 @@
         // Load posts from JSON
         async function loadPostsData() {
             try {
-                const response = await fetch('data/posts.json');
+                const response = await fetch('./posts.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
-                allPosts = data.posts;
+                allPosts = data.posts || [];
                 console.log('Loaded posts from JSON:', allPosts.length);
+                
+                // Update current post data if available
+                const currentPost = allPosts.find(post => post.id === 'my-hero-academia-final');
+                if (currentPost) {
+                    updatePostData(currentPost);
+                }
             } catch (error) {
                 console.error('Error loading posts:', error);
-                // Fallback to sample data
+                // Fallback to sample data if JSON fails
+                console.log('Using fallback data');
                 allPosts = [
                     {
                         id: 'my-hero-academia-final',
@@ -1830,6 +1864,46 @@
             });
         }
         
+        // Update page content with post data from JSON
+        function updatePostData(post) {
+            if (!post) return;
+            
+            // Update title
+            const titleElement = document.getElementById('postTitle');
+            if (titleElement) titleElement.textContent = post.title;
+            
+            // Update poster image
+            const posterElement = document.getElementById('posterImage');
+            if (posterElement) posterElement.src = post.poster;
+            
+            // Update badges
+            const imdbElement = document.getElementById('imdbScore');
+            if (imdbElement) imdbElement.textContent = post.rating;
+            
+            const yearElement = document.getElementById('yearBadge');
+            if (yearElement) yearElement.textContent = post.year;
+            
+            const qualityElement = document.getElementById('qualityBadge');
+            if (qualityElement) qualityElement.textContent = post.type.toUpperCase();
+            
+            const runtimeElement = document.getElementById('runtimeBadge');
+            if (runtimeElement) runtimeElement.textContent = post.duration;
+            
+            // Update description
+            const descElement = document.getElementById('postDescription');
+            if (descElement) {
+                descElement.innerHTML = post.description + ' <span class="more-link">+ More</span>';
+            }
+            
+            // Update watch info
+            const watchTitleElements = document.querySelectorAll('#siteWatchTitle, #siteWatchTitle2');
+            watchTitleElements.forEach(el => {
+                if (el) el.textContent = post.title;
+            });
+            
+            console.log('Page data updated with post:', post.title);
+        }
+        
         function setListStatus(status) {
             const statusMap = {
                 'planning': { text: 'Planning to watch' },
@@ -2021,12 +2095,17 @@
             }
             
             // Filter posts based on search query
-            const results = allPosts.filter(item => 
-                item.title.toLowerCase().includes(query.toLowerCase()) ||
-                (item.description && item.description.toLowerCase().includes(query.toLowerCase())) ||
-                item.genres.some(genre => genre.toLowerCase().includes(query.toLowerCase())) ||
-                item.type.toLowerCase().includes(query.toLowerCase())
-            ).slice(0, 10);
+            const results = allPosts.filter(item => {
+                const searchText = query.toLowerCase();
+                return item.title.toLowerCase().includes(searchText) ||
+                       (item.description && item.description.toLowerCase().includes(searchText)) ||
+                       item.genres.some(genre => genre.toLowerCase().includes(searchText)) ||
+                       item.type.toLowerCase().includes(searchText) ||
+                       (item.cast && item.cast.some(actor => actor.toLowerCase().includes(searchText))) ||
+                       (item.director && item.director.toLowerCase().includes(searchText)) ||
+                       (item.studio && item.studio.toLowerCase().includes(searchText)) ||
+                       (item.category && item.category.toLowerCase().includes(searchText));
+            }).slice(0, 10);
             
             displaySearchResults(results, query);
         }
@@ -2052,7 +2131,11 @@
                             <div class="suggestion-meta">
                                 <span class="suggestion-type">${item.type}</span>
                                 <span class="suggestion-year">${item.year}</span>
-                                <span class="suggestion-genre">${item.genres.join(', ')}</span>
+                                <span class="suggestion-rating">⭐ ${item.rating}</span>
+                                <span class="suggestion-creator">${item.director || item.studio || ''}</span>
+                            </div>
+                            ${item.cast ? `<div class="suggestion-cast">starring ${item.cast.slice(0, 2).join(', ')}</div>` : ''}
+                            <div class="suggestion-genres">${item.genres.slice(0, 3).join(', ')}</div>
                             </div>
                         </div>
                     </div>
