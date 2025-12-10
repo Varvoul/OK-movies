@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quravel - Enhanced Streaming Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles/main.css">
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-    
-    <!-- Global Search Component -->
-    <script src="scripts/global-search.js"></script>
     
     <style>
         /* Enhanced Streaming Theme - Dark Navy & Wine Dark Colors */
@@ -292,8 +288,6 @@
                 width: 280px;
             }
         }
-            position: relative;
-        }
         
         .nav-link:hover,
         .nav-link.active {
@@ -541,7 +535,7 @@
         }
         
         .slide-title {
-            font-size: 12px;
+            font-size: 30px; /* Increased from 12px to 30px */
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: var(--space-sm);
@@ -868,7 +862,7 @@
             }
             
             .slide-title {
-                font-size: 10px;
+                font-size: 24px; /* Adjusted for mobile */
             }
             
             .content-grid {
@@ -889,7 +883,7 @@
             }
             
             .slide-title {
-                font-size: 8px;
+                font-size: 20px; /* Adjusted for small mobile */
             }
             
             .section-title {
@@ -1239,6 +1233,46 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Slide Arrow Controls */
+        .slide-arrows {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            pointer-events: none;
+            z-index: 10;
+            transform: translateY(-50%);
+        }
+
+        .slide-arrow {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: all;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-arrow:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: scale(1.1);
+        }
+
+        .slide-arrow:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 <body>
@@ -1254,7 +1288,7 @@
 
             <!-- Center Logo -->
             <div class="logo">
-                <img src="images/logo.png" alt="Quravel Logo">
+                <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo">
             </div>
 
             <!-- Search Button -->
@@ -1418,14 +1452,14 @@
                         <span>2025</span>
                     </div>
                     <div class="action-buttons">
-                        <a class="btn-primary" href="#" data-title="The Dark Knight">
+                        <a class="btn-primary" href="#" data-title="Stranger Things">
                             <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
                             Watch Now
                         </a>
                         <div class="add-list-dropdown">
-                            <button class="btn-add-list" data-title="The Dark Knight">
+                            <button class="btn-add-list" data-title="Stranger Things">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 5v14M5 12h14"/>
                                 </svg>
@@ -1455,14 +1489,14 @@
                         <span>2025</span>
                     </div>
                     <div class="action-buttons">
-                        <a class="btn-primary" href="#" data-title="The Dark Knight">
+                        <a class="btn-primary" href="#" data-title="Avatar: The Way of Water">
                             <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
                             Watch Now
                         </a>
                         <div class="add-list-dropdown">
-                            <button class="btn-add-list" data-title="The Dark Knight">
+                            <button class="btn-add-list" data-title="Avatar: The Way of Water">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 5v14M5 12h14"/>
                                 </svg>
@@ -1492,14 +1526,14 @@
                         <span>2025</span>
                     </div>
                     <div class="action-buttons">
-                        <a class="btn-primary" href="#" data-title="The Dark Knight">
+                        <a class="btn-primary" href="#" data-title="John Wick: Chapter 4">
                             <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
                             Watch Now
                         </a>
                         <div class="add-list-dropdown">
-                            <button class="btn-add-list" data-title="The Dark Knight">
+                            <button class="btn-add-list" data-title="John Wick: Chapter 4">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 5v14M5 12h14"/>
                                 </svg>
@@ -1529,14 +1563,14 @@
                         <span>2025</span>
                     </div>
                     <div class="action-buttons">
-                        <a class="btn-primary" href="#" data-title="The Dark Knight">
+                        <a class="btn-primary" href="#" data-title="Dune: Part Two">
                             <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
                             Watch Now
                         </a>
                         <div class="add-list-dropdown">
-                            <button class="btn-add-list" data-title="The Dark Knight">
+                            <button class="btn-add-list" data-title="Dune: Part Two">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 5v14M5 12h14"/>
                                 </svg>
@@ -1566,14 +1600,14 @@
                         <span>2025</span>
                     </div>
                     <div class="action-buttons">
-                        <a class="btn-primary" href="#" data-title="The Dark Knight">
+                        <a class="btn-primary" href="#" data-title="Barbie">
                             <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
                             Watch Now
                         </a>
                         <div class="add-list-dropdown">
-                            <button class="btn-add-list" data-title="The Dark Knight">
+                            <button class="btn-add-list" data-title="Barbie">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 5v14M5 12h14"/>
                                 </svg>
@@ -1603,14 +1637,14 @@
                         <span>2025</span>
                     </div>
                     <div class="action-buttons">
-                        <a class="btn-primary" href="#" data-title="The Dark Knight">
+                        <a class="btn-primary" href="#" data-title="Spider-Man: Across the Spider-Verse">
                             <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
                             Watch Now
                         </a>
                         <div class="add-list-dropdown">
-                            <button class="btn-add-list" data-title="The Dark Knight">
+                            <button class="btn-add-list" data-title="Spider-Man: Across the Spider-Verse">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 5v14M5 12h14"/>
                                 </svg>
@@ -1640,14 +1674,14 @@
                         <span>2025</span>
                     </div>
                     <div class="action-buttons">
-                        <a class="btn-primary" href="#" data-title="The Dark Knight">
+                        <a class="btn-primary" href="#" data-title="Evil Dead Rise">
                             <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
                             Watch Now
                         </a>
                         <div class="add-list-dropdown">
-                            <button class="btn-add-list" data-title="The Dark Knight">
+                            <button class="btn-add-list" data-title="Evil Dead Rise">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 5v14M5 12h14"/>
                                 </svg>
@@ -1677,14 +1711,14 @@
                         <span>2025</span>
                     </div>
                     <div class="action-buttons">
-                        <a class="btn-primary" href="#" data-title="The Dark Knight">
+                        <a class="btn-primary" href="#" data-title="The Super Mario Bros. Movie">
                             <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
                             Watch Now
                         </a>
                         <div class="add-list-dropdown">
-                            <button class="btn-add-list" data-title="The Dark Knight">
+                            <button class="btn-add-list" data-title="The Super Mario Bros. Movie">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 5v14M5 12h14"/>
                                 </svg>
@@ -1700,6 +1734,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <!-- Slide Arrow Controls -->
+        <div class="slide-arrows">
+            <button class="slide-arrow slide-prev">‹</button>
+            <button class="slide-arrow slide-next">›</button>
         </div>
     </section>
 
@@ -2200,78 +2240,324 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- Embedded JavaScript -->
     <script>
-        // Hamburger Menu Functionality
-        const hamburgerMenu = document.getElementById('hamburgerMenu');
-        const menuOverlay = document.getElementById('menuOverlay');
-        const closeMenu = document.getElementById('closeMenu');
-        const menuItems = document.querySelectorAll('.menu-item');
-
-        // Open menu
-        hamburgerMenu.addEventListener('click', () => {
-            menuOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-
-        // Close menu
-        closeMenu.addEventListener('click', () => {
-            menuOverlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-
-        // Close menu when clicking overlay
-        menuOverlay.addEventListener('click', (e) => {
-            if (e.target === menuOverlay) {
-                menuOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
+        // Main JavaScript for Quravel
+        class QuravelApp {
+            constructor() {
+                this.currentSlide = 0;
+                this.slides = document.querySelectorAll('.slide');
+                this.totalSlides = this.slides.length;
+                this.autoPlayInterval = null;
+                this.autoPlayDelay = 8000; // 8 seconds
+                this.postsData = [];
+                this.slideshowPosts = [];
+                
+                this.init();
             }
-        });
 
-        // Handle menu item clicks
-        menuItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Remove active class from all items
-                menuItems.forEach(mi => mi.classList.remove('active'));
-                
-                // Add active class to clicked item
-                item.classList.add('active');
-                
-                // Close menu after selection
-                menuOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                
-                // Here you can add navigation logic
-                const menuType = item.getAttribute('data-menu');
-                console.log('Selected menu:', menuType);
-            });
-        });
+            async init() {
+                // No API calls needed for static content
+                this.setupCarousel();
+                this.setupSearch();
+                this.setupNavigation();
+                this.setupScrollEffects();
+                this.startAutoPlay();
+            }
 
-        // Load menu items from localStorage
-        function loadMenuItemsFromStorage() {
-            const savedItems = localStorage.getItem('quravel_menu_items');
-            const menuList = document.getElementById('menuList');
-            
-            if (savedItems) {
-                const menuItemsData = JSON.parse(savedItems);
+            // Hero Carousel Functionality
+            setupCarousel() {
+                this.setupSlideControls();
+            }
+
+            setupSlideControls() {
+                // Setup arrow controls
+                const prevBtn = document.querySelector('.slide-prev');
+                const nextBtn = document.querySelector('.slide-next');
                 
-                // Sort by order and render
-                const sortedItems = menuItemsData.sort((a, b) => a.order - b.order);
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => this.previousSlide());
+                }
                 
-                menuList.innerHTML = sortedItems.map(item => `
-                    <li><a href="${item.url}" class="menu-item ${item.active ? 'active' : ''}" data-menu="${item.menuId}">${item.text}</a></li>
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => this.nextSlide());
+                }
+                
+                // Setup touch/swipe controls
+                this.setupTouchControls();
+            }
+
+            setupTouchControls() {
+                const heroSlider = document.getElementById('hero-slider');
+                if (!heroSlider) return;
+                
+                let startX = 0;
+                let endX = 0;
+
+                heroSlider.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                });
+
+                heroSlider.addEventListener('touchend', (e) => {
+                    endX = e.changedTouches[0].clientX;
+                    const diff = startX - endX;
+                    
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) {
+                            this.nextSlide();
+                        } else {
+                            this.previousSlide();
+                        }
+                        this.resetAutoPlay();
+                    }
+                });
+            }
+
+            showSlide(index) {
+                // Hide all slides
+                this.slides.forEach(slide => slide.classList.remove('active'));
+                
+                // Show current slide
+                if (this.slides[index]) {
+                    this.slides[index].classList.add('active');
+                }
+                
+                this.currentSlide = index;
+            }
+
+            nextSlide() {
+                this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                this.showSlide(this.currentSlide);
+            }
+
+            previousSlide() {
+                this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+                this.showSlide(this.currentSlide);
+            }
+
+            goToSlide(index) {
+                this.currentSlide = index;
+                this.showSlide(this.currentSlide);
+            }
+
+            startAutoPlay() {
+                clearInterval(this.autoPlayInterval);
+                this.autoPlayInterval = setInterval(() => {
+                    this.nextSlide();
+                }, this.autoPlayDelay);
+            }
+
+            resetAutoPlay() {
+                clearInterval(this.autoPlayInterval);
+                this.startAutoPlay();
+            }
+
+            // Search Functionality
+            setupSearch() {
+                const searchIcon = document.getElementById('searchIcon');
+                const searchBox = document.getElementById('searchBox');
+                const searchClose = document.getElementById('searchClose');
+                const searchInput = document.getElementById('searchInput');
+                const filterBtn = document.getElementById('filterBtn');
+                const filterDropdown = document.getElementById('filterDropdown');
+                const resultsContainer = document.getElementById('resultsContainer');
+
+                // Toggle search box
+                searchIcon.addEventListener('click', () => {
+                    searchBox.style.display = searchBox.style.display === 'block' ? 'none' : 'block';
+                    if (searchBox.style.display === 'block') {
+                        searchInput.focus();
+                    }
+                });
+
+                // Close search box
+                searchClose.addEventListener('click', () => {
+                    searchBox.style.display = 'none';
+                    searchInput.value = '';
+                    filterDropdown.style.display = 'none';
+                    document.getElementById('suggestions').style.display = 'none';
+                });
+
+                // Toggle filter dropdown
+                filterBtn.addEventListener('click', () => {
+                    filterDropdown.style.display = filterDropdown.style.display === 'block' ? 'none' : 'block';
+                });
+
+                // Close search on escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        searchBox.style.display = 'none';
+                        filterDropdown.style.display = 'none';
+                        resultsContainer.style.display = 'none';
+                        document.getElementById('suggestions').style.display = 'none';
+                    }
+                });
+
+                // Search functionality
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.trim();
+                    if (query.length > 2) {
+                        this.showSuggestions(query);
+                    } else {
+                        document.getElementById('suggestions').style.display = 'none';
+                    }
+                });
+
+                // Apply filter button
+                const applyBtn = document.querySelector('.apply-btn');
+                if (applyBtn) {
+                    applyBtn.addEventListener('click', () => {
+                        this.performSearch();
+                        filterDropdown.style.display = 'none';
+                    });
+                }
+
+                // Clear filter button
+                const clearBtn = document.querySelector('.clear-btn');
+                if (clearBtn) {
+                    clearBtn.addEventListener('click', () => {
+                        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                            checkbox.checked = false;
+                        });
+                    });
+                }
+
+                // View all results button
+                const viewAllBtn = document.querySelector('.view-all-btn');
+                if (viewAllBtn) {
+                    viewAllBtn.addEventListener('click', () => {
+                        this.performSearch(true);
+                    });
+                }
+            }
+
+            showSuggestions(query) {
+                const suggestions = document.getElementById('suggestions');
+                // Simple suggestion logic - in real app, would fetch from API
+                const sampleSuggestions = [
+                    'The Dark Knight',
+                    'Stranger Things',
+                    'Avatar',
+                    'John Wick',
+                    'Dune',
+                    'Barbie',
+                    'Spider-Man'
+                ];
+                
+                const filtered = sampleSuggestions.filter(item => 
+                    item.toLowerCase().includes(query.toLowerCase())
+                );
+                
+                if (filtered.length > 0) {
+                    suggestions.innerHTML = filtered.map(item => 
+                        `<div class="suggestion-item">${item}</div>`
+                    ).join('');
+                    suggestions.style.display = 'block';
+                } else {
+                    suggestions.style.display = 'none';
+                }
+            }
+
+            performSearch(viewAll = false) {
+                const searchInput = document.getElementById('searchInput');
+                const query = searchInput.value.trim();
+                const resultsContainer = document.getElementById('resultsContainer');
+                const resultsGrid = document.getElementById('resultsGrid');
+                const resultsCount = document.getElementById('resultsCount');
+                
+                if (!query) return;
+                
+                // Sample search results - in real app, would fetch from API
+                const sampleResults = [
+                    { title: 'The Dark Knight', year: '2008', rating: '9.0', type: 'Movie', image: 'https://image.tmdb.org/t/p/w200/q719jXXEzOoYaps6bAABYxW5YNp.jpg' },
+                    { title: 'Stranger Things', year: '2016', rating: '8.7', type: 'TV Show', image: 'https://image.tmdb.org/t/p/w200/4HWAQuQuFzpu6ntJUHGRNbJMVDu.jpg' },
+                    { title: 'Avatar: The Way of Water', year: '2022', rating: '7.6', type: 'Movie', image: 'https://image.tmdb.org/t/p/w200/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg' },
+                    { title: 'John Wick: Chapter 4', year: '2023', rating: '7.8', type: 'Movie', image: 'https://image.tmdb.org/t/p/w200/qw3J9cNeLioOLoR68WX7z79aCdK.jpg' },
+                    { title: 'Dune: Part Two', year: '2024', rating: '8.5', type: 'Movie', image: 'https://image.tmdb.org/t/p/w200/7RPrN2K5f1m2Y0S0h8eDflH5l8h.jpg' },
+                    { title: 'Barbie', year: '2023', rating: '7.0', type: 'Movie', image: 'https://image.tmdb.org/t/p/w200/d9Hsk6fuvlvY9M8x54niw6z3K8w.jpg' }
+                ];
+                
+                const filteredResults = sampleResults.filter(item => 
+                    item.title.toLowerCase().includes(query.toLowerCase())
+                );
+                
+                resultsGrid.innerHTML = filteredResults.map(item => `
+                    <div class="content-card">
+                        <div class="poster-container">
+                            <img src="${item.image}" alt="${item.title}" class="poster-image">
+                            <div class="quality-badge ${item.rating >= 8 ? 'hd' : 'cam'}">${item.rating >= 8 ? 'HD' : 'CAM'}</div>
+                            <div class="play-overlay">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">${item.title}</h3>
+                            <div class="card-meta">
+                                <span>${item.year}</span>
+                                <span>•</span>
+                                <span>★ ${item.rating}</span>
+                                <span class="content-type">${item.type}</span>
+                            </div>
+                        </div>
+                    </div>
                 `).join('');
                 
-                // Re-attach event listeners to new menu items
-                const newMenuItems = menuList.querySelectorAll('.menu-item');
-                newMenuItems.forEach(item => {
+                resultsCount.textContent = filteredResults.length;
+                resultsContainer.style.display = 'block';
+                document.getElementById('searchBox').style.display = 'none';
+                document.getElementById('suggestions').style.display = 'none';
+            }
+
+            // Navigation and UI Effects
+            setupNavigation() {
+                this.setupMenu();
+                this.setupAddToList();
+                this.setupHeaderScrollEffect();
+                
+                // Add click handlers for content cards
+                document.addEventListener('click', (e) => {
+                    const contentCard = e.target.closest('.content-card');
+                    if (contentCard) {
+                        this.handleContentClick();
+                    }
+                });
+            }
+
+            setupMenu() {
+                const hamburgerMenu = document.getElementById('hamburgerMenu');
+                const menuOverlay = document.getElementById('menuOverlay');
+                const closeMenu = document.getElementById('closeMenu');
+                const menuItems = document.querySelectorAll('.menu-item');
+
+                // Open menu
+                hamburgerMenu.addEventListener('click', () => {
+                    menuOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                // Close menu
+                closeMenu.addEventListener('click', () => {
+                    menuOverlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+
+                // Close menu when clicking overlay
+                menuOverlay.addEventListener('click', (e) => {
+                    if (e.target === menuOverlay) {
+                        menuOverlay.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+
+                // Handle menu item clicks
+                menuItems.forEach(item => {
                     item.addEventListener('click', (e) => {
                         e.preventDefault();
                         
                         // Remove active class from all items
-                        newMenuItems.forEach(mi => mi.classList.remove('active'));
+                        menuItems.forEach(mi => mi.classList.remove('active'));
                         
                         // Add active class to clicked item
                         item.classList.add('active');
@@ -2279,242 +2565,227 @@
                         // Close menu after selection
                         menuOverlay.classList.remove('active');
                         document.body.style.overflow = 'auto';
-                        
-                        const menuType = item.getAttribute('data-menu');
-                        console.log('Selected menu:', menuType);
                     });
                 });
-            }
-        }
-        
-        // Load menu items on page load
-        loadMenuItemsFromStorage();
 
-        // Close menu on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && menuOverlay.classList.contains('active')) {
-                menuOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // Hero Slider Functionality
-        let currentSlideIndex = 0;
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
-
-        function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            
-            if (index >= totalSlides) {
-                currentSlideIndex = 0;
-            } else if (index < 0) {
-                currentSlideIndex = totalSlides - 1;
-            } else {
-                currentSlideIndex = index;
-            }
-            
-            slides[currentSlideIndex].classList.add('active');
-        }
-
-        function changeSlide(n) {
-            showSlide(currentSlideIndex + n);
-        }
-
-        // Auto-play slider
-        setInterval(() => {
-            changeSlide(1);
-        }, 8000);
-
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.content-card').forEach(card => {
-            observer.observe(card);
-        });
-
-        // Loading animation for images
-        document.querySelectorAll('.poster-image').forEach(img => {
-            img.addEventListener('load', function() {
-                this.style.opacity = '1';
-            });
-            
-            img.addEventListener('error', function() {
-                this.src = 'https://via.placeholder.com/300x450/101828/94A3B8?text=No+Image';
-            });
-        });
-
-        // Search functionality
-        const searchBtn = document.getElementById('searchBtn');
-        const searchOverlay = document.getElementById('searchOverlay');
-        const searchClose = document.getElementById('searchClose');
-        const searchForm = document.getElementById('searchForm');
-
-        searchBtn.addEventListener('click', () => {
-            searchOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-
-        searchClose.addEventListener('click', () => {
-            searchOverlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-
-        searchOverlay.addEventListener('click', (e) => {
-            if (e.target === searchOverlay) {
-                searchOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // Close search on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
-                searchOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // Watch Now buttons should not change slides
-        document.querySelectorAll('.btn-primary').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                // Keep the button visual feedback but don't change slides
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 150);
-            });
-        });
-        
-        // Add to List functionality
-        const addListButtons = document.querySelectorAll('.btn-add-list');
-        const dropdownContents = document.querySelectorAll('.dropdown-content');
-        
-        // Load saved status from localStorage
-        function loadSavedStatus() {
-            addListButtons.forEach(button => {
-                const title = button.getAttribute('data-title');
-                const savedStatus = localStorage.getItem(`quravel_status_${title}`);
-                if (savedStatus && savedStatus !== 'remove') {
-                    const dropdown = button.nextElementSibling;
-                    const options = dropdown.querySelectorAll('a');
-                    options.forEach(option => {
-                        if (option.getAttribute('data-status') === savedStatus) {
-                            option.classList.add('active');
-                        }
-                    });
-                    button.innerHTML = `
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 12l2 2 4-4"/>
-                            <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
-                        </svg>
-                        ${savedStatus.charAt(0).toUpperCase() + savedStatus.slice(1).replace('_', ' ')}
-                    `;
-                }
-            });
-        }
-        
-        // Add click event listeners to Add to List buttons
-        addListButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const dropdown = this.nextElementSibling;
-                
-                // Close all other dropdowns
-                dropdownContents.forEach(content => {
-                    if (content !== dropdown) {
-                        content.classList.remove('show');
+                // Close menu on escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && menuOverlay.classList.contains('active')) {
+                        menuOverlay.classList.remove('active');
+                        document.body.style.overflow = 'auto';
                     }
                 });
+            }
+
+            setupAddToList() {
+                const addListButtons = document.querySelectorAll('.btn-add-list');
+                const dropdownContents = document.querySelectorAll('.dropdown-content');
                 
-                // Toggle current dropdown
-                dropdown.classList.toggle('show');
-            });
-        });
-        
-        // Add click event listeners to dropdown options
-        dropdownContents.forEach(dropdown => {
-            const options = dropdown.querySelectorAll('a');
-            options.forEach(option => {
-                option.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const status = this.getAttribute('data-status');
-                    const title = this.closest('.add-list-dropdown').querySelector('.btn-add-list').getAttribute('data-title');
-                    const button = this.closest('.add-list-dropdown').querySelector('.btn-add-list');
-                    
-                    // Remove active class from all options in this dropdown
-                    const allOptions = this.closest('.dropdown-content').querySelectorAll('a');
-                    allOptions.forEach(opt => opt.classList.remove('active'));
-                    
-                    if (status === 'remove') {
-                        localStorage.removeItem(`quravel_status_${title}`);
-                        button.innerHTML = `
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 5v14M5 12h14"/>
-                            </svg>
-                            Add to List
-                        `;
-                    } else {
-                        // Save to localStorage
-                        localStorage.setItem(`quravel_status_${title}`, status);
+                // Load saved status from localStorage
+                this.loadSavedStatus();
+                
+                // Add click event listeners to Add to List buttons
+                addListButtons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const dropdown = this.nextElementSibling;
                         
-                        // Add active class to selected option
-                        this.classList.add('active');
+                        // Close all other dropdowns
+                        dropdownContents.forEach(content => {
+                            if (content !== dropdown) {
+                                content.classList.remove('show');
+                            }
+                        });
                         
-                        // Update button text
-                        const statusText = status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ');
+                        // Toggle current dropdown
+                        dropdown.classList.toggle('show');
+                    });
+                });
+                
+                // Add click event listeners to dropdown options
+                dropdownContents.forEach(dropdown => {
+                    const options = dropdown.querySelectorAll('a');
+                    options.forEach(option => {
+                        option.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const status = this.getAttribute('data-status');
+                            const title = this.closest('.add-list-dropdown').querySelector('.btn-add-list').getAttribute('data-title');
+                            const button = this.closest('.add-list-dropdown').querySelector('.btn-add-list');
+                            
+                            // Remove active class from all options in this dropdown
+                            const allOptions = this.closest('.dropdown-content').querySelectorAll('a');
+                            allOptions.forEach(opt => opt.classList.remove('active'));
+                            
+                            if (status === 'remove') {
+                                localStorage.removeItem(`quravel_status_${title}`);
+                                button.innerHTML = `
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 5v14M5 12h14"/>
+                                    </svg>
+                                    Add to List
+                                `;
+                            } else {
+                                // Save to localStorage
+                                localStorage.setItem(`quravel_status_${title}`, status);
+                                
+                                // Add active class to selected option
+                                this.classList.add('active');
+                                
+                                // Update button text
+                                const statusText = status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ');
+                                button.innerHTML = `
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
+                                    </svg>
+                                    ${statusText}
+                                `;
+                            }
+                            
+                            // Close dropdown
+                            dropdown.classList.remove('show');
+                        });
+                    });
+                });
+                
+                // Close dropdowns when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.add-list-dropdown')) {
+                        dropdownContents.forEach(content => {
+                            content.classList.remove('show');
+                        });
+                    }
+                });
+            }
+
+            loadSavedStatus() {
+                const addListButtons = document.querySelectorAll('.btn-add-list');
+                
+                addListButtons.forEach(button => {
+                    const title = button.getAttribute('data-title');
+                    const savedStatus = localStorage.getItem(`quravel_status_${title}`);
+                    if (savedStatus && savedStatus !== 'remove') {
+                        const dropdown = button.nextElementSibling;
+                        const options = dropdown.querySelectorAll('a');
+                        options.forEach(option => {
+                            if (option.getAttribute('data-status') === savedStatus) {
+                                option.classList.add('active');
+                            }
+                        });
                         button.innerHTML = `
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M9 12l2 2 4-4"/>
                                 <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
                             </svg>
-                            ${statusText}
+                            ${savedStatus.charAt(0).toUpperCase() + savedStatus.slice(1).replace('_', ' ')}
                         `;
                     }
-                    
-                    // Close dropdown
-                    dropdown.classList.remove('show');
-                });
-            });
-        });
-        
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.add-list-dropdown')) {
-                dropdownContents.forEach(content => {
-                    content.classList.remove('show');
                 });
             }
+
+            handleContentClick() {
+                // Simple alert for demo - in real app would navigate to content page
+                alert('Content clicked! In a real app, this would navigate to the content details page.');
+            }
+
+            setupHeaderScrollEffect() {
+                const header = document.querySelector('.header');
+                let lastScrollY = window.scrollY;
+
+                window.addEventListener('scroll', () => {
+                    const currentScrollY = window.scrollY;
+                    
+                    if (currentScrollY > 100) {
+                        header.style.background = 'rgba(16, 24, 40, 0.95)';
+                    } else {
+                        header.style.background = 'rgba(16, 24, 40, 0.95)';
+                    }
+
+                    lastScrollY = currentScrollY;
+                });
+            }
+
+            setupScrollEffects() {
+                // Smooth scroll for anchor links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    });
+                });
+
+                // Animation on scroll
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('fade-in');
+                        }
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.content-card').forEach(card => {
+                    observer.observe(card);
+                });
+            }
+
+            // Utility function
+            getQualityClass(rating) {
+                if (!rating) return 'hd';
+                if (rating >= 8.5) return 'uhd';
+                if (rating >= 7.5) return '4k';
+                if (rating >= 6.5) return 'hd';
+                return 'sd';
+            }
+
+            getQualityLabel(rating) {
+                if (!rating) return 'HD';
+                if (rating >= 8.5) return 'UHD';
+                if (rating >= 7.5) return '4K';
+                if (rating >= 6.5) return 'HD';
+                return 'SD';
+            }
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize main app
+            window.app = new QuravelApp();
+            
+            // Setup image loading
+            document.querySelectorAll('.poster-image').forEach(img => {
+                img.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                });
+                
+                img.addEventListener('error', function() {
+                    this.src = 'https://via.placeholder.com/300x450/101828/94A3B8?text=No+Image';
+                });
+            });
+
+            // Setup Watch Now buttons
+            document.querySelectorAll('.btn-primary').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const title = this.getAttribute('data-title');
+                    alert(`Playing: ${title}`);
+                    // In real app, this would start playback
+                });
+            });
+
+            // Quravel App initialized successfully
+            console.log('Quravel app initialized');
         });
-        
-        // Load saved status on page load
-        loadSavedStatus();
     </script>
 </body>
 </html>
