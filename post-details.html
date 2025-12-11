@@ -1,2199 +1,510 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Details - Quravel</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            /* Quravel Theme Colors */
-            --bg-page: #0A101C;
-            --bg-surface: #101828;
-            --bg-card: #1a2332;
-            --bg-footer: #293E4F; /* Changed footer color */
-            
-            /* Primary Colors */
-            --primary-500: #A94451;
-            --primary-600: #8B3A43;
-            
-            /* Interactive Colors */
-            --interactive-500: #22D3EE;
-            --interactive-600: #06B6D4;
-            
-            /* Text Colors */
-            --text-primary: #E4E4E7;
-            --text-secondary: #94A3B8;
-            --text-muted: #64748B;
-            
-            /* Semantic Colors */
-            --success: #22C55E;
-            --error: #EF4444;
-            --warning: #F59E0B;
-            
-            /* Border Colors */
-            --border-color: #334155;
-            --border-focus: #22D3EE;
-            
-            /* Font Family */
-            --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            
-            /* Spacing */
-            --space-xs: 8px;
-            --space-sm: 16px;
-            --space-md: 24px;
-            --space-lg: 32px;
-            --space-xl: 48px;
-            --space-xxl: 64px;
-            
-            /* Font Sizes */
-            --font-size-xs: 12px;
-            --font-size-sm: 14px;
-            --font-size-base: 16px;
-            --font-size-lg: 18px;
-            --font-size-xl: 20px;
-            --font-size-2xl: 24px;
-            --font-size-3xl: 32px;
-            --font-size-4xl: 42px;
-            
-            /* Border Radius */
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-full: 9999px;
-            
-            /* Shadows */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quravel - Show Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#498BBB", // Updated to requested blue
+                        "background-light": "#F3F4F6",
+                        "background-dark": "#0B0E19",
+                        "surface-dark": "#151926",
+                        "footer-dark": "#0C0E14",
+                        "text-light": "#E5E7EB",
+                        "text-muted": "#9CA3AF"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
         body {
-            font-family: var(--font-family);
-            background: var(--bg-page);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        /* Header - Professional Streaming Platform */
-        .main-header {
-            background: rgba(10, 16, 28, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            height: 80px;
-        }
-        
-        .header-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 24px;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-            position: relative;
-        }
-        
-        /* Left Side - Menu (Fixed position) */
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex: 0 0 auto;
-            min-width: 300px;
-        }
-        
-        /* Hamburger Menu for Mobile */
-        .hamburger-menu {
+            font-family: 'Inter', sans-serif;
+        }.hide-scrollbar::-webkit-scrollbar {
             display: none;
-            flex-direction: column;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            gap: 4px;
-            z-index: 1001;
         }
-        
-        .hamburger-menu span {
-            width: 24px;
-            height: 2px;
-            background-color: var(--text-primary);
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-        
-        /* Desktop Navigation Menu */
-        .desktop-nav {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-            max-width: 500px;
-            overflow: hidden;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-            padding: 0;
-            margin: 0;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            scrollbar-width: none;
+        .hide-scrollbar {
             -ms-overflow-style: none;
-            flex: 1;
-        }
-        
-        .nav-links::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .nav-links li {
-            flex-shrink: 0;
-        }
-        
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            position: relative;
-        }
-        
-        .nav-links a:hover {
-            color: var(--interactive-500);
-            background: rgba(34, 211, 238, 0.1);
-        }
-        
-        .nav-links a.active {
-            color: var(--interactive-500);
-            background: rgba(34, 211, 238, 0.15);
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: var(--interactive-500);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 80%;
-        }
-        
-        /* Nav Scroll Buttons */
-        .nav-scroll-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--text-primary);
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-        }
-        
-        .nav-scroll-btn:hover {
-            background: var(--interactive-500);
-            color: var(--bg-page);
-            transform: scale(1.1);
-        }
-        
-        /* Logo - Absolute Center for ALL devices */
-        .logo-center {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1001;
-        }
-        
-        .logo-center img {
-            height: 40px;
-            width: auto;
-            max-width: 180px;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-        }
-        
-        .logo-center img:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Right Side - Search */
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex: 0 0 auto;
-            min-width: 300px;
-            justify-content: flex-end;
-        }
-        
-        .search-container {
-            position: relative;
-            width: 280px;
-        }
-        
-        .search-wrapper {
-            position: relative;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-        
-        .search-wrapper:focus-within {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: var(--interactive-500);
-            box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
-        }
-        
-        .search-container input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            padding: 12px 48px 12px 18px;
-            color: var(--text-primary);
-            font-size: 14px;
-            outline: none;
-        }
-        
-        .search-container input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .search-icon {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-            pointer-events: none;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        /* Search Suggestions */
-        .search-suggestions {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            right: 0;
-            background: rgba(10, 16, 28, 0.98);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            margin-top: 5px;
-            max-height: 500px;
-            overflow-y: auto;
-            display: none;
-            z-index: 1002;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.2s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .search-suggestion-item {
-            display: flex;
-            padding: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            gap: 16px;
-            align-items: flex-start;
-        }
-        
-        .search-suggestion-item:hover {
-            background-color: rgba(34, 211, 238, 0.15);
-        }
-        
-        .suggestion-thumbnail {
-            width: 50px;
-            height: 75px;
-            object-fit: cover;
-            border-radius: 8px;
-            flex-shrink: 0;
-        }
-        
-        .suggestion-info {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .suggestion-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--text-primary);
-        }
-        
-        .suggestion-meta {
-            font-size: 13px;
-            color: var(--text-secondary);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        .suggestion-type {
-            color: var(--interactive-500);
-            font-weight: 500;
-        }
-        
-        .suggestion-rating {
-            color: #fbbf24;
-            font-weight: 500;
-        }
-        
-        .suggestion-creator {
-            color: var(--text-secondary);
-            font-style: italic;
-        }
-        
-        .suggestion-cast {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-            font-style: italic;
-        }
-        
-        .suggestion-genres {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 2px;
-            opacity: 0.8;
-        }
-        
-        .no-results {
-            padding: 32px 20px;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
-        /* Mobile Navigation */
-        .mobile-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(10, 16, 28, 0.98);
-            backdrop-filter: blur(20px);
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            transform: translateY(-100%);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto;
-        }
-        
-        .mobile-nav.active {
-            transform: translateY(0);
-        }
-        
-        .mobile-nav-header {
-            padding: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .mobile-nav-links {
-            list-style: none;
-            padding: 40px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .mobile-nav-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 20px;
-            font-weight: 500;
-            padding: 16px 0;
-            display: block;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .mobile-nav-links a:hover {
-            color: var(--interactive-500);
-            padding-left: 10px;
-        }
-        
-        /* Hamburger Menu Animation */
-        .hamburger-menu.active span:nth-child(1) {
-            transform: rotate(45deg) translate(6px, 6px);
-        }
-        
-        .hamburger-menu.active span:nth-child(2) {
-            opacity: 0;
-        }
-        
-        .hamburger-menu.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(6px, -6px);
-        }
-        
-        /* Content Offset for Fixed Header */
-        body {
-            padding-top: 80px;
-        }
-        
-        /* Hero Section */
-        .hero-section {
-            min-height: calc(100vh - 80px);
-            padding: var(--space-xl) 0;
-            position: relative;
-        }
-        
-        .hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-xl);
-        }
-        
-        /* Poster - Top Center */
-        .poster-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-bottom: var(--space-lg);
-        }
-        
-        .poster {
-            width: 100%;
-            max-width: 400px;
-            height: 600px;
-            border-radius: var(--radius-lg);
-            object-fit: cover;
-            box-shadow: var(--shadow-xl);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .poster:hover {
-            transform: scale(1.02);
-        }
-        
-        /* Content Section */
-        .content-section {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .post-title {
-            font-size: var(--font-size-4xl);
-            font-weight: 700;
-            margin-bottom: var(--space-md);
-            line-height: 1.2;
-            color: var(--text-primary);
-            text-align: center;
-        }
-        
-        /* Badges */
-        .badges {
-            display: flex;
-            gap: var(--space-sm);
-            flex-wrap: wrap;
-            margin-bottom: var(--space-xl);
-            justify-content: center;
-        }
-        
-        .badge {
-            padding: 8px 16px;
-            border-radius: var(--radius-full);
-            font-size: var(--font-size-sm);
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-xs);
-        }
-        
-        .badge.imdb {
-            background: #F3CE02;
-            color: #000;
-            font-weight: 700;
-        }
-        
-        .badge.hd {
-            background: var(--success);
-            color: #fff;
-        }
-        
-        .badge.rating {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-        }
-        
-        .badge.quality {
-            background: var(--primary-500);
-            color: #fff;
-        }
-        
-        .badge.year {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-        }
-        
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: var(--space-md);
-            margin-bottom: var(--space-xl);
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-xs);
-            padding: 14px 28px;
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-base);
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: var(--font-family);
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn-primary {
-            background: #2C5282;
-            color: white !important;
-        }
-        
-        .btn-primary:hover {
-            background: #2A4A6B;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(44, 82, 130, 0.4);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--border-color);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--bg-card);
-            border-color: var(--primary-500);
-            color: var(--primary-500);
-        }
-        
-        /* Add to List Dropdown */
-        .add-to-list-container {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .dropdown-content {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            min-width: 220px;
-            box-shadow: var(--shadow-xl);
-            z-index: 9999;
-            display: none;
-            overflow: hidden;
-        }
-        
-        .dropdown-content.active {
-            display: block;
-            animation: dropdownSlide 200ms ease-out;
-        }
-        
-        @keyframes dropdownSlide {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-        
-        .dropdown-item {
-            padding: 12px 16px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            font-size: var(--font-size-sm);
-            color: var(--text-primary);
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .dropdown-item:last-child {
-            border-bottom: none;
-        }
-        
-        .dropdown-item:hover {
-            background: var(--bg-surface);
-        }
-        
-        .dropdown-item.active {
-            background: var(--primary-500);
-            color: white;
-        }
-        
-        .dropdown-item.remove {
-            color: var(--error);
-        }
-        
-        .dropdown-item.remove:hover {
-            background: rgba(244, 63, 94, 0.1);
-        }
-        
-        /* Description */
-        .description {
-            font-size: var(--font-size-lg);
-            line-height: 1.8;
-            margin-bottom: var(--space-xl);
-            color: var(--text-secondary);
-            text-align: center;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .description .more-link {
-            color: var(--interactive-500);
-            cursor: pointer;
-            font-weight: 600;
-        }
-        
-        .description .more-link:hover {
-            text-decoration: underline;
-        }
-        
-        /* Watch Info */
-        .watch-info {
-            font-size: var(--font-size-sm);
-            color: var(--text-muted);
-            margin-bottom: var(--space-xl);
-            padding: var(--space-lg);
-            background: var(--bg-surface);
-            border-radius: var(--radius-md);
-            border-left: 4px solid var(--primary-500);
-            text-align: center;
-        }
-        
-        .watch-info strong {
-            color: var(--text-primary);
-        }
-        
-        /* Details Section */
-        .details-section {
-            background: var(--bg-surface);
-            padding: var(--space-xl);
-            border-radius: var(--radius-lg);
-            margin-top: var(--space-xl);
-        }
-        
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-lg);
-        }
-        
-        .detail-item {
-            margin-bottom: var(--space-md);
-            text-align: left;
-        }
-        
-        .detail-label {
-            font-weight: 600;
-            font-size: var(--font-size-sm);
-            margin-bottom: 4px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .detail-value {
-            font-size: var(--font-size-base);
-            color: var(--text-primary);
-            line-height: 1.4;
-        }
-        
-        .detail-value a {
-            color: var(--interactive-500);
-            text-decoration: none;
-        }
-        
-        .detail-value a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Genre Tags */
-        .genre-tags {
-            display: flex;
-            gap: var(--space-xs);
-            flex-wrap: wrap;
-        }
-        
-        .genre-tag {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 6px 14px;
-            border-radius: var(--radius-full);
-            font-size: var(--font-size-xs);
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .genre-tag:hover {
-            background: var(--primary-500);
-            border-color: var(--primary-500);
-            color: white;
-        }
-        
-        /* You May Like This Section - With Increased Height */
-        .recommendations-section {
-            padding: var(--space-xxl) 0;
-            background: var(--bg-page);
-        }
-        
-        .recommendations-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
-        }
-        
-        .recommendations-title {
-            font-size: var(--font-size-3xl);
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: var(--space-xl);
-            text-align: center;
-        }
-        
-        .recommendations-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--space-lg);
-        }
-        
-        .recommendation-card {
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            height: 470px; /* Optimized height for better vertical poster display */
-            max-width: 100%;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
-        }
-        
-        .recommendation-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border-color: var(--interactive-500);
-        }
-        
-        .recommendation-card:hover .recommendation-image img {
-            transform: scale(1.05);
-        }
-        
-        .recommendation-image {
-            width: 100%;
-            height: 340px; /* Even taller poster for better vertical poster display */
-            overflow: hidden;
-            position: relative;
-            border-radius: var(--radius-sm) var(--radius-sm) 0 0; /* Rounded top corners */
-        }
-        
-        .recommendation-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        
-        .recommendation-card:hover .recommendation-image img {
-            transform: scale(1.05);
-        }
-        
-        .recommendation-content {
-            padding: 12px 12px 8px 12px; /* Minimal bottom padding, more space for poster */
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .recommendation-title {
-            font-size: 15px; /* Slightly smaller title for better fit */
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 4px; /* Reduced margin for more poster space */
-            line-height: 1.2;
-            display: -webkit-box;
-            -webkit-line-clamp: 2; /* Limit to 2 lines */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .recommendation-info {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-            margin-top: auto; /* Push to bottom */
-        }
-        
-        /* Footer with updated background color */
-        .main-footer {
-            background-color: var(--bg-footer); /* #293E4F */
-            padding: 50px 0 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--space-xl);
-            margin-bottom: var(--space-xl);
-        }
-        
-        .footer-section h3 {
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: var(--space-md);
-            color: #ffffff;
-        }
-        
-        .footer-section ul {
-            list-style: none;
-        }
-        
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-section ul li a {
-            color: rgba(255, 255, 255, 0.7);
-            transition: color 0.3s ease;
-            font-size: 14px;
-            text-decoration: none;
-        }
-        
-        .footer-section ul li a:hover {
-            color: var(--interactive-500);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 13px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 25px var(--space-lg) 0;
-        }
-        
-        .footer-logo {
-            width: 160px;
-            margin-bottom: var(--space-md);
-        }
-        
-        .footer-description {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-            margin-bottom: var(--space-md);
-            font-size: 14px;
-        }
-        
-        /* Responsive Design - Fixed for ALL devices */
-        @media (max-width: 1200px) {
-            .header-left {
-                min-width: 250px;
-            }
-            
-            .header-right {
-                min-width: 250px;
-            }
-            
-            .search-container {
-                width: 220px;
-            }
-        }
-        
-        @media (max-width: 992px) {
-            .header-container {
-                gap: 20px;
-                padding: 0 16px;
-            }
-            
-            .header-left {
-                min-width: 200px;
-            }
-            
-            .header-right {
-                min-width: 200px;
-            }
-            
-            .search-container {
-                width: 180px;
-            }
-            
-            .desktop-nav {
-                display: none;
-            }
-            
-            .hamburger-menu {
-                display: flex;
-            }
-            
-            /* Logo stays absolutely centered on ALL devices */
-            .logo-center {
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-            }
-            
-            .recommendations-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .recommendation-card {
-                height: 440px;
-            }
-            
-            .recommendation-image {
-                height: 320px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header-left {
-                min-width: auto;
-                flex: 0 0 auto;
-            }
-            
-            .header-right {
-                min-width: auto;
-                flex: 0 0 auto;
-            }
-            
-            .search-container {
-                width: 160px;
-            }
-            
-            .search-container input {
-                padding: 10px 40px 10px 14px;
-                font-size: 13px;
-            }
-            
-            .poster {
-                max-width: 300px;
-                height: 450px;
-            }
-            
-            .post-title {
-                font-size: var(--font-size-3xl);
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
-            }
-            
-            .recommendations-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 16px;
-            }
-            
-            .recommendation-card {
-                height: 410px;
-            }
-            
-            .recommendation-image {
-                height: 300px;
-            }
-            
-            .hero-content {
-                padding: 0 var(--space-md);
-            }
-            
-            .details-section {
-                padding: var(--space-lg);
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .header-container {
-                gap: 10px;
-                padding: 0 12px;
-            }
-            
-            .search-container {
-                width: 140px;
-            }
-            
-            .search-container input {
-                padding: 8px 36px 8px 12px;
-                font-size: 12px;
-            }
-            
-            .poster {
-                max-width: 250px;
-                height: 375px;
-            }
-            
-            .post-title {
-                font-size: var(--font-size-2xl);
-            }
-            
-            .badges {
-                gap: 8px;
-            }
-            
-            .badge {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-            
-            .recommendations-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .recommendation-card {
-                height: 390px;
-            }
-            
-            .recommendation-image {
-                height: 280px;
-            }
-            
-            .logo-center img {
-                height: 35px;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: var(--space-lg);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .header-left {
-                flex: 0 0 40px;
-            }
-            
-            .header-right {
-                flex: 0 0 140px;
-            }
-            
-            .search-container {
-                width: 120px;
-            }
-            
-            /* Ensure logo stays centered even on smallest screens */
-            .logo-center {
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-                width: 120px;
-            }
-            
-            .logo-center img {
-                height: 32px;
-                max-width: 120px;
-            }
+            scrollbar-width: none;
+        }#mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+        .menu-open {
+            transform: translateX(0) !important;
         }
     </style>
 </head>
-<body>
-    <!-- Header -->
-    <header class="main-header">
-        <div class="header-container">
-            <!-- Left Side - Menu -->
-            <div class="header-left">
-                <!-- Hamburger Menu (Mobile) -->
-                <button class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                
-                <!-- Desktop Navigation Menu -->
-                <div class="desktop-nav">
-                    <button class="nav-scroll-btn" id="navScrollLeft" aria-label="Scroll left">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    
-                    <ul class="nav-links" id="desktopNavLinks">
-                        <li><a href="index.html" class="active">Home</a></li>
-                        <li><a href="#movies">Movies</a></li>
-                        <li><a href="#tv-shows">TV Shows</a></li>
-                        <li><a href="#anime">Anime</a></li>
-                        <li><a href="#top-imdb">Top IMDb</a></li>
-                        <li><a href="#latest">Latest</a></li>
-                        <li><a href="#trending">Trending</a></li>
-                        <li><a href="#genres">Genres</a></li>
-                    </ul>
-                    
-                    <button class="nav-scroll-btn" id="navScrollRight" aria-label="Scroll right">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Logo - Absolute Center for ALL devices -->
-            <div class="logo-center">
-                <a href="index.html">
-                    <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo">
-                </a>
-            </div>
-            
-            <!-- Right Side - Search -->
-            <div class="header-right">
-                <div class="search-container">
-                    <div class="search-wrapper">
-                        <input type="text" id="searchInput" placeholder="Search..." autocomplete="off" aria-label="Search">
-                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-text-light transition-colors duration-300 min-h-screen flex flex-col relative">
+<div class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" id="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+<div class="fixed top-0 left-0 h-full w-64 bg-white dark:bg-[#151926] z-50 transform -translate-x-full lg:hidden overflow-y-auto shadow-2xl" id="mobile-menu">
+<div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+<img alt="Quravel Logo" class="h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqiUc86NAc2oPWF0jZS6ltVT0qDRUQLGYe-vsh90aCjNPCKRUYsR2joEXfq121iCQ1DMhEXbbjY-Rm6ydRKKVvOD7XCHpsnpYv4oUDQP6h-KZ9tUpwQb33LAseATibNSPDDxAViL3XAYheHWPQCau7pQCd7-XFT2YjY86y-DFUxv6SfYoh27gsa2-RiKjPMnhZfSvjYzFQSeYDzy64a_9Lmf5_NT9MkYffdzHclH1EyMht0psBW3wqnbmTFh6wbG5Xh4VXCnRWONM"/>
+<button class="text-gray-500 hover:text-primary" onclick="toggleMobileMenu()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-4 space-y-4">
+<a class="block text-sm font-medium hover:text-primary py-2 border-b border-gray-100 dark:border-gray-800" href="#">Home</a>
+<div class="py-2 border-b border-gray-100 dark:border-gray-800">
+<button class="flex items-center justify-between w-full text-sm font-medium hover:text-primary focus:outline-none" onclick="toggleMobileDropdown('genre-mobile')">
+<span>Genre</span>
+<span class="material-symbols-outlined text-sm transform transition-transform" id="genre-arrow">expand_more</span>
+</button>
+<div class="hidden mt-2 ml-4 space-y-2 text-sm text-gray-500 dark:text-gray-400" id="genre-mobile">
+<a class="block hover:text-primary" href="#">Action</a>
+<a class="block hover:text-primary" href="#">Adventure</a>
+<a class="block hover:text-primary" href="#">Comedy</a>
+<a class="block hover:text-primary" href="#">Drama</a>
+<a class="block hover:text-primary" href="#">Horror</a>
+<a class="block hover:text-primary" href="#">Romance</a>
+<a class="block hover:text-primary" href="#">Sci-Fi</a>
+</div>
+</div>
+<div class="py-2 border-b border-gray-100 dark:border-gray-800">
+<button class="flex items-center justify-between w-full text-sm font-medium hover:text-primary focus:outline-none" onclick="toggleMobileDropdown('country-mobile')">
+<span>Country</span>
+<span class="material-symbols-outlined text-sm transform transition-transform" id="country-arrow">expand_more</span>
+</button>
+<div class="hidden mt-2 ml-4 space-y-2 text-sm text-gray-500 dark:text-gray-400" id="country-mobile">
+<a class="block hover:text-primary" href="#">USA</a>
+<a class="block hover:text-primary" href="#">UK</a>
+<a class="block hover:text-primary" href="#">Korea</a>
+<a class="block hover:text-primary" href="#">Japan</a>
+<a class="block hover:text-primary" href="#">India</a>
+</div>
+</div>
+<a class="block text-sm font-medium hover:text-primary py-2 border-b border-gray-100 dark:border-gray-800" href="#">Top IMDB</a>
+<a class="block text-sm font-medium hover:text-primary py-2 border-b border-gray-100 dark:border-gray-800" href="#">Updates</a>
+<a class="block text-sm font-medium hover:text-primary py-2" href="#">Sent request</a>
+</div>
+</div>
+<header class="fixed top-0 w-full z-40 bg-white/95 dark:bg-[#0B0E19]/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm">
+<div class="container mx-auto px-4 h-16 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<button class="lg:hidden text-gray-600 dark:text-gray-200 focus:outline-none" onclick="toggleMobileMenu()">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+<nav class="hidden lg:flex items-center space-x-6 text-sm font-medium">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<div class="relative group">
+<button class="flex items-center space-x-1 hover:text-primary transition-colors focus:outline-none py-4">
+<span>Genre</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+<div class="absolute top-full left-0 w-[600px] bg-white dark:bg-[#1A1D29] rounded-b-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border-t-2 border-primary grid grid-cols-4 gap-4 p-6 z-50">
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Action</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Adventure</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Animation</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Biography</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Comedy</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Crime</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Documentary</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Drama</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Family</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Fantasy</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">History</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Horror</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Music</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Mystery</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Romance</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Sci-Fi</a>
+</div>
+</div>
+<div class="relative group">
+<button class="flex items-center space-x-1 hover:text-primary transition-colors focus:outline-none py-4">
+<span>Country</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+<div class="absolute top-full left-0 w-[600px] bg-white dark:bg-[#1A1D29] rounded-b-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border-t-2 border-primary grid grid-cols-4 gap-4 p-6 z-50">
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Argentina</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Australia</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Austria</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Belgium</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Brazil</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Canada</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">China</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">France</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Germany</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">India</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Japan</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Korea</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Mexico</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">UK</a>
+<a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">USA</a>
+</div>
+</div>
+<a class="hover:text-primary transition-colors" href="#">Top IMDB</a>
+<a class="hover:text-primary transition-colors" href="#">Updates</a>
+<a class="hover:text-primary transition-colors" href="#">Sent request</a>
+</nav>
+</div>
+<div class="absolute left-1/2 transform -translate-x-1/2">
+<a class="block" href="/">
+<img alt="Quravel Logo" class="h-8 md:h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJUVSMqcvlsLRod5Xj-MZhjFAWxv45A-9D1r1RCogjetrU2yKas3rRIuvSZRytOe6KmnI1y8NBGlIDGaE0UV5-mx19YpDf5v0SsajVxTc0VUCDku8E8PC54rDIUGGhmt44NSDXMGfnGVTtfzGJ8Cj6U15erHms74L8zDNtfVtIjG013mT9k-H5Psf5KSd570YR8_DAtEfUBmcVIMfE5LNH3WO14T7Cv3psWjV5O4UWogAMASg1czrkMA4qcRagH2Mtb7wqzWRn0BQ"/>
+</a>
+</div>
+<div class="flex items-center space-x-4">
+<div class="relative hidden sm:block">
+<input class="bg-gray-100 dark:bg-gray-800 text-sm rounded-full py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-primary w-48 transition-all dark:text-white border-none" placeholder="Search..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-2 text-gray-400 text-lg cursor-pointer hover:text-primary">search</span>
+</div>
+<button class="sm:hidden text-gray-600 dark:text-gray-200" onclick="toggleMobileSearch()">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</div>
+<div class="hidden sm:hidden bg-white dark:bg-[#0B0E19] border-b border-gray-200 dark:border-gray-800 p-3 absolute w-full top-16 left-0 z-30" id="mobile-search-bar">
+<div class="relative">
+<input class="w-full bg-gray-100 dark:bg-gray-800 text-sm rounded-full py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white border-none" placeholder="Search movies, shows..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-2 text-gray-400 text-lg">search</span>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-24 pb-12">
+<div class="container mx-auto px-4">
+<div class="bg-white dark:bg-[#151926] rounded-2xl p-6 md:p-8 lg:p-10 shadow-lg mb-12 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none opacity-20"></div>
+<div class="flex flex-col md:flex-row gap-8 lg:gap-12 relative z-10">
+<div class="flex-shrink-0 mx-auto md:mx-0 w-64 md:w-72 lg:w-80 relative group">
+<img alt="Show Poster" class="w-full h-auto rounded-xl shadow-2xl object-cover aspect-[2/3] transform transition duration-500 hover:scale-[1.02]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL8sSKQhkIHjJRpfaXPOb2Ntr-YMNUhdTfQQNGnnmqGZu3SSewBEFAnXpGTo1YxqHXlb8pOCJCZrgrSF00Ey3CMmhZW5Q7dqz5o0qIOeV3DXsmqV-RKQGF2yEnwCFPLqyZ1R9luYVGdw-P_L6bRKjMPRM2RO5ISubiOat46Ovv-uMFsJfxGzRT0ngWoCZXAiiHQbJOA91N5Wyn21gKPKb6rWilqbabiqUYqUEEe31UdFQXOki6b3glJcCnNMssztZkZ0UYU_mwBbY"/>
+<div class="absolute inset-0 rounded-xl ring-1 ring-white/10 pointer-events-none"></div>
+</div>
+<div class="flex-grow flex flex-col justify-start text-center md:text-left">
+<div class="text-primary text-sm font-semibold mb-2 uppercase tracking-wide">Home • Movie • Action</div>
+<h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">The Shawshank Redemption</h1>
+<div class="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-6 text-sm">
+<div class="flex items-center space-x-1 bg-yellow-500/10 text-yellow-500 px-2 py-1 rounded border border-yellow-500/20">
+<span class="material-symbols-outlined text-base">star</span>
+<span class="font-bold">9.3</span>
+<span class="text-xs opacity-70">IMDb</span>
+</div>
+<div class="px-2 py-0.5 rounded border border-primary text-primary bg-primary/10 text-xs font-mono font-bold">HD</div>
+<span class="px-2 py-0.5 rounded border border-gray-300 dark:border-gray-600 text-xs">R</span>
+<span class="text-gray-500 dark:text-gray-400">• Movie</span>
+<span class="text-gray-500 dark:text-gray-400">• 1994</span>
+<span class="text-gray-500 dark:text-gray-400">• 2h 22m</span>
+</div>
+<div class="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-8">
+<button class="bg-primary hover:bg-opacity-90 text-white font-semibold py-3 px-8 rounded-full flex items-center gap-2 transition-all shadow-lg shadow-primary/30 transform hover:-translate-y-0.5 w-full md:w-auto justify-center">
+<span class="material-symbols-outlined">play_arrow</span>
+                                Watch now
+                            </button>
+<div class="relative group dropdown-container w-full md:w-auto">
+<button class="bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-white font-semibold py-3 px-6 rounded-full flex items-center justify-center gap-2 transition-colors w-full md:w-auto" id="add-to-list-btn">
+<span class="material-symbols-outlined">add</span>
+<span id="current-list-status">Add to list</span>
+<span class="material-symbols-outlined text-sm ml-1">expand_more</span>
+</button>
+<div class="absolute left-0 top-full mt-2 w-full md:w-56 bg-white dark:bg-surface-dark rounded-lg shadow-xl py-2 z-20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-200 dark:border-gray-700 text-sm">
+<button class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" onclick="updateListStatus('Planning to watch')">Planning to watch</button>
+<button class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" onclick="updateListStatus('Watching')">Watching</button>
+<button class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" onclick="updateListStatus('Completed')">Completed</button>
+<button class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" onclick="updateListStatus('Re-watching')">Re-watching</button>
+<button class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" onclick="updateListStatus('Dropped')">Dropped</button>
+<div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+<button class="block w-full text-left px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500" onclick="updateListStatus('Add to list')">Remove from list</button>
+</div>
+</div>
+</div>
+<div class="grid md:grid-cols-3 gap-8 text-sm">
+<div class="md:col-span-2">
+<p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+                                    Framed in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope.
+                                </p>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+<img alt="User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKepUuUHAz1GAAh9d1TP86fQ1cNEGF_A7Fi00ANN4rMbe5iAkgL18ZwXQ_bLabOJGS3Iw3kmWCMR-_bC6J8ZAQj7Fa0-ag_YKIFuGatJ4ZNgTMz3biJI_2j3tsHgv6s5Plmkoc0FaWk6FRXJ7WJDhwAwq6eIC8fEwWyZ8Qvnrk_GSsXRCVgO8Pvsa1YoJHTDbL3GoE4tSEYDIt8M5edImu39b2CQwvrurfgk06BuS_MZ3XIZgyYP78SnTXm3iVxTS6JSkhKhF0G4U"/>
+</div>
+<div class="text-xs">
+<div class="font-bold text-primary">Share Quravel</div>
+<div class="text-gray-500">to your friends</div>
+</div>
+</div>
+</div>
+<div class="md:col-span-1 space-y-3 text-gray-600 dark:text-gray-400 border-l border-gray-200 dark:border-gray-700 pl-0 md:pl-6">
+<div class="grid grid-cols-3 gap-2">
+<span class="font-medium text-gray-900 dark:text-white">Japanese:</span>
+<span class="col-span-2 text-xs truncate">ショーシャンクの空に</span>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<span class="font-medium text-gray-900 dark:text-white">Aired:</span>
+<span class="col-span-2 text-xs">Sep 23, 1994</span>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<span class="font-medium text-gray-900 dark:text-white">Duration:</span>
+<span class="col-span-2 text-xs">142 min</span>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<span class="font-medium text-gray-900 dark:text-white">Status:</span>
+<span class="col-span-2 text-xs">Finished Airing</span>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<span class="font-medium text-gray-900 dark:text-white">Genres:</span>
+<div class="col-span-2 flex flex-wrap gap-1">
+<a class="border border-gray-300 dark:border-gray-600 rounded px-1.5 py-0.5 text-[10px] hover:text-primary hover:border-primary transition" href="#">Drama</a>
+<a class="border border-gray-300 dark:border-gray-600 rounded px-1.5 py-0.5 text-[10px] hover:text-primary hover:border-primary transition" href="#">Crime</a>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<span class="font-medium text-gray-900 dark:text-white">Studios:</span>
+<span class="col-span-2 text-xs text-primary">Castle Rock</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-12">
+<h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white border-l-4 border-primary pl-4">You may like this</h2>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-background-light dark:from-background-dark to-transparent z-10 pointer-events-none"></div>
+<div class="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background-light dark:from-background-dark to-transparent z-10 pointer-events-none"></div>
+<button class="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-primary text-white p-2 rounded-full shadow-lg transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300" onclick="scrollContainer('left')">
+<span class="material-symbols-outlined text-2xl">chevron_left</span>
+</button>
+<button class="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-primary text-white p-2 rounded-full shadow-lg transform translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300" onclick="scrollContainer('right')">
+<span class="material-symbols-outlined text-2xl">chevron_right</span>
+</button>
+<div class="flex overflow-x-auto gap-4 pb-6 pt-2 px-2 hide-scrollbar snap-x snap-mandatory scroll-smooth" id="recommendations-container">
+<a class="flex-shrink-0 w-40 sm:w-48 group snap-start" href="#">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden mb-3 bg-gray-200 dark:bg-gray-800 shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:shadow-primary/20">
+<img alt="The Lord of the Rings" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuupgb3nD25Wubm40iI5tWuP49EydCaUp0EiYjTBXI3qpDr-LerCLu9i6Cz1lAn9uEWj1X_Fo4FgoziLiAqHVGWLScn06tNXiGQnMbiwIt2Jrc5GUwtVkyxUxR-KnBNZOWx3ius4cMIi_7z-VZzkH8quuTo3pj8kme4akxKKbp_3vqbjKm9T8hT7rQXXLDHgki5FL3xJvGpHw8S68e_dM9PCjJcIIckD9hBK8E3s04iv_DuggJr6t4gvxdoUxAixkHyB5rAiCYW3k"/>
+<div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded">HD</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<div class="bg-white/20 backdrop-blur rounded-full p-3 text-white">
+<span class="material-symbols-outlined text-2xl">play_arrow</span>
+</div>
+</div>
+</div>
+<h3 class="font-medium text-sm text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">The Lord of the Rings</h3>
+<div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1 gap-2">
+<span>2003</span>
+<span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+<span>Movie</span>
+</div>
+</a>
+<a class="flex-shrink-0 w-40 sm:w-48 group snap-start" href="#">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden mb-3 bg-gray-200 dark:bg-gray-800 shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:shadow-primary/20">
+<img alt="The Godfather" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwH3f4VjulnnLYk8EgFSCiOqFs12q4ivPSqucW7P7k4uOAN3qXURGd7iOxByylKHLJhbpiobEV442fMLZHwobXplWdRez-c71bcZODHHIHORqZw97zdSx_JgA4Cdym9n6VMtpcJXo3o5jc7jvKx13nsU2frrHJ8wgbcRH1cHIY8n7jLkRIsYOLDQ1uZWoGe99Imz98f_X9qskRvSTRVJiiJKF_DtE-ce0qw825vrwhgb66FQM3e_ymqoB8eBbjLZ5HuUePqbU5kYg"/>
+<div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded">HD</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<div class="bg-white/20 backdrop-blur rounded-full p-3 text-white">
+<span class="material-symbols-outlined text-2xl">play_arrow</span>
+</div>
+</div>
+</div>
+<h3 class="font-medium text-sm text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">The Godfather</h3>
+<div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1 gap-2">
+<span>1972</span>
+<span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+<span>Movie</span>
+</div>
+</a>
+<a class="flex-shrink-0 w-40 sm:w-48 group snap-start" href="#">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden mb-3 bg-gray-200 dark:bg-gray-800 shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:shadow-primary/20">
+<img alt="Pulp Fiction" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4DL0CgtcYAUCgstMJaa3MOKxfRf-4gMF5Pz7AA-vJqjO992P2Ln_vsEztjSVehozCL5rsHt1KXYxgOpHPykUZEMDio6Kowlgy6GWvo4do0-5lXXQYfWesN_lwBCxnEcWF4XBvqDH9JFtqGEnkTLf_a-dREBJUINFFoE2kBQ0XpDqfi5NlPjxrmCbvXX31J0PHegzUCxDnemVeINrotIOfjM7FeAzSPl6Y0W2Xlf5WxpWq7OBZ7oPcgpUXCPkvHT-o8GnA6D-kHow"/>
+<div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded">HD</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<div class="bg-white/20 backdrop-blur rounded-full p-3 text-white">
+<span class="material-symbols-outlined text-2xl">play_arrow</span>
+</div>
+</div>
+</div>
+<h3 class="font-medium text-sm text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">Pulp Fiction</h3>
+<div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1 gap-2">
+<span>1994</span>
+<span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+<span>Movie</span>
+</div>
+</a>
+<a class="flex-shrink-0 w-40 sm:w-48 group snap-start" href="#">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden mb-3 bg-gray-200 dark:bg-gray-800 shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:shadow-primary/20">
+<img alt="12 Angry Men" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWDG7W-EHvCGO6AOk0LDv2cxGsetsdcPblclKS1wVK3MQv4Fj_GiJpDoSYDcNwJrCYOz29g-FhsQOo9O_1CP7dvKsW3GKE6JfGAq8LUCU3Vk8A-AgKIbpFT50VlqnKIa-bNWxP6wrMSM1bk0abtMKKSCUoY8e8NTUY4CGgfqqjZkW-eJP5--tz8pfc8XzVLKbfvPpA015qvL4RQQ1H4ozFhJNr3H2YwCAMneW3D-iySlLubqn9nb1Edu-hnxmvSEkNQh7snL7aGL0"/>
+<div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded">HD</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<div class="bg-white/20 backdrop-blur rounded-full p-3 text-white">
+<span class="material-symbols-outlined text-2xl">play_arrow</span>
+</div>
+</div>
+</div>
+<h3 class="font-medium text-sm text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">12 Angry Men</h3>
+<div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1 gap-2">
+<span>1957</span>
+<span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+<span>Movie</span>
+</div>
+</a>
+<a class="flex-shrink-0 w-40 sm:w-48 group snap-start" href="#">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden mb-3 bg-gray-200 dark:bg-gray-800 shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:shadow-primary/20">
+<img alt="Forrest Gump" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgXhItyIcN_f0jDrGmIOMKN4F0WOyDvcXRwOpout1ddb93aE06e1fDZ4tTdqP_NqdfUMZ-n4VI-fiBxsWKXroLwDYis8zjBcajfazwu6WClbt415JaGcoTQoD-Nco9sOnyjiGKa0naWdz4LgSHo42Udpa8c48FXSA_8Frru87eoNLInqG-ZVFWytOZ1KnNlA8LKIhaoVvSD_2nx0UvuqXCR8dmiMv2Rhd5qetbIr3vrBOPma_OLUnw-0F0MlZuHdOKZYCsnF1Oi4M"/>
+<div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded">HD</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<div class="bg-white/20 backdrop-blur rounded-full p-3 text-white">
+<span class="material-symbols-outlined text-2xl">play_arrow</span>
+</div>
+</div>
+</div>
+<h3 class="font-medium text-sm text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">Forrest Gump</h3>
+<div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1 gap-2">
+<span>1994</span>
+<span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+<span>Movie</span>
+</div>
+</a>
+<a class="flex-shrink-0 w-40 sm:w-48 group snap-start" href="#">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden mb-3 bg-gray-200 dark:bg-gray-800 shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:shadow-primary/20">
+<img alt="Spirited Away" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6aKroKe4_Hr_QOThhIQ1eSBsj6XHa6M1h1ij1beOOwYZsLuAKaEUwhzePp5w2e0ZiNq23ueXCujFcscvpvX5l0fSEO1JhKa6gwDDPDrdfapY86HeYs5fG_M99b926v37WwsUlyZ7ugSX23giOl25toAwGLS8wOeBXwUajaxUzaTcHC_Yh5fJqnnwy6HgEx_QviGDLtROQ6LVPu2Z1BRIxBOEdc9fz9ozk1sYgF_aWaLm0ZXBf9Mh7BLQkJKaAnfSKTVLxnnvAS1o"/>
+<div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded">HD</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<div class="bg-white/20 backdrop-blur rounded-full p-3 text-white">
+<span class="material-symbols-outlined text-2xl">play_arrow</span>
+</div>
+</div>
+</div>
+<h3 class="font-medium text-sm text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">Spirited Away</h3>
+<div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1 gap-2">
+<span>2001</span>
+<span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+<span>Anime</span>
+</div>
+</a>
+<a class="flex-shrink-0 w-40 sm:w-48 group snap-start" href="#">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden mb-3 bg-gray-200 dark:bg-gray-800 shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:shadow-primary/20">
+<img alt="The Dark Knight" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB74Fp72ev7QNZU469wTbrsvPSqgnjiWWoMOtIa0MAjQhQ1L33JGPpodM_sMQek4yZw6tRKlWPbMR6A8WeRapMkaH-T11LXGfejWy1r1bhWBwFgHhBoYl8KvmFdP0z1AzCeyDBbQAk4qqrgXQgFIiUfJh05RZYjZZz8rG09UvMIVFX4ZI-oP6j8oSExgu_KvJ_nvGwbgNIhEzXE5b5_lwPMYOzIs3TCBjMzWi8UdDqiKr2W9XaPSF7JhbMvJhQVj0heWtGm59mVp1E"/>
+<div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded">HD</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<div class="bg-white/20 backdrop-blur rounded-full p-3 text-white">
+<span class="material-symbols-outlined text-2xl">play_arrow</span>
+</div>
+</div>
+</div>
+<h3 class="font-medium text-sm text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">The Dark Knight</h3>
+<div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1 gap-2">
+<span>2008</span>
+<span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+<span>Movie</span>
+</div>
+</a>
+<a class="flex-shrink-0 w-40 sm:w-48 group snap-start" href="#">
+<div class="relative aspect-[2/3] rounded-lg overflow-hidden mb-3 bg-gray-200 dark:bg-gray-800 shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:shadow-primary/20">
+<img alt="Schindlers List" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY0PPVNXmzLKZJ_-Inp_y1VXlw5NvW3wJZr_gW3JYpkwlHfyDfH7npd9_ZIQq_MVYXHCM5pV933KX8cYn-qmvnB1b6o6ks9B8ApnWI5D08pkarqmgNr8RCn-mgNQoN73MZVOAvBlIBG77yisxgoYoRvydQm8zrFt6I0T6v2OVntJ3DnLhDbF6dXZUyBvbdhfKxuveBcXK7_cqhceH2iFotGjsTk56E0vjfSinB-1K9zovWk08jgWRQCk44bDwoGnscyG4n1vQfXL0"/>
+<div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded">HD</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<div class="bg-white/20 backdrop-blur rounded-full p-3 text-white">
+<span class="material-symbols-outlined text-2xl">play_arrow</span>
+</div>
+</div>
+</div>
+<h3 class="font-medium text-sm text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">Schindler's List</h3>
+<div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1 gap-2">
+<span>1993</span>
+<span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+<span>Movie</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-white dark:bg-footer-dark border-t border-gray-200 dark:border-gray-800 mt-auto">
+<div class="container mx-auto px-4 py-8 md:py-12">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="flex-1 max-w-2xl">
+<img alt="Quravel Logo" class="h-8 mb-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyQkhWkWRKHdBKcKeKIQPSp0dqUxzkKXlQI9e-linyzdZc9vxD5aQvA-ZV_wOo7084k8eQ29HZJd3WqF6fhl5ywezJ9q4mrXm4IXYZnsrFWIdQpQGJRxxoSsAH0BJ7T_rXsfSDASTzBL9VkhWJq2VaqxNU8lIq-c1X5b8JBJP3GlTMQPDc7w1h4CxDMBAlzCY-SB1q84jFGtF6k7hS7VqPnzYc8hjOHgQWrprfsOoJEFcCFtN-N3rEH8TW-lRH0reqCAVonCPGynA"/>
+<p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                        Quravel offers free, ad-free access to top movies and series in stunning quality. Stream effortlessly or save for later with easy downloads, perfect for movie lovers on the go!
+                    </p>
+<p class="text-xs text-gray-500 dark:text-gray-500">
+                        This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.
+                        <br/>
+                        watch free movies, watch free tv shows, free movies online
+                    </p>
+</div>
+<div class="flex flex-col items-center md:items-end gap-2 w-full md:w-auto">
+<div class="flex gap-4 text-sm font-semibold text-gray-700 dark:text-gray-300">
+<a class="hover:text-primary transition-colors" href="#">REQUEST</a>
+<a class="hover:text-primary transition-colors" href="#">CONTACT</a>
+</div>
+<div class="text-xs text-gray-500 dark:text-gray-500 mt-2 text-center md:text-right w-full">
+<span class="text-primary font-bold">Quravel</span>
+<br/>
+                         @ 2025 Quravel
                     </div>
-                    <div class="search-suggestions" id="searchSuggestions"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Mobile Navigation -->
-        <nav class="mobile-nav" id="mobileNav">
-            <div class="mobile-nav-header">
-                <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo" style="height: 35px;">
-                <button class="hamburger-menu active" id="closeMobileMenu" aria-label="Close menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
-            <ul class="mobile-nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#movies">Movies</a></li>
-                <li><a href="#tv-shows">TV Shows</a></li>
-                <li><a href="#anime">Anime</a></li>
-                <li><a href="#top-imdb">Top IMDb</a></li>
-                <li><a href="#latest">Latest</a></li>
-                <li><a href="#trending">Trending</a></li>
-                <li><a href="#genres">Genres</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <!-- Poster - Top Center -->
-            <div class="poster-container">
-                <img src="https://cdn.imgchest.com/files/837e9f15d946.jpeg" alt="My Hero Academia Final Season" class="poster" id="posterImage">
-            </div>
-
-            <!-- Content -->
-            <div class="content-section">
-                <h1 class="post-title" id="postTitle">My Hero Academia Final Season</h1>
-                
-                <!-- Badges -->
-                <div class="badges">
-                    <span class="badge imdb">📊 <span id="imdbScore">8.7</span></span>
-                    <span class="badge hd" id="qualityBadge">HD</span>
-                    <span class="badge rating" id="ratingBadge">PG-13</span>
-                    <span class="badge quality" id="runtimeBadge">55m</span>
-                    <span class="badge year" id="yearBadge">2025</span>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <a href="https://quravel.blogspot.com/" class="btn btn-primary" id="watchNowBtn">
-                        <i class="fas fa-play"></i>
-                        Watch Now
-                    </a>
-                    <div class="add-to-list-container">
-                        <button class="btn btn-secondary" id="addToListBtn">
-                            <i class="fas fa-plus"></i>
-                            <span id="listButtonText">Add to List</span>
-                        </button>
-                        <div class="dropdown-content" id="listDropdown">
-                            <div class="dropdown-item" onclick="setListStatus('planning')">
-                                <i class="far fa-clock"></i>
-                                Planning to watch
-                            </div>
-                            <div class="dropdown-item" onclick="setListStatus('watching')">
-                                <i class="fas fa-eye"></i>
-                                Watching
-                            </div>
-                            <div class="dropdown-item" onclick="setListStatus('completed')">
-                                <i class="fas fa-check-circle"></i>
-                                Completed
-                            </div>
-                            <div class="dropdown-item" onclick="setListStatus('rewatching')">
-                                <i class="fas fa-redo"></i>
-                                Rewatching
-                            </div>
-                            <div class="dropdown-item" onclick="setListStatus('dropped')">
-                                <i class="fas fa-times-circle"></i>
-                                Dropped
-                            </div>
-                            <div class="dropdown-item remove" onclick="setListStatus('remove')">
-                                <i class="fas fa-trash"></i>
-                                Remove from list
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Description -->
-                <div class="description" id="postDescription">
-                    The appearance of "quirks," newly discovered super powers, has been steadily increasing over the years, with 80 percent of humanity possessing various abilities from manipulation of elements to shapeshifting. This leaves the remainder of the world completely powerless, and from that moment, superheroes and supervillains battle it out for dominion. <span class="more-link">+ More</span>
-                </div>
-
-                <!-- Watch Info -->
-                <div class="watch-info">
-                    AniWatch is the best site to watch <strong id="siteWatchTitle">My Hero Academia Final Season</strong> sub online, or you can even watch <strong id="siteWatchTitle2">My Hero Academia Final Season</strong> DUB in HD quality. You can also find <strong>Bones Film</strong> anime on AniWatch website.
-                </div>
-
-                <!-- Details Section -->
-                <section class="details-section">
-                    <div class="details-grid">
-                        <div>
-                            <div class="detail-item">
-                                <div class="detail-label">Title</div>
-                                <div class="detail-value" id="detailTitle">My Hero Academia Final Season</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Japanese</div>
-                                <div class="detail-value">僕のヒーローアカデミア FINAL SEASON</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Synonyms</div>
-                                <div class="detail-value">My Hero Academia 8</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Aired</div>
-                                <div class="detail-value" id="detailAired">Oct 4, 2025 to ?</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Premiered</div>
-                                <div class="detail-value" id="detailPremiered">Fall 2025</div>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <div class="detail-item">
-                                <div class="detail-label">Duration</div>
-                                <div class="detail-value" id="detailDuration">24m</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Status</div>
-                                <div class="detail-value" id="detailStatus">Currently Airing</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">IMDB Score</div>
-                                <div class="detail-value" id="detailScore">8.7</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Rating</div>
-                                <div class="detail-value" id="detailRating">PG-13</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Genres</div>
-                                <div class="genre-tags" id="detailGenres">
-                                    <a href="#" class="genre-tag">Action</a>
-                                    <a href="#" class="genre-tag">School</a>
-                                    <a href="#" class="genre-tag">Shounen</a>
-                                    <a href="#" class="genre-tag">Super Power</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="details-grid" style="margin-top: 32px;">
-                        <div class="detail-item">
-                            <div class="detail-label">Studio</div>
-                            <div class="detail-value">Bones</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Producers</div>
-                            <div class="detail-value">TOHO animation</div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </section>
-
-    <!-- You May Like This Section with Posts -->
-    <section class="recommendations-section">
-        <div class="recommendations-container">
-            <h2 class="recommendations-title">You may like this</h2>
-            <div class="recommendations-grid" id="recommendationsGrid">
-                <!-- Posts will be populated by JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer Section with updated background color -->
-    <footer class="main-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo" class="footer-logo">
-                <p class="footer-description">
-                    QuraVEl offers free, ad-free access to top movies and series in stunning quality. Stream effortlessly or save for later with easy downloads, perfect for movie lovers on the go!
-                </p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="https://quravel.blogspot.com/sent-your-request">Sent Request</a></li>
-                    <li><a href="/cdn-cgi/l/email-protection#45232a2a223c232a22220535372a312a2b6b2820">Contact Us</a></li>
-                    <li><a href="#movies">Movies</a></li>
-                    <li><a href="#tv-series">TV Series</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Genres</h3>
-                <ul>
-                    <li><a href="#" data-genre="action">Action</a></li>
-                    <li><a href="#" data-genre="drama">Drama</a></li>
-                    <li><a href="#" data-genre="comedy">Comedy</a></li>
-                    <li><a href="#" data-genre="sci-fi">Sci-Fi</a></li>
-                    <li><a href="#" data-genre="anime">Anime</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Legal</h3>
-                <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">DMCA Policy</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2025 QuraVEl. All rights reserved.</p>
-            <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;">
-                This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.<br>
-                watch free movies, watch free tv shows, free movies online
-            </p>
-        </div>
-    </footer>
-
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // Load posts from JSON file
-        let allPosts = [];
-        
-        // Configuration for different posts
-        const postConfig = {
-            'my-hero-academia': {
-                title: 'My Hero Academia Final Season',
-                poster: 'https://cdn.imgchest.com/files/837e9f15d946.jpeg',
-                description: 'The appearance of "quirks," newly discovered super powers, has been steadily increasing over the years, with 80 percent of humanity possessing various abilities from manipulation of elements to shapeshifting. This leaves the remainder of the world completely powerless, and from that moment, superheroes and supervillains battle it out for dominion.',
-                imdbScore: '8.7',
-                quality: 'HD',
-                rating: 'PG-13',
-                runtime: '24m',
-                year: '2025',
-                aired: 'Oct 4, 2025 to ?',
-                premiered: 'Fall 2025',
-                status: 'Currently Airing',
-                genres: ['Action', 'School', 'Shounen', 'Super Power']
-            }
-        };
-
-        // Get post ID from URL or default to first
-        const urlParams = new URLSearchParams(window.location.search);
-        const postId = urlParams.get('id') || 'my-hero-academia';
-        const currentPost = postConfig[postId] || postConfig['my-hero-academia'];
-        
-        // Initialize page
-        function initializePage() {
-            loadPostsData();
-            updatePageContent();
-            initializeWatchlist();
-            initializeHeaderNavigation();
-            initializeSearch();
+</div>
+</div>
+</div>
+</footer>
+<script>
+    // Local Storage logic for "Add to list" button
+    const listButtonText = document.getElementById('current-list-status');
+    const storageKey = 'quravel_list_status_shawshank'; // Unique key per show
+    // Initialize button text from local storage
+    const savedStatus = localStorage.getItem(storageKey);
+    if (savedStatus) {
+        if(savedStatus === 'Add to list') {
+             listButtonText.innerText = 'Add to list';
+        } else {
+             listButtonText.innerText = savedStatus;
         }
-        
-        // Load posts from JSON
-        async function loadPostsData() {
-            try {
-                console.log('Attempting to load posts from JSON...');
-                const response = await fetch('./data/posts.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                allPosts = data.posts || [];
-                console.log('Successfully loaded posts from JSON:', allPosts.length);
-                
-                // Update current post data if available
-                const currentPost = allPosts.find(post => post.id === 'my-hero-academia-final');
-                if (currentPost) {
-                    updatePostData(currentPost);
-                }
-                
-                // Load recommendations after JSON data is ready
-                loadRecommendations();
-            } catch (error) {
-                console.error('Error loading posts from JSON:', error);
-                // Fallback to sample data if JSON fails
-                console.log('Using fallback data');
-                allPosts = [
-                    {
-                        id: 'my-hero-academia-final',
-                        title: 'My Hero Academia Final Season',
-                        type: 'anime',
-                        year: 2025,
-                        rating: 8.7,
-                        description: 'The appearance of "quirks," newly discovered super powers...',
-                        poster: 'https://cdn.imgchest.com/files/837e9f15d946.jpeg',
-                        genres: ['Action', 'School', 'Shounen', 'Super Power']
-                    },
-                    {
-                        id: 'john-wick-4',
-                        title: 'John Wick: Chapter 4',
-                        type: 'movie',
-                        year: 2023,
-                        rating: 7.7,
-                        description: 'John Wick uncovers a path to defeating The High Table.',
-                        poster: 'https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg',
-                        genres: ['Action', 'Crime', 'Thriller']
-                    },
-                    {
-                        id: 'dune-part-two',
-                        title: 'Dune: Part Two',
-                        type: 'movie',
-                        year: 2024,
-                        rating: 8.8,
-                        description: 'Paul Atreides unites with Chani and the Fremen.',
-                        poster: 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
-                        genres: ['Science Fiction', 'Adventure', 'Drama']
-                    },
-                    {
-                        id: 'barbie',
-                        title: 'Barbie',
-                        type: 'movie',
-                        year: 2023,
-                        rating: 6.9,
-                        description: 'Barbie and Ken discover the joys and perils of the real world.',
-                        poster: 'https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg',
-                        genres: ['Comedy', 'Fantasy', 'Adventure']
-                    },
-                    {
-                        id: 'attack-on-titan-final',
-                        title: 'Attack on Titan: The Final Season',
-                        type: 'anime',
-                        year: 2023,
-                        rating: 9.0,
-                        description: 'Eren Yeager\'s ultimate plan comes to fruition.',
-                        poster: 'https://image.tmdb.org/t/p/w500/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg',
-                        genres: ['Animation', 'Action', 'Drama']
-                    },
-                    {
-                        id: 'demon-slayer-s4',
-                        title: 'Demon Slayer: Swordsmith Village Arc',
-                        type: 'anime',
-                        year: 2023,
-                        rating: 8.6,
-                        description: 'Tanjiro and his friends accompany the Hashira.',
-                        poster: 'https://image.tmdb.org/t/p/w500/xXHZeb1yhJvnSHPzZDqee0Gmb6c.jpg',
-                        genres: ['Animation', 'Action', 'Fantasy']
-                    },
-                    {
-                        id: 'spider-man-across-spider-verse',
-                        title: 'Spider-Man: Across the Spider-Verse',
-                        type: 'movie',
-                        year: 2023,
-                        rating: 8.6,
-                        description: 'Miles Morales catapults across the Multiverse.',
-                        poster: 'https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg',
-                        genres: ['Animation', 'Action', 'Adventure']
-                    },
-                    {
-                        id: 'jujutsu-kaisen-s2',
-                        title: 'Jujutsu Kaisen Season 2',
-                        type: 'anime',
-                        year: 2023,
-                        rating: 8.9,
-                        description: 'Yuji Itadori is a boy with tremendous physical strength.',
-                        poster: 'https://image.tmdb.org/t/p/w500/vD8UUUVkHnf1c0EIyJXU7dRjsfm.jpg',
-                        genres: ['Animation', 'Action', 'Fantasy']
-                    },
-                    {
-                        id: 'oppenheimer',
-                        title: 'Oppenheimer',
-                        type: 'movie',
-                        year: 2023,
-                        rating: 8.4,
-                        description: 'The story of American scientist J. Robert Oppenheimer.',
-                        poster: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
-                        genres: ['Drama', 'History', 'Biography']
-                    },
-                    {
-                        id: 'the-bear-s3',
-                        title: 'The Bear Season 3',
-                        type: 'tv-show',
-                        year: 2024,
-                        rating: 8.7,
-                        description: 'Carmy Berzatto returns to run his family\'s Italian beef sandwich shop.',
-                        poster: 'https://image.tmdb.org/t/p/w500/sHFlbKSYoKB5D1I9zUs2Lm4HVMZ.jpg',
-                        genres: ['Drama', 'Comedy']
-                    },
-                    {
-                        id: 'one-piece-live-action',
-                        title: 'One Piece Live Action',
-                        type: 'tv-show',
-                        year: 2023,
-                        rating: 8.1,
-                        description: 'A young pirate with a stretching ability sets out to find the legendary treasure.',
-                        poster: 'https://image.tmdb.org/t/p/w500/cMD9Ygx11XHkK0eOUPLzGct2PCV.jpg',
-                        genres: ['Action', 'Adventure', 'Comedy']
-                    },
-                    {
-                        id: 'goku-ultra-instinct',
-                        title: 'Dragon Ball Super: Ultra Instinct',
-                        type: 'anime',
-                        year: 2025,
-                        rating: 8.9,
-                        description: 'Goku achieves the legendary Ultra Instinct transformation.',
-                        poster: 'https://image.tmdb.org/t/p/w500/xRwU4u9I5Tu5iSwaFiGHMi6J99w.jpg',
-                        genres: ['Animation', 'Action', 'Adventure']
-                    },
-                    {
-                        id: 'guardians-galaxy-3',
-                        title: 'Guardians of the Galaxy Vol. 3',
-                        type: 'movie',
-                        year: 2023,
-                        rating: 7.9,
-                        description: 'The Guardians embark on a mission to protect one of their own.',
-                        poster: 'https://image.tmdb.org/t/p/w500/r2jdM9Z7bMsBA5F6rQimG6uLdjZ.jpg',
-                        genres: ['Action', 'Adventure', 'Comedy']
-                    },
-                    {
-                        id: 'chernobyl',
-                        title: 'Chernobyl',
-                        type: 'tv-show',
-                        year: 2019,
-                        rating: 9.4,
-                        description: 'The true story of one of the worst man-made catastrophes in history.',
-                        poster: 'https://image.tmdb.org/t/p/w500/hlLXt2tOPTJRRRjyPKZA4QK4NYk.jpg',
-                        genres: ['Drama', 'History', 'Thriller']
-                    },
-                    {
-                        id: 'chainsaw-man',
-                        title: 'Chainsaw Man',
-                        type: 'anime',
-                        year: 2022,
-                        rating: 8.2,
-                        description: 'Denji becomes a devil hunter to pay off his debt.',
-                        poster: 'https://image.tmdb.org/t/p/w500/x9cMBQiyPjclpm1aMjlF4qMWmsZ.jpg',
-                        genres: ['Animation', 'Action', 'Horror']
-                    },
-                    {
-                        id: 'top-gun-maverick',
-                        title: 'Top Gun: Maverick',
-                        type: 'movie',
-                        year: 2022,
-                        rating: 8.3,
-                        description: 'Pete "Maverick" Mitchell trains a new generation of pilots.',
-                        poster: 'https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg',
-                        genres: ['Action', 'Drama']
-                    },
-                    {
-                        id: 'stranger-things-s4',
-                        title: 'Stranger Things Season 4',
-                        type: 'tv-show',
-                        year: 2022,
-                        rating: 8.7,
-                        description: 'The gang faces their biggest threat yet in Hawkins.',
-                        poster: 'https://image.tmdb.org/t/p/w500/W1q8w8zG8z6Loi7dL5kJ7XWw3a.jpg',
-                        genres: ['Drama', 'Fantasy', 'Horror']
-                    },
-                    {
-                        id: 'violet-evergarden',
-                        title: 'Violet Evergarden',
-                        type: 'anime',
-                        year: 2018,
-                        rating: 8.5,
-                        description: 'A former child soldier learns to understand emotions.',
-                        poster: 'https://image.tmdb.org/t/p/w500/8KyOhyPRkEIQ4lQ9P3m5aR4F9nV.jpg',
-                        genres: ['Animation', 'Drama', 'Romance']
-                    },
-                    {
-                        id: 'the-flash',
-                        title: 'The Flash',
-                        type: 'movie',
-                        year: 2023,
-                        rating: 6.2,
-                        description: 'Barry Allen runs through the multiverse to save his world.',
-                        poster: 'https://image.tmdb.org/t/p/w500/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg',
-                        genres: ['Action', 'Adventure', 'Fantasy']
-                    },
-                    {
-                        id: 'house-of-the-dragon',
-                        title: 'House of the Dragon',
-                        type: 'tv-show',
-                        year: 2022,
-                        rating: 8.4,
-                        description: 'The Targaryen civil war begins 200 years before Game of Thrones.',
-                        poster: 'https://image.tmdb.org/t/p/w500/17TTFF2iE8y2bK3z2w4xV4gCj3N.jpg',
-                        genres: ['Drama', 'Fantasy', 'Action']
-                    },
-                    {
-                        id: 'death-note',
-                        title: 'Death Note',
-                        type: 'anime',
-                        year: 2006,
-                        rating: 9.0,
-                        description: 'A high school student discovers a notebook that can kill.',
-                        poster: 'https://image.tmdb.org/t/p/w500/3tJcfbJKQP6kM5d1v0m8Yv7d5zY.jpg',
-                        genres: ['Animation', 'Crime', 'Fantasy']
-                    },
-                    {
-                        id: 'the-witcher-s3',
-                        title: 'The Witcher Season 3',
-                        type: 'tv-show',
-                        year: 2023,
-                        rating: 7.2,
-                        description: 'Geralt embarks on his most dangerous journey yet.',
-                        poster: 'https://image.tmdb.org/t/p/w500/9n2tJplKmULR8Gcv4Uhbbbba2j8.jpg',
-                        genres: ['Action', 'Adventure', 'Drama']
-                    },
-                    {
-                        id: 'your-name',
-                        title: 'Your Name',
-                        type: 'anime',
-                        year: 2016,
-                        rating: 8.4,
-                        description: 'Two teenagers share a profound, magical connection.',
-                        poster: 'https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg',
-                        genres: ['Animation', 'Romance', 'Drama']
-                    },
-                    {
-                        id: 'mission-impossible-7',
-                        title: 'Mission: Impossible – Dead Reckoning Part One',
-                        type: 'movie',
-                        year: 2023,
-                        rating: 7.7,
-                        description: 'Ethan Hunt and his IMF team race against time.',
-                        poster: 'https://image.tmdb.org/t/p/w500/Ai4QdM1tH9jAKLLN7KjRR6qLHGj.jpg',
-                        genres: ['Action', 'Adventure', 'Thriller']
-                    }
-                ];
-                console.log('Using fallback posts data:', allPosts.length);
-            }
-            // Load recommendations after data is ready (both JSON and fallback)
-            loadRecommendations();
+    }
+    function updateListStatus(status) {
+        if (status === 'Add to list') {
+            listButtonText.innerText = 'Add to list';
+            localStorage.removeItem(storageKey); // Clear status
+        } else {
+            listButtonText.innerText = status;
+            localStorage.setItem(storageKey, status);
         }
-        
-        // Update page content based on post ID
-        function updatePageContent() {
-            document.title = `${currentPost.title} - Quravel`;
-            
-            // Update poster
-            document.getElementById('posterImage').src = currentPost.poster;
-            document.getElementById('posterImage').alt = currentPost.title;
-            
-            // Update title
-            document.getElementById('postTitle').textContent = currentPost.title;
-            document.getElementById('detailTitle').textContent = currentPost.title;
-            document.getElementById('siteWatchTitle').textContent = currentPost.title;
-            document.getElementById('siteWatchTitle2').textContent = currentPost.title;
-            
-            // Update badges
-            document.getElementById('imdbScore').textContent = currentPost.imdbScore;
-            document.getElementById('qualityBadge').textContent = currentPost.quality;
-            document.getElementById('ratingBadge').textContent = currentPost.rating;
-            document.getElementById('runtimeBadge').textContent = currentPost.runtime;
-            document.getElementById('yearBadge').textContent = currentPost.year;
-            
-            // Update details
-            document.getElementById('detailAired').textContent = currentPost.aired;
-            document.getElementById('detailPremiered').textContent = currentPost.premiered;
-            document.getElementById('detailDuration').textContent = currentPost.runtime;
-            document.getElementById('detailStatus').textContent = currentPost.status;
-            document.getElementById('detailScore').textContent = currentPost.imdbScore;
-            document.getElementById('detailRating').textContent = currentPost.rating;
-            
-            // Update description
-            document.getElementById('postDescription').innerHTML = currentPost.description + ' <span class="more-link">+ More</span>';
-            
-            // Update genres
-            const genreContainer = document.getElementById('detailGenres');
-            genreContainer.innerHTML = currentPost.genres.map(genre => 
-                `<a href="#" class="genre-tag" data-genre="${genre.toLowerCase()}">${genre}</a>`
-            ).join('');
+    }
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const overlay = document.getElementById('mobile-menu-overlay');
+        menu.classList.toggle('menu-open');
+        overlay.classList.toggle('hidden');
+    }
+    // Mobile Search Toggle
+    function toggleMobileSearch() {
+        const searchBar = document.getElementById('mobile-search-bar');
+        searchBar.classList.toggle('hidden');
+    }
+    // Mobile Dropdown Accordion
+    function toggleMobileDropdown(id) {
+        const dropdown = document.getElementById(id);
+        dropdown.classList.toggle('hidden');
+        // Rotate arrow (optional logic if arrow IDs were dynamic, hardcoded for now)
+        const arrowId = id === 'genre-mobile' ? 'genre-arrow' : 'country-arrow';
+        const arrow = document.getElementById(arrowId);
+        if (dropdown.classList.contains('hidden')) {
+            arrow.style.transform = 'rotate(0deg)';
+        } else {
+            arrow.style.transform = 'rotate(180deg)';
         }
-
-        // Load recommendations - All posts added with increased height
-        function loadRecommendations() {
-            // Ensure we have posts to display
-            if (!allPosts || allPosts.length === 0) {
-                console.log('No posts available for recommendations');
-                return;
-            }
-            
-            console.log(`Loading ${allPosts.length} recommendations`);
-            console.log('Sample post data:', allPosts[0]); // Debug first post
-            
-            // Use all posts for recommendations
-            const recommendations = allPosts.map(post => ({
-                title: post.title,
-                image: post.poster,
-                info: `${post.type} • ${post.year} • ${post.rating}/10`,
-                id: post.id
-            }));
-            
-            console.log('Generated recommendations:', recommendations.length);
-            
-            const grid = document.getElementById('recommendationsGrid');
-            if (!grid) {
-                console.error('Recommendations grid not found');
-                return;
-            }
-            
-            grid.innerHTML = recommendations.map(rec => `
-                <a href="index.html?id=${rec.id}" class="recommendation-card" data-content="${rec.title.toLowerCase().replace(/\s+/g, '-')}">
-                    <div class="recommendation-image">
-                        <img src="${rec.image}" alt="${rec.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450/333/fff?text=No+Image'">
-                    </div>
-                    <div class="recommendation-content">
-                        <h3 class="recommendation-title">${rec.title}</h3>
-                        <p class="recommendation-info">${rec.info}</p>
-                    </div>
-                </a>
-            `).join('');
-            
-            console.log('Recommendations HTML generated. Grid children:', grid.children.length);
-            console.log('Recommendations loaded successfully');
+    }
+    // Scroll Logic for "You may like this"
+    function scrollContainer(direction) {
+        const container = document.getElementById('recommendations-container');
+        const scrollAmount = 300; // Adjust scroll distance
+        if (direction === 'left') {
+            container.scrollLeft -= scrollAmount;
+        } else {
+            container.scrollLeft += scrollAmount;
         }
-        
-        // Watchlist management
-        let currentAnime = postId;
-        let animeList = JSON.parse(localStorage.getItem('quravel_watchlist')) || {};
-        
-        function initializeWatchlist() {
-            updateListButton();
-            
-            // Toggle dropdown
-            document.getElementById('addToListBtn').addEventListener('click', function(e) {
-                e.stopPropagation();
-                const dropdown = document.getElementById('listDropdown');
-                dropdown.classList.toggle('active');
-                updateDropdownActiveState();
-            });
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(e) {
-                const dropdown = document.getElementById('listDropdown');
-                const container = document.querySelector('.add-to-list-container');
-                if (!container.contains(e.target)) {
-                    dropdown.classList.remove('active');
-                }
-            });
-            
-            // Close dropdown on ESC key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    document.getElementById('listDropdown').classList.remove('active');
-                }
-            });
-        }
-        
-        // Update page content with post data from JSON
-        function updatePostData(post) {
-            if (!post) return;
-            
-            // Update title
-            const titleElement = document.getElementById('postTitle');
-            if (titleElement) titleElement.textContent = post.title;
-            
-            // Update poster image
-            const posterElement = document.getElementById('posterImage');
-            if (posterElement) posterElement.src = post.poster;
-            
-            // Update badges
-            const imdbElement = document.getElementById('imdbScore');
-            if (imdbElement) imdbElement.textContent = post.rating;
-            
-            const yearElement = document.getElementById('yearBadge');
-            if (yearElement) yearElement.textContent = post.year;
-            
-            const qualityElement = document.getElementById('qualityBadge');
-            if (qualityElement) qualityElement.textContent = post.type.toUpperCase();
-            
-            const runtimeElement = document.getElementById('runtimeBadge');
-            if (runtimeElement) runtimeElement.textContent = post.duration;
-            
-            // Update description
-            const descElement = document.getElementById('postDescription');
-            if (descElement) {
-                descElement.innerHTML = post.description + ' <span class="more-link">+ More</span>';
-            }
-            
-            // Update watch info
-            const watchTitleElements = document.querySelectorAll('#siteWatchTitle, #siteWatchTitle2');
-            watchTitleElements.forEach(el => {
-                if (el) el.textContent = post.title;
-            });
-            
-            console.log('Page data updated with post:', post.title);
-        }
-        
-        function setListStatus(status) {
-            const statusMap = {
-                'planning': { text: 'Planning to watch' },
-                'watching': { text: 'Watching' },
-                'completed': { text: 'Completed' },
-                'rewatching': { text: 'Rewatching' },
-                'dropped': { text: 'Dropped' }
-            };
-            
-            if (status === 'remove') {
-                delete animeList[currentAnime];
-                localStorage.setItem('quravel_watchlist', JSON.stringify(animeList));
-                showToast('Removed from your list');
-            } else {
-                animeList[currentAnime] = status;
-                localStorage.setItem('quravel_watchlist', JSON.stringify(animeList));
-                showToast(`Added to ${statusMap[status].text}`);
-            }
-            
-            updateListButton();
-            document.getElementById('listDropdown').classList.remove('active');
-        }
-        
-        function updateListButton() {
-            const buttonText = document.getElementById('listButtonText');
-            
-            if (animeList[currentAnime]) {
-                const statusMap = {
-                    'planning': 'Planning to watch',
-                    'watching': 'Watching',
-                    'completed': 'Completed',
-                    'rewatching': 'Rewatching',
-                    'dropped': 'Dropped'
-                };
-                buttonText.textContent = statusMap[animeList[currentAnime]];
-            } else {
-                buttonText.textContent = 'Add to List';
-            }
-        }
-        
-        function updateDropdownActiveState() {
-            const items = document.querySelectorAll('.dropdown-item:not(.remove)');
-            items.forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            if (animeList[currentAnime]) {
-                const statusMap = {
-                    'planning': 0,
-                    'watching': 1,
-                    'completed': 2,
-                    'rewatching': 3,
-                    'dropped': 4
-                };
-                const index = statusMap[animeList[currentAnime]];
-                if (index !== undefined) {
-                    items[index].classList.add('active');
-                }
-            }
-        }
-        
-        function showToast(message) {
-            // Create toast element
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `
-                <i class="fas fa-check-circle"></i>
-                <span>${message}</span>
-            `;
-            
-            // Style the toast
-            toast.style.position = 'fixed';
-            toast.style.bottom = '30px';
-            toast.style.right = '30px';
-            toast.style.background = 'var(--bg-card)';
-            toast.style.border = '1px solid var(--success)';
-            toast.style.borderRadius = 'var(--radius-md)';
-            toast.style.padding = 'var(--space-md) var(--space-lg)';
-            toast.style.boxShadow = 'var(--shadow-xl)';
-            toast.style.zIndex = '2000';
-            toast.style.display = 'flex';
-            toast.style.alignItems = 'center';
-            toast.style.gap = 'var(--space-sm)';
-            toast.style.color = 'var(--text-primary)';
-            toast.style.animation = 'slideIn 300ms ease-out';
-            
-            // Add to body
-            document.body.appendChild(toast);
-            
-            // Remove after 3 seconds
-            setTimeout(() => {
-                toast.style.animation = 'slideOutRight 300ms ease-in';
-                setTimeout(() => {
-                    if (toast.parentNode) {
-                        toast.parentNode.removeChild(toast);
-                    }
-                }, 300);
-            }, 3000);
-        }
-        
-        // Header Navigation
-        function initializeHeaderNavigation() {
-            const hamburgerMenu = document.getElementById('hamburgerMenu');
-            const closeMobileMenu = document.getElementById('closeMobileMenu');
-            const mobileNav = document.getElementById('mobileNav');
-            const navScrollLeft = document.getElementById('navScrollLeft');
-            const navScrollRight = document.getElementById('navScrollRight');
-            const desktopNavLinks = document.getElementById('desktopNavLinks');
-            
-            // Mobile menu toggle
-            hamburgerMenu.addEventListener('click', function() {
-                this.classList.toggle('active');
-                mobileNav.classList.toggle('active');
-                document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
-            });
-            
-            closeMobileMenu.addEventListener('click', function() {
-                mobileNav.classList.remove('active');
-                hamburgerMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-            
-            // Desktop navigation scroll
-            navScrollLeft.addEventListener('click', () => {
-                desktopNavLinks.scrollBy({ left: -200, behavior: 'smooth' });
-            });
-            
-            navScrollRight.addEventListener('click', () => {
-                desktopNavLinks.scrollBy({ left: 200, behavior: 'smooth' });
-            });
-            
-            // Close mobile menu when clicking on links
-            document.querySelectorAll('.mobile-nav-links a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileNav.classList.remove('active');
-                    hamburgerMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                });
-            });
-        }
-        
-        // Search functionality
-        function initializeSearch() {
-            const searchInput = document.getElementById('searchInput');
-            const searchSuggestions = document.getElementById('searchSuggestions');
-            
-            if (!searchInput || !searchSuggestions) return;
-            
-            let searchTimeout;
-            
-            // Input event with debouncing
-            searchInput.addEventListener('input', function(e) {
-                clearTimeout(searchTimeout);
-                const query = e.target.value.trim();
-                
-                if (query.length < 2) {
-                    hideSearchSuggestions();
-                    return;
-                }
-                
-                searchTimeout = setTimeout(() => {
-                    performSearch(query);
-                }, 300);
-            });
-            
-            // Focus event
-            searchInput.addEventListener('focus', function() {
-                const query = this.value.trim();
-                if (query.length >= 2) {
-                    performSearch(query);
-                }
-            });
-            
-            // Close suggestions when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.search-container')) {
-                    hideSearchSuggestions();
-                }
-            });
-        }
-        
-        function performSearch(query) {
-            const searchSuggestions = document.getElementById('searchSuggestions');
-            
-            if (!allPosts.length) {
-                searchSuggestions.innerHTML = '<div class="no-results">Loading search data...</div>';
-                searchSuggestions.style.display = 'block';
-                return;
-            }
-            
-            // Filter posts based on search query
-            const results = allPosts.filter(item => {
-                const searchText = query.toLowerCase();
-                return item.title.toLowerCase().includes(searchText) ||
-                       (item.description && item.description.toLowerCase().includes(searchText)) ||
-                       item.genres.some(genre => genre.toLowerCase().includes(searchText)) ||
-                       item.type.toLowerCase().includes(searchText) ||
-                       (item.cast && item.cast.some(actor => actor.toLowerCase().includes(searchText))) ||
-                       (item.director && item.director.toLowerCase().includes(searchText)) ||
-                       (item.studio && item.studio.toLowerCase().includes(searchText)) ||
-                       (item.category && item.category.toLowerCase().includes(searchText));
-            }).slice(0, 10);
-            
-            displaySearchResults(results, query);
-        }
-        
-        function displaySearchResults(results, query) {
-            const searchSuggestions = document.getElementById('searchSuggestions');
-            
-            if (!results.length) {
-                searchSuggestions.innerHTML = '<div class="no-results">No results found for "' + query + '"</div>';
-                searchSuggestions.style.display = 'block';
-                return;
-            }
-            
-            let html = '';
-            
-            results.forEach(item => {
-                html += `
-                    <div class="search-suggestion-item" tabindex="0" data-id="${item.id}">
-                        <img src="${item.poster}" alt="${item.title}" class="suggestion-thumbnail" 
-                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNzUiIHZpZXdCb3g9IjAgMCA1MCA3NSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTAiIGhlaWdodD0iNzUiIGZpbGw9IiMxRTJBNDEiLz48dGV4dCB4PSIyNSIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzlCOUJBQSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Tm8gSW1hZ2U8L3RleHQ+PC9zdmc+'>
-                        <div class="suggestion-info">
-                            <div class="suggestion-title">${item.title}</div>
-                            <div class="suggestion-meta">
-                                <span class="suggestion-type">${item.type}</span>
-                                <span class="suggestion-year">${item.year}</span>
-                                <span class="suggestion-rating">⭐ ${item.rating}</span>
-                                <span class="suggestion-creator">${item.director || item.studio || ''}</span>
-                            </div>
-                            ${item.cast ? `<div class="suggestion-cast">starring ${item.cast.slice(0, 2).join(', ')}</div>` : ''}
-                            <div class="suggestion-genres">${item.genres.slice(0, 3).join(', ')}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            searchSuggestions.innerHTML = html;
-            searchSuggestions.style.display = 'block';
-            
-            // Add click handlers to suggestions
-            const suggestionItems = searchSuggestions.querySelectorAll('.search-suggestion-item');
-            suggestionItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const itemId = this.getAttribute('data-id');
-                    navigateToPostDetails(itemId);
-                });
-            });
-        }
-        
-        function hideSearchSuggestions() {
-            const searchSuggestions = document.getElementById('searchSuggestions');
-            searchSuggestions.style.display = 'none';
-        }
-        
-        function navigateToPostDetails(postId) {
-            // Find the post in our data
-            const post = allPosts.find(p => p.id === postId);
-            if (post) {
-                // Redirect to post details page with the post ID
-                window.location.href = `post-details.html?id=${postId}`;
-            } else {
-                // Fallback to main page if post not found
-                window.location.href = 'index.html';
-            }
-        }
-        
-        // Initialize page on load
-        document.addEventListener('DOMContentLoaded', initializePage);
-    </script>
-</body>
-</html>
+    }
+</script>
+</body></html>
