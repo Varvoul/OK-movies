@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Community Guidelines - Quravel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3B7A93", 
+                        "primary-dark": "#2C5D70",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#0B0E14",
+                        "surface-dark": "#151926",
+                        "surface-light": "#1E2232",
+                        "footer-dark": "#0C0E14",
+                        "text-light": "#E5E7EB",
+                        "text-muted": "#9CA3AF",
+                        "border-dark": "#2A2E3B"
+                    },
+                    fontFamily: {
+                        display: "Epilogue",
+                        body: ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "1rem",
+                        xl: "1.5rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+        .menu-open {
+            transform: translateX(0) !important;
+        }
+        .dropdown-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .dropdown-scroll::-webkit-scrollbar-track {
+            background: #151926; 
+        }
+        .dropdown-scroll::-webkit-scrollbar-thumb {
+            background: #3B7A93; 
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-text-light transition-colors duration-300 min-h-screen flex flex-col relative">
+<div class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" id="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+<div class="fixed top-0 left-0 h-full w-80 bg-white dark:bg-[#151926] z-50 transform -translate-x-full lg:hidden overflow-y-auto shadow-2xl transition-transform duration-300 ease-in-out" id="mobile-menu">
+<div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center sticky top-0 bg-inherit z-10">
+<img alt="Quravel Logo" class="h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAnobZysBRtNfzfqWAFgVhspmnvLJ3Dz0CtKJG6MNuBTHePECSTCMUrtCRSw82ib_ozYTDpv7dnJIj59T0MVuItXaWLPucy1LHu_RLAWyTfWudrX_gE3XeQCQi9PmBwPBxbs7WpROsppx2jEeSfF7-p7s7tABjGd9z2Li-uS4fDRZUmMfbB8WtMryG0I4SUNeu5VZTvpelrBpFs0CDG8rr0uhG6z599yVeeP_XhtZrcJat1F1RG0XBSjOw1RLMHCPfGcSSwWgBbE0"/>
+<button class="text-gray-500 hover:text-primary" onclick="toggleMobileMenu()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-4 space-y-2">
+<a class="block text-base font-medium hover:text-primary py-3 border-b border-gray-100 dark:border-gray-800" href="#">Home</a>
+<div class="border-b border-gray-100 dark:border-gray-800">
+<button class="flex items-center justify-between w-full text-base font-medium hover:text-primary focus:outline-none py-3" onclick="toggleMobileDropdown('genre-mobile')">
+<span>Genre</span>
+<span class="material-symbols-outlined text-sm transform transition-transform duration-200" id="genre-arrow">expand_more</span>
+</button>
+<div class="hidden mt-1 mb-3 ml-2 grid grid-cols-2 gap-2 text-sm text-gray-500 dark:text-gray-400" id="genre-mobile">
+<a class="hover:text-primary" href="#">Action</a>
+<a class="hover:text-primary" href="#">Adventure</a>
+<a class="hover:text-primary" href="#">Animation</a>
+<a class="hover:text-primary" href="#">Comedy</a>
+<a class="hover:text-primary" href="#">Drama</a>
+<a class="hover:text-primary" href="#">Sci-Fi</a>
+</div>
+</div>
+<div class="border-b border-gray-100 dark:border-gray-800">
+<button class="flex items-center justify-between w-full text-base font-medium hover:text-primary focus:outline-none py-3" onclick="toggleMobileDropdown('country-mobile')">
+<span>Country</span>
+<span class="material-symbols-outlined text-sm transform transition-transform duration-200" id="country-arrow">expand_more</span>
+</button>
+<div class="hidden mt-1 mb-3 ml-2 grid grid-cols-2 gap-2 text-sm text-gray-500 dark:text-gray-400" id="country-mobile">
+<a class="hover:text-primary" href="#">USA</a>
+<a class="hover:text-primary" href="#">UK</a>
+<a class="hover:text-primary" href="#">Japan</a>
+<a class="hover:text-primary" href="#">Korea</a>
+</div>
+</div>
+<a class="block text-base font-medium hover:text-primary py-3 border-b border-gray-100 dark:border-gray-800" href="#">Movies</a>
+<a class="block text-base font-medium hover:text-primary py-3 border-b border-gray-100 dark:border-gray-800" href="#">TV-Series</a>
+<a class="block text-base font-medium hover:text-primary py-3 border-b border-gray-100 dark:border-gray-800" href="#">Top IMDB</a>
+<a class="block text-base font-medium hover:text-primary py-3" href="#">Updates</a>
+</div>
+</div>
+<header class="fixed top-0 w-full z-40 bg-white/95 dark:bg-[#0B0E19]/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm">
+<div class="container mx-auto px-4 h-16 flex items-center justify-between relative">
+<div class="flex items-center gap-4">
+<button class="lg:hidden text-gray-600 dark:text-gray-200 focus:outline-none" onclick="toggleMobileMenu()">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+<nav class="hidden lg:flex items-center space-x-6 text-sm font-medium">
+<a class="hover:text-primary transition-colors text-gray-700 dark:text-gray-200" href="#">Home</a>
+<div class="relative group">
+<button class="flex items-center space-x-1 hover:text-primary transition-colors focus:outline-none py-5 text-gray-700 dark:text-gray-200">
+<span>Genre</span>
+<span class="material-symbols-outlined text-sm group-hover:rotate-180 transition-transform">expand_more</span>
+</button>
+<div class="absolute top-full left-0 w-[600px] bg-[#151926] border border-gray-800 rounded-b-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-6 z-50 transform origin-top translate-y-2 group-hover:translate-y-0">
+<div class="grid grid-cols-4 gap-y-3 gap-x-6">
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Action</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Adventure</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Animation</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Comedy</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Crime</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Drama</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Family</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Fantasy</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">History</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Horror</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Mystery</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Romance</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Sci-Fi</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Thriller</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">War</a>
+</div>
+</div>
+</div>
+<div class="relative group">
+<button class="flex items-center space-x-1 hover:text-primary transition-colors focus:outline-none py-5 text-gray-700 dark:text-gray-200">
+<span>Country</span>
+<span class="material-symbols-outlined text-sm group-hover:rotate-180 transition-transform">expand_more</span>
+</button>
+<div class="absolute top-full left-0 w-[600px] bg-[#151926] border border-gray-800 rounded-b-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-6 z-50 transform origin-top translate-y-2 group-hover:translate-y-0">
+<div class="grid grid-cols-4 gap-y-3 gap-x-6">
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">USA</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">UK</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">China</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Japan</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Korea</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">France</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">India</a>
+<a class="text-gray-400 hover:text-primary text-sm transition-colors" href="#">Germany</a>
+</div>
+</div>
+</div>
+<a class="hover:text-primary transition-colors text-gray-700 dark:text-gray-200" href="#">Movies</a>
+<a class="hover:text-primary transition-colors text-gray-700 dark:text-gray-200" href="#">TV-Series</a>
+<a class="hover:text-primary transition-colors text-gray-700 dark:text-gray-200" href="#">Top IMDB</a>
+<a class="hover:text-primary transition-colors text-gray-700 dark:text-gray-200" href="#">Updates</a>
+</nav>
+</div>
+<div class="absolute left-1/2 transform -translate-x-1/2">
+<a class="flex-shrink-0" href="/">
+<img alt="Quravel Logo" class="h-8 md:h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCR0sMlqRjbaBMg65Au1bLejvTRLEFpvOGaKoaKgrDKBm5S2ps9w2DfwTBw3A2tbhm7eZNw73aAlNQxnWqybguyb5_Qh2qClMiY8xZk8cNy3JZVzDI9i9OZ-IbSRcPY2RP7OcydQj0lO8-XWQMlU1gPD_ofee4IJjPO4AOs1c4A1RiEQtvlYa4C8EjvjkpGRJxEFGc17DztLkZcqAQ6L_ziW2pmsXPhyrwShoHXjaYu6cp3j_NHS0VgEIJS2o55yEYjQk9rLDOA4g"/>
+</a>
+</div>
+<div class="flex items-center">
+<div class="hidden md:flex relative w-64 lg:w-80">
+<input class="w-full bg-gray-100 dark:bg-[#151926] text-sm rounded-lg py-2 pl-4 pr-10 focus:outline-none focus:ring-1 focus:ring-primary dark:text-white border border-transparent dark:border-gray-800 placeholder-gray-500" placeholder="Search..." type="text"/>
+<button class="absolute right-2 top-2 text-gray-400 hover:text-primary">
+<span class="material-symbols-outlined text-xl">search</span>
+</button>
+</div>
+<button class="md:hidden text-gray-600 dark:text-gray-200" onclick="toggleMobileSearch()">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</div>
+<div class="hidden bg-white dark:bg-[#0B0E19] border-b border-gray-200 dark:border-gray-800 p-3 absolute w-full top-16 left-0 z-30" id="mobile-search-bar">
+<div class="relative">
+<input class="w-full bg-gray-100 dark:bg-gray-800 text-sm rounded-full py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white border-none" placeholder="Search movies, shows..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-2 text-gray-400 text-lg">search</span>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-24 pb-12 bg-[#0B0E14] text-text-light">
+<div class="container mx-auto px-4 max-w-4xl">
+<div class="bg-[#151926] rounded-xl border border-gray-800 p-8 lg:p-12 shadow-2xl">
+<h1 class="text-3xl lg:text-4xl font-extrabold text-white mb-8 border-b border-gray-800 pb-6">
+                    Quravel Comprehensive Guide, Rules &amp; Regulations
+                </h1>
+<section class="mb-10">
+<h2 class="text-2xl font-bold text-primary mb-4">Welcome to Quravel</h2>
+<p class="text-gray-300 leading-relaxed mb-4">
+                        Your premier destination for streaming movies and shows. This guide ensures a safe, enjoyable experience for all users.
+                    </p>
+</section>
+<hr class="border-gray-800 my-8"/>
+<section class="mb-10">
+<h2 class="text-2xl font-bold text-primary mb-6">I. Account &amp; Usage Guidelines</h2>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Account Creation &amp; Security</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>Users must be at least 13 years old (or the minimum age in their country) to create an account.</li>
+<li>Provide accurate, current information during registration.</li>
+<li>One account per user; sharing credentials is prohibited.</li>
+<li>You are responsible for all activity under your account.</li>
+<li>Notify Quravel immediately of any unauthorized access.</li>
+</ul>
+</div>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Subscription &amp; Billing</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>Choose from Free (ad-supported) or Premium (ad-free) plans.</li>
+<li>Billing cycles are monthly or annually, auto-renewing unless canceled.</li>
+<li>Cancel anytime; no refunds for partial periods except where required by law.</li>
+<li>Prices and plans are subject to change with prior notice.</li>
+</ul>
+</div>
+</section>
+<hr class="border-gray-800 my-8"/>
+<section class="mb-10">
+<h2 class="text-2xl font-bold text-primary mb-6">II. Content &amp; Streaming Rules</h2>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Authorized Use</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>Streaming is for personal, non-commercial use only.</li>
+<li>Download features (if available) are for offline viewing on personal devices.</li>
+<li>Do not redistribute, broadcast, or publicly screen content without permission.</li>
+</ul>
+</div>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Prohibited Actions</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>No reverse-engineering, copying, or scraping Quravel’s content or technology.</li>
+<li>No use of VPNs or proxies to circumvent regional licensing restrictions.</li>
+<li>No attempt to bypass security, ads, or digital rights management (DRM).</li>
+</ul>
+</div>
+</section>
+<hr class="border-gray-800 my-8"/>
+<section class="mb-10">
+<h2 class="text-2xl font-bold text-primary mb-6">III. User Conduct &amp; Community</h2>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Respectful Interaction</h3>
+<p class="text-gray-300 mb-2">Reviews, comments, and profiles must not contain:</p>
+<ul class="list-disc pl-5 space-y-2 text-gray-300 mb-4">
+<li>Hate speech, harassment, or threats.</li>
+<li>Spam, advertisements, or off-topic content.</li>
+<li>Spoilers without warning.</li>
+<li>Personally identifiable information of others.</li>
+</ul>
+<p class="text-gray-300">Quravel may remove inappropriate content or suspend accounts at its discretion.</p>
+</div>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Legal Compliance</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>You agree to use Quravel in compliance with all local, national, and international laws.</li>
+<li>You are responsible for ensuring your use of Quravel is legal in your jurisdiction.</li>
+</ul>
+</div>
+</section>
+<hr class="border-gray-800 my-8"/>
+<section class="mb-10">
+<h2 class="text-2xl font-bold text-primary mb-6">IV. Intellectual Property</h2>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Copyright</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>All content on Quravel is owned by Quravel or its licensors.</li>
+<li>Unauthorized recording, distribution, or modification of content is prohibited.</li>
+<li>Report suspected copyright infringement via our designated contact.</li>
+</ul>
+</div>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Your Content</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>By submitting reviews or user-generated content, you grant Quravel a license to display it.</li>
+<li>You affirm you have the rights to any content you submit.</li>
+</ul>
+</div>
+</section>
+<hr class="border-gray-800 my-8"/>
+<section class="mb-10">
+<h2 class="text-2xl font-bold text-primary mb-6">V. Privacy &amp; Data</h2>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Data Collection</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>We collect data as described in our <a class="text-primary hover:underline" href="#">Privacy Policy</a> (separate document).</li>
+<li>Data may include viewing history, device information, and preferences.</li>
+<li>We use cookies and similar technologies to enhance your experience.</li>
+</ul>
+</div>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Data Usage</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>Data is used to personalize recommendations, improve service, and process payments.</li>
+<li>We do not sell your personal data to third parties.</li>
+<li>You may request account deletion, subject to legal retention requirements.</li>
+</ul>
+</div>
+</section>
+<hr class="border-gray-800 my-8"/>
+<section class="mb-10">
+<h2 class="text-2xl font-bold text-primary mb-6">VI. Disclaimers &amp; Limitations</h2>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Service Availability</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>Quravel is provided "as is" without warranties of any kind.</li>
+<li>We do not guarantee uninterrupted, error-free, or available service.</li>
+<li>Content library varies by region and may change without notice.</li>
+</ul>
+</div>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Liability</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>Quravel is not liable for any indirect, incidental, or consequential damages.</li>
+<li>Our total liability is limited to the amount you paid in the last 12 months.</li>
+</ul>
+</div>
+</section>
+<hr class="border-gray-800 my-8"/>
+<section class="mb-10">
+<h2 class="text-2xl font-bold text-primary mb-6">VII. Termination &amp; Changes</h2>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Termination</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>Quravel may suspend or terminate accounts for violations of these rules.</li>
+<li>You may terminate your account at any time.</li>
+</ul>
+</div>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Policy Updates</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>Quravel may update these rules periodically.</li>
+<li>Continued use after changes constitutes acceptance.</li>
+<li>Significant changes will be notified via email or in-app notice.</li>
+</ul>
+</div>
+</section>
+<hr class="border-gray-800 my-8"/>
+<section class="mb-12">
+<h2 class="text-2xl font-bold text-primary mb-6">VIII. Contact &amp; Support</h2>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">For Support</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>Visit <a class="text-primary font-bold hover:underline" href="#">help.quravel.com</a> for FAQs and troubleshooting.</li>
+<li>Contact support at <a class="text-primary font-bold hover:underline" href="mailto:support@quravel.com">support@quravel.com</a> for account issues.</li>
+</ul>
+</div>
+<div class="mb-6">
+<h3 class="text-xl font-semibold text-white mb-3">Legal Inquiries</h3>
+<ul class="list-disc pl-5 space-y-2 text-gray-300">
+<li>For copyright, legal notices, or law enforcement requests:</li>
+<li class="list-none pt-2"><a class="text-primary font-bold hover:underline" href="mailto:legal@quravel.com">legal@quravel.com</a></li>
+<li class="mt-4">Physical mailing address (to be added based on your company location).</li>
+</ul>
+</div>
+</section>
+<div class="bg-gray-800/30 p-6 rounded-lg border border-gray-700">
+<p class="text-gray-200 font-bold mb-4">
+                        By using Quravel, you acknowledge that you have read, understood, and agree to be bound by these rules and regulations.
+                    </p>
+<div class="text-sm text-gray-500 flex justify-between items-center">
+<span class="italic">Last Updated: [Date]</span>
+<span class="text-primary font-semibold italic">Quravel – Stream Your Story.</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-white dark:bg-footer-dark border-t border-gray-200 dark:border-gray-800 mt-auto">
+<div class="container mx-auto px-4 py-8 md:py-12">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="flex-1 max-w-2xl">
+<img alt="Quravel Logo" class="h-8 mb-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkr6zeOhd6Z56udBNJCthRWvuzmeFIC17MMuwBRGlrRmgIgJQ46Odm5LTFraVthHgD8nN7yDLOJGJjpeBgHs2u95vrcktXSB38_tMh3886hgzrrWlfT7Swg7ggSdit5Ic62xE-o1rfuMqUvK_gBkl5T1S4Etc9fesgFzM_Tfs8AJdPbmlu2zZNVL7uKeFyDqLnb5-upvIrJDbTLuw93pQAKZevC-TvIs2b6MYzErm1u0Ct1Dgq88hl-gbv4UMjFaG8CvbNDWhst1E"/>
+<p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                        Quravel offers free, ad-free access to top movies and series in stunning quality. Stream effortlessly or save for later with easy downloads, perfect for movie lovers on the go!
+                    </p>
+<p class="text-xs text-gray-500 dark:text-gray-500">
+                        This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.
+                        <br/>
+                        watch free movies, watch free tv shows, free movies online
+                    </p>
+</div>
+<div class="flex flex-col items-center md:items-end gap-2 w-full md:w-auto">
+<div class="flex gap-4 text-sm font-semibold text-gray-700 dark:text-gray-300">
+<a class="hover:text-primary transition-colors" href="#">REQUEST</a>
+<a class="hover:text-primary transition-colors" href="#">CONTACT</a>
+</div>
+<div class="text-xs text-gray-500 dark:text-gray-500 mt-2 text-center md:text-right w-full">
+<span class="text-primary font-bold">Quravel</span>
+<br/>
+                        @ 2025 Quravel
+                    </div>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('mobile-menu-overlay');
+            menu.classList.toggle('menu-open');
+            overlay.classList.toggle('hidden');
+        }
+        // Mobile Search Toggle
+        function toggleMobileSearch() {
+            const searchBar = document.getElementById('mobile-search-bar');
+            searchBar.classList.toggle('hidden');
+        }
+        // Mobile Dropdown Accordion
+        function toggleMobileDropdown(id) {
+            const dropdown = document.getElementById(id);
+            const arrowId = id === 'genre-mobile' ? 'genre-arrow' : 'country-arrow';
+            const arrow = document.getElementById(arrowId);
+            dropdown.classList.toggle('hidden');
+            if (dropdown.classList.contains('hidden')) {
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
+
+</body></html>
