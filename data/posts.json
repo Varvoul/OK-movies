@@ -6,7 +6,7 @@
       "type": "anime",
       "category": "action",
       "year": 2025,
-      "duration": "24 episodes",
+      "duration": "24 min",
       "rating": 8.7,
       "description": "The appearance of 'quirks,' newly discovered super powers, has been steadily increasing over the years, with 80 percent of humanity possessing various abilities from manipulation of elements to shapeshifting.",
       "poster": "https://cdn.imgchest.com/files/837e9f15d946.jpeg",
@@ -18,7 +18,6 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-01",
       "popularity": 98,
-      "genre": "Action"
     },
     {
       "id": "john-wick-4",
@@ -38,7 +37,6 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-01-15",
       "popularity": 95,
-      "genre": "Action"
     },
     {
       "id": "dune-part-two",
@@ -58,7 +56,6 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-03-01",
       "popularity": 92,
-      "genre": "Sci-Fi"
     },
     {
       "id": "barbie",
@@ -78,7 +75,6 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-10",
       "popularity": 88,
-      "genre": "Comedy"
     },
     {
       "id": "attack-on-titan-final",
@@ -98,7 +94,6 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-01-20",
       "popularity": 96,
-      "genre": "Action"
     },
     {
       "id": "demon-slayer-s4",
@@ -118,7 +113,6 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-15",
       "popularity": 94,
-      "genre": "Action"
     },
     {
       "id": "spider-man-across-spider-verse",
@@ -138,7 +132,6 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-03-15",
       "popularity": 91,
-      "genre": "Animation"
     },
     {
       "id": "oppenheimer",
@@ -158,7 +151,6 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-20",
       "popularity": 90,
-      "genre": "Drama"
     },
     {
       "id": "jujutsu-kaisen-s2",
@@ -166,7 +158,7 @@
       "type": "anime",
       "category": "action",
       "year": 2023,
-      "duration": "23 episodes",
+      "duration": "23 min",
       "rating": 8.9,
       "description": "Yuji Itadori is a boy with tremendous physical strength, though he lives a completely ordinary high school life.",
       "poster": "https://image.tmdb.org/t/p/original/fHpKWq9ayzSk8nSwqRuaAUemRKh.jpg",
@@ -178,27 +170,25 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-01-25",
       "popularity": 97,
-      "genre": "Action"
     }
     {
       "id": "Chainsaw-Man-The-Movie-Reze-Arc",
       "title": "Chainsaw Man - The Movie: Reze Arc",
       "type": "anime",
       "category": "supernatural",
-      "year": 2023,
-      "duration": "23 episodes",
+      "year": 2025,
+      "duration": "1h 40min",
       "rating": 8.9,
-      "description": "Yuji Itadori is a boy with tremendous physical strength, though he lives a completely ordinary high school life.",
-      "poster": "https://image.tmdb.org/t/p/original/fHpKWq9ayzSk8nSwqRuaAUemRKh.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/2xV0OKitkU5HZfRhsxykF7g7r9l.jpg",
+      "description": "In a brutal war between devils, hunters, and secret enemies, a mysterious girl named Reze has stepped into Denji's world, and he faces his deadliest battle yet, fueled by love in a world where survival knows no rules.",
+      "poster": "https://image.tmdb.org/t/p/original/rd36P5mxzA2fMzOlHYuSMSzBNgw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/dh0dLVLDLqUKhtytCFjkf3EHeJI.jpg",
       "genres": ["Animation", "Action", "Romance", "Fantasy"],
       "studio": "MAPPA",
       "cast": ["Junya Enoki", "Yuma Uchida", "Yuichi Nakamura"],
-      "trailer": "https://www.youtube.com/watch?v=2O1eZg4D_yY",
+      "trailer": "https://youtu.be/GJ1jrCnm-t8",
       "streamingUrl": "https://quravel.blogspot.com/",
-      "dateAdded": "2024-01-25",
+      "dateAdded": "2025-12-15",
       "popularity": 97,
-      "genre": "Action"
     }
   ]
 }
