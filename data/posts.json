@@ -180,5 +180,25 @@
       "popularity": 97,
       "genre": "Action"
     }
+    {
+      "id": "Chainsaw-Man-The-Movie-Reze-Arc",
+      "title": "Chainsaw Man - The Movie: Reze Arc",
+      "type": "anime",
+      "category": "supernatural",
+      "year": 2023,
+      "duration": "23 episodes",
+      "rating": 8.9,
+      "description": "Yuji Itadori is a boy with tremendous physical strength, though he lives a completely ordinary high school life.",
+      "poster": "https://image.tmdb.org/t/p/original/fHpKWq9ayzSk8nSwqRuaAUemRKh.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2xV0OKitkU5HZfRhsxykF7g7r9l.jpg",
+      "genres": ["Animation", "Action", "Romance", "Fantasy"],
+      "studio": "MAPPA",
+      "cast": ["Junya Enoki", "Yuma Uchida", "Yuichi Nakamura"],
+      "trailer": "https://www.youtube.com/watch?v=2O1eZg4D_yY",
+      "streamingUrl": "https://quravel.blogspot.com/",
+      "dateAdded": "2024-01-25",
+      "popularity": 97,
+      "genre": "Action"
+    }
   ]
 }
