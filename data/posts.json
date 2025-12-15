@@ -17,7 +17,8 @@
       "trailer": "https://www.youtube.com/watch?v=example",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-01",
-      "popularity": 98
+      "popularity": 98,
+      "genre": "Action"
     },
     {
       "id": "john-wick-4",
@@ -36,7 +37,8 @@
       "trailer": "https://www.youtube.com/watch?v=qEVUtrk8_B4",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-01-15",
-      "popularity": 95
+      "popularity": 95,
+      "genre": "Action"
     },
     {
       "id": "dune-part-two",
@@ -55,7 +57,8 @@
       "trailer": "https://www.youtube.com/watch?v=U2Qp5pH-BJo",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-03-01",
-      "popularity": 92
+      "popularity": 92,
+      "genre": "Sci-Fi"
     },
     {
       "id": "barbie",
@@ -74,7 +77,8 @@
       "trailer": "https://www.youtube.com/watch?v=pBk4NYhWNMM",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-10",
-      "popularity": 88
+      "popularity": 88,
+      "genre": "Comedy"
     },
     {
       "id": "attack-on-titan-final",
@@ -93,7 +97,8 @@
       "trailer": "https://www.youtube.com/watch?v=LHtdKWJdif4",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-01-20",
-      "popularity": 96
+      "popularity": 96,
+      "genre": "Action"
     },
     {
       "id": "demon-slayer-s4",
@@ -112,7 +117,8 @@
       "trailer": "https://www.youtube.com/watch?v=rUxyKA_-grg",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-15",
-      "popularity": 94
+      "popularity": 94,
+      "genre": "Action"
     },
     {
       "id": "spider-man-across-spider-verse",
@@ -131,7 +137,8 @@
       "trailer": "https://www.youtube.com/watch?v=shW9i6k8cB0",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-03-15",
-      "popularity": 91
+      "popularity": 91,
+      "genre": "Animation"
     },
     {
       "id": "oppenheimer",
@@ -150,7 +157,8 @@
       "trailer": "https://www.youtube.com/watch?v=bK6ldnjE3Y0",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-20",
-      "popularity": 90
+      "popularity": 90,
+      "genre": "Drama"
     },
     {
       "id": "jujutsu-kaisen-s2",
@@ -169,7 +177,8 @@
       "trailer": "https://www.youtube.com/watch?v=2O1eZg4D_yY",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-01-25",
-      "popularity": 97
+      "popularity": 97,
+      "genre": "Action"
     }
   ]
 }
