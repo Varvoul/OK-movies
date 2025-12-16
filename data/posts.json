@@ -218,14 +218,14 @@
       "duration": "3h",
       "rating": 8.3,
       "description": "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.",
-      "poster": "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n8ua.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg",
+      "poster": "https://image.tmdb.org/t/p/original/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg",
       "genres": ["Drama", "History", "Biography"],
       "director": "Christopher Nolan",
       "cast": ["Cillian Murphy", "Emily Blunt", "Matt Damon"],
       "trailer": "https://www.youtube.com/watch?v=bK6ldnjE3Y0",
       "streamingUrl": "https://quravel.blogspot.com/",
-      "dateAdded": "2024-02-20",
+      "dateAdded": "2023-07-21",
       "popularity": 90
     },
     {
