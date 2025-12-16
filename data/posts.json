@@ -8,7 +8,7 @@
       "year": 2025,
       "duration": "24 min",
       "rating": 8.7,
-      "description": "The appearance of "quirks," newly discovered super powers, has been steadily increasing over the years, with 80 percent of humanity possessing various abilities from manipulation of elements to shapeshifting. This leaves the remainder of the world completely powerless, and Izuku Midoriya is one such individual.",
+      "description": "The appearance of \"quirks,\" newly discovered super powers, has been steadily increasing over the years, with 80 percent of humanity possessing various abilities from manipulation of elements to shapeshifting. This leaves the remainder of the world completely powerless, and Izuku Midoriya is one such individual.",
       "poster": "https://cdn.myanimelist.net/images/anime/1276/150585l.jpg",
       "backdrop": "https://cdn.imgchest.com/files/837e9f15d946.jpeg",
       "genres": ["Action", "School", "Shounen", "Super Power"],
@@ -17,7 +17,7 @@
       "trailer": "https://www.youtube.com/watch?v=example",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-01",
-      "popularity": 98,
+      "popularity": 98
     },
     {
       "id": "john-wick-4",
@@ -36,7 +36,7 @@
       "trailer": "https://www.youtube.com/watch?v=qEVUtrk8_B4",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-01-15",
-      "popularity": 95,
+      "popularity": 95
     },
     {
       "id": "dune-part-two",
@@ -55,7 +55,7 @@
       "trailer": "https://www.youtube.com/watch?v=U2Qp5pH-BJo",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-03-01",
-      "popularity": 92,
+      "popularity": 92
     },
     {
       "id": "barbie",
@@ -74,7 +74,7 @@
       "trailer": "https://www.youtube.com/watch?v=pBk4NYhWNMM",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-10",
-      "popularity": 88,
+      "popularity": 88
     },
     {
       "id": "attack-on-titan-final",
@@ -93,26 +93,102 @@
       "trailer": "https://www.youtube.com/watch?v=LHtdKWJdif4",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-01-20",
-      "popularity": 96,
+      "popularity": 96
+    },
+    {
+      "id": "demon-slayer-s1",
+      "title": "Demon Slayer: Kimetsu no Yaiba",
+      "type": "anime",
+      "category": "Action",
+      "year": 2019,
+      "duration": "24m per ep",
+      "rating": 8.47,
+      "description": "After a demon attack leaves his family dead and his sister transformed, Tanjiro Kamado joins the Demon Slayer Corps to find a cure and seek justice.",
+      "poster": "https://cdn.imgchest.com/files/j9p3c8x3p7q.jfif",
+      "backdrop": "https://image.tmdb.org/t/p/original/nTvMzcB7vicU2YNQUnS64fsEzbL.jpg",
+      "genres": ["Action", "Fantasy", "Adventure"],
+      "studio": "ufotable",
+      "cast": ["Natsuki Hanae", "Akari Kitō"],
+      "trailer": "https://www.youtube.com/watch?v=VQGCKyvzIM4",
+      "streamingUrl": "https://quravel.blogspot.com/",
+      "dateAdded": "2024-02-15",
+      "popularity": 99
+    },
+    {
+      "id": "demon-slayer-s2",
+      "title": "Demon Slayer: Entertainment District Arc",
+      "type": "anime",
+      "category": "Action",
+      "year": 2021,
+      "duration": "24m per ep",
+      "rating": 8.73,
+      "description": "Tanjiro and his comrades join the Sound Hashira, Tengen Uzui, on a mission to an entertainment district where demons are rumored to reside.",
+      "poster": "https://cdn.imgchest.com/files/84jdcvkvp8y.jfif",
+      "backdrop": "https://image.tmdb.org/t/p/original/o969966p377N2776R8L.jpg",
+      "genres": ["Action", "Fantasy", "Drama"],
+      "studio": "ufotable",
+      "cast": ["Katsuyuki Konishi", "Miyuki Sawashiro"],
+      "trailer": "https://www.youtube.com/watch?v=0Lsh_mP8rI0",
+      "streamingUrl": "https://quravel.blogspot.com/",
+      "dateAdded": "2024-02-15",
+      "popularity": 98
     },
     {
       "id": "demon-slayer-s3",
-      "title": "Demon Slayer: Kimetsu no Yaiba -To the Swordsmith Village Arc",
+      "title": "Demon Slayer: Swordsmith Village Arc",
       "type": "anime",
-      "category": "action",
+      "category": "Action",
       "year": 2023,
-      "duration": "11 episodes",
-      "rating": 8.6,
-      "description": "Tanjiro and his friends accompany the Hashira to the Swordsmith Village to meet Shinobu's Tsuguko and the village's swordsmiths.",
+      "duration": "24m per ep",
+      "rating": 8.17,
+      "description": "Tanjiro travels to the hidden Swordsmith Village to repair his sword. There, he encounters the Mist Hashira and the Love Hashira while facing an assault by high-ranking demons.",
       "poster": "https://cdn.imgchest.com/files/64dec069b349.jfif",
       "backdrop": "https://image.tmdb.org/t/p/original/tcYO8ay3A0liCWxHu2creU3Q9IB.jpg",
-      "genres": ["Animation", "Action", "Fantasy"],
+      "genres": ["Action", "Fantasy", "Adventure"],
       "studio": "ufotable",
-      "cast": ["Natsuki Hanae", "Akari Kitō", "Yoshitsugu Matsuoka"],
-      "trailer": "https://www.youtube.com/watch?v=rUxyKA_-grg",
+      "cast": ["Kengo Kawanishi", "Kana Hanazawa"],
+      "trailer": "https://www.youtube.com/watch?v=7oxoT2w9cCA",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-15",
-      "popularity": 94,
+      "popularity": 97
+    },
+    {
+      "id": "demon-slayer-s4",
+      "title": "Demon Slayer: Hashira Training Arc",
+      "type": "anime",
+      "category": "Action",
+      "year": 2024,
+      "duration": "24m per ep",
+      "rating": 8.05,
+      "description": "The Demon Slayer Corps undergoes a rigorous training regimen led by the Hashira to prepare for the final confrontation with Muzan Kibutsuji.",
+      "poster": "https://cdn.imgchest.com/files/l7lxcv8v378.jfif",
+      "backdrop": "https://image.tmdb.org/t/p/original/i89KpM6Y2p36r3X2wR7K7D8R6Y.jpg",
+      "genres": ["Action", "Fantasy", "Adventure"],
+      "studio": "ufotable",
+      "cast": ["Tomokazu Sugita", "Kenichi Suzumura"],
+      "trailer": "https://www.youtube.com/watch?v=PraFso1sVIc",
+      "streamingUrl": "https://quravel.blogspot.com/",
+      "dateAdded": "2024-05-12",
+      "popularity": 96
+    },
+    {
+      "id": "demon-slayer-movie-ic1",
+      "title": "Demon Slayer: Infinity Castle - Part 1",
+      "type": "movie",
+      "category": "Action",
+      "year": 2025,
+      "duration": "155m",
+      "rating": 8.95,
+      "description": "The first film in the epic finale trilogy. The Demon Slayer Corps enters the Infinity Castle to face the remaining deadly Twelve Kizuki.",
+      "poster": "https://cdn.imgchest.com/files/my_infinity_castle_poster.jfif",
+      "backdrop": "https://image.tmdb.org/t/p/original/infinity_castle_backdrop.jpg",
+      "genres": ["Action", "Fantasy", "Drama"],
+      "studio": "ufotable",
+      "cast": ["Akira Ishida", "Mamoru Miyano"],
+      "trailer": "https://www.youtube.com/watch?v=x7uLutVRBfI",
+      "streamingUrl": "https://quravel.blogspot.com/",
+      "dateAdded": "2025-09-12",
+      "popularity": 95
     },
     {
       "id": "spider-man-across-spider-verse",
@@ -131,7 +207,7 @@
       "trailer": "https://www.youtube.com/watch?v=shW9i6k8cB0",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-03-15",
-      "popularity": 91,
+      "popularity": 91
     },
     {
       "id": "oppenheimer",
@@ -150,7 +226,7 @@
       "trailer": "https://www.youtube.com/watch?v=bK6ldnjE3Y0",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-20",
-      "popularity": 90,
+      "popularity": 90
     },
     {
       "id": "jujutsu-kaisen-s2",
@@ -169,8 +245,8 @@
       "trailer": "https://www.youtube.com/watch?v=2O1eZg4D_yY",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-01-25",
-      "popularity": 97,
-    }
+      "popularity": 97
+    },
     {
       "id": "Chainsaw-Man-The-Movie-Reze-Arc",
       "title": "Chainsaw Man - The Movie: Reze Arc",
@@ -188,7 +264,7 @@
       "trailer": "https://youtu.be/GJ1jrCnm-t8",
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2025-12-15",
-      "popularity": 97,
+      "popularity": 97
     }
   ]
 }
