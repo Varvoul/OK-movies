@@ -358,6 +358,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-17",
       "popularity": 97
+      "country": "Japan"
     },
     {
       "id": "aot-s3-p1",
@@ -378,6 +379,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-17",
       "popularity": 96
+      "country": "Japan"
     },
     {
       "id": "aot-s3-p2",
@@ -398,6 +400,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-17",
       "popularity": 99
+      "country": "Japan"
     },
     {
       "id": "aot-s4-p1",
@@ -418,6 +421,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-17",
       "popularity": 98
+      "country": "Japan"
     },
     {
       "id": "aot-s4-p2",
@@ -438,6 +442,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-17",
       "popularity": 99
+      "country": "Japan"
     },
     {
       "id": "aot-final-chapters",
@@ -458,6 +463,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-17",
       "popularity": 100
+      "country": "Japan"
     },
     {
       "id": "john-wick-4",
@@ -634,6 +640,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-01-20",
       "popularity": 96
+      "country": "Japan"
     },
     {
       "id": "demon-slayer-s1",
@@ -654,6 +661,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-15",
       "popularity": 99
+      "country": "Japan"
     },
     {
       "id": "ds-movie-1",
@@ -674,6 +682,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-17",
       "popularity": 99
+      "country": "Japan"
     },
     {
       "id": "demon-slayer-s2",
@@ -694,6 +703,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-15",
       "popularity": 98
+      "country": "Japan"
     },
     {
       "id": "demon-slayer-s3",
@@ -714,6 +724,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-02-15",
       "popularity": 97
+      "country": "Japan"
     },
     {
       "id": "demon-slayer-s4",
@@ -734,6 +745,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-05-12",
       "popularity": 96
+      "country": "Japan"
     },
     {
       "id": "demon-slayer-movie-ic1",
@@ -754,6 +766,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2025-09-12",
       "popularity": 95
+      "country": "Japan"
     },
     {
       "id": "spider-man-across-spider-verse",
@@ -811,6 +824,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-01-25",
       "popularity": 97
+      "country": "Japan"
     },
     {
       "id": "sisu-2-road-to-revenge",
@@ -851,6 +865,7 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-17",
       "popularity": 92
+      "country": "USA"
     },
     {
       "id": "knives-out-3-wake-up-dead-man",
@@ -891,6 +906,70 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-17",
       "popularity": 94
+      "country": "USA"
+    },
+    {
+      "id": "zootopia-1",
+      "title": "Zootopia",
+      "japaneseTitle": "Zūtopia",
+      "type": "movie",
+      "category": "animation",
+      "year": 2016,
+      "duration": "108 min",
+      "rating": 8.0,
+      "description": "In a city of anthropomorphic animals, a rookie bunny cop and a cynical con artist fox must work together to uncover a conspiracy.",
+      "poster": "https://image.tmdb.org/t/p/original/hlr98oSh996qqW.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/s16H6tpS2bnqUZv9pUlynpxC2no.jpg",
+      "genres": ["Animation", "Adventure", "Comedy"],
+      "studio": "Walt Disney Animation Studios",
+      "cast": ["Ginnifer Goodwin", "Jason Bateman", "Idris Elba"],
+      "trailer": "https://www.youtube.com/watch?v=jWM0ct-OLsM",
+      "streamingUrl": "https://quravel.blogspot.com/",
+      "dateAdded": "2024-12-17",
+      "popularity": 95,
+      "country": "USA"
+    },
+    {
+      "id": "zootopia-2-2025",
+      "title": "Zootopia 2",
+      "japaneseTitle": "Zūtopia 2",
+      "type": "movie",
+      "category": "animation",
+      "year": 2025,
+      "duration": "Upcoming",
+      "rating": 0.0,
+      "description": "Judy Hopps and Nick Wilde return for a new adventure in the urban jungle of Zootopia, facing a case that leads them to a new part of the animal kingdom.",
+      "poster": "https://image.tmdb.org/t/p/original/6v6pBvM6oXG7WpYm8M9r8R0R6j.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/vL5o40STRXS2Zrx0mR95t996qqW.jpg",
+      "genres": ["Animation", "Adventure", "Comedy"],
+      "studio": "Walt Disney Animation Studios",
+      "cast": ["Ginnifer Goodwin", "Jason Bateman", "Ke Huy Quan"],
+      "trailer": "https://www.youtube.com/results?search_query=zootopia+2+official+trailer",
+      "streamingUrl": "https://quravel.blogspot.com/",
+      "dateAdded": "2024-12-17",
+      "popularity": 98,
+      "country": "USA"
+    },
+    {
+      "id": "soldier-2025",
+      "title": "Soldier",
+      "japaneseTitle": "Sōrujā",
+      "type": "movie",
+      "category": "action",
+      "year": 2025,
+      "duration": "Upcoming",
+      "rating": 0.0,
+      "description": "Shakib Khan's upcoming film where he plays the role of an Army personnel.",
+      "poster": "https://image.tmdb.org/t/p/original/bxWZCCq8ojQygv3pULopfoRr1HB.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/tcYO8ay3A0liCWxHu2creU3Q9IB.jpg",
+      "genres": ["Action", "Drama"],
+      "studio": "To Be Announced",
+      "cast": ["Shakib Khan", "Tanjin Tisha", "Jannatul Ferdous Oishee", "ABM Sumon", "Tauquir Ahmed"],
+      "trailer": "https://www.youtube.com/results?search_query=soldier+shakib+khan+trailer",
+      "streamingUrl": "https://quravel.blogspot.com/",
+      "dateAdded": "2024-12-17",
+      "popularity": 85,
+      "country": "Bangladesh"
     },
     {
       "id": "disclosure-day-2025",
@@ -911,6 +990,27 @@
       "streamingUrl": "https://quravel.blogspot.com/",
       "dateAdded": "2024-12-17",
       "popularity": 75
+    },
+    {
+      "id": "dimlight-2025",
+      "title": "Dimlight",
+      "japaneseTitle": "Dimuraito",
+      "type": "movie",
+      "category": "action",
+      "year": 2025,
+      "duration": "Upcoming",
+      "rating": 0.0,
+      "description": "Plot unknown. Rumored to be a love story set in Bangladesh.",
+      "poster": "https://image.tmdb.org/t/p/original/jjk0_backdrop.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/o969966p377N2776R8L.jpg",
+      "genres": ["Drama", "Family"],
+      "studio": "To Be Announced",
+      "cast": ["Mosharraf Karim"],
+      "trailer": "https://www.youtube.com/results?search_query=dimlight+2025+movie",
+      "streamingUrl": "https://quravel.blogspot.com/",
+      "dateAdded": "2024-12-17",
+      "popularity": 60,
+      "country": "Bangladesh"
     },
     {
       "id": "Chainsaw-Man-The-Movie-Reze-Arc",
