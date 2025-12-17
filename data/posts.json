@@ -3,6 +3,7 @@
      { 
       "id": "mha-s1",
       "title": "My Hero Academia Season 1",
+      "japaneseTitle": "Boku no Hero Academia",
       "type": "anime",
       "category": "action",
       "year": 2016,
@@ -22,6 +23,7 @@
     {
     "id": "mha-s2",
     "title": "My Hero Academia Season 2",
+    "japaneseTitle": "Boku no Hero Academia 2nd Season",
     "type": "anime",
     "category": "action",
     "year": 2017,
@@ -41,6 +43,7 @@
     {
     "id": "mha-s3",
     "title": "My Hero Academia Season 3",
+    "japaneseTitle": "Boku no Hero Academia 3rd Season",
     "type": "anime",
     "category": "action",
     "year": 2018,
@@ -60,6 +63,7 @@
     {
     "id": "mha-s4",
     "title": "My Hero Academia Season 4",
+    "japaneseTitle": "Boku no Hero Academia 4th Season",
     "type": "anime",
     "category": "action",
     "year": 2019,
@@ -79,6 +83,7 @@
     {
     "id": "mha-s5",
     "title": "My Hero Academia Season 5",
+    "japaneseTitle": "Boku no Hero Academia 5th Season",
     "type": "anime",
     "category": "action",
     "year": 2021,
@@ -98,6 +103,7 @@
     {
     "id": "mha-s6",
     "title": "My Hero Academia Season 6",
+    "japaneseTitle": "Boku no Hero Academia 6th Season"
     "type": "anime",
     "category": "action",
     "year": 2022,
@@ -117,6 +123,7 @@
     {
       "id": "mha-s7",
       "title": "My Hero Academia Season 7",
+      "japaneseTitle": "Boku no Hero Academia 7th Season",
       "type": "anime",
       "category": "action",
       "year": 2024,
@@ -155,6 +162,7 @@
     {
       "id": "mha-movie-1",
       "title": "My Hero Academia: Two Heroes",
+      "japaneseTitle": "Futari no Hero",
       "type": "movie",
       "category": "action",
       "year": 2018,
@@ -174,6 +182,7 @@
     {
       "id": "mha-movie-2",
       "title": "My Hero Academia: Heroes Rising",
+      "japaneseTitle": "Boku no Hero Academia the Movie: Heroes:Rising",
       "type": "movie",
       "category": "action",
       "year": 2019,
@@ -193,6 +202,7 @@
     {
       "id": "mha-movie-3",
       "title": "My Hero Academia: World Heroes' Mission",
+      "japaneseTitle": "World Heroes' Mission",
       "type": "movie",
       "category": "action",
       "year": 2021,
@@ -212,6 +222,7 @@
     {
       "id": "mha-movie-4",
       "title": "My Hero Academia: You're Next",
+      "japaneseTitle": "Boku no Hero Academia the Movie: You're Next",
       "type": "movie",
       "category": "action",
       "year": 2024,
