@@ -538,6 +538,7 @@
     {
       "id": "demon-slayer-s1",
       "title": "Demon Slayer: Kimetsu no Yaiba",
+      "japaneseTitle": "Kimetsu no Yaiba",
       "type": "anime",
       "category": "Action",
       "year": 2019,
@@ -557,6 +558,7 @@
     {
       "id": "ds-movie-1",
       "title": "Demon Slayer: Mugen Train",
+      "japaneseTitle": "Kimetsu no Yaiba Movie: Mugen Ressha-hen",
       "type": "movie",
       "category": "action",
       "year": 2020,
@@ -576,6 +578,7 @@
     {
       "id": "demon-slayer-s2",
       "title": "Demon Slayer: Entertainment District Arc",
+      "japaneseTitle": "Kimetsu no Yaiba: Yuukaku-hen",
       "type": "anime",
       "category": "Action",
       "year": 2021,
@@ -595,6 +598,7 @@
     {
       "id": "demon-slayer-s3",
       "title": "Demon Slayer: Swordsmith Village Arc",
+      "japaneseTitle": "Kimetsu no Yaiba: Katanakaji no Sato-hen",
       "type": "anime",
       "category": "Action",
       "year": 2023,
@@ -614,6 +618,7 @@
     {
       "id": "demon-slayer-s4",
       "title": "Demon Slayer: Hashira Training Arc",
+      "japaneseTitle": "Kimetsu no Yaiba: Hashira Geiko-hen",
       "type": "anime",
       "category": "Action",
       "year": 2024,
@@ -633,6 +638,7 @@
     {
       "id": "demon-slayer-movie-ic1",
       "title": "Demon Slayer: Infinity Castle - Part 1",
+      "japaneseTitle": "Kimetsu no Yaiba: Mugen Jou-hen",
       "type": "movie",
       "category": "Action",
       "year": 2025,
