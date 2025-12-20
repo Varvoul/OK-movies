@@ -1,0 +1,49 @@
+image: node:20
+
+pipelines:
+  branches:
+    main:
+      - step:
+          name: Build 11ty Site
+          caches:
+            - node
+          script:
+            # Verify Node version matches package.json requirements
+            - echo "Node $(node --version) meets requirement: >=18.0.0"
+            
+            # Clean install (matches npm run clean)
+            - npm run clean || true  # Ignore if _site doesn't exist
+            
+            # Install dependencies exactly as in package-lock.json
+            - npm ci --no-audit
+            
+            # Build using your package.json script
+            - npm run build
+            
+            # Optional: Run any tests if you add them later
+            # - npm test
+            
+            # Verify build output
+            - echo "Build completed. Files in _site/:"
+            - ls -la _site/ | head -20
+            
+          artifacts:
+            - _site/**  # Everything in the _site directory
+
+      - step:
+          name: Deploy to Bitbucket Pages
+          deployment: production
+          trigger: manual  # Optional: Change to 'automatic' for auto-deploy
+          script:
+            # Use Bitbucket Pages pipe (recommended for your use case)
+            - pipe: atlassian/bitbucket-pages-publish:1.2.2
+              variables:
+                BITBUCKET_USERNAME: $BITBUCKET_USERNAME
+                BITBUCKET_APP_PASSWORD: $BITBUCKET_APP_PASSWORD
+                REPOSITORY: $BITBUCKET_REPO_SLUG
+                TARGET_DIRECTORY: '_site'
+                
+            # Success message
+            - echo "✅ Site deployed successfully!"
+            - echo "🌐 Your site will be available at:"
+            - echo "   https://$BITBUCKET_USERNAME.bitbucket.io/$BITBUCKET_REPO_SLUG/"
