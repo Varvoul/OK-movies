@@ -1,0 +1,19 @@
+src/
+├── _data/
+│   ├── posts.json        # Your shows data
+│   └── site.json         # Site configuration
+├── _includes/
+│   ├── layouts/
+│   │   ├── base.njk
+│   │   └── post.njk
+│   ├── components/
+│   │   ├── hero-slideshow.njk
+│   │   ├── sections.njk
+│   │   └── search.njk
+│   └── partials/
+├── posts/                # Individual post pages
+├── streaming/            # Streaming pages
+├── css/
+├── js/
+├── index.njk             # Homepage
+└── watch.njk             # Watch/streaming page
