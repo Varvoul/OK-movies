@@ -1,19 +1,26 @@
-src/
-├── _data/
-│   ├── posts.json        # Your shows data
-│   └── site.json         # Site configuration
-├── _includes/
-│   ├── layouts/
-│   │   ├── base.njk
-│   │   └── post.njk
-│   ├── components/
-│   │   ├── hero-slideshow.njk
-│   │   ├── sections.njk
-│   │   └── search.njk
-│   └── partials/
-├── posts/                # Individual post pages
-├── streaming/            # Streaming pages
-├── css/
-├── js/
-├── index.njk             # Homepage
-└── watch.njk             # Watch/streaming page
+quravel-streaming/
+├── .eleventy.js              # Eleventy configuration
+├── .eleventyignore          # Files to ignore
+├── vercel.json             # Vercel deployment config
+├── package.json            # Dependencies and scripts
+├── .gitignore              # Git ignore file
+├── .bitbucket-pipelines.yml # Bitbucket CI/CD
+├── scripts/
+│   └── update-posts.js     # Automation script
+└── src/
+    ├── _data/
+    │   ├── posts.json      # All shows data
+    │   └── site.json       # Site configuration
+    ├── _includes/
+    │   ├── layouts/
+    │   │   └── base.njk    # Base layout (from your index template)
+    │   └── partials/
+    │       ├── header.njk
+    │       ├── footer.njk
+    │       └── search.njk
+    ├── css/                # Your CSS files
+    ├── js/                 # Your JavaScript files
+    ├── index.njk           # Homepage (your index template)
+    ├── post.njk            # Post details page (from your post-details.html)
+    ├── watch.njk           # Streaming page (from your streaming.html)
+    └── search-data.json.njk # Search JSON endpoint
