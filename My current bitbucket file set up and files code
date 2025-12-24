@@ -1,18 +1,19 @@
 quravel-streaming/
 ├── .eleventy.js              # Eleventy configuration
-├── vercel.json             # Vercel deployment config
 ├── package.json            # Dependencies and scripts
 ├── .gitignore              # Git ignore file
 └── src/
     ├── _data/
     │   ├── posts.json      # All shows data
     ├── _includes/
-    │   ├── layouts
+    │   ├── layouts/
+    │   │   └── base.njk    # Base layout (from your index template)
     │   └── partials/
-    │       ├── header.nj
+    │       ├── header.njk
+    │       └── search.njk
     ├── index.njk           # Homepage (your index template)
-    ├── post.njk            # Post details page (from my post-details.html)
-    ├── streaming.njk           # Streaming page (from my streaming.html)
+    ├── post-details.njk            # Post details page (from your post-details.html)
+    ├── streaming.njk           # Streaming page (from your streaming.html)
     └── search-data.json.njk # Search JSON endpoint
 
 Now check all my files' code for corrections, mistakes, sulgify, syntax, variables, Nunjack integration, and connections, etc. 
