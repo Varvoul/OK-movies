@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Search - Quravel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    primary: "#498BBB",
+                    "background-light": "#F3F4F6",
+                    "background-dark": "#0B0E19",
+                    "surface-dark": "#151926",
+                    "footer-dark": "#0C0E14",
+                    "text-light": "#E5E7EB",
+                    "text-muted": "#9CA3AF"
+                },
+                fontFamily: {
+                    display: ["Inter", "sans-serif"],
+                    body: ["Inter", "sans-serif"],
+                },
+                borderRadius: {
+                    DEFAULT: "0.5rem",
+                },
+            },
+        },
+    };
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    #mobile-menu {
+        transition: transform 0.3s ease-in-out;
+    }
+    .menu-open {
+        transform: translateX(0) !important;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+    .expanded-description {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+    .expanded-description.expanded {
+        -webkit-line-clamp: unset;
+    }
+    .filter-overlay {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+    }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-text-light transition-colors duration-300 min-h-screen flex flex-col relative">
+<!-- Mobile Menu Overlay -->
+<div class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" id="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+
+<!-- Mobile Menu -->
+<div class="fixed top-0 left-0 h-full w-64 bg-white dark:bg-[#151926] z-50 transform -translate-x-full lg:hidden overflow-y-auto shadow-2xl" id="mobile-menu">
+    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+        <img alt="Quravel Logo" class="h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqiUc86NAc2oPWF0jZS6ltVT0qDRUQLGYe-vsh90aCjNPCKRUYsR2joEXfq121iCQ1DMhEXbbjY-Rm6ydRKKVvOD7XCHpsnpYv4oUDQP6h-KZ9tUpwQb33LAseATibNSPDDxAViL3XAYheHWPQCau7pQCd7-XFT2YjY86y-DFUxv6SfYoh27gsa2-RiKjPMnhZfSvjYzFQSeYDzy64a_9Lmf5_NT9MkYffdzHclH1EyMht0psBW3wqnbmTFh6wbG5Xh4VXCnRWONM"/>
+        <button class="text-gray-500 hover:text-primary" onclick="toggleMobileMenu()">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <div class="p-4 space-y-4">
+        <a class="block text-sm font-medium hover:text-primary py-2 border-b border-gray-100 dark:border-gray-800" href="#">Home</a>
+        <div class="py-2 border-b border-gray-100 dark:border-gray-800">
+            <button class="flex items-center justify-between w-full text-sm font-medium hover:text-primary focus:outline-none" onclick="toggleMobileDropdown('genre-mobile')">
+                <span>Genre</span>
+                <span class="material-symbols-outlined text-sm transform transition-transform" id="genre-arrow">expand_more</span>
+            </button>
+            <div class="hidden mt-2 ml-4 space-y-2 text-sm text-gray-500 dark:text-gray-400" id="genre-mobile">
+                <a class="block hover:text-primary" href="#">Action</a>
+                <a class="block hover:text-primary" href="#">Adventure</a>
+                <a class="block hover:text-primary" href="#">Comedy</a>
+            </div>
+        </div>
+        <div class="py-2 border-b border-gray-100 dark:border-gray-800">
+            <button class="flex items-center justify-between w-full text-sm font-medium hover:text-primary focus:outline-none" onclick="toggleMobileDropdown('country-mobile')">
+                <span>Country</span>
+                <span class="material-symbols-outlined text-sm transform transition-transform" id="country-arrow">expand_more</span>
+            </button>
+            <div class="hidden mt-2 ml-4 space-y-2 text-sm text-gray-500 dark:text-gray-400" id="country-mobile">
+                <a class="block hover:text-primary" href="#">USA</a>
+                <a class="block hover:text-primary" href="#">Japan</a>
+            </div>
+        </div>
+        <a class="block text-sm font-medium hover:text-primary py-2 border-b border-gray-100 dark:border-gray-800" href="#">Top IMDB</a>
+        <a class="block text-sm font-medium hover:text-primary py-2" href="#">Updates</a>
+    </div>
+</div>
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-40 bg-white/95 dark:bg-[#0B0E19]/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <button class="lg:hidden text-gray-600 dark:text-gray-200 focus:outline-none" onclick="toggleMobileMenu()">
+                <span class="material-symbols-outlined text-3xl">menu</span>
+            </button>
+            <nav class="hidden lg:flex items-center space-x-6 text-sm font-medium">
+                <a class="hover:text-primary transition-colors" href="#">Home</a>
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 hover:text-primary transition-colors focus:outline-none py-4">
+                        <span>Genre</span>
+                        <span class="material-symbols-outlined text-sm">expand_more</span>
+                    </button>
+                    <div class="absolute top-full left-0 w-[600px] bg-white dark:bg-[#1A1D29] rounded-b-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border-t-2 border-primary grid grid-cols-4 gap-4 p-6 z-50">
+                        <a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Action</a>
+                        <a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Adventure</a>
+                        <a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Comedy</a>
+                        <a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Drama</a>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 hover:text-primary transition-colors focus:outline-none py-4">
+                        <span>Country</span>
+                        <span class="material-symbols-outlined text-sm">expand_more</span>
+                    </button>
+                    <div class="absolute top-full left-0 w-[600px] bg-white dark:bg-[#1A1D29] rounded-b-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border-t-2 border-primary grid grid-cols-4 gap-4 p-6 z-50">
+                        <a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">USA</a>
+                        <a class="hover:text-primary block text-sm text-gray-600 dark:text-gray-400" href="#">Japan</a>
+                    </div>
+                </div>
+                <a class="hover:text-primary transition-colors" href="#">Top IMDB</a>
+                <a class="hover:text-primary transition-colors" href="#">Updates</a>
+            </nav>
+        </div>
+        <div class="absolute left-1/2 transform -translate-x-1/2">
+            <a class="block" href="/">
+                <img alt="Quravel Logo" class="h-8 md:h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJUVSMqcvlsLRod5Xj-MZhjFAWxv45A-9D1r1RCogjetrU2yKas3rRIuvSZRytOe6KmnI1y8NBGlIDGaE0UV5-mx19YpDf5v0SsajVxTc0VUCDku8E8PC54rDIUGGhmt44NSDXMGfnGVTtfzGJ8Cj6U15erHms74L8zDNtfVtIjG013mT9k-H5Psf5KSd570YR8_DAtEfUBmcVIMfE5LNH3WO14T7Cv3psWjV5O4UWogAMASg1czrkMA4qcRagH2Mtb7wqzWRn0BQ"/>
+            </a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="relative hidden sm:block">
+                <input class="bg-gray-100 dark:bg-gray-800 text-sm rounded-full py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-primary w-48 transition-all dark:text-white border-none" placeholder="Search..." type="text" id="header-search" oninput="debouncedSearch(this.value)"/>
+                <span class="material-symbols-outlined absolute right-3 top-2 text-gray-400 text-lg cursor-pointer hover:text-primary" onclick="focusSearchBar()">search</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="flex-grow pt-24 pb-12 w-full max-w-[1920px] mx-auto min-h-screen">
+    <div class="container mx-auto px-4 lg:px-6">
+        <!-- Search Section -->
+        <div class="mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                Search Movies, TV Shows, Dramas & Anime
+            </h1>
+            
+            <!-- Search Bar with Filter -->
+            <div class="relative flex items-center gap-3 mb-6">
+                <!-- Filter Button -->
+                <button onclick="toggleFilterModal()" class="flex-shrink-0 w-12 h-12 rounded-full bg-gray-100 dark:bg-[#151926] flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+                    <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+                    </svg>
+                </button>
+                
+                <!-- Search Bar -->
+                <div class="flex-grow relative">
+                    <input type="text" 
+                           id="main-search" 
+                           placeholder="Search by title, Japanese title, synonyms..." 
+                           class="w-full bg-gray-100 dark:bg-[#151926] text-base md:text-lg rounded-full py-3 pl-6 pr-12 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white border-none transition-all"
+                           oninput="debouncedSearch(this.value)"
+                           autofocus>
+                    <span class="material-symbols-outlined absolute right-4 top-3 text-gray-400 text-xl">search</span>
+                </div>
+            </div>
+
+            <!-- Search Options -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <!-- Layout Toggle -->
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-600 dark:text-gray-400 mr-2">Layout:</span>
+                    <div class="flex bg-gray-100 dark:bg-[#151926] rounded-lg p-1">
+                        <button onclick="setLayout('grid')" id="grid-layout-btn" class="p-2 rounded hover:text-primary text-gray-500 dark:text-gray-400 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                            </svg>
+                        </button>
+                        <button onclick="setLayout('list')" id="list-layout-btn" class="p-2 rounded bg-white dark:bg-gray-700 shadow-sm text-primary">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search Mode -->
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-600 dark:text-gray-400 mr-2">Search in:</span>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="setSearchMode('title')" class="px-3 py-1.5 text-sm rounded-full bg-primary text-white">Title</button>
+                        <button onclick="setSearchMode('japanese')" class="px-3 py-1.5 text-sm rounded-full bg-gray-100 dark:bg-[#151926] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">Japanese</button>
+                        <button onclick="setSearchMode('synonyms')" class="px-3 py-1.5 text-sm rounded-full bg-gray-100 dark:bg-[#151926] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">Synonyms</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Info -->
+        <div class="mb-6">
+            <p id="results-info" class="text-sm text-gray-500 dark:text-gray-400">
+                Start typing to search...
+            </p>
+        </div>
+
+        <!-- Search Results -->
+        <div id="search-results">
+            <!-- Results will be loaded here -->
+        </div>
+
+        <!-- No Results -->
+        <div id="no-results" class="hidden text-center py-12">
+            <div class="mb-6">
+                <svg class="w-24 h-24 mx-auto text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No results found</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-6">Try different keywords or adjust your filters</p>
+            <a href="https://anioni.netlify.app/" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full hover:bg-opacity-90 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                Return to Home
+            </a>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="hidden mt-12 flex justify-center">
+            <nav class="flex items-center gap-2">
+                <button onclick="changePage(-1)" class="px-3 py-2 rounded-lg bg-white dark:bg-[#151926] border border-gray-200 dark:border-gray-800 text-gray-500 hover:text-primary disabled:opacity-50 transition-colors">
+                    <span class="material-symbols-outlined text-sm">chevron_left</span>
+                </button>
+                <span id="page-numbers" class="px-4 text-sm text-gray-600 dark:text-gray-400"></span>
+                <button onclick="changePage(1)" class="px-3 py-2 rounded-lg bg-white dark:bg-[#151926] border border-gray-200 dark:border-gray-800 text-gray-500 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+</main>
+
+<!-- Filter Modal -->
+<div id="filter-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="fixed inset-0 bg-black/70" onclick="toggleFilterModal()"></div>
+    <div class="relative bg-white dark:bg-[#1A1D29] rounded-xl shadow-2xl w-full max-w-4xl max-h-[80vh] overflow-hidden">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Filter Results</h2>
+            <button onclick="toggleFilterModal()" class="text-gray-500 hover:text-primary">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <div class="p-6 overflow-y-auto max-h-[60vh] custom-scrollbar">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Left Column -->
+                <div class="space-y-6">
+                    <!-- Genre Selection -->
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">Genre</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="action">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Action</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="adventure">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Adventure</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="comedy">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Comedy</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="drama">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Drama</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="fantasy">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Fantasy</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Country Selection -->
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">Country</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="usa">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">USA</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="japan">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Japan</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="korea">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Korea</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="china">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">China</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Year Selection -->
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">Year</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="number" placeholder="From" min="1900" max="2024" class="bg-gray-100 dark:bg-[#151926] border-none rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary">
+                            <input type="number" placeholder="To" min="1900" max="2024" class="bg-gray-100 dark:bg-[#151926] border-none rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-6">
+                    <!-- Rating Selection -->
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">Rating</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="9+">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">9+</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="8+">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">8+</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="7+">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">7+</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="6+">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">6+</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Sort By -->
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">Sort By</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="sort" value="latest" class="text-primary focus:ring-primary">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Latest</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="sort" value="airing" class="text-primary focus:ring-primary">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Airing</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="sort" value="upcoming" class="text-primary focus:ring-primary">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Upcoming</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="sort" value="popular" class="text-primary focus:ring-primary">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Popular</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="sort" value="recommended" class="text-primary focus:ring-primary">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Recommended</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Type Selection -->
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">Type</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="movie">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Movie</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="tv">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">TV Show</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="anime">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Anime</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" value="drama">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Drama</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-6 border-t border-gray-200 dark:border-gray-800 flex justify-end gap-3">
+            <button onclick="clearFilters()" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                Clear All
+            </button>
+            <button onclick="applyFilters()" class="px-6 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-opacity-90 transition-colors">
+                Apply Filters
+            </button>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-white dark:bg-footer-dark border-t border-gray-200 dark:border-gray-800 mt-auto">
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div class="flex-1 max-w-2xl">
+                <img alt="Quravel Logo" class="h-8 mb-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyQkhWkWRKHdBKcKeKIQPSp0dqUxzkKXlQI9e-linyzdZc9vxD5aQvA-ZV_wOo7084k8eQ29HZJd3WqF6fhl5ywezJ9q4mrXm4IXYZnsrFWIdQpQGJRxxoSsAH0BJ7T_rXsfSDASTzBL9VkhWJq2VaqxNU8lIq-c1X5b8JBJP3GlTMQPDc7w1h4CxDMBAlzCY-SB1q84jFGtF6k7hS7VqPnzYc8hjOHgQWrprfsOoJEFcCFtN-N3rEH8TW-lRH0reqCAVonCPGynA"/>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                    Quravel offers free, ad-free access to top movies and series in stunning quality. Stream effortlessly or save for later with easy downloads, perfect for movie lovers on the go!
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-500">
+                    This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.
+                    <br/>
+                    watch free movies, watch free tv shows, free movies online
+                </p>
+            </div>
+            <div class="flex flex-col items-center md:items-end gap-2 w-full md:w-auto">
+                <div class="flex gap-4 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    <a class="hover:text-primary transition-colors" href="#">REQUEST</a>
+                    <a class="hover:text-primary transition-colors" href="#">CONTACT</a>
+                </div>
+                <div class="text-xs text-gray-500 dark:text-gray-500 mt-2 text-center md:text-right w-full">
+                    <span class="text-primary font-bold">Quravel</span>
+                    <br/>
+                    @ 2025 Quravel
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Sample data with streaming URLs - You can replace this with your JSON data
+    const showsData = [
+        {
+            id: "mha-s1",
+            slug: "my-hero-academia-season-1",
+            title: "My Hero Academia Season 1",
+            originalTitle: "Boku no Hero Academia",
+            japaneseTitle: "僕のヒーローアカデミア",
+            synonyms: ["MHA Season 1", "Boku no Hero Academia S1"],
+            searchableTitle: "My Hero Academia Season 1 Boku no Hero Academia 僕のヒーローアカデミア MHA Season 1 Boku no Hero Academia S1",
+            airedYear: 2016,
+            dateAdded: "2024-12-16",
+            type: "anime",
+            featured: false,
+            rating: 8.0,
+            category: "action",
+            premiered: "Spring 2016",
+            duration: "24 min",
+            status: "Finished Airing",
+            description: "In a world where 80% of humanity possesses 'Quirks,' Izuku Midoriya is born powerless but gains a chance to become a hero after a fated meeting with All Might.",
+            posterUrl: "https://cdn.myanimelist.net/images/anime/10/78745l.jpg",
+            backdropUrl: "https://image.tmdb.org/t/p/original/6v6pBvM6oXG7WpYm8M9r8R0R6j.jpg",
+            trailerUrl: "https://www.youtube.com/watch?v=-77UEct0K7Q",
+            malScore: 7.96,
+            imdbScore: 8.4,
+            popularity: 99,
+            genres: ["Super Hero", "Action", "Fantasy", "School"],
+            cast: ["Daiki Yamashita", "Kenta Miyake", "Nobuhiko Okamoto"],
+            certification: "TV-14",
+            country: "Japan",
+            studio: "Bones",
+            producers: ["TOHO", "Shueisha"],
+            streamingUrl: "/stream/mha-s1", // Added streaming URL
+            seasons: []
+        },
+        {
+            id: "mha-s2",
+            slug: "my-hero-academia-season-2",
+            title: "My Hero Academia Season 2",
+            originalTitle: "Boku no Hero Academia 2nd Season",
+            japaneseTitle: "僕のヒーローアカデミア 2nd Season",
+            synonyms: ["MHA Season 2"],
+            searchableTitle: "My Hero Academia Season 2 Boku no Hero Academia 2nd Season 僕のヒーローアカデミア 2nd Season MHA Season 2",
+            airedYear: 2017,
+            dateAdded: "2024-12-01",
+            type: "anime",
+            featured: false,
+            rating: 8.1,
+            category: "action",
+            premiered: "Spring 2017",
+            duration: "24 min",
+            status: "Finished Airing",
+            description: "The UA students compete in the world-renowned Sports Festival. Later, Deku, Iida, and Todoroki face off against the fearsome Hero Killer: Stain.",
+            posterUrl: "https://cdn.myanimelist.net/images/anime/12/85221l.jpg",
+            backdropUrl: "https://image.tmdb.org/t/p/original/6v6pBvM6oXG7WpYm8M9r8R0R6j.jpg",
+            trailerUrl: "https://www.youtube.com/watch?v=42X4H9G5I6c",
+            malScore: 8.15,
+            imdbScore: 8.5,
+            popularity: 97,
+            genres: ["Animation", "Action", "School", "Shounen"],
+            cast: ["Daiki Yamashita", "Nobuhiko Okamoto", "Yuki Kaji"],
+            certification: "TV-14",
+            country: "Japan",
+            studio: "Bones",
+            producers: ["TOHO", "Shueisha"],
+            streamingUrl: "/stream/mha-s2", // Added streaming URL
+            seasons: []
+        },
+        {
+            id: "mha-s3",
+            slug: "my-hero-academia-season-3",
+            title: "My Hero Academia Season 3",
+            originalTitle: "Boku no Hero Academia 3rd Season",
+            japaneseTitle: "僕のヒーローアカデミア 3rd Season",
+            synonyms: ["MHA Season 3"],
+            searchableTitle: "My Hero Academia Season 3 Boku no Hero Academia 3rd Season 僕のヒーローアカデミア 3rd Season MHA Season 3",
+            airedYear: 2018,
+            dateAdded: "2024-12-01",
+            type: "anime",
+            featured: false,
+            rating: 8.1,
+            category: "action",
+            premiered: "Spring 2018",
+            duration: "24 min",
+            status: "Finished Airing",
+            description: "During a summer training camp, the League of Villains launches a surprise attack. This leads to the historic final battle between All Might and All For One.",
+            posterUrl: "https://cdn.myanimelist.net/images/anime/1319/92084l.jpg",
+            backdropUrl: "https://image.tmdb.org/t/p/original/9r9rYm8M9r8R0R6j.jpg",
+            trailerUrl: "https://www.youtube.com/watch?v=VQGCKyvzIM4",
+            malScore: 8.12,
+            imdbScore: 8.6,
+            popularity: 96,
+            genres: ["Super Hero", "Action", "School", "Shounen"],
+            cast: ["Daiki Yamashita", "Kenta Miyake", "Akio Otsuka"],
+            certification: "TV-14",
+            country: "Japan",
+            studio: "Bones",
+            producers: ["TOHO", "Shueisha"],
+            streamingUrl: "/stream/mha-s3", // Added streaming URL
+            seasons: []
+        }
+    ];
+
+    // State management
+    let currentPage = 1;
+    const itemsPerPage = 20;
+    let currentLayout = 'list'; // Default layout
+    let currentSearchMode = 'title'; // Default search mode
+    let currentSearchTerm = '';
+    let currentFilters = {};
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        setLayout('list');
+        setSearchMode('title');
+    });
+
+    // Search functionality
+    function debouncedSearch(term) {
+        clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(() => {
+            performSearch(term);
+        }, 300);
+    }
+
+    function performSearch(term) {
+        currentSearchTerm = term.toLowerCase().trim();
+        currentPage = 1;
+        
+        if (currentSearchTerm.length < 2) {
+            clearResults();
+            return;
+        }
+        
+        const results = filterShows(currentSearchTerm);
+        displayResults(results);
+    }
+
+    function filterShows(searchTerm) {
+        return showsData.filter(show => {
+            // Search based on current mode
+            let searchableText = '';
+            switch(currentSearchMode) {
+                case 'title':
+                    searchableText = show.title.toLowerCase();
+                    break;
+                case 'japanese':
+                    searchableText = show.japaneseTitle.toLowerCase();
+                    break;
+                case 'synonyms':
+                    searchableText = show.synonyms.join(' ').toLowerCase();
+                    break;
+                default:
+                    searchableText = show.searchableTitle.toLowerCase();
+            }
+            
+            return searchableText.includes(searchTerm);
+        });
+    }
+
+    function displayResults(results) {
+        const resultsContainer = document.getElementById('search-results');
+        const noResults = document.getElementById('no-results');
+        const pagination = document.getElementById('pagination');
+        const resultsInfo = document.getElementById('results-info');
+        
+        if (results.length === 0) {
+            resultsContainer.innerHTML = '';
+            noResults.classList.remove('hidden');
+            pagination.classList.add('hidden');
+            resultsInfo.textContent = 'No results found';
+            return;
+        }
+        
+        noResults.classList.add('hidden');
+        resultsInfo.textContent = `Found ${results.length} results for "${currentSearchTerm}"`;
+        
+        // Apply pagination
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedResults = results.slice(startIndex, endIndex);
+        
+        // Render based on layout
+        if (currentLayout === 'grid') {
+            renderGridLayout(paginatedResults, resultsContainer);
+        } else {
+            renderListLayout(paginatedResults, resultsContainer);
+        }
+        
+        // Update pagination
+        updatePagination(results.length);
+    }
+
+    function clearResults() {
+        document.getElementById('search-results').innerHTML = '';
+        document.getElementById('no-results').classList.add('hidden');
+        document.getElementById('pagination').classList.add('hidden');
+        document.getElementById('results-info').textContent = 'Start typing to search...';
+    }
+
+    // Layout functions
+    function setLayout(layout) {
+        currentLayout = layout;
+        
+        // Update button styles
+        const gridBtn = document.getElementById('grid-layout-btn');
+        const listBtn = document.getElementById('list-layout-btn');
+        
+        if (layout === 'grid') {
+            gridBtn.classList.add('bg-white', 'dark:bg-gray-700', 'shadow-sm', 'text-primary');
+            gridBtn.classList.remove('text-gray-500', 'dark:text-gray-400');
+            listBtn.classList.remove('bg-white', 'dark:bg-gray-700', 'shadow-sm', 'text-primary');
+            listBtn.classList.add('text-gray-500', 'dark:text-gray-400');
+        } else {
+            listBtn.classList.add('bg-white', 'dark:bg-gray-700', 'shadow-sm', 'text-primary');
+            listBtn.classList.remove('text-gray-500', 'dark:text-gray-400');
+            gridBtn.classList.remove('bg-white', 'dark:bg-gray-700', 'shadow-sm', 'text-primary');
+            gridBtn.classList.add('text-gray-500', 'dark:text-gray-400');
+        }
+        
+        // Re-render if we have results
+        if (currentSearchTerm.length >= 2) {
+            const results = filterShows(currentSearchTerm);
+            displayResults(results);
+        }
+    }
+
+    function setSearchMode(mode) {
+        currentSearchMode = mode;
+        
+        // Update button styles
+        const buttons = document.querySelectorAll('button[onclick^="setSearchMode"]');
+        buttons.forEach(btn => {
+            if (btn.textContent.toLowerCase().includes(mode)) {
+                btn.classList.add('bg-primary', 'text-white');
+                btn.classList.remove('bg-gray-100', 'dark:bg-[#151926]', 'text-gray-700', 'dark:text-gray-300');
+            } else {
+                btn.classList.remove('bg-primary', 'text-white');
+                btn.classList.add('bg-gray-100', 'dark:bg-[#151926]', 'text-gray-700', 'dark:text-gray-300');
+            }
+        });
+        
+        // Re-search if we have a term
+        if (currentSearchTerm.length >= 2) {
+            const results = filterShows(currentSearchTerm);
+            displayResults(results);
+        }
+    }
+
+    // Render functions
+    function renderGridLayout(shows, container) {
+        let html = '<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-4 lg:gap-6">';
+        
+        shows.forEach(show => {
+            html += `
+                <a href="${show.streamingUrl}" class="group relative block">
+                    <div class="relative aspect-[2/3] rounded-xl overflow-hidden bg-gray-200 dark:bg-surface-dark shadow-sm transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.02] group-hover:-translate-y-1">
+                        <img alt="${show.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="${show.posterUrl}" loading="lazy"/>
+                        <div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow-sm">HD</div>
+                        ${show.type === 'anime' ? `
+                        <div class="absolute top-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5">
+                            <span class="material-symbols-outlined text-[10px] filled text-yellow-400">star</span> ${show.malScore}
+                        </div>
+                        ` : show.imdbScore ? `
+                        <div class="absolute top-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5">
+                            <span class="material-symbols-outlined text-[10px] filled text-yellow-400">star</span> ${show.imdbScore}
+                        </div>
+                        ` : ''}
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <span class="material-symbols-outlined text-white text-5xl drop-shadow-lg scale-75 group-hover:scale-100 transition-transform duration-300">play_circle</span>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="text-sm font-semibold text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">${show.title}</h3>
+                        <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            <span>${show.airedYear}</span>
+                            <span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+                            <span>${show.type}</span>
+                        </div>
+                    </div>
+                </a>
+            `;
+        });
+        
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    function renderListLayout(shows, container) {
+        let html = '<div class="space-y-4">';
+        
+        shows.forEach(show => {
+            const rating = show.type === 'anime' ? 
+                `MAL: ${show.malScore}` : 
+                (show.imdbScore ? `IMDb: ${show.imdbScore}` : '');
+            
+            html += `
+                <a href="${show.streamingUrl}" class="group block">
+                    <div class="flex items-start gap-4 p-4 bg-white dark:bg-[#151926] rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                        <div class="flex-shrink-0 w-24 md:w-32">
+                            <div class="relative aspect-[2/3] rounded-lg overflow-hidden">
+                                <img alt="${show.title}" class="w-full h-full object-cover" src="${show.posterUrl}" loading="lazy"/>
+                                <div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow-sm">HD</div>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-col md:flex-row md:items-start justify-between gap-2">
+                                <div>
+                                    <h3 class="text-lg md:text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">${show.title}</h3>
+                                    ${show.japaneseTitle ? `<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">${show.japaneseTitle}</p>` : ''}
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    ${rating ? `<span class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-sm">
+                                        <span class="material-symbols-outlined text-xs filled text-yellow-400">star</span>
+                                        ${rating}
+                                    </span>` : ''}
+                                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-sm">${show.type}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-wrap items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mt-3">
+                                <span>${show.airedYear}</span>
+                                <span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+                                <span>${show.status}</span>
+                                <span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+                                <span>${show.genres.slice(0, 3).join(', ')}</span>
+                                ${show.cast.length > 0 ? `
+                                <span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+                                <span class="truncate">Cast: ${show.cast.slice(0, 2).join(', ')}</span>
+                                ` : ''}
+                            </div>
+                            
+                            <div class="mt-3">
+                                <p class="expanded-description text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                    ${show.description}
+                                </p>
+                                <button onclick="event.preventDefault(); toggleDescription(this)" class="mt-2 text-sm text-primary hover:text-opacity-80 transition-colors">
+                                    Read more
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+        });
+        
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    // Pagination
+    function updatePagination(totalItems) {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const pagination = document.getElementById('pagination');
+        const pageNumbers = document.getElementById('page-numbers');
+        
+        if (totalPages <= 1) {
+            pagination.classList.add('hidden');
+            return;
+        }
+        
+        pagination.classList.remove('hidden');
+        pageNumbers.textContent = `Page ${currentPage} of ${totalPages}`;
+    }
+
+    function changePage(direction) {
+        const results = filterShows(currentSearchTerm);
+        const totalPages = Math.ceil(results.length / itemsPerPage);
+        
+        const newPage = currentPage + direction;
+        if (newPage < 1 || newPage > totalPages) return;
+        
+        currentPage = newPage;
+        displayResults(results);
+    }
+
+    // Filter modal functions
+    function toggleFilterModal() {
+        const modal = document.getElementById('filter-modal');
+        modal.classList.toggle('hidden');
+        modal.classList.toggle('flex');
+    }
+
+    function applyFilters() {
+        // Collect filter values
+        const filters = {
+            genres: [],
+            countries: [],
+            types: [],
+            sortBy: document.querySelector('input[name="sort"]:checked')?.value || 'latest',
+            // Add more filters as needed
+        };
+        
+        currentFilters = filters;
+        toggleFilterModal();
+        
+        // Re-apply search with filters
+        if (currentSearchTerm.length >= 2) {
+            const results = filterShows(currentSearchTerm);
+            displayResults(results);
+        }
+    }
+
+    function clearFilters() {
+        // Clear all filter inputs
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        document.querySelectorAll('input[type="radio"]').forEach(rb => rb.checked = false);
+        document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
+        
+        currentFilters = {};
+    }
+
+    // Helper functions
+    function toggleDescription(button) {
+        const description = button.previousElementSibling;
+        description.classList.toggle('expanded');
+        button.textContent = description.classList.contains('expanded') ? 'Read less' : 'Read more';
+    }
+
+    function focusSearchBar() {
+        document.getElementById('main-search').focus();
+    }
+
+    // Mobile Menu functions (keep existing)
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const overlay = document.getElementById('mobile-menu-overlay');
+        menu.classList.toggle('menu-open');
+        overlay.classList.toggle('hidden');
+    }
+
+    function toggleMobileDropdown(id) {
+        const dropdown = document.getElementById(id);
+        dropdown.classList.toggle('hidden');
+        const arrowId = id === 'genre-mobile' ? 'genre-arrow' : 'country-arrow';
+        const arrow = document.getElementById(arrowId);
+        if (dropdown.classList.contains('hidden')) {
+            arrow.style.transform = 'rotate(0deg)';
+        } else {
+            arrow.style.transform = 'rotate(180deg)';
+        }
+    }
+
+    // Sync header search with main search
+    document.getElementById('header-search').addEventListener('input', function(e) {
+        document.getElementById('main-search').value = e.target.value;
+        debouncedSearch(e.target.value);
+    });
+
+    document.getElementById('main-search').addEventListener('input', function(e) {
+        document.getElementById('header-search').value = e.target.value;
+        debouncedSearch(e.target.value);
+    });
+</script>
+</body>
+</html>
