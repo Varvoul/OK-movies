@@ -1,0 +1,16 @@
+[
+Title: 
+Original:
+Japanese or Korean or Chinese or Taiwanese: (only applicable for anime and drama series) keep this field for now.
+Synonyms:
+Aired:
+Primered:
+Duration:
+Status:
+Genres: For genre items, use a circle-shaped border and use this for the genres items background color hex code: #91243a and RGB code: 145, 36, 58
+Casts: for cast members use circle shaped border with transparent background. Add a background color change hover effect when clicked. 
+Score: Add a star SVG icon. Add the MyAnimeList score with a blue star and use this separator "|" then add the IMDb score with a yellow star. like this "star SVG icon Mal: 8.6 | star svg icon ImDb: 7.6"
+Studio: 
+Producer:
+Country:
+]
