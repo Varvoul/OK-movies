@@ -1,0 +1,760 @@
+<style>
+    /* Prevent horizontal scrolling */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #F3F4F6;
+        color: #111827;
+    }
+    .dark body {
+        background-color: #0B0E19;
+        color: #E5E7EB;
+    }
+    
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Video Container Responsive */
+    .video-container-wrapper {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: 0.75rem;
+        background: #000;
+    }
+    
+    .video-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    
+    /* Episode list item - new hover effect (no play icon, different hover) */
+    .episode-list-item {
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+        padding: 10px 16px;
+        border-radius: 6px;
+        margin-bottom: 4px;
+        background-color: rgba(255,255,255,0.05);
+        cursor: pointer;
+    }
+    .dark .episode-list-item {
+        background-color: rgba(255,255,255,0.02);
+    }
+    
+    .episode-list-item:hover {
+        background-color: rgba(73, 139, 187, 0.15) !important;
+        border-left: 3px solid #498BBB;
+        transform: translateX(6px);
+        box-shadow: 0 2px 8px rgba(73,139,187,0.2);
+    }
+    
+    .episode-list-item.active {
+        background-color: rgba(73, 139, 187, 0.2) !important;
+        border-left: 3px solid #498BBB;
+        font-weight: 500;
+    }
+    
+    /* No play icon - we remove any potential pseudo-elements or icons */
+    .episode-list-item .episode-play-icon,
+    .episode-list-item span.material-symbols-outlined {
+        display: none !important;
+    }
+    
+    /* Server buttons */
+    .server-btn {
+        transition: all 0.15s ease;
+        cursor: pointer;
+    }
+    
+    .server-btn.active-server {
+        background-color: #498BBB !important;
+        color: white !important;
+    }
+    
+    /* Season button styling */
+    .season-btn {
+        transition: all 0.2s ease;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+    .season-btn.active-season {
+        background: rgba(73, 139, 187, 0.2);
+        border-color: #498BBB;
+        color: #498BBB;
+    }
+    .season-btn:hover:not(.active-season) {
+        background: rgba(73, 139, 187, 0.1);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+        .server-group {
+            flex-wrap: wrap;
+        }
+    }
+    
+    /* Layout containers */
+    .player-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
+    }
+    
+    .controls-panel {
+        background: #171a29; /* Blogger theme bg color */
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin-top: 1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        border: 1px solid #2d3347;
+        color: #e5e7eb;
+    }
+    
+    .section-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #f3f4f6;
+    }
+    
+    .server-category {
+        margin-bottom: 1.25rem;
+    }
+    .server-category-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    
+    .server-buttons-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .episodes-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 0.5rem;
+    }
+    
+    .seasons-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* loading overlay */
+    .video-loading-overlay {
+        position: absolute;
+        inset: 0;
+        background: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    
+    /* Info strip */
+    .current-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        background: #1e2235;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        color: #d1d5db;
+    }
+    .info-item span:first-child {
+        color: #9ca3af;
+        margin-right: 0.5rem;
+    }
+    .info-value {
+        font-weight: 600;
+        color: #498BBB;
+    }
+    
+    /* Navigation buttons */
+    .nav-buttons {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+    }
+    .nav-btn {
+        background: #2d3347;
+        border: none;
+        color: #e5e7eb;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .nav-btn:hover {
+        background: #498BBB;
+        color: white;
+    }
+    .nav-btn:active {
+        transform: scale(0.98);
+    }
+    
+    /* Add to list button */
+    .add-to-list-btn {
+        background: rgba(73, 139, 187, 0.15);
+        border: 1px solid #498BBB;
+        color: #e5e7eb;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .add-to-list-btn:hover {
+        background: #498BBB;
+        color: white;
+    }
+    
+    /* Message text */
+    .server-message {
+        font-size: 0.85rem;
+        color: #fcd34d;
+        background: rgba(252, 211, 77, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        margin-bottom: 1rem;
+        border-left: 3px solid #fbbf24;
+    }
+</style>
+
+<!-- No head/body - just the player and controls as a standalone block -->
+<div class="player-section" id="standalone-player">
+    <!-- Dynamic Video Player -->
+    <div class="video-container-wrapper" id="video-player-container-main">
+        <!-- Video will be loaded here dynamically after selections -->
+        <div class="video-loading-overlay" id="video-loading-overlay-main" style="display: flex;">
+            <span>▶ Click to load player (after selection)</span>
+        </div>
+    </div>
+
+    <!-- Video Control Section with all servers and seasons/episodes -->
+    <div class="controls-panel">
+        <!-- Current selection info with navigation and add to list -->
+        <div class="current-info">
+            <div class="info-item"><span>Season:</span> <span class="info-value" id="display-season">1</span></div>
+            <div class="info-item"><span>Episode:</span> <span class="info-value" id="display-episode">1</span></div>
+            <div class="info-item"><span>Server:</span> <span class="info-value" id="display-server">SUB-HD-01</span></div>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-episode-btn">◀ Prev</button>
+                <button class="nav-btn" id="next-episode-btn">Next ▶</button>
+                <button class="add-to-list-btn" id="add-to-list-btn">+ Add to List</button>
+            </div>
+        </div>
+
+        <!-- Server message -->
+        <div class="server-message" id="server-message">
+            If the current server doesn't work, please try other servers below.
+        </div>
+
+        <!-- Server Selection: Three categories with HD-01 to HD-05 -->
+        <div class="server-category">
+            <span class="server-category-label">SUB</span>
+            <div class="server-buttons-row" id="server-group-sub">
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="SUB-HD-01">HD-01</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="SUB-HD-02">HD-02</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="SUB-HD-03">HD-03</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="SUB-HD-04">HD-04</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="SUB-HD-05">HD-05</button>
+            </div>
+        </div>
+        <div class="server-category">
+            <span class="server-category-label">DUB</span>
+            <div class="server-buttons-row" id="server-group-dub">
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="DUB-HD-01">HD-01</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="DUB-HD-02">HD-02</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="DUB-HD-03">HD-03</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="DUB-HD-04">HD-04</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="DUB-HD-05">HD-05</button>
+            </div>
+        </div>
+        <div class="server-category">
+            <span class="server-category-label">RAW</span>
+            <div class="server-buttons-row" id="server-group-raw">
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="RAW-HD-01">HD-01</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="RAW-HD-02">HD-02</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="RAW-HD-03">HD-03</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="RAW-HD-04">HD-04</button>
+                <button class="server-btn px-3 py-2 rounded text-xs font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700" data-server="RAW-HD-05">HD-05</button>
+            </div>
+        </div>
+
+        <!-- Seasons Selection -->
+        <div style="margin-top: 1.5rem;">
+            <div class="section-title">Select Season</div>
+            <div class="seasons-row" id="seasons-container">
+                <button class="season-btn" data-season="1">Season 1</button>
+                <button class="season-btn" data-season="2">Season 2</button>
+                <button class="season-btn" data-season="3">Season 3</button>
+                <button class="season-btn" data-season="4">Season 4</button>
+                <button class="season-btn" data-season="ova">OVA</button>
+            </div>
+        </div>
+
+        <!-- Episodes Selection (list, no play icons) -->
+        <div style="margin-top: 1.5rem;">
+            <div class="section-title">Select Episode</div>
+            <div class="episodes-grid custom-scrollbar" id="episodes-container">
+                <!-- episodes dynamically populated, without play icons -->
+            </div>
+        </div>
+
+        <!-- Hidden note: server/episode selection order: season -> episode -> server then load video -->
+        <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 1rem; text-align: center;">
+            * Select season, then episode, then server to load video.
+        </div>
+    </div>
+</div>
+
+<!-- Include Tailwind (CDN) and fonts -->
+<link href="https://cdn.tailwindcss.com" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- No external icons needed, we removed play icons -->
+
+<script>
+    (function() {
+        // ---------- DATA (same as original but trimmed) ----------
+        const episodeTitles = [
+            "A Jerky is a Promise: Skatzbitt",
+            "A Proposal from Above with a Gift",
+            "Grilled Skewers of Prime Meat: Royal Moodle",
+            "Signaling Departure with a Pillar of Flame",
+            "Night at Fort Ritterd",
+            "In Season: Battered and Deep-Fried Monster Fish",
+            "Those Who Inherit The Galbraith Name",
+            "Uses for Cloudy Quartz",
+            "The Voracious Villainess's Resolve",
+            "The Blood-Mad Duke's Intentions",
+            "Sweet or Sour Fruit",
+            "The Voracious Villainess's First Appearance"
+        ];
+
+        // HD-01 Server (Strmup.to)
+        const subEpisodesHD01 = [
+            'https://strmup.to/7c479d8ff859c',    // Episode 1
+            'https://strmup.to/31286346bcfbc',    // Episode 2
+            'https://strmup.to/9a08b5c192e88',    // Episode 3
+            'https://strmup.to/b89b9284a4f10',    // Episode 4
+            'https://strmup.to/c3ddcf7e349a6',    // Episode 5
+            'https://strmup.to/4b5dbac8ed41e',    // Episode 6
+            'https://strmup.to/998dc1d114e72',    // Episode 7
+            'https://strmup.to/3c207cb189720',    // Episode 8
+            'https://strmup.to/1959eddf612c1',    // Episode 9
+            'https://strmup.to/deed15ee6504a',    // Episode 10
+            'https://strmup.to/8c129ea4e8268',    // Episode 11
+            'https://strmup.to/1909eae877b60'     // Episode 12
+        ];
+
+        const dubEpisodesHD01 = [
+            'https://strmup.to/7970f2a4c6728',    // Episode 1
+            'https://strmup.to/8d2a7e5ed92cf',    // Episode 2
+            'https://strmup.to/665b3076fae0b',    // Episode 3
+            'https://strmup.to/27ea9aa6396ac',    // Episode 4
+            'https://strmup.to/1a1228a170db0',    // Episode 5
+            'https://strmup.to/bfe693b2fe66e',    // Episode 6
+            'https://strmup.to/a3a171afa6f59',    // Episode 7
+            'https://strmup.to/ee4ef02871a9c',    // Episode 8
+            'https://strmup.to/4792cf161d45d',    // Episode 9
+            'https://strmup.to/bf8ce186c6f32',    // Episode 10
+            'https://strmup.to/3bae79aa13000',    // Episode 11
+            'https://strmup.to/61670302b4eeb'     // Episode 12
+        ];
+
+        // HD-02 Server (Bysejikuar.com)
+        const subEpisodesHD02 = [
+            'https://bysejikuar.com/e/4o8o4h6ubnnl/anime-pass-the-monster-meat-milady-sub-01',
+            'https://bysejikuar.com/e/i96iqhpxqjpo/anime-pass-the-monster-meat-milady-sub-02',
+            'https://bysejikuar.com/e/ojxp4ntr7jr3/pass-the-monster-meat-milady-sub-03',
+            'https://bysejikuar.com/e/ad8dfepfe75w/pass-the-monster-meat-milady-sub-04',
+            'https://bysejikuar.com/e/y45rpv3d4rv0/anime-pass-the-monster-meat-milady-sub-05',
+            'https://bysejikuar.com/e/50dhilmodcqu/pass-the-monster-meat-milady-sub-06',
+            'https://bysejikuar.com/e/bd8wq4xw0did/pass-the-monster-meat-milady-sub-07',
+            'https://bysejikuar.com/e/25ywf7h63bp0/pass-the-monster-meat-milady-sub-08',
+            'https://bysejikuar.com/e/kearh4plvnb1/pass-the-monster-meat-milady-sub-09',
+            'https://bysejikuar.com/e/ae9ixql3grll/pass-the-monster-meat-milady-sub-10',
+            'https://bysejikuar.com/e/mkfcvvychkzg/pass-the-monster-meat-milady-sub-11',
+            'https://bysejikuar.com/e/ut3duycy0gm3/pass-the-monster-meat-milady-sub-12'
+        ];
+
+        const dubEpisodesHD02 = [
+            'https://bysejikuar.com/e/mdh9xo3xipqt/pass-the-monster-meat-milady-dub-01',
+            'https://bysejikuar.com/e/dy0kvn8gk89e/pass-the-monster-meat-milady-dub-02',
+            'https://bysejikuar.com/e/n1lsbqk8gf7d/pass-the-monster-meat-milady-dub-03',
+            'https://bysejikuar.com/e/m6jjh6oyqvk0/pass-the-monster-meat-milady-dub-04',
+            'https://bysejikuar.com/e/u65tdw7tcwep/pass-the-monster-meat-milady-dub-05',
+            'https://bysejikuar.com/e/qdn2iisfra30/pass-the-monster-meat-milady-dub-06',
+            'https://bysejikuar.com/e/qewc622o1vie/pass-the-monster-meat-milady-dub-07',
+            'https://bysejikuar.com/e/zvmw9cazftwz/pass-the-monster-meat-milady-dub-08',
+            'https://bysejikuar.com/e/4vc80es67vtr/pass-the-monster-meat-milady-dub-09',
+            'https://bysejikuar.com/e/cm96szgfsogi/pass-the-monster-meat-milady-dub-10',
+            'https://bysejikuar.com/e/uyebiqpv6gn8/pass-the-monster-meat-milady-dub-11',
+            'https://bysejikuar.com/e/bp3ee9zadvol/pass-the-monster-meat-milady-dub-12'
+        ];
+
+        // HD-03 Server (Mixdrop.top)
+        const subEpisodesHD03 = [
+            'https://mixdrop.top/e/el067k6phn6zoj',
+            'https://mixdrop.top/e/ow94ejngclj3ldd',
+            'https://mixdrop.top/e/jdzq108zfv73g7',
+            'https://mixdrop.top/e/mkn1elqpixxw6o7',
+            'https://mixdrop.top/e/dkd307kns6l919',
+            'https://mixdrop.top/e/nlx19wnwukpzk9',
+            'https://mixdrop.top/e/nlx19ql0bv1343',
+            'https://mixdrop.top/e/8lq10w49urmgn6',
+            'https://mixdrop.top/e/pj94e1eehnpg',
+            'https://mixdrop.top/e/k0mwx70qfg36kj',
+            'https://mixdrop.top/e/l7qnzkoecpq3m8',
+            'https://mixdrop.top/e/vkz7e0k9hq719p'
+        ];
+
+        const dubEpisodesHD03 = [
+            'https://mixdrop.top/e/03j9w08jhx97l6',
+            'https://mixdrop.top/e/8d2a7e5ed92cf',
+            'https://mixdrop.top/e/dkd3wg4jfpe1rj',
+            'https://mixdrop.top/e/z1zo03qzc83913',
+            'https://mixdrop.top/e/q19vrk11srrrj9',
+            'https://mixdrop.top/e/679pg1qjiwlw83',
+            'https://mixdrop.top/e/03j9w041fde0r',
+            'https://mixdrop.top/e/q19vrkd1fe67mn',
+            'https://mixdrop.top/e/gjk0xvd8s31l7r',
+            'https://mixdrop.top/e/bf8ce186c6f32',
+            'https://mixdrop.top/e/9wq10mkwf88lkz',
+            'https://mixdrop.top/e/679pg1d1unx1xg'
+        ];
+
+        // HD-04 (placeholders) - using same as HD03 for demo, replace with real if needed
+        const subEpisodesHD04 = subEpisodesHD03;
+        const dubEpisodesHD04 = dubEpisodesHD03;
+
+        // HD-05 (placeholders)
+        const subEpisodesHD05 = subEpisodesHD03;
+        const dubEpisodesHD05 = dubEpisodesHD03;
+
+        // RAW servers (using SUB links as placeholder)
+        const rawEpisodesHD01 = subEpisodesHD01;
+        const rawEpisodesHD02 = subEpisodesHD02;
+        const rawEpisodesHD03 = subEpisodesHD03;
+        const rawEpisodesHD04 = subEpisodesHD04;
+        const rawEpisodesHD05 = subEpisodesHD05;
+
+        const episodeUrls = {
+            'SUB-HD-01': subEpisodesHD01, 'SUB-HD-02': subEpisodesHD02, 'SUB-HD-03': subEpisodesHD03,
+            'SUB-HD-04': subEpisodesHD04, 'SUB-HD-05': subEpisodesHD05,
+            'DUB-HD-01': dubEpisodesHD01, 'DUB-HD-02': dubEpisodesHD02, 'DUB-HD-03': dubEpisodesHD03,
+            'DUB-HD-04': dubEpisodesHD04, 'DUB-HD-05': dubEpisodesHD05,
+            'RAW-HD-01': rawEpisodesHD01, 'RAW-HD-02': rawEpisodesHD02, 'RAW-HD-03': rawEpisodesHD03,
+            'RAW-HD-04': rawEpisodesHD04, 'RAW-HD-05': rawEpisodesHD05
+        };
+
+        // Episode data per season
+        const episodeData = {
+            '1': episodeTitles.map((title, idx) => ({ id: idx+1, title })),
+            '2': [
+                { id: 1, title: 'Second Year Begins' }, { id: 2, title: 'New Club Activities' },
+                { id: 3, title: 'School Trip to Kyoto' }, { id: 4, title: 'Cultural Exchange' },
+                { id: 5, title: 'Sports Festival' }, { id: 6, title: 'Midterm Exams' }
+            ],
+            '3': [
+                { id: 1, title: 'Third Year Decisions' }, { id: 2, title: 'University Entrance Exams' },
+                { id: 3, title: 'Graduation Preparation' }, { id: 4, title: 'Final Cultural Festival' }
+            ],
+            '4': [
+                { id: 1, title: 'University Life' }, { id: 2, title: 'New Beginnings' },
+                { id: 3, title: 'Adult Relationships' }
+            ],
+            'ova': [
+                { id: 1, title: 'Beach Special' }, { id: 2, title: 'Christmas Special' },
+                { id: 3, title: 'Cultural Festival Aftermath' }
+            ]
+        };
+
+        // ---------- State ----------
+        let currentSeason = '1';
+        let currentEpisode = 1;
+        let currentServer = 'SUB-HD-01'; // default
+
+        // DOM elements
+        const container = document.getElementById('video-player-container-main');
+        const overlay = document.getElementById('video-loading-overlay-main');
+        const displaySeason = document.getElementById('display-season');
+        const displayEpisode = document.getElementById('display-episode');
+        const displayServer = document.getElementById('display-server');
+        const episodesContainer = document.getElementById('episodes-container');
+        const seasonBtns = document.querySelectorAll('.season-btn');
+        const serverBtns = document.querySelectorAll('.server-btn');
+        const prevBtn = document.getElementById('prev-episode-btn');
+        const nextBtn = document.getElementById('next-episode-btn');
+        const addToListBtn = document.getElementById('add-to-list-btn');
+
+        // Helper: update info display
+        function updateInfoDisplay() {
+            if (displaySeason) displaySeason.innerText = currentSeason;
+            if (displayEpisode) displayEpisode.innerText = currentEpisode;
+            if (displayServer) displayServer.innerText = currentServer;
+        }
+
+        // Helper: remove active classes
+        function clearServerActive() {
+            serverBtns.forEach(btn => {
+                btn.classList.remove('active-server', 'bg-primary', 'text-white');
+                btn.classList.add('bg-gray-200', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
+            });
+        }
+
+        function clearSeasonActive() {
+            seasonBtns.forEach(btn => {
+                btn.classList.remove('active-season');
+            });
+        }
+
+        // Load video based on current state
+        function loadVideo() {
+            if (!container) return;
+            const episodes = episodeData[currentSeason] || [];
+            if (currentEpisode > episodes.length) currentEpisode = 1;
+
+            const episodeIndex = currentEpisode - 1;
+            let videoUrl = '';
+            const serverUrls = episodeUrls[currentServer];
+            if (serverUrls && episodeIndex < serverUrls.length) {
+                videoUrl = serverUrls[episodeIndex];
+            } else {
+                // fallback
+                videoUrl = subEpisodesHD01[0];
+            }
+
+            // Construct embed URL (add autoplay etc)
+            let embedUrl = videoUrl;
+            if (videoUrl.includes('streamhls.to') || videoUrl.includes('strmup.to')) {
+                embedUrl = videoUrl + (videoUrl.includes('?') ? '&' : '?') + 'autoplay=1&controls=1&modestbranding=1&rel=0';
+            } else if (videoUrl.includes('bysejikuar.com') || videoUrl.includes('mixdrop.top')) {
+                embedUrl = videoUrl + (videoUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+            }
+
+            // Replace container with iframe
+            container.innerHTML = '';
+            const iframe = document.createElement('iframe');
+            iframe.className = 'video-container';
+            iframe.src = embedUrl;
+            iframe.frameBorder = '0';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            iframe.title = `S${currentSeason} E${currentEpisode}`;
+            container.appendChild(iframe);
+
+            // Hide overlay if visible
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        // Render episode list (NO PLAY ICONS)
+        function renderEpisodes() {
+            const episodes = episodeData[currentSeason] || [];
+            let html = '';
+            episodes.forEach(ep => {
+                const activeClass = (ep.id === currentEpisode) ? 'active' : '';
+                const epNumber = ep.id.toString().padStart(2, '0');
+                // No icon, just text
+                html += `<div class="episode-list-item ${activeClass}" data-episode-id="${ep.id}">EP ${epNumber}: ${ep.title}</div>`;
+            });
+            episodesContainer.innerHTML = html;
+
+            // Attach click listeners to episode items
+            document.querySelectorAll('.episode-list-item').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    const epId = parseInt(this.dataset.episodeId);
+                    if (!isNaN(epId)) {
+                        currentEpisode = epId;
+                        // Remove active from all episodes
+                        document.querySelectorAll('.episode-list-item').forEach(item => item.classList.remove('active'));
+                        this.classList.add('active');
+                        updateInfoDisplay();
+                        // Do NOT load video automatically until server is selected
+                    }
+                });
+            });
+        }
+
+        // Initialize
+        function init() {
+            // Set active season
+            clearSeasonActive();
+            seasonBtns.forEach(btn => {
+                if (btn.dataset.season === currentSeason) {
+                    btn.classList.add('active-season');
+                }
+            });
+
+            // Set active server
+            clearServerActive();
+            serverBtns.forEach(btn => {
+                if (btn.dataset.server === currentServer) {
+                    btn.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
+                    btn.classList.add('active-server', 'bg-primary', 'text-white');
+                }
+            });
+
+            renderEpisodes();
+            updateInfoDisplay();
+        }
+
+        // Event listeners for seasons
+        seasonBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const season = this.dataset.season;
+                if (!season) return;
+                currentSeason = season;
+                currentEpisode = 1; // reset to first episode
+                clearSeasonActive();
+                this.classList.add('active-season');
+                renderEpisodes(); // re-render episodes for new season, with ep1 active
+                updateInfoDisplay();
+            });
+        });
+
+        // Event listeners for servers
+        serverBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const server = this.dataset.server;
+                if (!server) return;
+                currentServer = server;
+                clearServerActive();
+                this.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
+                this.classList.add('active-server', 'bg-primary', 'text-white');
+                updateInfoDisplay();
+
+                // Load video now that server is selected (and season/episode already chosen)
+                loadVideo();
+            });
+        });
+
+        // Navigation buttons
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                const episodes = episodeData[currentSeason] || [];
+                const currentIndex = episodes.findIndex(ep => ep.id === currentEpisode);
+                if (currentIndex > 0) {
+                    currentEpisode = episodes[currentIndex - 1].id;
+                    renderEpisodes(); // re-render to update active class
+                    updateInfoDisplay();
+                    // If server already selected, reload video
+                    if (currentServer) loadVideo();
+                }
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                const episodes = episodeData[currentSeason] || [];
+                const currentIndex = episodes.findIndex(ep => ep.id === currentEpisode);
+                if (currentIndex < episodes.length - 1) {
+                    currentEpisode = episodes[currentIndex + 1].id;
+                    renderEpisodes();
+                    updateInfoDisplay();
+                    if (currentServer) loadVideo();
+                }
+            });
+        }
+
+        // Add to list button (simple toggle with localStorage)
+        if (addToListBtn) {
+            const storageKey = 'quravel_list_status';
+            const savedStatus = localStorage.getItem(storageKey);
+            if (savedStatus === 'in_list') {
+                addToListBtn.innerHTML = '✓ In List';
+                addToListBtn.style.background = '#498BBB';
+                addToListBtn.style.color = 'white';
+            }
+
+            addToListBtn.addEventListener('click', function() {
+                const currentText = addToListBtn.innerText;
+                if (currentText.includes('Add')) {
+                    addToListBtn.innerHTML = '✓ In List';
+                    addToListBtn.style.background = '#498BBB';
+                    addToListBtn.style.color = 'white';
+                    localStorage.setItem(storageKey, 'in_list');
+                } else {
+                    addToListBtn.innerHTML = '+ Add to List';
+                    addToListBtn.style.background = 'rgba(73, 139, 187, 0.15)';
+                    addToListBtn.style.color = '#e5e7eb';
+                    localStorage.removeItem(storageKey);
+                }
+            });
+        }
+
+        // Overlay click to load video if not loaded (optional)
+        if (overlay) {
+            overlay.addEventListener('click', function() {
+                if (currentServer) loadVideo();
+            });
+        }
+
+        // Start
+        init();
+    })();
+</script>
