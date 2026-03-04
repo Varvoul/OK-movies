@@ -620,6 +620,108 @@
       display: none !important;
     }
   }
+  
+  .synopsis-container {
+    position: relative;
+    cursor: pointer;
+    color: #ddd;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    background: #1e2235;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border-left: 3px solid #4685b2;
+    max-height: 150px; /* Shows approximately 1/3 of the text */
+    overflow: hidden;
+  }
+  
+  .synopsis-container.expanded {
+    max-height: 1000px; /* Large enough to show full content */
+    transition: max-height 0.5s ease-in-out;
+  }
+  
+  /* Gradient overlay when collapsed */
+  .synopsis-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(to bottom, transparent, #1e2235);
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  
+  .synopsis-container.expanded::after {
+    opacity: 0;
+  }
+  
+  /* Expand/collapse indicator */
+  .synopsis-container::before {
+    content: 'Click to read more';
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4685b2;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  
+  .synopsis-container.expanded::before {
+    content: 'Click to collapse';
+    background: #2a2f45;
+  }
+  
+  .synopsis-container:hover::before {
+    opacity: 1;
+  }
+  
+  .synopsis-container.expanded:hover::before {
+    opacity: 1;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .synopsis-container {
+      max-height: 130px; /* Slightly smaller on mobile */
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .synopsis-container::before {
+      font-size: 0.7rem;
+      padding: 3px 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .synopsis-container {
+      max-height: 120px; /* Even smaller on small mobile */
+    }
+  }
+  
+  /* Optional: Add a subtle hover effect on the border */
+  .synopsis-container:hover {
+    border-left-color: #5c9ed4;
+  }
+  
+  /* Improve readability */
+  .synopsis-container.expanded {
+    cursor: pointer;
+  }
 </style>
 
 <!-- Player and controls standalone block -->
@@ -722,7 +824,7 @@
 
 <!--[ Synopsis ]-->
 
-<p id="synopsis">Tsukuyomi is a virtual realm where hopes and dreams come together. Iroha Sakayori, a 17-year-old high school student in Tokyo, leads an extremely busy life trying to balance part-time work and academics. She finds peace by watching a popular streamer named Yachiyo Runami, who is the administrator of an online virtual space called Tsukuyomi.
+<p id="synopsis" class="synopsis-container">Tsukuyomi is a virtual realm where hopes and dreams come together. Iroha Sakayori, a 17-year-old high school student in Tokyo, leads an extremely busy life trying to balance part-time work and academics. She finds peace by watching a popular streamer named Yachiyo Runami, who is the administrator of an online virtual space called Tsukuyomi.
 
 Iroha frequents Tsukuyomi, where people can live different lives and freely pursue their creativity, and she passes the time by supporting Yachiyo and playing battle games to earn a little extra money. On her way home one day, Iroha finds a telephone pole shining with iridescent hues. To her surprise, an adorable baby emerges from the pole. Unable to abandon it, Iroha takes the infant home and watches her rapidly grow into a girl her own age.
 
@@ -1281,4 +1383,15 @@ This is the tale of Princess Kaguya as never seen before.
 
         init();
     })();
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const synopsis = document.getElementById('synopsis');
+    
+    if (synopsis) {
+      synopsis.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('expanded');
+      });
+    }
+  });
 </script>
