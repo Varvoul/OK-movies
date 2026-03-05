@@ -65,7 +65,7 @@
   // Fetch latest posts
   const fetchLatestPosts = () => {
     const script = document.createElement('script');
-    script.src = '/feeds/posts/default?alt=json-in-script&max-results=6&orderby=published&callback=handleSliderResponse';
+    script.src = '/feeds/posts/default?alt=json-in-script&max-results=13&orderby=published&callback=handleSliderResponse';
     script.onerror = () => {
       console.log('Failed to load posts');
     };
