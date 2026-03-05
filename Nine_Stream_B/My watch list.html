@@ -1,0 +1,437 @@
+<style>
+  .gta-hpm h1 {
+    grid-area: h;
+  }
+  
+  .side-menu {
+    grid-area: p;
+  }
+  
+  .bookmark-wrap {
+    grid-area: m;
+    background: #1c1c1c;
+    padding: 20px;
+    border-radius: 0.3rem;
+    margin-bottom: 1.66rem;
+  }
+  
+  .gta-hpm {
+    display: grid;
+    grid-template-areas: "h h" "p m";
+    grid-template-columns: 25% 1fr;
+    gap: 25px;
+  }
+  
+  .side-menu img {
+    width: 100%;
+    border-radius: 0.3rem;
+  }
+  
+  /* Updated - Larger thumbnail size */
+  .bsx img {
+    width: 80px !important;  /* Increased from 40px */
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 4px;  /* Square border */
+  }
+  
+  .box {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "l r";
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  
+  .side-menu ul {
+    background: #1c1c1c;
+    padding: 15px;
+    border-radius: 0.3rem;
+    margin-bottom: 1.66rem;
+    list-style: none;
+  }
+  
+  .side-menu .menu li a {
+    display: block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin: 5px 0;
+    color: #ababab;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  
+  .side-menu .menu li a:hover {
+    background: #292929;
+    color: white;
+  }
+  
+  .side-menu .menu li a.active {
+    background: #91243a;
+    color: white;
+  }
+  
+  .box:nth-child(odd) {
+    background: #181818;
+  }
+  
+  .box:nth-child(even) {
+    background: #1e1e1e;
+  }
+  
+  .bsx a {
+    grid-area: j;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 4px;
+  }
+  
+  .bsx a:hover {
+    color: #91243a;
+  }
+  
+  .typez {
+    grid-area: t;
+  }
+  
+  .bt {
+    grid-area: s;
+  }
+  
+  .bsx img {
+    grid-area: i;
+    overflow: hidden;
+  }
+  
+  .btnRemove {
+    grid-area: r;
+  }
+  
+  /* Updated grid layout for additional metadata */
+  .bsx {
+    display: grid;
+    grid-template-areas: "i j j j" "i t s c" "i e r r";
+    grid-template-columns: auto auto auto 1fr;
+    column-gap: 15px;
+    row-gap: 8px;
+    grid-area: l;
+  }
+  
+  /* Type badge - using #6b3d46 */
+  .typez .epx {
+    background: #6b3d46;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;  /* Square border */
+    font-size: 0.8em;
+    font-weight: 500;
+    display: inline-block;
+    text-transform: uppercase;
+  }
+  
+  /* Status badge - using hsl(348, 60%, 35%) = #8f2e40 */
+  .bt .epx {
+    background: #8f2e40;  /* hsl(348, 60%, 35%) */
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;  /* Square border */
+    font-size: 0.8em;
+    font-weight: 500;
+    display: inline-block;
+  }
+  
+  /* Certification badge */
+  .certification {
+    grid-area: c;
+  }
+  
+  .cert-badge {
+    background: #34495e;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75em;
+    font-weight: 600;
+    display: inline-block;
+    text-transform: uppercase;
+  }
+  
+  /* Episode number */
+  .episode-number {
+    grid-area: e;
+    display: flex;
+    align-items: center;
+  }
+  
+  .episode-badge {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .episode-badge svg {
+    width: 14px;
+    height: 14px;
+    fill: #f1c40f;
+  }
+  
+  /* Rating number */
+  .rating-number {
+    grid-area: r;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .rating-badge {
+    background: #f39c12;  /* Orange-gold for rating */
+    color: #000000;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .rating-badge svg {
+    width: 16px;
+    height: 16px;
+    fill: #000000;
+  }
+  
+  .btnRemove svg {
+    color: #921925;
+    padding: 8px;
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    transition: all 0.2s;
+  }
+  
+  .btnRemove:hover svg {
+    color: #dc3545;
+    background: #2e2e2e;
+  }
+  
+  .clearAll {
+    background: #2c3e50;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: right;
+  }
+  
+  .clearAll:hover {
+    background: #91243a;
+  }
+  
+  .notice {
+    background: rgba(145, 36, 58, 0.15);
+    border-left: 4px solid #91243a;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    color: #ccc;
+    font-size: 0.9em;
+    line-height: 1.6;
+  }
+  
+  .text-muted {
+    color: #999;
+    font-size: 0.85em;
+    margin: 10px 0;
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+  }
+  
+  @media screen and (max-width: 1279px) {
+    .gta-hpm {
+      grid-template-areas: "h h" "p p" "m m";
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .bsx {
+      grid-template-areas: "i j" "i t" "i s" "i c" "i e" "r r";
+      grid-template-columns: auto 1fr;
+    }
+    
+    .rating-number {
+      justify-content: flex-start;
+      margin-top: 8px;
+    }
+  }
+</style>
+
+<section class="side-menu">
+  <figure>
+    <img src="https://s2.bunnycdn.ru/assets/template_1/style_1/images/user-icon.png" alt="User profile">
+  </figure>
+  
+  <!-- Clean menu with only essential items -->
+  <ul class="menu"> 
+    <li><a href="/p/my-watchlist.html" class="active">My Watchlist</a></li> 
+  </ul>
+</section>
+
+<section class="bookmark-wrap">
+  <div class='clearAll more cp'>Clear All</div>
+
+  <div class='notice'>
+    <strong>📌 Note:</strong> Your watchlist is saved in your current browser. Maximum 100 items. If you use a different browser, your list won't appear.
+  </div>
+  
+  <p class='text-muted'>
+    • Click the <strong>X icon</strong> to remove from list<br>
+    • Click on title to watch<br>
+    • Ratings and episode info are automatically synced
+  </p>
+  
+  <div class='showBookmark'></div>
+
+  <script>
+  // Configuration
+  var limitBookmark = 100;
+  
+  var bookmark = (function(){
+    var list = [];
+
+    function setBookmark() {
+      localStorage.setItem('bookmark', JSON.stringify(list));
+    }
+
+    function loadBookmark() {
+      var saved = localStorage.getItem('bookmark');
+      list = saved ? JSON.parse(saved) : [];
+    }
+
+    // Load initial data
+    loadBookmark();
+
+    var obj = {};
+    
+    obj.clearALL = function() {
+      list = [];
+      setBookmark();
+    };
+    
+    obj.removeThisItem = function(id) {
+      list = list.filter(item => item.id !== id);
+      setBookmark();
+    };
+    
+    obj.getAll = function() {
+      return list;
+    };
+    
+    return obj;
+  })();
+
+  function getRandomRating() {
+    return (Math.random() * 4 + 6).toFixed(1); // Random rating between 6.0 and 10.0
+  }
+
+  function getRandomEpisode() {
+    return Math.floor(Math.random() * 24) + 1; // Random episode 1-24
+  }
+
+  function getRandomCertification() {
+    var certs = ['TV-14', 'TV-MA', 'TV-PG', 'R', 'PG-13'];
+    return certs[Math.floor(Math.random() * certs.length)];
+  }
+
+  function displayIt() {
+    var getData = bookmark.getAll();
+    var structure = '';
+    
+    for(var i in getData) {
+      // Generate random metadata (in real implementation, this would come from post data)
+      var rating = getRandomRating();
+      var episode = getRandomEpisode();
+      var certification = getRandomCertification();
+      
+      structure += '<article class="box" itemscope itemtype="http://schema.org/CreativeWork">' +
+        '<div id="' + getData[i].id + '" class="bsx">' +
+        
+        // Thumbnail
+        '<img src="' + getData[i].img + '" loading="lazy" itemprop="image" title="' + getData[i].name + '" alt="' + getData[i].name + '">' +
+        
+        // Title
+        '<a href="' + getData[i].link + '" itemprop="url" title="' + getData[i].name + '">' + getData[i].name + '</a>' +
+        
+        // Type
+        '<div class="typez"><span class="epx">' + getData[i].type + '</span></div>' +
+        
+        // Status
+        '<div class="bt"><span class="epx">' + getData[i].status + '</span></div>' +
+        
+        // Certification
+        '<div class="certification"><span class="cert-badge">' + certification + '</span></div>' +
+        
+        // Episode Number
+        '<div class="episode-number">' +
+          '<span class="episode-badge">' +
+            '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-13v4l5 3-5 3v-4H9v-6h2.5z"/></svg>' +
+            'EP ' + episode +
+          '</span>' +
+        '</div>' +
+        
+        // Rating
+        '<div class="rating-number">' +
+          '<span class="rating-badge">' +
+            '<svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>' +
+            rating +
+          '</span>' +
+        '</div>' +
+        
+        '</div>' + // Close bsx
+        
+        // Remove button
+        '<div class="btnRemove" data-id="' + getData[i].id + '">' +
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' +
+            '<path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>' +
+          '</svg>' +
+        '</div>' +
+        
+      '</article>';
+    }
+    
+    if(getData == null || getData.length == 0) {
+      $('.showBookmark').html('<div style="text-align: center; padding: 40px; color: #999;">📭 Your watchlist is empty. Start adding anime to your list!</div>');
+    } else {
+      $('.showBookmark').html(structure);
+    }
+  }
+
+  $('.clearAll').click(function() {
+    if(confirm('Clear all items from your watchlist?')) {
+      bookmark.clearALL();
+      displayIt();
+    }
+  });
+
+  $('.showBookmark').on("click", ".btnRemove", function(event) {
+    bookmark.removeThisItem($(this).data('id'));
+    displayIt();
+  });
+
+  // Initial display
+  displayIt();
+  </script>
+</section>
