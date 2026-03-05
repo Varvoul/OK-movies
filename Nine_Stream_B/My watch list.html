@@ -29,10 +29,10 @@
   
   /* Updated - Larger thumbnail size */
   .bsx img {
-    width: 80px !important;  /* Increased from 40px */
+    width: 80px !important;
     aspect-ratio: 3/4;
     object-fit: cover;
-    border-radius: 4px;  /* Square border */
+    border-radius: 4px;
   }
   
   .box {
@@ -110,7 +110,7 @@
     grid-area: r;
   }
   
-  /* Updated grid layout for additional metadata */
+  /* Updated grid layout for additional metadata - SIDE BY SIDE */
   .bsx {
     display: grid;
     grid-template-areas: "i j j j" "i t s c" "i e r r";
@@ -120,24 +120,24 @@
     grid-area: l;
   }
   
-  /* Type badge - using #6b3d46 */
+  /* Type badge */
   .typez .epx {
     background: #6b3d46;
     color: white;
     padding: 4px 10px;
-    border-radius: 4px;  /* Square border */
+    border-radius: 4px;
     font-size: 0.8em;
     font-weight: 500;
     display: inline-block;
     text-transform: uppercase;
   }
   
-  /* Status badge - using hsl(348, 60%, 35%) = #8f2e40 */
+  /* Status badge */
   .bt .epx {
-    background: #8f2e40;  /* hsl(348, 60%, 35%) */
+    background: #8f2e40;
     color: white;
     padding: 4px 10px;
-    border-radius: 4px;  /* Square border */
+    border-radius: 4px;
     font-size: 0.8em;
     font-weight: 500;
     display: inline-block;
@@ -193,7 +193,7 @@
   }
   
   .rating-badge {
-    background: #f39c12;  /* Orange-gold for rating */
+    background: #f39c12;
     color: #000000;
     padding: 4px 12px;
     border-radius: 4px;
@@ -260,9 +260,400 @@
     border-radius: 4px;
   }
   
+  /* Toolbar Styles */
+  .watchlist-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .toolbar-left {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .toolbar-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  /* Search Bar Styles - ROUNDED BORDERS */
+  .search-container {
+    position: relative;
+    min-width: 250px;
+  }
+  
+  .desktop-search {
+    display: block;
+  }
+  
+  .search-input-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 12px 20px;
+    padding-right: 45px;
+    background: #2a2f45;
+    border: 1px solid #3a4055;
+    border-radius: 50px;
+    color: white;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s;
+  }
+  
+  .search-input:focus {
+    border-color: #91243a;
+    box-shadow: 0 0 0 2px rgba(145,36,58,0.2);
+  }
+  
+  .search-input::placeholder {
+    color: #6b7280;
+  }
+  
+  .search-icon-inside {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+  }
+  
+  .mobile-search-icon {
+    display: none;
+    background: #2c3e50;
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .mobile-search-icon:hover {
+    background: #91243a;
+  }
+  
+  .mobile-search-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+  }
+  
+  .mobile-search-box {
+    display: none;
+    margin-top: 15px;
+    width: 100%;
+  }
+  
+  .mobile-search-box.active {
+    display: block;
+  }
+  
+  /* Search Suggestions */
+  .search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #1e2235;
+    border: 1px solid #2a2f45;
+    border-radius: 12px;
+    margin-top: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  }
+  
+  .search-suggestions.active {
+    display: block;
+  }
+  
+  .suggestion-item {
+    display: grid;
+    grid-template-columns: 50px 1fr auto auto auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #2a2f45;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .suggestion-item:last-child {
+    border-bottom: none;
+  }
+  
+  .suggestion-item:hover {
+    background: #2a2f45;
+  }
+  
+  .suggestion-thumb {
+    width: 50px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  
+  .suggestion-title {
+    color: white;
+    font-weight: 500;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .suggestion-type,
+  .suggestion-status,
+  .suggestion-rating {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  
+  .suggestion-type {
+    background: #6b3d46;
+    color: white;
+  }
+  
+  .suggestion-status {
+    background: #8f2e40;
+    color: white;
+  }
+  
+  .suggestion-rating {
+    background: #f39c12;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  
+  .suggestion-rating svg {
+    width: 12px;
+    height: 12px;
+    fill: black;
+  }
+  
+  .no-results {
+    padding: 20px;
+    text-align: center;
+    color: #9ca3af;
+  }
+  
+  /* Export/Import Buttons */
+  .action-btn {
+    background: #2c3e50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    border: 1px solid #3a4055;
+  }
+  
+  .action-btn:hover {
+    background: #91243a;
+    border-color: #91243a;
+  }
+  
+  .action-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+  }
+  
+  .action-btn.small {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+  }
+  
+  /* Import Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-overlay.active {
+    display: flex;
+  }
+  
+  .modal-content {
+    background: #1e2235;
+    border-radius: 16px;
+    padding: 25px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 1px solid #2a2f45;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #2a2f45;
+  }
+  
+  .modal-header h3 {
+    color: white;
+    margin: 0;
+    font-size: 1.3rem;
+  }
+  
+  .modal-close {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 5px;
+  }
+  
+  .modal-close:hover {
+    color: white;
+  }
+  
+  .import-option {
+    background: #2a2f45;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #3a4055;
+  }
+  
+  .import-option h4 {
+    color: white;
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+  }
+  
+  .import-option p {
+    color: #9ca3af;
+    margin: 0 0 15px 0;
+    font-size: 0.9rem;
+  }
+  
+  .file-input {
+    width: 100%;
+    padding: 10px;
+    background: #1e2235;
+    border: 1px solid #3a4055;
+    border-radius: 50px;
+    color: white;
+    margin-bottom: 10px;
+  }
+  
+  .url-input {
+    width: 100%;
+    padding: 12px 15px;
+    background: #1e2235;
+    border: 1px solid #3a4055;
+    border-radius: 50px;
+    color: white;
+    margin-bottom: 10px;
+  }
+  
+  .url-input:focus {
+    border-color: #91243a;
+    outline: none;
+  }
+  
+  .import-btn {
+    background: #91243a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 500;
+    width: 100%;
+    transition: all 0.2s;
+  }
+  
+  .import-btn:hover {
+    background: #b22d4a;
+  }
+  
+  .import-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .import-status {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    display: none;
+  }
+  
+  .import-status.success {
+    display: block;
+    background: rgba(40, 167, 69, 0.2);
+    border: 1px solid #28a745;
+    color: #28a745;
+  }
+  
+  .import-status.error {
+    display: block;
+    background: rgba(220, 53, 69, 0.2);
+    border: 1px solid #dc3545;
+    color: #dc3545;
+  }
+  
   @media screen and (max-width: 1279px) {
     .gta-hpm {
       grid-template-areas: "h h" "p p" "m m";
+    }
+    
+    .desktop-search {
+      display: none;
+    }
+    
+    .mobile-search-icon {
+      display: flex !important;
+    }
+    
+    .watchlist-toolbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .toolbar-left, .toolbar-right {
+      justify-content: center;
     }
   }
   
@@ -275,6 +666,50 @@
     .rating-number {
       justify-content: flex-start;
       margin-top: 8px;
+    }
+    
+    .suggestion-item {
+      grid-template-columns: 40px 1fr;
+      grid-template-areas: 
+        "thumb title"
+        "thumb type"
+        "thumb status"
+        "thumb rating";
+      gap: 5px;
+    }
+    
+    .suggestion-thumb {
+      grid-area: thumb;
+      width: 40px;
+      height: 56px;
+    }
+    
+    .suggestion-title {
+      grid-area: title;
+    }
+    
+    .suggestion-type {
+      grid-area: type;
+      justify-self: start;
+    }
+    
+    .suggestion-status {
+      grid-area: status;
+      justify-self: start;
+    }
+    
+    .suggestion-rating {
+      grid-area: rating;
+      justify-self: start;
+    }
+    
+    .toolbar-left, .toolbar-right {
+      flex-wrap: wrap;
+    }
+    
+    .action-btn {
+      width: 100%;
+      justify-content: center;
     }
   }
 </style>
@@ -291,24 +726,121 @@
 </section>
 
 <section class="bookmark-wrap">
-  <div class='clearAll more cp'>Clear All</div>
+  <!-- Toolbar with Export/Import and Search -->
+  <div class="watchlist-toolbar">
+    <div class="toolbar-left">
+      <!-- Export Button -->
+      <button class="action-btn" id="exportBtn">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+        </svg>
+        Export List
+      </button>
+      
+      <!-- Import Button -->
+      <button class="action-btn" id="importBtn">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+        </svg>
+        Import List
+      </button>
+      
+      <!-- Clear All Button -->
+      <button class="action-btn" id="clearAllBtn">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+        </svg>
+        Clear All
+      </button>
+    </div>
+    
+    <div class="toolbar-right">
+      <!-- Desktop Search - Hidden on mobile -->
+      <div class="desktop-search">
+        <div class="search-input-wrapper">
+          <input type="text" id="desktopSearchInput" class="search-input" placeholder="Search your watchlist...">
+          <span class="search-icon-inside">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <div id="desktopSuggestions" class="search-suggestions"></div>
+        </div>
+      </div>
+      
+      <!-- Mobile Search Icon -->
+      <div class="mobile-search-icon" id="mobileSearchIcon">
+        <svg viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mobile Search Box (Hidden by default) -->
+  <div class="mobile-search-box" id="mobileSearchBox">
+    <div class="search-input-wrapper">
+      <input type="text" id="mobileSearchInput" class="search-input" placeholder="Search your watchlist...">
+      <span class="search-icon-inside">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </span>
+      <div id="mobileSuggestions" class="search-suggestions"></div>
+    </div>
+  </div>
+
+  <!-- Import Modal -->
+  <div class="modal-overlay" id="importModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Import Watchlist</h3>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+      
+      <!-- Option 1: Import from File -->
+      <div class="import-option">
+        <h4>📁 Import from File</h4>
+        <p>Upload a previously exported watchlist file (.json or .txt)</p>
+        <input type="file" id="fileInput" class="file-input" accept=".json,.txt">
+        <button class="import-btn" id="importFromFileBtn" disabled>Import from File</button>
+      </div>
+      
+      <!-- Option 2: Import from URL -->
+      <div class="import-option">
+        <h4>🔗 Import from URL</h4>
+        <p>Paste your watchlist page URL to sync your list</p>
+        <input type="url" id="urlInput" class="url-input" placeholder="https://anivirian.blogspot.com/p/my-watchlist.html">
+        <button class="import-btn" id="importFromUrlBtn">Import from URL</button>
+      </div>
+      
+      <!-- Import Status Message -->
+      <div id="importStatus" class="import-status"></div>
+    </div>
+  </div>
 
   <div class='notice'>
-    <strong>📌 Note:</strong> Your watchlist is saved in your current browser. Maximum 100 items. If you use a different browser, your list won't appear.
+    <strong>📌 Note:</strong> Your watchlist is saved in your current browser. Maximum 200 items. Use Export/Import to backup or sync your list across devices.
   </div>
   
   <p class='text-muted'>
     • Click the <strong>X icon</strong> to remove from list<br>
     • Click on title to watch<br>
-    • Ratings and episode info are automatically synced
+    • Ratings, episodes, and certification are automatically generated<br>
+    • <strong>Export</strong> to save your list, <strong>Import</strong> to restore from file or URL
   </p>
   
   <div class='showBookmark'></div>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-  // Configuration
-  var limitBookmark = 100;
+  // Configuration - INCREASED TO 200
+  var limitBookmark = 200;
   
+  // Bookmark Manager Object
   var bookmark = (function(){
     var list = [];
 
@@ -329,57 +861,100 @@
     obj.clearALL = function() {
       list = [];
       setBookmark();
+      displayIt();
     };
     
     obj.removeThisItem = function(id) {
       list = list.filter(item => item.id !== id);
       setBookmark();
+      displayIt();
     };
     
     obj.getAll = function() {
       return list;
     };
     
+    obj.importList = function(newList) {
+      if (!Array.isArray(newList)) return false;
+      
+      // Validate each item has required fields
+      const validList = newList.filter(item => 
+        item.id && item.name && item.link && item.img
+      );
+      
+      if (validList.length === 0) return false;
+      
+      // Merge with existing list, avoiding duplicates
+      const existingIds = new Set(list.map(item => item.id));
+      const newItems = validList.filter(item => !existingIds.has(item.id));
+      
+      list = [...list, ...newItems].slice(0, limitBookmark);
+      setBookmark();
+      displayIt();
+      return true;
+    };
+    
+    obj.exportList = function() {
+      return JSON.stringify(list, null, 2);
+    };
+    
+    // Add item to bookmark (for testing/populating)
+    obj.addItem = function(item) {
+      if (!item.id || !item.name) return false;
+      
+      const exists = list.some(i => i.id === item.id);
+      if (!exists && list.length < limitBookmark) {
+        list.push(item);
+        setBookmark();
+        displayIt();
+        return true;
+      }
+      return false;
+    };
+    
     return obj;
   })();
 
+  // Helper functions for random data
   function getRandomRating() {
-    return (Math.random() * 4 + 6).toFixed(1); // Random rating between 6.0 and 10.0
+    return (Math.random() * 4 + 6).toFixed(1);
   }
 
   function getRandomEpisode() {
-    return Math.floor(Math.random() * 24) + 1; // Random episode 1-24
+    return Math.floor(Math.random() * 24) + 1;
   }
 
   function getRandomCertification() {
-    var certs = ['TV-14', 'TV-MA', 'TV-PG', 'R', 'PG-13'];
+    var certs = ['TV-14', 'TV-MA', 'TV-PG', 'R', 'PG-13', 'TV-Y7', 'NC-17'];
     return certs[Math.floor(Math.random() * certs.length)];
   }
 
+  // Display watchlist items
   function displayIt() {
     var getData = bookmark.getAll();
     var structure = '';
     
     for(var i in getData) {
-      // Generate random metadata (in real implementation, this would come from post data)
       var rating = getRandomRating();
       var episode = getRandomEpisode();
       var certification = getRandomCertification();
+      var item = getData[i];
       
       structure += '<article class="box" itemscope itemtype="http://schema.org/CreativeWork">' +
-        '<div id="' + getData[i].id + '" class="bsx">' +
+        '<div id="' + item.id + '" class="bsx">' +
         
         // Thumbnail
-        '<img src="' + getData[i].img + '" loading="lazy" itemprop="image" title="' + getData[i].name + '" alt="' + getData[i].name + '">' +
+        '<img src="' + (item.img || 'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png') + 
+        '" loading="lazy" itemprop="image" title="' + item.name + '" alt="' + item.name + '" onerror="this.src=\'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png\'">' +
         
         // Title
-        '<a href="' + getData[i].link + '" itemprop="url" title="' + getData[i].name + '">' + getData[i].name + '</a>' +
+        '<a href="' + item.link + '" itemprop="url" title="' + item.name + '">' + item.name + '</a>' +
         
         // Type
-        '<div class="typez"><span class="epx">' + getData[i].type + '</span></div>' +
+        '<div class="typez"><span class="epx">' + (item.type || 'Anime') + '</span></div>' +
         
         // Status
-        '<div class="bt"><span class="epx">' + getData[i].status + '</span></div>' +
+        '<div class="bt"><span class="epx">' + (item.status || 'Airing') + '</span></div>' +
         
         // Certification
         '<div class="certification"><span class="cert-badge">' + certification + '</span></div>' +
@@ -403,7 +978,7 @@
         '</div>' + // Close bsx
         
         // Remove button
-        '<div class="btnRemove" data-id="' + getData[i].id + '">' +
+        '<div class="btnRemove" data-id="' + item.id + '">' +
           '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' +
             '<path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>' +
           '</svg>' +
@@ -413,25 +988,278 @@
     }
     
     if(getData == null || getData.length == 0) {
-      $('.showBookmark').html('<div style="text-align: center; padding: 40px; color: #999;">📭 Your watchlist is empty. Start adding anime to your list!</div>');
+      $('.showBookmark').html('<div style="text-align: center; padding: 40px; color: #999;">📭 Your watchlist is empty. Start adding shows to your list!</div>');
     } else {
       $('.showBookmark').html(structure);
     }
   }
 
-  $('.clearAll').click(function() {
-    if(confirm('Clear all items from your watchlist?')) {
+  // Search functionality
+  function setupSearch() {
+    const desktopInput = document.getElementById('desktopSearchInput');
+    const mobileInput = document.getElementById('mobileSearchInput');
+    const desktopSuggestions = document.getElementById('desktopSuggestions');
+    const mobileSuggestions = document.getElementById('mobileSuggestions');
+    const mobileIcon = document.getElementById('mobileSearchIcon');
+    const mobileBox = document.getElementById('mobileSearchBox');
+    
+    // Mobile search toggle
+    if (mobileIcon) {
+      mobileIcon.addEventListener('click', function() {
+        mobileBox.classList.toggle('active');
+        if (mobileBox.classList.contains('active')) {
+          setTimeout(() => mobileInput.focus(), 100);
+        }
+      });
+    }
+    
+    // Search function
+    function performSearch(query, suggestionsDiv) {
+      if (!suggestionsDiv) return;
+      
+      const watchlist = bookmark.getAll();
+      
+      if (query.length < 2) {
+        suggestionsDiv.innerHTML = '';
+        suggestionsDiv.classList.remove('active');
+        return;
+      }
+      
+      // Search in titles (case insensitive)
+      const results = watchlist.filter(item => {
+        if (!item || !item.name) return false;
+        return item.name.toLowerCase().includes(query.toLowerCase());
+      });
+      
+      if (results.length === 0) {
+        suggestionsDiv.innerHTML = '<div class="no-results">No matching shows found</div>';
+        suggestionsDiv.classList.add('active');
+        return;
+      }
+      
+      let html = '';
+      results.slice(0, 10).forEach(item => {
+        const rating = getRandomRating();
+        const type = item.type || 'Anime';
+        const status = item.status || 'Airing';
+        const imgUrl = item.img || 'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png';
+        
+        html += `
+          <div class="suggestion-item" onclick="window.location.href='${item.link}'">
+            <img src="${imgUrl}" 
+                 class="suggestion-thumb" 
+                 alt="${item.name}"
+                 onerror="this.src='https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png'">
+            <span class="suggestion-title">${item.name}</span>
+            <span class="suggestion-type">${type}</span>
+            <span class="suggestion-status">${status}</span>
+            <span class="suggestion-rating">
+              <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              ${rating}
+            </span>
+          </div>
+        `;
+      });
+      
+      suggestionsDiv.innerHTML = html;
+      suggestionsDiv.classList.add('active');
+    }
+    
+    // Desktop search
+    if (desktopInput) {
+      desktopInput.addEventListener('input', function(e) {
+        performSearch(e.target.value, desktopSuggestions);
+      });
+      
+      // Close suggestions when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!desktopInput.contains(e.target) && !desktopSuggestions.contains(e.target)) {
+          desktopSuggestions.classList.remove('active');
+        }
+      });
+      
+      // Clear search when clicking on a suggestion
+      desktopSuggestions.addEventListener('click', function() {
+        setTimeout(() => {
+          desktopInput.value = '';
+          desktopSuggestions.classList.remove('active');
+        }, 100);
+      });
+    }
+    
+    // Mobile search
+    if (mobileInput) {
+      mobileInput.addEventListener('input', function(e) {
+        performSearch(e.target.value, mobileSuggestions);
+      });
+      
+      document.addEventListener('click', function(e) {
+        if (!mobileInput.contains(e.target) && !mobileSuggestions.contains(e.target) && !mobileIcon.contains(e.target)) {
+          mobileSuggestions.classList.remove('active');
+          mobileBox.classList.remove('active');
+        }
+      });
+      
+      mobileSuggestions.addEventListener('click', function() {
+        setTimeout(() => {
+          mobileInput.value = '';
+          mobileSuggestions.classList.remove('active');
+          mobileBox.classList.remove('active');
+        }, 100);
+      });
+    }
+  }
+
+  // Export functionality
+  document.getElementById('exportBtn').addEventListener('click', function() {
+    const data = bookmark.exportList();
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `watchlist-${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  // Import modal functionality
+  const modal = document.getElementById('importModal');
+  const importBtn = document.getElementById('importBtn');
+  const closeModal = document.getElementById('closeModal');
+  const fileInput = document.getElementById('fileInput');
+  const importFromFileBtn = document.getElementById('importFromFileBtn');
+  const importFromUrlBtn = document.getElementById('importFromUrlBtn');
+  const urlInput = document.getElementById('urlInput');
+  const importStatus = document.getElementById('importStatus');
+
+  importBtn.addEventListener('click', function() {
+    modal.classList.add('active');
+  });
+
+  closeModal.addEventListener('click', function() {
+    modal.classList.remove('active');
+    fileInput.value = '';
+    urlInput.value = '';
+    importStatus.style.display = 'none';
+    importStatus.className = 'import-status';
+  });
+
+  // Enable/disable file import button based on file selection
+  fileInput.addEventListener('change', function() {
+    importFromFileBtn.disabled = !this.files.length;
+  });
+
+  // Import from file
+  importFromFileBtn.addEventListener('click', function() {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (bookmark.importList(data)) {
+          importStatus.textContent = '✅ List imported successfully!';
+          importStatus.className = 'import-status success';
+          setTimeout(() => {
+            modal.classList.remove('active');
+            importStatus.style.display = 'none';
+            fileInput.value = '';
+          }, 2000);
+        } else {
+          importStatus.textContent = '❌ Invalid file format or empty list';
+          importStatus.className = 'import-status error';
+        }
+      } catch (err) {
+        importStatus.textContent = '❌ Error parsing file';
+        importStatus.className = 'import-status error';
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  // Import from URL
+  importFromUrlBtn.addEventListener('click', function() {
+    const url = urlInput.value.trim();
+    if (!url) {
+      importStatus.textContent = '❌ Please enter a URL';
+      importStatus.className = 'import-status error';
+      return;
+    }
+
+    importStatus.textContent = '⏳ Fetching watchlist data...';
+    importStatus.className = 'import-status';
+    importStatus.style.display = 'block';
+    importFromUrlBtn.disabled = true;
+
+    // Try to fetch data from the URL
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        // Look for bookmark data in the page
+        const bookmarkMatch = html.match(/localStorage\.getItem\(['"]bookmark['"]\)[^;]*/);
+        
+        if (bookmarkMatch) {
+          // Try to extract the actual data
+          const dataMatch = html.match(/\[[\s\S]*?\]/);
+          if (dataMatch) {
+            try {
+              const data = JSON.parse(dataMatch[0]);
+              if (bookmark.importList(data)) {
+                importStatus.textContent = '✅ List imported successfully from URL!';
+                importStatus.className = 'import-status success';
+                setTimeout(() => {
+                  modal.classList.remove('active');
+                  importStatus.style.display = 'none';
+                  urlInput.value = '';
+                }, 2000);
+              } else {
+                importStatus.textContent = '❌ No valid watchlist data found';
+                importStatus.className = 'import-status error';
+              }
+            } catch (err) {
+              importStatus.textContent = '❌ Error parsing watchlist data';
+              importStatus.className = 'import-status error';
+            }
+          } else {
+            importStatus.textContent = '❌ Could not extract watchlist data';
+            importStatus.className = 'import-status error';
+          }
+        } else {
+          importStatus.textContent = '❌ No watchlist data found at this URL';
+          importStatus.className = 'import-status error';
+        }
+      })
+      .catch(err => {
+        importStatus.textContent = '❌ Failed to fetch URL';
+        importStatus.className = 'import-status error';
+      })
+      .finally(() => {
+        importFromUrlBtn.disabled = false;
+      });
+  });
+
+  // Clear All button
+  document.getElementById('clearAllBtn').addEventListener('click', function() {
+    if (confirm('Clear all items from your watchlist?')) {
       bookmark.clearALL();
-      displayIt();
     }
   });
 
+  // Remove item handler
   $('.showBookmark').on("click", ".btnRemove", function(event) {
-    bookmark.removeThisItem($(this).data('id'));
-    displayIt();
+    event.preventDefault();
+    event.stopPropagation();
+    const id = $(this).data('id');
+    if (confirm('Remove this item from your watchlist?')) {
+      bookmark.removeThisItem(id);
+    }
   });
 
-  // Initial display
+  // Initial display and search setup
   displayIt();
+  setTimeout(setupSearch, 500);
   </script>
 </section>
