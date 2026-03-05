@@ -1,0 +1,272 @@
+<div id="slider" dir="ltr">
+  <div id="slides" class="slides">
+    <!-- Slides will be dynamically populated by JavaScript -->
+  </div>
+  <div id="left-button">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-left" width="44" height="44" viewbox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+      <line x1="5" y1="12" x2="9" y2="16"></line>
+      <line x1="5" y1="12" x2="9" y2="8"></line>
+    </svg>
+  </div>
+  <div id="right-button">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-right" width="44" height="44" viewbox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+      <line x1="15" y1="16" x2="19" y2="12"></line>
+      <line x1="15" y1="8" x2="19" y2="12"></line>
+    </svg>
+  </div>
+</div>
+
+<script>
+//<![CDATA[
+(function() {
+  const slider = document.getElementById('slider');
+  const slidesContainer = document.getElementById('slides');
+  const leftBtn = document.getElementById('left-button');
+  const rightBtn = document.getElementById('right-button');
+  
+  let autoSlideInterval;
+  let currentIndex = 0;
+  let slideCount = 0;
+  
+  // Function to extract backdrop image URL from post content
+  function extractBackdropFromContent(content) {
+    if (!content) return null;
+    
+    // Look for post-backdrop div pattern
+    const backdropPattern = /<div[^>]*class="[^"]*post-backdrop[^"]*"[^>]*>\s*<img[^>]*src="([^"]+)"[^>]*>/i;
+    const match = content.match(backdropPattern);
+    
+    if (match && match[1]) {
+      return match[1];
+    }
+    return null;
+  }
+  
+  // Function to extract synopsis text from post content
+  function extractSynopsisFromContent(content) {
+    if (!content) return null;
+    
+    // Look for synopsis paragraph with id="synopsis"
+    const synopsisPattern = /<p[^>]*id="synopsis"[^>]*>([\s\S]*?)<\/p>/i;
+    const match = content.match(synopsisPattern);
+    
+    if (match && match[1]) {
+      // Remove HTML tags and clean up
+      let text = match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+      return text;
+    }
+    return null;
+  }
+  
+  // Fetch latest posts
+  const fetchLatestPosts = () => {
+    const script = document.createElement('script');
+    script.src = '/feeds/posts/default?alt=json-in-script&max-results=6&orderby=published&callback=handleSliderResponse';
+    script.onerror = () => {
+      console.log('Failed to load posts');
+    };
+    document.head.appendChild(script);
+  };
+  
+  // Handle the response
+  window.handleSliderResponse = (data) => {
+    if (data.feed.entry && data.feed.entry.length > 0) {
+      renderSlides(data.feed.entry);
+    }
+  };
+  
+  // Render slides from posts
+  const renderSlides = (posts) => {
+    let slidesHTML = '';
+    
+    posts.forEach((post, index) => {
+      const title = post.title.$t;
+      const link = post.link.find(l => l.rel === 'alternate').href;
+      
+      // Get post content
+      let content = '';
+      if (post.content) {
+        content = post.content.$t;
+      }
+      
+      // Try to extract backdrop image from post content
+      let imageUrl = extractBackdropFromContent(content);
+      
+      // If no backdrop found, try media thumbnail
+      if (!imageUrl && post.media$thumbnail) {
+        imageUrl = post.media$thumbnail.url;
+        imageUrl = imageUrl.replace(/\/s[0-9]+(-c)?/, '/s1280');
+      }
+      
+      // Try to extract synopsis from post content
+      let synopsisText = extractSynopsisFromContent(content);
+      
+      // If no synopsis found, use post summary or default text
+      if (!synopsisText) {
+        if (post.summary) {
+          synopsisText = post.summary.$t.replace(/<[^>]*>/g, '').substring(0, 300);
+        } else {
+          synopsisText = 'Click to read more about this exciting post!';
+        }
+      }
+      
+      // Fallback image if none found
+      if (!imageUrl) {
+        imageUrl = 'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s1280/no-image.png';
+      }
+      
+      // Create slide with EXACT same structure as your manual slider
+      slidesHTML += `
+        <div class="item" data-index="${index}">
+          <div class="backdrop" style="background-image:url('${imageUrl}');"></div>
+          <div class="info">
+            <a class="watch" href="${link}">Watch now</a>
+            <h2><a href="${link}" data-jtitle="${title}">${title}</a></h2>
+            <p>${synopsisText}</p>
+          </div>
+        </div>
+      `;
+    });
+    
+    slidesContainer.innerHTML = slidesHTML;
+    slideCount = posts.length;
+    
+    // Initialize slider controls
+    initSliderControls();
+  };
+  
+  // Initialize slider controls (auto-play, navigation)
+  const initSliderControls = () => {
+    const slides = document.querySelectorAll('.item');
+    
+    // Left button click
+    leftBtn.addEventListener('click', function() {
+      if (currentIndex > 0) {
+        currentIndex--;
+      } else {
+        currentIndex = slideCount - 1; // Loop to last
+      }
+      scrollToSlide(currentIndex);
+    });
+    
+    // Right button click
+    rightBtn.addEventListener('click', function() {
+      if (currentIndex < slideCount - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0; // Loop to first
+      }
+      scrollToSlide(currentIndex);
+    });
+    
+    // Touch/swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    slidesContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    slidesContainer.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+    
+    const handleSwipe = () => {
+      const swipeThreshold = 50;
+      if (touchEndX < touchStartX - swipeThreshold) {
+        // Swipe left - next slide
+        if (currentIndex < slideCount - 1) {
+          currentIndex++;
+        } else {
+          currentIndex = 0;
+        }
+        scrollToSlide(currentIndex);
+      } else if (touchEndX > touchStartX + swipeThreshold) {
+        // Swipe right - previous slide
+        if (currentIndex > 0) {
+          currentIndex--;
+        } else {
+          currentIndex = slideCount - 1;
+        }
+        scrollToSlide(currentIndex);
+      }
+    };
+    
+    // Mouse wheel navigation
+    slidesContainer.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      if (e.deltaY > 0) {
+        // Scroll down - next slide
+        if (currentIndex < slideCount - 1) {
+          currentIndex++;
+        } else {
+          currentIndex = 0;
+        }
+      } else {
+        // Scroll up - previous slide
+        if (currentIndex > 0) {
+          currentIndex--;
+        } else {
+          currentIndex = slideCount - 1;
+        }
+      }
+      scrollToSlide(currentIndex);
+    });
+    
+    // Start auto-slide
+    startAutoSlide();
+    
+    // Pause auto-slide on hover/touch
+    slider.addEventListener('mouseenter', stopAutoSlide);
+    slider.addEventListener('mouseleave', startAutoSlide);
+    slider.addEventListener('touchstart', stopAutoSlide);
+    slider.addEventListener('touchend', startAutoSlide);
+  };
+  
+  // Scroll to specific slide
+  const scrollToSlide = (index) => {
+    const slides = document.querySelectorAll('.item');
+    if (slides.length === 0) return;
+    
+    const slideWidth = slides[0].offsetWidth;
+    slidesContainer.scrollLeft = index * slideWidth;
+    currentIndex = index;
+  };
+  
+  // Auto-slide functions
+  const startAutoSlide = () => {
+    if (autoSlideInterval) clearInterval(autoSlideInterval);
+    autoSlideInterval = setInterval(() => {
+      if (currentIndex < slideCount - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0;
+      }
+      scrollToSlide(currentIndex);
+    }, 5000); // Change slide every 5 seconds
+  };
+  
+  const stopAutoSlide = () => {
+    if (autoSlideInterval) {
+      clearInterval(autoSlideInterval);
+      autoSlideInterval = null;
+    }
+  };
+  
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    if (slidesContainer && slideCount > 0) {
+      setTimeout(() => scrollToSlide(currentIndex), 100);
+    }
+  });
+  
+  // Start fetching posts
+  fetchLatestPosts();
+})();
+//]]>
+</script>
