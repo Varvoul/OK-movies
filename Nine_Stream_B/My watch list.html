@@ -22,26 +22,116 @@
     gap: 25px;
   }
   
-  .side-menu img {
+  /* Profile Container Styles */
+  .profile-container {
+    position: relative;
     width: 100%;
-    border-radius: 0.3rem;
+    max-width: 300px;
+    margin: 0 auto 20px auto;
+    cursor: pointer;
   }
   
-  /* Updated - Larger thumbnail size */
-  .bsx img {
-    width: 80px !important;
-    aspect-ratio: 3/4;
+  .profile-frame {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* Creates perfect circle */
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 4px solid #2a2f45;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .profile-frame:hover {
+    transform: scale(1.02);
+    border-color: #91243a;
+    box-shadow: 0 15px 35px rgba(145,36,58,0.3);
+  }
+  
+  .profile-frame img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 4px;
+    object-position: center;
+    transition: all 0.3s ease;
   }
   
-  .box {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-areas: "l r";
-    padding: 12px;
-    border-radius: 4px;
-    margin-bottom: 8px;
+  .profile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 50%;
+  }
+  
+  .profile-container:hover .profile-overlay {
+    opacity: 1;
+  }
+  
+  .profile-overlay svg {
+    width: 30%;
+    height: 30%;
+    fill: white;
+    margin-bottom: 10px;
+  }
+  
+  .profile-overlay span {
+    color: white;
+    font-size: clamp(0.8rem, 3vw, 1rem);
+    font-weight: 500;
+    text-align: center;
+    padding: 0 10px;
+  }
+  
+  .change-photo-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #91243a;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid white;
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+  
+  .change-photo-btn:hover {
+    background: #b22d4a;
+    transform: scale(1.1);
+  }
+  
+  .change-photo-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+  }
+  
+  /* Hidden file input */
+  #profileImageInput {
+    display: none;
+  }
+  
+  /* Profile image in export/import */
+  .profile-data {
+    display: none;
   }
   
   .side-menu ul {
@@ -102,6 +192,10 @@
   }
   
   .bsx img {
+    width: 80px !important;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 4px;
     grid-area: i;
     overflow: hidden;
   }
@@ -110,7 +204,6 @@
     grid-area: r;
   }
   
-  /* Updated grid layout for additional metadata - SIDE BY SIDE */
   .bsx {
     display: grid;
     grid-template-areas: "i j j j" "i t s c" "i e r r";
@@ -120,7 +213,6 @@
     grid-area: l;
   }
   
-  /* Type badge */
   .typez .epx {
     background: #6b3d46;
     color: white;
@@ -132,7 +224,6 @@
     text-transform: uppercase;
   }
   
-  /* Status badge */
   .bt .epx {
     background: #8f2e40;
     color: white;
@@ -143,7 +234,6 @@
     display: inline-block;
   }
   
-  /* Certification badge */
   .certification {
     grid-area: c;
   }
@@ -159,7 +249,6 @@
     text-transform: uppercase;
   }
   
-  /* Episode number */
   .episode-number {
     grid-area: e;
     display: flex;
@@ -184,7 +273,6 @@
     fill: #f1c40f;
   }
   
-  /* Rating number */
   .rating-number {
     grid-area: r;
     display: flex;
@@ -260,7 +348,6 @@
     border-radius: 4px;
   }
   
-  /* Toolbar Styles */
   .watchlist-toolbar {
     display: flex;
     flex-wrap: wrap;
@@ -283,7 +370,6 @@
     align-items: center;
   }
   
-  /* Search Bar Styles - ROUNDED BORDERS */
   .search-container {
     position: relative;
     min-width: 250px;
@@ -362,7 +448,6 @@
     display: block;
   }
   
-  /* Search Suggestions */
   .search-suggestions {
     position: absolute;
     top: 100%;
@@ -457,7 +542,6 @@
     color: #9ca3af;
   }
   
-  /* Export/Import Buttons */
   .action-btn {
     background: #2c3e50;
     color: white;
@@ -485,12 +569,6 @@
     fill: white;
   }
   
-  .action-btn.small {
-    padding: 8px 15px;
-    font-size: 0.85rem;
-  }
-  
-  /* Import Modal */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -655,6 +733,10 @@
     .toolbar-left, .toolbar-right {
       justify-content: center;
     }
+    
+    .profile-container {
+      max-width: 250px;
+    }
   }
   
   @media screen and (max-width: 768px) {
@@ -711,25 +793,53 @@
       width: 100%;
       justify-content: center;
     }
+    
+    .profile-container {
+      max-width: 200px;
+    }
+    
+    .change-photo-btn {
+      width: 35px;
+      height: 35px;
+    }
+    
+    .change-photo-btn svg {
+      width: 16px;
+      height: 16px;
+    }
   }
 </style>
 
 <section class="side-menu">
-  <figure>
-    <img src="https://s2.bunnycdn.ru/assets/template_1/style_1/images/user-icon.png" alt="User profile">
-  </figure>
+  <!-- Profile Container with Circle Frame -->
+  <div class="profile-container" id="profileContainer">
+    <div class="profile-frame" id="profileFrame">
+      <img src="https://i.postimg.cc/4xLD2gzc/611735745839456014cd88892ca03699.jpg" alt="User profile" id="profileImage">
+      <div class="profile-overlay">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+        <span>Change Photo</span>
+      </div>
+    </div>
+    <div class="change-photo-btn" id="changePhotoBtn" title="Change profile photo">
+      <svg viewBox="0 0 24 24">
+        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+      </svg>
+    </div>
+  </div>
   
-  <!-- Clean menu with only essential items -->
+  <!-- Hidden file input for profile image upload -->
+  <input type="file" id="profileImageInput" accept="image/*">
+  
   <ul class="menu"> 
     <li><a href="/p/my-watchlist.html" class="active">My Watchlist</a></li> 
   </ul>
 </section>
 
 <section class="bookmark-wrap">
-  <!-- Toolbar with Export/Import and Search -->
   <div class="watchlist-toolbar">
     <div class="toolbar-left">
-      <!-- Export Button -->
       <button class="action-btn" id="exportBtn">
         <svg viewBox="0 0 24 24">
           <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -737,7 +847,6 @@
         Export List
       </button>
       
-      <!-- Import Button -->
       <button class="action-btn" id="importBtn">
         <svg viewBox="0 0 24 24">
           <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -745,7 +854,6 @@
         Import List
       </button>
       
-      <!-- Clear All Button -->
       <button class="action-btn" id="clearAllBtn">
         <svg viewBox="0 0 24 24">
           <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
@@ -755,7 +863,6 @@
     </div>
     
     <div class="toolbar-right">
-      <!-- Desktop Search - Hidden on mobile -->
       <div class="desktop-search">
         <div class="search-input-wrapper">
           <input type="text" id="desktopSearchInput" class="search-input" placeholder="Search your watchlist...">
@@ -769,7 +876,6 @@
         </div>
       </div>
       
-      <!-- Mobile Search Icon -->
       <div class="mobile-search-icon" id="mobileSearchIcon">
         <svg viewBox="0 0 24 24">
           <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
@@ -779,7 +885,6 @@
     </div>
   </div>
   
-  <!-- Mobile Search Box (Hidden by default) -->
   <div class="mobile-search-box" id="mobileSearchBox">
     <div class="search-input-wrapper">
       <input type="text" id="mobileSearchInput" class="search-input" placeholder="Search your watchlist...">
@@ -801,15 +906,13 @@
         <button class="modal-close" id="closeModal">&times;</button>
       </div>
       
-      <!-- Option 1: Import from File -->
       <div class="import-option">
         <h4>📁 Import from File</h4>
-        <p>Upload a previously exported watchlist file (.json or .txt)</p>
-        <input type="file" id="fileInput" class="file-input" accept=".json,.txt">
+        <p>Upload a previously exported watchlist file (.json)</p>
+        <input type="file" id="fileInput" class="file-input" accept=".json">
         <button class="import-btn" id="importFromFileBtn" disabled>Import from File</button>
       </div>
       
-      <!-- Option 2: Import from URL -->
       <div class="import-option">
         <h4>🔗 Import from URL</h4>
         <p>Paste your watchlist page URL to sync your list</p>
@@ -817,28 +920,88 @@
         <button class="import-btn" id="importFromUrlBtn">Import from URL</button>
       </div>
       
-      <!-- Import Status Message -->
       <div id="importStatus" class="import-status"></div>
     </div>
   </div>
 
   <div class='notice'>
-    <strong>📌 Note:</strong> Your watchlist is saved in your current browser. Maximum 200 items. Use Export/Import to backup or sync your list across devices.
+    <strong>📌 Note:</strong> Your watchlist and profile image are saved in your current browser. Maximum 200 items. Use Export/Import to backup or sync your list across devices.
   </div>
   
   <p class='text-muted'>
     • Click the <strong>X icon</strong> to remove from list<br>
     • Click on title to watch<br>
-    • Ratings, episodes, and certification are automatically generated<br>
-    • <strong>Export</strong> to save your list, <strong>Import</strong> to restore from file or URL
+    • Click on profile image to change photo<br>
+    • Profile image is included in export/import
   </p>
   
   <div class='showBookmark'></div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-  // Configuration - INCREASED TO 200
+  // Configuration
   var limitBookmark = 200;
+  var defaultProfileImage = 'https://i.postimg.cc/4xLD2gzc/611735745839456014cd88892ca03699.jpg';
+  
+  // Profile Image Manager
+  var profileManager = (function(){
+    var profileImage = defaultProfileImage;
+    
+    function setProfileImage(imageData) {
+      localStorage.setItem('profileImage', imageData);
+      profileImage = imageData;
+    }
+    
+    function loadProfileImage() {
+      var saved = localStorage.getItem('profileImage');
+      if (saved) {
+        profileImage = saved;
+      }
+      return profileImage;
+    }
+    
+    function getProfileImage() {
+      return profileImage;
+    }
+    
+    return {
+      setProfileImage: setProfileImage,
+      loadProfileImage: loadProfileImage,
+      getProfileImage: getProfileImage
+    };
+  })();
+  
+  // Load profile image on page load
+  var savedProfileImage = profileManager.loadProfileImage();
+  document.getElementById('profileImage').src = savedProfileImage;
+  
+  // Profile image upload functionality
+  const profileImageInput = document.getElementById('profileImageInput');
+  const changePhotoBtn = document.getElementById('changePhotoBtn');
+  const profileImage = document.getElementById('profileImage');
+  const profileContainer = document.getElementById('profileContainer');
+  
+  changePhotoBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    profileImageInput.click();
+  });
+  
+  profileContainer.addEventListener('click', function() {
+    profileImageInput.click();
+  });
+  
+  profileImageInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const imageData = e.target.result;
+        profileImage.src = imageData;
+        profileManager.setProfileImage(imageData);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
   
   // Bookmark Manager Object
   var bookmark = (function(){
@@ -853,7 +1016,6 @@
       list = saved ? JSON.parse(saved) : [];
     }
 
-    // Load initial data
     loadBookmark();
 
     var obj = {};
@@ -877,14 +1039,12 @@
     obj.importList = function(newList) {
       if (!Array.isArray(newList)) return false;
       
-      // Validate each item has required fields
       const validList = newList.filter(item => 
         item.id && item.name && item.link && item.img
       );
       
       if (validList.length === 0) return false;
       
-      // Merge with existing list, avoiding duplicates
       const existingIds = new Set(list.map(item => item.id));
       const newItems = validList.filter(item => !existingIds.has(item.id));
       
@@ -895,27 +1055,19 @@
     };
     
     obj.exportList = function() {
-      return JSON.stringify(list, null, 2);
-    };
-    
-    // Add item to bookmark (for testing/populating)
-    obj.addItem = function(item) {
-      if (!item.id || !item.name) return false;
-      
-      const exists = list.some(i => i.id === item.id);
-      if (!exists && list.length < limitBookmark) {
-        list.push(item);
-        setBookmark();
-        displayIt();
-        return true;
-      }
-      return false;
+      // Include profile image in export
+      const exportData = {
+        profileImage: profileManager.getProfileImage(),
+        watchlist: list,
+        exportDate: new Date().toISOString(),
+        version: '1.0'
+      };
+      return JSON.stringify(exportData, null, 2);
     };
     
     return obj;
   })();
 
-  // Helper functions for random data
   function getRandomRating() {
     return (Math.random() * 4 + 6).toFixed(1);
   }
@@ -929,7 +1081,6 @@
     return certs[Math.floor(Math.random() * certs.length)];
   }
 
-  // Display watchlist items
   function displayIt() {
     var getData = bookmark.getAll();
     var structure = '';
@@ -943,23 +1094,17 @@
       structure += '<article class="box" itemscope itemtype="http://schema.org/CreativeWork">' +
         '<div id="' + item.id + '" class="bsx">' +
         
-        // Thumbnail
         '<img src="' + (item.img || 'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png') + 
         '" loading="lazy" itemprop="image" title="' + item.name + '" alt="' + item.name + '" onerror="this.src=\'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png\'">' +
         
-        // Title
         '<a href="' + item.link + '" itemprop="url" title="' + item.name + '">' + item.name + '</a>' +
         
-        // Type
         '<div class="typez"><span class="epx">' + (item.type || 'Anime') + '</span></div>' +
         
-        // Status
         '<div class="bt"><span class="epx">' + (item.status || 'Airing') + '</span></div>' +
         
-        // Certification
         '<div class="certification"><span class="cert-badge">' + certification + '</span></div>' +
         
-        // Episode Number
         '<div class="episode-number">' +
           '<span class="episode-badge">' +
             '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-13v4l5 3-5 3v-4H9v-6h2.5z"/></svg>' +
@@ -967,7 +1112,6 @@
           '</span>' +
         '</div>' +
         
-        // Rating
         '<div class="rating-number">' +
           '<span class="rating-badge">' +
             '<svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>' +
@@ -975,9 +1119,8 @@
           '</span>' +
         '</div>' +
         
-        '</div>' + // Close bsx
+        '</div>' +
         
-        // Remove button
         '<div class="btnRemove" data-id="' + item.id + '">' +
           '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' +
             '<path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>' +
@@ -1003,7 +1146,6 @@
     const mobileIcon = document.getElementById('mobileSearchIcon');
     const mobileBox = document.getElementById('mobileSearchBox');
     
-    // Mobile search toggle
     if (mobileIcon) {
       mobileIcon.addEventListener('click', function() {
         mobileBox.classList.toggle('active');
@@ -1013,7 +1155,6 @@
       });
     }
     
-    // Search function
     function performSearch(query, suggestionsDiv) {
       if (!suggestionsDiv) return;
       
@@ -1025,7 +1166,6 @@
         return;
       }
       
-      // Search in titles (case insensitive)
       const results = watchlist.filter(item => {
         if (!item || !item.name) return false;
         return item.name.toLowerCase().includes(query.toLowerCase());
@@ -1065,29 +1205,18 @@
       suggestionsDiv.classList.add('active');
     }
     
-    // Desktop search
     if (desktopInput) {
       desktopInput.addEventListener('input', function(e) {
         performSearch(e.target.value, desktopSuggestions);
       });
       
-      // Close suggestions when clicking outside
       document.addEventListener('click', function(e) {
         if (!desktopInput.contains(e.target) && !desktopSuggestions.contains(e.target)) {
           desktopSuggestions.classList.remove('active');
         }
       });
-      
-      // Clear search when clicking on a suggestion
-      desktopSuggestions.addEventListener('click', function() {
-        setTimeout(() => {
-          desktopInput.value = '';
-          desktopSuggestions.classList.remove('active');
-        }, 100);
-      });
     }
     
-    // Mobile search
     if (mobileInput) {
       mobileInput.addEventListener('input', function(e) {
         performSearch(e.target.value, mobileSuggestions);
@@ -1098,14 +1227,6 @@
           mobileSuggestions.classList.remove('active');
           mobileBox.classList.remove('active');
         }
-      });
-      
-      mobileSuggestions.addEventListener('click', function() {
-        setTimeout(() => {
-          mobileInput.value = '';
-          mobileSuggestions.classList.remove('active');
-          mobileBox.classList.remove('active');
-        }, 100);
       });
     }
   }
@@ -1146,12 +1267,11 @@
     importStatus.className = 'import-status';
   });
 
-  // Enable/disable file import button based on file selection
   fileInput.addEventListener('change', function() {
     importFromFileBtn.disabled = !this.files.length;
   });
 
-  // Import from file
+  // Import from file with profile image support
   importFromFileBtn.addEventListener('click', function() {
     const file = fileInput.files[0];
     if (!file) return;
@@ -1159,17 +1279,44 @@
     const reader = new FileReader();
     reader.onload = function(e) {
       try {
-        const data = JSON.parse(e.target.result);
-        if (bookmark.importList(data)) {
-          importStatus.textContent = '✅ List imported successfully!';
-          importStatus.className = 'import-status success';
-          setTimeout(() => {
-            modal.classList.remove('active');
-            importStatus.style.display = 'none';
-            fileInput.value = '';
-          }, 2000);
+        const importData = JSON.parse(e.target.result);
+        
+        // Check if it's the new format with profile image
+        if (importData.profileImage && Array.isArray(importData.watchlist)) {
+          // Import profile image
+          profileImage.src = importData.profileImage;
+          profileManager.setProfileImage(importData.profileImage);
+          
+          // Import watchlist
+          if (bookmark.importList(importData.watchlist)) {
+            importStatus.textContent = '✅ List and profile image imported successfully!';
+            importStatus.className = 'import-status success';
+            setTimeout(() => {
+              modal.classList.remove('active');
+              importStatus.style.display = 'none';
+              fileInput.value = '';
+            }, 2000);
+          } else {
+            importStatus.textContent = '❌ Invalid watchlist data';
+            importStatus.className = 'import-status error';
+          }
+        } 
+        // Legacy format (just array)
+        else if (Array.isArray(importData)) {
+          if (bookmark.importList(importData)) {
+            importStatus.textContent = '✅ List imported successfully!';
+            importStatus.className = 'import-status success';
+            setTimeout(() => {
+              modal.classList.remove('active');
+              importStatus.style.display = 'none';
+              fileInput.value = '';
+            }, 2000);
+          } else {
+            importStatus.textContent = '❌ Invalid file format';
+            importStatus.className = 'import-status error';
+          }
         } else {
-          importStatus.textContent = '❌ Invalid file format or empty list';
+          importStatus.textContent = '❌ Invalid file format';
           importStatus.className = 'import-status error';
         }
       } catch (err) {
@@ -1194,7 +1341,6 @@
     importStatus.style.display = 'block';
     importFromUrlBtn.disabled = true;
 
-    // Try to fetch data from the URL
     fetch(url)
       .then(response => response.text())
       .then(html => {
@@ -1202,7 +1348,6 @@
         const bookmarkMatch = html.match(/localStorage\.getItem\(['"]bookmark['"]\)[^;]*/);
         
         if (bookmarkMatch) {
-          // Try to extract the actual data
           const dataMatch = html.match(/\[[\s\S]*?\]/);
           if (dataMatch) {
             try {
@@ -1241,14 +1386,12 @@
       });
   });
 
-  // Clear All button
   document.getElementById('clearAllBtn').addEventListener('click', function() {
     if (confirm('Clear all items from your watchlist?')) {
       bookmark.clearALL();
     }
   });
 
-  // Remove item handler
   $('.showBookmark').on("click", ".btnRemove", function(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -1258,7 +1401,6 @@
     }
   });
 
-  // Initial display and search setup
   displayIt();
   setTimeout(setupSearch, 500);
   </script>
