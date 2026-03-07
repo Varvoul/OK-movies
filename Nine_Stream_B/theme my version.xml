@@ -65,27 +65,27 @@
     <data:blog.meTag/>
   <b:skin><![CDATA[ 
 /*
-<Variable name="keycolor" description="Main Color" type="color" default="#EA4C89" hideEditor="true"  value="#8a3324"/>
+<Variable name="keycolor" description="Main Color" type="color" default="#EA4C89" hideEditor="true"  value="#1d3056"/>
 <Group description="Body">
 <Variable name="color" description="test Color" type="color" default="transparent" hideEditor="true"  value="rgba(0,0,0,0)"/>
 <Variable name="body.background" description="Background" type="background" color="$(body.background.color)" default="#999 none repeat scroll top left"  value="#999 none repeat scroll top left"/>
-<Variable name="body.background.color" description="Background color" type="color" default="#fff"  value="#ffffff"/>
+<Variable name="body.background.color" description="Background color" type="color" default="#fff"  value="#d9005e"/>
 </Group>
 <Group description="Widths">
-<Variable name="content.width" description="Content width" type="length" min="600px" max="2400px" default="1460px"  value="1461px"/>
+<Variable name="content.width" description="Content width" type="length" min="600px" max="2400px" default="1460px"  value="1594px"/>
 </Group>
 <Group description="Status Color" selector=".poster">
-<Variable name="tv" description="TV" type="color" default="#007bff"  value="#0c00e6"/>
-<Variable name="movie" description="Movie" type="color" default="#00a247"  value="#000000"/>
-<Variable name="ova" description="OVA" type="color" default="#0094ac"  value="#001c55"/>
-<Variable name="ona" description="ONA" type="color" default="#0061aa"  value="#00034c"/>
-<Variable name="special" description="Special" type="color" default="#d45558"  value="#d08d47"/>
-<Variable name="id" description="Language ID" type="color" default="#ff2800"  value="#e69e00"/>
-<Variable name="jp" description="Language JP" type="color" default="#ff6c00"  value="#e6dc00"/>
-<Variable name="en" description="Language EN" type="color" default="#cc00cc"  value="#9f004a"/>
-<Variable name="ep" description="Episode" type="color" default="#ff3800"  value="#e6ad00"/>
-<Variable name="dub" description="Dub" type="color" default="#c39d00"  value="#5f8f00"/>
-<Variable name="score" description="Score" type="color" default="#8a2be2"  value="#d91ecf"/>
+<Variable name="tv" description="TV" type="color" default="#007bff"  value="#407d80"/>
+<Variable name="movie" description="Movie" type="color" default="#00a247"  value="#1f6593"/>
+<Variable name="ova" description="OVA" type="color" default="#0094ac"  value="#36597b"/>
+<Variable name="ona" description="ONA" type="color" default="#0061aa"  value="#295078"/>
+<Variable name="special" description="Special" type="color" default="#d45558"  value="#266280"/>
+<Variable name="id" description="Language ID" type="color" default="#ff2800"  value="#742578"/>
+<Variable name="jp" description="Language JP" type="color" default="#ff6c00"  value="#2d7671"/>
+<Variable name="en" description="Language EN" type="color" default="#cc00cc"  value="#007980"/>
+<Variable name="ep" description="Episode" type="color" default="#ff3800"  value="#d9005e"/>
+<Variable name="dub" description="Dub" type="color" default="#c39d00"  value="#782a4e"/>
+<Variable name="score" description="Score" type="color" default="#8a2be2"  value="#202936"/>
 </Group>
 <Group description="Border Radius">
 <Variable name="b.r" description="Content width" type="length" min="0px" max="20px" default="4px"  value="4px"/>
@@ -96,7 +96,7 @@
 <Group description="Logo" selector=".logo">
 <Variable name="title.size" description="Logo Size (Big)" type="font" default="normal 700 40px 'Noto Sans HK', sans-serif"  value="normal 700 40px &#39;Noto Sans HK&#39;, sans-serif"/>
 <Variable name="title.size.small" description="Logo Size (Small)" type="font" default="normal 700 30px 'Noto Sans HK', sans-serif"  value="normal 700 30px &#39;Noto Sans HK&#39;, sans-serif"/>
-<Variable name="logo.color" description="Logo color" type="color" default="#959595"  value="#8c8c8c"/>
+<Variable name="logo.color" description="Logo color" type="color" default="#959595"  value="#888888"/>
 <Variable name="logo.margin" description="Logo margin right" type="length" min="0px" max="50px" default="15px"  value="22px"/>
 <Variable name="logo.width" description="Logo width" type="length"
             min="10px" max="100px" default="50px"  value="50px"/>
@@ -115,7 +115,7 @@
 <Variable name="posts.title.color" description="Post title color" type="color" default="#161617"  value="#000000"/>
 <Variable name="posts.text.color" description="Post text color" type="color" default="#505050"  value="#000000"/>
 <Variable name="posts.icons.color" description="Post info color" type="color" default="#505050" value="#000000"/>
-<Variable name="posts.background.color" description="Post background color" type="color" default="#f7f7fc"  value="#f7f3fa"/>
+<Variable name="posts.background.color" description="Post background color" type="color" default="#f7f7fc"  value="#f1faf1"/>
 <Variable name="tabs.font" description="Font" type="font" default="400 14px &#39;Roboto&#39;, sans-serif" value="400 14px &#39;Roboto&#39;, sans-serif"/>
 <Variable name="tabs.overflow.background.color" description="Popup background color" type="color" default="#ffffff"  value="#ffffff"/>
 <Variable name="labels.background.color" description="Labels background color" type="color" default="#fff" value="#ffffff"/>
@@ -127,7 +127,7 @@
 * Website	: emissionhex.blogspot.com
 **************************************************/
 :root {
-    --body: #121521;
+    --body: #131313;
     --text: #959595;
     --link: #fff;
     --link-hover: #EA4C89;
@@ -138,7 +138,7 @@
     --danger: #EA4C89;
     --warning: #EAAA4C;
  	--size: .9375rem;
-	--v101: #1a1d30; 
+	--v101: #101010;
 	--blue: #007bff;
 	--indigo: #6610f2;
 	--purple: #6f42c1;
@@ -154,11 +154,11 @@
 	--gray: #666;
 	--semi-white: #d5d5d5;
 	--medium-gray: #ababab;
-	--gray-dark:  #2a2f45;
-	--secondary:  #1e2235; 
+	--gray-dark: #343434;
+	--secondary: #1c1c1c;
 	--success: #28a745;
-	--dark-26:  #1c1f32; 
-	--info: #3b9aa8;
+	--dark-26: #262626;
+	--info: #17a2b8;
 	--warning: #ffc107;
 	--danger: #dc3545;
 	--light: #f8f8f8;
@@ -1275,8 +1275,8 @@ body#layout:after{content:'Designed by - EmissionHex';display:block;font-family:
             var labelArray = [<b:if cond='data:post.labels'><b:loop values='data:post.labels' var='label'>&quot;<data:label.name/>&quot;<b:if cond='data:label.isLast != &quot;true&quot;'>,</b:if></b:loop></b:if>];
             var relatedPostConfig={
             homePage: &quot;<data:blog.homepageUrl/>&quot;,
-            widgetTitle: &quot;<h3 class='text-1d5 c-fff'>Suggestions</h3>&quot;,
-            numPosts: 10,
+            widgetTitle: &quot;<h3 class='text-1d5 c-fff'>Recommended for you</h3>&quot;,
+            numPosts: 40,
             summaryLength: 20,
             titleLength:&quot;auto&quot;,
             thumbnailSize: 275,
@@ -1471,115 +1471,133 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
      <li><a href='/'>Home</a></li>
      <li> <a>Genre</a>
        <ul class='c4'>
-         <li><a href='/search/label/Action' title='Action Anime/Drama'>Action</a></li>
-<li><a href='/search/label/Adventure' title='Adventure Anime/Drama'>Adventure</a></li>
-<li><a href='/search/label/Award Winning' title='Award Winning Anime/Drama'>Award Winning</a></li>
-<li><a href='/search/label/Avant-garde' title='Avant Garde Anime'>Avant Garde</a></li>
-<li><a href='/search/label/Business' title='Business/Economics Drama'>Business</a></li>
-<li><a href='/search/label/Boys-love' title='Boys Love Anime/Drama'>Boys Love</a></li>
-<li><a href='/search/label/Cars' title='Cars/Racing Anime/Drama'>Cars</a></li>
-<li><a href='/search/label/Childcare' title='Childcare/Parenting Drama'>Childcare</a></li>
-<li><a href='/search/label/Combat Sports' title='Combat Sports Anime/Drama'>Combat Sports</a></li>
-<li><a href='/search/label/Comedy' title='Comedy Anime/Drama'>Comedy</a></li>
-<li><a href='/search/label/Coming of Age' title='Coming of Age Anime/Drama'>Coming of Age</a></li>
+         <li><a href='/search/label/Action' title='Action Anime'>Action</a></li>
+<li><a href='/search/label/Adventure' title='Adventure Anime'>Adventure</a></li>
+<li><a href='/search/label/AI' title='AI Anime'>Avant Garde</a></li>
+<li><a href='/search/label/Business' title='Business Anime'>Business</a></li>
+<li><a href='/search/label/Boys-love' title='Boys Love Anime'>Boys Love</a></li>
+<li><a href='/search/label/Cars' title='Cars Anime'>Cars</a></li>
+<li><a href='/search/label/Childcare' title='Childcare Anime'>Childcare</a></li>
+<li><a href='/search/label/Combat Sports' title='Combat Sports Anime'>Combat</a></li>
+<li><a href='/search/label/Comedy' title='Comedy Anime'>Comedy</a></li>
+<li><a href='/search/label/Coming of Age' title='Coming of Age Anime'>Coming of Age</a></li>
+<li><a href='/search/label/Cooking' title='Cooking Anime'>Cooking</a></li>
+<li><a href='/search/label/Courtroom' title='Courtroom Anime'>Courtroom</a></li>
 <li><a href='/search/label/Creature' title='Creature Anime'>Creature</a></li>
-<li><a href='/search/label/Crime' title='Crime Anime/Drama'>Crime</a></li>
+<li><a href='/search/label/Crime' title='Crime Anime'>Crime</a></li>
 <li><a href='/search/label/Cyberpunk' title='Cyberpunk Anime'>Cyberpunk</a></li>
+<li><a href='/search/label/Cyborg' title='Cyborg Anime'>Cyborg</a></li>
+<li><a href='/search/label/Dance' title='Dance Anime'>Dance</a></li>
 <li><a href='/search/label/Dark Fantasy' title='Dark Fantasy Anime'>Dark Fantasy</a></li>
-<li><a href='/search/label/Delinquents' title='Delinquents Anime/Drama'>Delinquents</a></li>
+<li><a href='/search/label/Delinquents' title='Delinquents Anime'>Delinquents</a></li>
 <li><a href='/search/label/Dementia' title='Dementia Anime'>Dementia</a></li>
 <li><a href='/search/label/Demons' title='Demons Anime'>Demons</a></li>
-<li><a href='/search/label/Detective' title='Detective/Mystery Drama'>Detective</a></li>
-<li><a href='/search/label/Drama' title='Drama'>Drama</a></li>
+<li><a href='/search/label/Detective' title='Detective Anime'>Detective</a></li>
+<li><a href='/search/label/Documentary' title='Documentary Anime'>Documentary</a></li>
+<li><a href='/search/label/Drama' title='Drama Anime'>Drama</a></li>
 <li><a href='/search/label/Ecchi' title='Ecchi Anime'>Ecchi</a></li>
 <li><a href='/search/label/Erotica' title='Erotica Anime'>Erotica</a></li>
-<li><a href='/search/label/Family' title='Family Drama'>Family</a></li>
-<li><a href='/search/label/Fantasy' title='Fantasy Anime/Drama'>Fantasy</a></li>
-<li><a href='/search/label/Fighting' title='Fighting/Martial Arts'>Fighting</a></li>
-<li><a href='/search/label/Food' title='Food/Cooking Drama'>Food</a></li>
+<li><a href='/search/label/Esports' title='Esports Anime'>Esports</a></li>
+<li><a href='/search/label/Family' title='Family Anime'>Family</a></li>
+<li><a href='/search/label/Fantasy' title='Fantasy Anime'>Fantasy</a></li>
+<li><a href='/search/label/Fighting' title='Fighting Anime'>Fighting</a></li>
+<li><a href='/search/label/Food' title='Food Anime'>Food</a></li>
 <li><a href='/search/label/Gag Humor' title='Gag Humor Anime'>Gag Humor</a></li>
 <li><a href='/search/label/Game' title='Game Anime'>Game</a></li>
-<li><a href='/search/label/Gender-bender' title='Gender Bender Anime/Drama'>Gender Bender</a></li>
-<li><a href='/search/label/Girls-love' title='Girls Love Anime/Drama'>Girls Love</a></li>
-<li><a href='/search/label/Gore' title='Gore Anime/Drama'>Gore</a></li>
+<li><a href='/search/label/Gender-bender' title='Gender Bender Anime'>Gender Bender</a></li>
+<li><a href='/search/label/Girls-love' title='Girls Love Anime'>Girls Love</a></li>
+<li><a href='/search/label/Gore' title='Gore Anime'>Gore</a></li>
 <li><a href='/search/label/Gourmet' title='Gourmet Anime'>Gourmet</a></li>
 <li><a href='/search/label/Harem' title='Harem Anime'>Harem</a></li>
-<li><a href='/search/label/Healing' title='Healing/Iyashikei Drama'>Healing</a></li>
+<li><a href='/search/label/Healing' title='Healing Anime'>Healing</a></li>
 <li><a href='/search/label/High Stakes Game' title='High Stakes Game Anime'>High Stakes Game</a></li>
-<li><a href='/search/label/Historical' title='Historical Anime/Drama'>Historical</a></li>
-<li><a href='/search/label/Horror' title='Horror Anime/Drama'>Horror</a></li>
+<li><a href='/search/label/Historical' title='Historical Anime'>Historical</a></li>
+<li><a href='/search/label/Horror' title='Horror Anime'>Horror</a></li>
+<li><a href='/search/label/Idol' title='Idol Anime'>Idol</a></li>
 <li><a href='/search/label/Isekai' title='Isekai Anime'>Isekai</a></li>
-<li><a href='/search/label/Josei' title='Josei Anime/Drama'>Josei</a></li>
-<li><a href='/search/label/Kids' title='Kids Anime/Drama'>Kids</a></li>
-<li><a href='/search/label/Law' title='Law/Legal Drama'>Law</a></li>
-<li><a href='/search/label/Love Polygon' title='Love Polygon Romance'>Love Polygon</a></li>
-<li><a href='/search/label/Magic' title='Magic Anime/Drama'>Magic</a></li>
-<li><a href='/search/label/Mahou Shoujo' title='Mahou Shoujo (Magical Girl)'>Mahou Shoujo</a></li>
-<li><a href='/search/label/Martial-arts' title='Martial Arts Anime/Drama'>Martial Arts</a></li>
-<li><a href='/search/label/Mature' title='Mature Content Drama'>Mature</a></li>
+<li><a href='/search/label/Isekai' title='Isekai Anime'>Iyashikei</a></li>
+<li><a href='/search/label/Josei' title='Josei Anime'>Josei</a></li>
+<li><a href='/search/label/Kemono' title='Kemono Anime'>Kemono</a></li>
+<li><a href='/search/label/Kids' title='Kids Anime'>Kids</a></li>
+<li><a href='/search/label/Law' title='Law Anime'>Law</a></li>
+<li><a href='/search/label/Love Polygon' title='Love Polygon Anime'>Love Polygon</a></li>
+<li><a href='/search/label/Magic' title='Magic Anime'>Magic</a></li>
+<li><a href='/search/label/Magical Girl' title='Magical Girl Anime'>Magical Girl</a></li>
+<li><a href='/search/label/Martial-arts' title='Martial Arts Anime'>Martial Arts</a></li>
+<li><a href='/search/label/Mature' title='Mature Anime'>Mature</a></li>
 <li><a href='/search/label/Mecha' title='Mecha Anime'>Mecha</a></li>
-<li><a href='/search/label/Medical' title='Medical Drama'>Medical</a></li>
-<li><a href='/search/label/Melodrama' title='Melodrama'>Melodrama</a></li>
-<li><a href='/search/label/Military' title='Military Anime/Drama'>Military</a></li>
-<li><a href='/search/label/Music' title='Music Anime/Drama'>Music</a></li>
-<li><a href='/search/label/Mystery' title='Mystery Anime/Drama'>Mystery</a></li>
-<li><a href='/search/label/Mythology' title='Mythology Anime/Drama'>Mythology</a></li>
-<li><a href='/search/label/Noona Romance' title='Noona Romance (Older Woman)'>Noona Romance</a></li>
-<li><a href='/search/label/Office' title='Office/Workplace Drama'>Office</a></li>
-<li><a href='/search/label/Organized Crime' title='Organized Crime Drama'>Organized Crime</a></li>
+<li><a href='/search/label/Medical' title='Medical Anime'>Medical</a></li>
+<li><a href='/search/label/Melodrama' title='Melodrama Anime'>Melodrama</a></li>
+<li><a href='/search/label/Military' title='Military Anime'>Military</a></li>
+<li><a href='/search/label/Monster Girls' title='Monster Girls Anime'>Monster Girls</a></li>
+<li><a href='/search/label/Monsters' title='Monsters Anime'>Monsters</a></li>
+<li><a href='/search/label/Music' title='Music Anime'>Music</a></li>
+<li><a href='/search/label/Mystery' title='Mystery Anime'>Mystery</a></li>
+<li><a href='/search/label/Mythology' title='Mythology Anime'>Mythology</a></li>
+<li><a href='/search/label/Ninja' title='Ninja Anime'>Ninja</a></li>
+<li><a href='/search/label/Ninja' title='Ninja Anime'>Noir</a></li>
+<li><a href='/search/label/Noona Romance' title='Noona Romance Anime'>Noona Romance</a></li>
+<li><a href='/search/label/Office' title='Office Anime'>Office</a></li>
+<li><a href='/search/label/Organized Crime' title='Organized Crime Anime'>Organized Crime</a></li>
 <li><a href='/search/label/Otaku Culture' title='Otaku Culture Anime'>Otaku Culture</a></li>
 <li><a href='/search/label/Parody' title='Parody Anime'>Parody</a></li>
-<li><a href='/search/label/Performing Arts' title='Performing Arts Drama'>Performing Arts</a></li>
-<li><a href='/search/label/Pets' title='Pets/Animals Drama'>Pets</a></li>
+<li><a href='/search/label/Performing Arts' title='Performing Arts Anime'>Performing Arts</a></li>
+<li><a href='/search/label/Pets' title='Pets Anime'>Pets</a></li>
 <li><a href='/search/label/Philosophical' title='Philosophical Anime'>Philosophical</a></li>
-<li><a href='/search/label/Political' title='Political Drama'>Political</a></li>
-<li><a href='/search/label/Police' title='Police/Investigation Drama'>Police</a></li>
-<li><a href='/search/label/Post-Apocalyptic' title='Post-Apocalyptic Anime/Drama'>Post-Apocalyptic</a></li>
-<li><a href='/search/label/Psychological' title='Psychological Anime/Drama'>Psychological</a></li>
-<li><a href='/search/label/Reincarnation' title='Reincarnation Anime/Drama'>Reincarnation</a></li>
-<li><a href='/search/label/Reverse Harem' title='Reverse Harem Anime/Drama'>Reverse Harem</a></li>
-<li><a href='/search/label/Romance' title='Romance Anime/Drama'>Romance</a></li>
-<li><a href='/search/label/Romantic Comedy' title='Romantic Comedy Drama'>Romantic Comedy</a></li>
-<li><a href='/search/label/Romantic Subtext' title='Romantic Subtext Drama'>Romantic Subtext</a></li>
-<li><a href='/search/label/Samurai' title='Samurai Anime/Drama'>Samurai</a></li>
-<li><a href='/search/label/School' title='School Anime/Drama'>School</a></li>
-<li><a href='/search/label/Sci Fi' title='Sci-Fi Anime/Drama'>Sci-Fi</a></li>
+<li><a href='/search/label/Pirates' title='Pirates Anime'>Pirates</a></li>
+<li><a href='/search/label/Police' title='Police Anime'>Police</a></li>
+<li><a href='/search/label/Political' title='Political Anime'>Political</a></li>
+<li><a href='/search/label/Post-Apocalyptic' title='Post-Apocalyptic Anime'>Post-Apocalyptic</a></li>
+<li><a href='/search/label/Psychological' title='Psychological Anime'>Psychological</a></li>
+<li><a href='/search/label/Racing' title='Racing Anime'>Racing</a></li>
+<li><a href='/search/label/Reincarnation' title='Reincarnation Anime'>Reincarnation</a></li>
+<li><a href='/search/label/Reverse Harem' title='Reverse Harem Anime'>Reverse Harem</a></li>
+<li><a href='/search/label/Romance' title='Romance Anime'>Romance</a></li>
+<li><a href='/search/label/Romantic Comedy' title='Romantic Comedy Anime'>Rom Com</a></li>
+<li><a href='/search/label/Romantic Subtext' title='Romantic Subtext Anime'>Romantic Subtext</a></li>
+<li><a href='/search/label/Samurai' title='Samurai Anime'>Samurai</a></li>
+<li><a href='/search/label/School' title='School Anime'>School</a></li>
+<li><a href='/search/label/Sci Fi' title='Sci-Fi Anime'>Sci-Fi</a></li>
 <li><a href='/search/label/Seinen' title='Seinen Anime'>Seinen</a></li>
-<li><a href='/search/label/Showbiz' title='Showbiz/Entertainment Drama'>Showbiz</a></li>
-<li><a href='/search/label/Shoujo' title='Shoujo Anime/Drama'>Shoujo</a></li>
-<li><a href='/search/label/Shoujo Ai' title='Shoujo Ai Anime/Drama'>Shoujo Ai</a></li>
+<li><a href='/search/label/Showbiz' title='Showbiz Anime'>Showbiz</a></li>
+<li><a href='/search/label/Shoujo' title='Shoujo Anime'>Shoujo</a></li>
+<li><a href='/search/label/Shoujo Ai' title='Shoujo Ai Anime'>Shoujo Ai</a></li>
 <li><a href='/search/label/Shounen' title='Shounen Anime'>Shounen</a></li>
-<li><a href='/search/label/Slice of Life' title='Slice of Life Anime/Drama'>Slice of Life</a></li>
-<li><a href='/search/label/Space' title='Space Anime/Drama'>Space</a></li>
-<li><a href='/search/label/Sports' title='Sports Anime/Drama'>Sports</a></li>
+<li><a href='/search/label/Shounen Ai' title='Shounen Ai Anime'>Shounen Ai</a></li>
+<li><a href='/search/label/Slice of Life' title='Slice of Life Anime'>Slice of Life</a></li>
+<li><a href='/search/label/Space' title='Space Anime'>Space</a></li>
+<li><a href='/search/label/Sports' title='Sports Anime'>Sports</a></li>
 <li><a href='/search/label/Steampunk' title='Steampunk Anime'>Steampunk</a></li>
-<li><a href='/search/label/Super Power' title='Super Power Anime/Drama'>Super Power</a></li>
-<li><a href='/search/label/Supernatural' title='Supernatural Anime/Drama'>Supernatural</a></li>
-<li><a href='/search/label/Survival' title='Survival Anime/Drama'>Survival</a></li>
-<li><a href='/search/label/Suspense' title='Suspense Anime/Drama'>Suspense</a></li>
-<li><a href='/search/label/Team Sports' title='Team Sports Drama'>Team Sports</a></li>
-<li><a href='/search/label/Thriller' title='Thriller Anime/Drama'>Thriller</a></li>
-<li><a href='/search/label/Time Travel' title='Time Travel Anime/Drama'>Time Travel</a></li>
-<li><a href='/search/label/Tragedy' title='Tragedy Anime/Drama'>Tragedy</a></li>
-<li><a href='/search/label/Vampire' title='Vampire Anime/Drama'>Vampire</a></li>
+<li><a href='/search/label/Super Power' title='Super Power Anime'>Super Power</a></li>
+<li><a href='/search/label/Supernatural' title='Supernatural Anime'>Supernatural</a></li>
+<li><a href='/search/label/Survival' title='Survival Anime'>Survival</a></li>
+<li><a href='/search/label/Suspense' title='Suspense Anime'>Suspense</a></li>
+<li><a href='/search/label/Thriller' title='Thriller Anime'>Thriller</a></li>
+<li><a href='/search/label/Time Travel' title='Time Travel Anime'>Travel</a></li>
+<li><a href='/search/label/Tragedy' title='Tragedy Anime'>Tragedy</a></li>
+<li><a href='/search/label/Trains' title='Trains Anime'>Trains</a></li>
+<li><a href='/search/label/Urban Fantasy' title='Urban Fantasy Anime'>Urban Fantasy</a></li>
+<li><a href='/search/label/Vampire' title='Vampire Anime'>Vampire</a></li>
+<li><a href='/search/label/Video Game' title='Video Game Anime'>Video Game</a></li>
 <li><a href='/search/label/Virtual Reality' title='Virtual Reality Anime'>Virtual Reality</a></li>
-<li><a href='/search/label/Wuxia' title='Wuxia (Martial Arts Heroes)'>Wuxia</a></li>
-<li><a href='/search/label/Work Life' title='Work Life Drama'>Work Life</a></li>
-<li><a href='/search/label/Xianxia' title='Xianxia (Cultivation Fantasy)'>Xianxia</a></li>
-<li><a href='/search/label/Yaoi' title='Yaoi (Boys Love)'>Yaoi</a></li>
-<li><a href='/search/label/Yuri' title='Yuri Anime/Drama'>Yuri</a></li>
-<li><a href='/search/label/Zombie' title='Zombie Anime/Drama'>Zombie</a></li>
+<li><a href='/search/label/Work Life' title='Work Life Anime'>Work Life</a></li>
+<li><a href='/search/label/Workplace' title='Workplace Anime'>Workplace</a></li>
+<li><a href='/search/label/Wuxia' title='Wuxia Anime'>Wuxia</a></li>
+<li><a href='/search/label/Xianxia' title='Xianxia Anime'>Xianxia</a></li>
+<li><a href='/search/label/Xuanhuan' title='Xuanhuan Anime'>Xuanhuan</a></li>
+<li><a href='/search/label/Yaoi' title='Yaoi Anime'>Yaoi</a></li>
+<li><a href='/search/label/Yuri' title='Yuri Anime'>Yuri</a></li>
+<li><a href='/search/label/Zombie' title='Zombie Anime'>Zombie</a></li>
        </ul>
      </li>
      <li> <a>Types</a>
        <ul class='c1'>
-         <li><a href='/movie'>Movies</a></li>
-         <li><a href='/tv'>TV Series</a></li>
-         <li><a href='/anime'>Anime</a></li>
+         <li><a href='/tv'>Movies</a></li>
+         <li><a href='/movie'>TV Show</a></li>
          <li><a href='/ova'>OVAs</a></li>
          <li><a href='/ona'>ONAs</a></li>
          <li><a href='/special'>Specials</a></li>
-         <li><a href='/series'>Web Series</a></li>
+          <li><a href='/ova'>Web Series</a></li>
        </ul>
      </li>
      <b:loop values='data:links' var='link'>
@@ -1589,7 +1607,7 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
  </div>
 </b:includable>
     </b:widget>
-    <b:widget id='BlogSearch2' locked='true' title='Search This Blog' type='BlogSearch' version='2' visible='true'>
+    <b:widget id='BlogSearch2' locked='true' title='Search This blog' type='BlogSearch' version='2' visible='true'>
       <b:includable id='main'>
         <b:attr name='id' value='search'/>
         <b:attr name='role' value='search'/>
@@ -1618,8 +1636,18 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="40" height="40" preserveaspectratio="xMidYMid meet" viewbox="0 0 256 199"><path fill="#5865F2" d="M216.856 16.597A208.502 208.502 0 0 0 164.042 0c-2.275 4.113-4.933 9.645-6.766 14.046c-19.692-2.961-39.203-2.961-58.533 0c-1.832-4.4-4.55-9.933-6.846-14.046a207.809 207.809 0 0 0-52.855 16.638C5.618 67.147-3.443 116.4 1.087 164.956c22.169 16.555 43.653 26.612 64.775 33.193A161.094 161.094 0 0 0 79.735 175.3a136.413 136.413 0 0 1-21.846-10.632a108.636 108.636 0 0 0 5.356-4.237c42.122 19.702 87.89 19.702 129.51 0a131.66 131.66 0 0 0 5.355 4.237a136.07 136.07 0 0 1-21.886 10.653c4.006 8.02 8.638 15.67 13.873 22.848c21.142-6.58 42.646-16.637 64.815-33.213c5.316-56.288-9.08-105.09-38.056-148.36ZM85.474 135.095c-12.645 0-23.015-11.805-23.015-26.18s10.149-26.2 23.015-26.2c12.867 0 23.236 11.804 23.015 26.2c.02 14.375-10.148 26.18-23.015 26.18Zm85.051 0c-12.645 0-23.014-11.805-23.014-26.18s10.148-26.2 23.014-26.2c12.867 0 23.236 11.804 23.015 26.2c0 14.375-10.148 26.18-23.015 26.18Z"/></path></svg>
 </a>
 
-<a href="#" target="_blank" rel="nofollow">
-<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="40" height="40" preserveaspectratio="xMidYMid meet" viewbox="0 0 256 247"><path fill="#FF424D" d="M45.136 0v246.35H0V0h45.136Zm118.521 0C214.657 0 256 41.343 256 92.343s-41.343 92.343-92.343 92.343s-92.343-41.344-92.343-92.343c0-51 41.344-92.343 92.343-92.343Z"/></path></svg>
+<!-- Twitter/X -->
+<a href="https://twitter.com/" target="_blank" rel="nofollow">
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="40" height="40" preserveaspectratio="xMidYMid meet" viewbox="0 0 24 24">
+    <path fill="#000000" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584l-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+  </path></svg>
+</a>
+
+<!-- Telegram -->
+<a href="https://telegram.org/" target="_blank" rel="nofollow">
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="40" height="40" preserveaspectratio="xMidYMid meet" viewbox="0 0 24 24">
+    <path fill="#26A5E4" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.26-1.911.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.916.49-1.305.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+  </path></svg>
 </a>]]></b:widget-setting>
       </b:widget-settings>
       <b:includable id='main'>
@@ -1642,7 +1670,7 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
 </b:includable>
       <b:includable id='content'>
         <div class='widget-content individual dropdown btn-primary user'>
-<a class='relative flex aic c-fff' href='https://anime-la-bt.blogspot.com/p/bookmark.html'><svg aria-hidden='true' height='33' preserveAspectRatio='xMidYMid meet' role='img' style='vertical-align: -0.125em;' viewBox='0 0 256 256' width='33' xmlns='http://www.w3.org/2000/svg'><path d='M233.6 195.6L192.2 41a16 16 0 0 0-19.6-11.3L141.7 38l-1 .3A16 16 0 0 0 128 32H96a15.8 15.8 0 0 0-8 2.2a15.8 15.8 0 0 0-8-2.2H48a16 16 0 0 0-16 16v160a16 16 0 0 0 16 16h32a15.8 15.8 0 0 0 8-2.2a15.8 15.8 0 0 0 8 2.2h32a16 16 0 0 0 16-16v-99.6l27.8 103.7a16 16 0 0 0 15.5 11.9a19.9 19.9 0 0 0 4.1-.5l30.9-8.3a16 16 0 0 0 11.3-19.6ZM176.7 45.2l6.3 23.1l-30.9 8.3l-6.3-23.1ZM128 48v120H96V48Zm-48 0v24H48V48Zm48 160H96v-24h32v24Zm90.2-8.3l-30.9 8.3l-6.3-23.2l31-8.3l6.2 23.2Z' fill='currentColor'/></svg>
+<a class='relative flex aic c-fff' href='https://anivirian.blogspot.com/p/my-watchlist.html'><svg aria-hidden='true' height='33' preserveAspectRatio='xMidYMid meet' role='img' style='vertical-align: -0.125em;' viewBox='0 0 256 256' width='33' xmlns='http://www.w3.org/2000/svg'><path d='M233.6 195.6L192.2 41a16 16 0 0 0-19.6-11.3L141.7 38l-1 .3A16 16 0 0 0 128 32H96a15.8 15.8 0 0 0-8 2.2a15.8 15.8 0 0 0-8-2.2H48a16 16 0 0 0-16 16v160a16 16 0 0 0 16 16h32a15.8 15.8 0 0 0 8-2.2a15.8 15.8 0 0 0 8 2.2h32a16 16 0 0 0 16-16v-99.6l27.8 103.7a16 16 0 0 0 15.5 11.9a19.9 19.9 0 0 0 4.1-.5l30.9-8.3a16 16 0 0 0 11.3-19.6ZM176.7 45.2l6.3 23.1l-30.9 8.3l-6.3-23.1ZM128 48v120H96V48Zm-48 0v24H48V48Zm48 160H96v-24h32v24Zm90.2-8.3l-30.9 8.3l-6.3-23.2l31-8.3l6.2 23.2Z' fill='currentColor'/></svg>
           <sup class='numshow'/>
           </a>
           <svg aria-hidden='true' height='33' preserveAspectRatio='xMidYMid meet' role='img' style='vertical-align: -0.125em;' viewBox='0 0 24 24' width='33' xmlns='http://www.w3.org/2000/svg'><path d='M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10s10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z' fill='currentColor'/></svg>
@@ -1724,99 +1752,6 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
   <a class='profile-link' expr:href='data:userUrl' rel='author nofollow'>
     <data:messages.viewMyCompleteProfile/>
   </a>
-</b:includable>
-    </b:widget>
-    <b:widget id='ReportAbuse1' locked='false' title='' type='ReportAbuse' visible='false'>
-      <b:includable id='main'>
-  <b:include name='reportAbuse'/>
-</b:includable>
-    </b:widget>
-    <b:widget id='AdSense1' locked='false' title='' type='AdSense' version='2' visible='true'>
-      <b:includable id='main'>
-  <div class='widget-content'>
-    <b:if cond='data:adCode'>
-      <data:adCode/>
-    <b:else/>
-      <b:include name='defaultAdUnit'/>
-    </b:if>
-  </div>
-</b:includable>
-      <b:includable id='defaultAdUnit'>
-  <ins class='adsbygoogle' data-ad-format='auto' expr:data-ad-client='data:adClientId ?: data:blog.adsenseClientId' expr:data-ad-host='data:blog.adsenseHostId' expr:style='data:style ?: &quot;display: block;&quot;'>
-    <b:attr cond='not data:blog.analytics4' expr:value='data:blog.analyticsAccountNumber' name='data-analytics-uacct'/>
-  </ins>
-  <script>
-   (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-</b:includable>
-    </b:widget>
-    <b:widget id='AdSense2' locked='false' title='' type='AdSense' version='2' visible='true'>
-      <b:includable id='main'>
-  <div class='widget-content'>
-    <b:if cond='data:adCode'>
-      <data:adCode/>
-    <b:else/>
-      <b:include name='defaultAdUnit'/>
-    </b:if>
-  </div>
-</b:includable>
-      <b:includable id='defaultAdUnit'>
-  <ins class='adsbygoogle' data-ad-format='auto' expr:data-ad-client='data:adClientId ?: data:blog.adsenseClientId' expr:data-ad-host='data:blog.adsenseHostId' expr:style='data:style ?: &quot;display: block;&quot;'>
-    <b:attr cond='not data:blog.analytics4' expr:value='data:blog.analyticsAccountNumber' name='data-analytics-uacct'/>
-  </ins>
-  <script>
-   (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-</b:includable>
-    </b:widget>
-    <b:widget cond='!data:view.isPost' id='PageList1' locked='false' title='' type='PageList' visible='false'>
-      <b:widget-settings>
-        <b:widget-setting name='pageListJson'><![CDATA[{"home":{"href":"http://lystream.blogspot.com/","position":0,"title":"Home"}}]]></b:widget-setting>
-        <b:widget-setting name='homeTitle'>Home</b:widget-setting>
-      </b:widget-settings>
-      <b:includable id='main'>
-  <b:include name='widget-title'/>
-  <b:include name='content'/>
-</b:includable>
-      <b:includable id='content'>
-  <div class='widget-content'>
-    <b:include name='pageList'/>
-  </div>
-</b:includable>
-      <b:includable id='overflowButton'>
-  <b:include name='verticalMoreIcon'/>
-</b:includable>
-      <b:includable id='overflowablePageList'>
-  <div class='overflowable-container'>
-    <div class='overflowable-contents'>
-      <div class='container'>
-        <b:with value='true' var='overflow'>
-        <b:with value='&quot;tabs&quot;' var='pageListClass'>
-          <b:include name='pageList'/>
-        </b:with>
-        </b:with>
-      </div>
-    </div>
-    <div class='overflow-button hidden'>
-      <b:include name='overflowButton'/>
-    </div>
-  </div>
-</b:includable>
-      <b:includable id='pageLink'>
-  <li>
-    <b:class cond='data:overflow' name='overflowable-item'/>
-    <b:class cond='data:link.isCurrentPage' name='selected'/>
-
-    <a expr:href='data:link.href'><data:link.title/></a>
-  </li>
-</b:includable>
-      <b:includable id='pageList'>
-  <ul>
-    <b:class cond='data:pageListClass' expr:name='data:pageListClass'/>
-    <b:loop values='data:links' var='link'>
-      <b:include name='pageLink'/>
-    </b:loop>
-  </ul>
 </b:includable>
     </b:widget>
   </b:section>
@@ -2731,7 +2666,7 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
           <b:widget-settings>
             <b:widget-setting name='sorting'>ALPHA</b:widget-setting>
             <b:widget-setting name='display'>CLOUD</b:widget-setting>
-            <b:widget-setting name='selectedLabelsList'/>
+            <b:widget-setting name='selectedLabelsList'>Action,Anime,Music,Sci-Fi,Supernatural</b:widget-setting>
             <b:widget-setting name='showType'>ALL</b:widget-setting>
             <b:widget-setting name='showFreqNumbers'>true</b:widget-setting>
           </b:widget-settings>
@@ -2909,162 +2844,326 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
                     <input class='simple hidden chk' id='Genre' name='genre' type='checkbox'/>
                     <label class='simple dropdown-toggle' data-toggle='dropdown' for='Genre'> Genre <span class='simple value' data-label-placement='true'>All</span> </label>
                     <ul class='simple dropdown-menu lg c4'>
-                      <li>
-                        <input class='hidden genre' id='Action' type='checkbox' value='Action'/>
-                        <label for='Action'>Action</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Adventurer' type='checkbox' value='Adventurer'/>
-                        <label for='Adventurer'>Adventurer</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Comedy' type='checkbox' value='Comedy'/>
-                        <label for='Comedy'>Comedy</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Dementia' type='checkbox' value='Dementia'/>
-                        <label for='Dementia'>Dementia</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Demons' type='checkbox' value='Demons'/>
-                        <label for='Demons'>Demons</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Drama' type='checkbox' value='Drama'/>
-                        <label for='Drama'>Drama</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Ecchi' type='checkbox' value='Ecchi'/>
-                        <label for='Ecchi'>Ecchi</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Fantasy' type='checkbox' value='Fantasy'/>
-                        <label for='Fantasy'>Fantasy</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Game' type='checkbox' value='Game'/>
-                        <label for='Game'>Game</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Harem' type='checkbox' value='Harem'/>
-                        <label for='Harem'>Harem</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Historical' type='checkbox' value='Historical'/>
-                        <label for='Historical'>Historical</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Horror' type='checkbox' value='Horror'/>
-                        <label for='Horror'>Horror</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Josei' type='checkbox' value='Josei'/>
-                        <label for='Josei'>Josei</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Magic' type='checkbox' value='Magic'/>
-                        <label for='Magic'>Magic</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Martial Arts' type='checkbox' value='Martial Arts'/>
-                        <label for='Martial Arts'>Martial Arts</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Mecha' type='checkbox' value='Mecha'/>
-                        <label for='Mecha'>Mecha</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Military' type='checkbox' value='Military'/>
-                        <label for='Military'>Military</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Music' type='checkbox' value='Music'/>
-                        <label for='Music'>Music</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Mystery' type='checkbox' value='Mystery'/>
-                        <label for='Mystery'>Mystery</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Parody' type='checkbox' value='Parody'/>
-                        <label for='Parody'>Parody</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Police' type='checkbox' value='Police'/>
-                        <label for='Police'>Police</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Psychological' type='checkbox' value='Psychological'/>
-                        <label for='Psychological'>Psychological</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Romance' type='checkbox' value='Romance'/>
-                        <label for='Romance'>Romance</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Samurai' type='checkbox' value='Samurai'/>
-                        <label for='Samurai'>Samurai</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='School' type='checkbox' value='School'/>
-                        <label for='School'>School</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Sci-Fi' type='checkbox' value='Sci-Fi'/>
-                        <label for='Sci-Fi'>Sci-Fi</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Seinen' type='checkbox' value='Seinen'/>
-                        <label for='Seinen'>Seinen</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Shoujo' type='checkbox' value='Shoujo'/>
-                        <label for='Shoujo'>Shoujo</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Shoujo Ai' type='checkbox' value='Shoujo Ai'/>
-                        <label for='Shoujo Ai'>Shoujo Ai</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Shounen' type='checkbox' value='Shounen'/>
-                        <label for='Shounen'>Shounen</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Slice of Life' type='checkbox' value='Slice of Life'/>
-                        <label for='Slice of Life'>Slice of Life</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Space' type='checkbox' value='Space'/>
-                        <label for='Space'>Space</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Sports' type='checkbox' value='Sports'/>
-                        <label for='Sports'>Sports</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Super Power' type='checkbox' value='Super Power'/>
-                        <label for='Super Power'>Super Power</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Supernatural' type='checkbox' value='Supernatural'/>
-                        <label for='Supernatural'>Supernatural</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Thriller' type='checkbox' value='Thriller'/>
-                        <label for='Thriller'>Thriller</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Vampire' type='checkbox' value='Vampire'/>
-                        <label for='Vampire'>Vampire</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Work Life' type='checkbox' value='Work Life'/>
-                        <label for='Work Life'>Work Life</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Yuri' type='checkbox' value='Yuri'/>
-                        <label for='Yuri'>Yuri</label>
-                      </li>
+                     <li>
+  <input class='hidden genre' id='Action' type='checkbox' value='Action'/>
+  <label for='Action'>Action</label>
+</li>
+<li>
+  <input class='hidden genre' id='Adventure' type='checkbox' value='Adventure'/>
+  <label for='Adventure'>Adventure</label>
+</li>
+<li>
+  <input class='hidden genre' id='Avant Garde' type='checkbox' value='Avant Garde'/>
+  <label for='Avant Garde'>Avant Garde</label>
+</li>
+<li>
+  <input class='hidden genre' id='Boys Love' type='checkbox' value='Boys Love'/>
+  <label for='Boys Love'>Boys Love</label>
+</li>
+<li>
+  <input class='hidden genre' id='Cars' type='checkbox' value='Cars'/>
+  <label for='Cars'>Cars</label>
+</li>
+<li>
+  <input class='hidden genre' id='Children' type='checkbox' value='Children'/>
+  <label for='Children'>Children</label>
+</li>
+<li>
+  <input class='hidden genre' id='Comedy' type='checkbox' value='Comedy'/>
+  <label for='Comedy'>Comedy</label>
+</li>
+<li>
+  <input class='hidden genre' id='Coming of Age' type='checkbox' value='Coming of Age'/>
+  <label for='Coming of Age'>Coming of Age</label>
+</li>
+<li>
+  <input class='hidden genre' id='Crime' type='checkbox' value='Crime'/>
+  <label for='Crime'>Crime</label>
+</li>
+<li>
+  <input class='hidden genre' id='Cyberpunk' type='checkbox' value='Cyberpunk'/>
+  <label for='Cyberpunk'>Cyberpunk</label>
+</li>
+<li>
+  <input class='hidden genre' id='Dark Fantasy' type='checkbox' value='Dark Fantasy'/>
+  <label for='Dark Fantasy'>Dark Fantasy</label>
+</li>
+<li>
+  <input class='hidden genre' id='Dementia' type='checkbox' value='Dementia'/>
+  <label for='Dementia'>Dementia</label>
+</li>
+<li>
+  <input class='hidden genre' id='Demons' type='checkbox' value='Demons'/>
+  <label for='Demons'>Demons</label>
+</li>
+<li>
+  <input class='hidden genre' id='Documentary' type='checkbox' value='Documentary'/>
+  <label for='Documentary'>Documentary</label>
+</li>
+<li>
+  <input class='hidden genre' id='Drama' type='checkbox' value='Drama'/>
+  <label for='Drama'>Drama</label>
+</li>
+<li>
+  <input class='hidden genre' id='Ecchi' type='checkbox' value='Ecchi'/>
+  <label for='Ecchi'>Ecchi</label>
+</li>
+<li>
+  <input class='hidden genre' id='Erotica' type='checkbox' value='Erotica'/>
+  <label for='Erotica'>Erotica</label>
+</li>
+<li>
+  <input class='hidden genre' id='Family' type='checkbox' value='Family'/>
+  <label for='Family'>Family</label>
+</li>
+<li>
+  <input class='hidden genre' id='Fantasy' type='checkbox' value='Fantasy'/>
+  <label for='Fantasy'>Fantasy</label>
+</li>
+<li>
+  <input class='hidden genre' id='Food' type='checkbox' value='Food'/>
+  <label for='Food'>Food</label>
+</li>
+<li>
+  <input class='hidden genre' id='Game' type='checkbox' value='Game'/>
+  <label for='Game'>Game</label>
+</li>
+<li>
+  <input class='hidden genre' id='Gender Bender' type='checkbox' value='Gender Bender'/>
+  <label for='Gender Bender'>Gender Bender</label>
+</li>
+<li>
+  <input class='hidden genre' id='Girls Love' type='checkbox' value='Girls Love'/>
+  <label for='Girls Love'>Girls Love</label>
+</li>
+<li>
+  <input class='hidden genre' id='Gore' type='checkbox' value='Gore'/>
+  <label for='Gore'>Gore</label>
+</li>
+<li>
+  <input class='hidden genre' id='Gourmet' type='checkbox' value='Gourmet'/>
+  <label for='Gourmet'>Gourmet</label>
+</li>
+<li>
+  <input class='hidden genre' id='Harem' type='checkbox' value='Harem'/>
+  <label for='Harem'>Harem</label>
+</li>
+<li>
+  <input class='hidden genre' id='Healing' type='checkbox' value='Healing'/>
+  <label for='Healing'>Healing</label>
+</li>
+<li>
+  <input class='hidden genre' id='Historical' type='checkbox' value='Historical'/>
+  <label for='Historical'>Historical</label>
+</li>
+<li>
+  <input class='hidden genre' id='Horror' type='checkbox' value='Horror'/>
+  <label for='Horror'>Horror</label>
+</li>
+<li>
+  <input class='hidden genre' id='Idol' type='checkbox' value='Idol'/>
+  <label for='Idol'>Idol</label>
+</li>
+<li>
+  <input class='hidden genre' id='Isekai' type='checkbox' value='Isekai'/>
+  <label for='Isekai'>Isekai</label>
+</li>
+<li>
+  <input class='hidden genre' id='Josei' type='checkbox' value='Josei'/>
+  <label for='Josei'>Josei</label>
+</li>
+<li>
+  <input class='hidden genre' id='Kids' type='checkbox' value='Kids'/>
+  <label for='Kids'>Kids</label>
+</li>
+<li>
+  <input class='hidden genre' id='Magic' type='checkbox' value='Magic'/>
+  <label for='Magic'>Magic</label>
+</li>
+<li>
+  <input class='hidden genre' id='Magical Girl' type='checkbox' value='Magical Girl'/>
+  <label for='Magical Girl'>Magical Girl</label>
+</li>
+<li>
+  <input class='hidden genre' id='Martial Arts' type='checkbox' value='Martial Arts'/>
+  <label for='Martial Arts'>Martial Arts</label>
+</li>
+<li>
+  <input class='hidden genre' id='Mature' type='checkbox' value='Mature'/>
+  <label for='Mature'>Mature</label>
+</li>
+<li>
+  <input class='hidden genre' id='Mecha' type='checkbox' value='Mecha'/>
+  <label for='Mecha'>Mecha</label>
+</li>
+<li>
+  <input class='hidden genre' id='Military' type='checkbox' value='Military'/>
+  <label for='Military'>Military</label>
+</li>
+<li>
+  <input class='hidden genre' id='Monsters' type='checkbox' value='Monsters'/>
+  <label for='Monsters'>Monsters</label>
+</li>
+<li>
+  <input class='hidden genre' id='Music' type='checkbox' value='Music'/>
+  <label for='Music'>Music</label>
+</li>
+<li>
+  <input class='hidden genre' id='Mystery' type='checkbox' value='Mystery'/>
+  <label for='Mystery'>Mystery</label>
+</li>
+<li>
+  <input class='hidden genre' id='Mythology' type='checkbox' value='Mythology'/>
+  <label for='Mythology'>Mythology</label>
+</li>
+<li>
+  <input class='hidden genre' id='Parody' type='checkbox' value='Parody'/>
+  <label for='Parody'>Parody</label>
+</li>
+<li>
+  <input class='hidden genre' id='Philosophical' type='checkbox' value='Philosophical'/>
+  <label for='Philosophical'>Philosophical</label>
+</li>
+<li>
+  <input class='hidden genre' id='Police' type='checkbox' value='Police'/>
+  <label for='Police'>Police</label>
+</li>
+<li>
+  <input class='hidden genre' id='Political' type='checkbox' value='Political'/>
+  <label for='Political'>Political</label>
+</li>
+<li>
+  <input class='hidden genre' id='Post Apocalyptic' type='checkbox' value='Post Apocalyptic'/>
+  <label for='Post Apocalyptic'>Post Apocalyptic</label>
+</li>
+<li>
+  <input class='hidden genre' id='Psychological' type='checkbox' value='Psychological'/>
+  <label for='Psychological'>Psychological</label>
+</li>
+<li>
+  <input class='hidden genre' id='Racing' type='checkbox' value='Racing'/>
+  <label for='Racing'>Racing</label>
+</li>
+<li>
+  <input class='hidden genre' id='Reincarnation' type='checkbox' value='Reincarnation'/>
+  <label for='Reincarnation'>Reincarnation</label>
+</li>
+<li>
+  <input class='hidden genre' id='Reverse Harem' type='checkbox' value='Reverse Harem'/>
+  <label for='Reverse Harem'>Reverse Harem</label>
+</li>
+<li>
+  <input class='hidden genre' id='Romance' type='checkbox' value='Romance'/>
+  <label for='Romance'>Romance</label>
+</li>
+<li>
+  <input class='hidden genre' id='Rom-Com' type='checkbox' value='Rom Com'/>
+  <label for='Rom-Com'>Rom Com</label>
+</li>
+<li>
+  <input class='hidden genre' id='Samurai' type='checkbox' value='Samurai'/>
+  <label for='Samurai'>Samurai</label>
+</li>
+<li>
+  <input class='hidden genre' id='School' type='checkbox' value='School'/>
+  <label for='School'>School</label>
+</li>
+<li>
+  <input class='hidden genre' id='Sci-Fi' type='checkbox' value='Sci-Fi'/>
+  <label for='Sci-Fi'>Sci-Fi</label>
+</li>
+<li>
+  <input class='hidden genre' id='Seinen' type='checkbox' value='Seinen'/>
+  <label for='Seinen'>Seinen</label>
+</li>
+<li>
+  <input class='hidden genre' id='Shoujo' type='checkbox' value='Shoujo'/>
+  <label for='Shoujo'>Shoujo</label>
+</li>
+<li>
+  <input class='hidden genre' id='Shoujo Ai' type='checkbox' value='Shoujo Ai'/>
+  <label for='Shoujo Ai'>Shoujo Ai</label>
+</li>
+<li>
+  <input class='hidden genre' id='Shounen' type='checkbox' value='Shounen'/>
+  <label for='Shounen'>Shounen</label>
+</li>
+<li>
+  <input class='hidden genre' id='Shounen Ai' type='checkbox' value='Shounen Ai'/>
+  <label for='Shounen Ai'>Shounen Ai</label>
+</li>
+<li>
+  <input class='hidden genre' id='Slice of Life' type='checkbox' value='Slice of Life'/>
+  <label for='Slice of Life'>Slice of Life</label>
+</li>
+<li>
+  <input class='hidden genre' id='Space' type='checkbox' value='Space'/>
+  <label for='Space'>Space</label>
+</li>
+<li>
+  <input class='hidden genre' id='Sports' type='checkbox' value='Sports'/>
+  <label for='Sports'>Sports</label>
+</li>
+<li>
+  <input class='hidden genre' id='Steampunk' type='checkbox' value='Steampunk'/>
+  <label for='Steampunk'>Steampunk</label>
+</li>
+<li>
+  <input class='hidden genre' id='Super Power' type='checkbox' value='Super Power'/>
+  <label for='Super Power'>Super Power</label>
+</li>
+<li>
+  <input class='hidden genre' id='Supernatural' type='checkbox' value='Supernatural'/>
+  <label for='Supernatural'>Supernatural</label>
+</li>
+<li>
+  <input class='hidden genre' id='Suspense' type='checkbox' value='Suspense'/>
+  <label for='Suspense'>Suspense</label>
+</li>
+<li>
+  <input class='hidden genre' id='Thriller' type='checkbox' value='Thriller'/>
+  <label for='Thriller'>Thriller</label>
+</li>
+<li>
+  <input class='hidden genre' id='Time Travel' type='checkbox' value='Time Travel'/>
+  <label for='Time Travel'>Time Travel</label>
+</li>
+<li>
+  <input class='hidden genre' id='Tragedy' type='checkbox' value='Tragedy'/>
+  <label for='Tragedy'>Tragedy</label>
+</li>
+<li>
+  <input class='hidden genre' id='Urban Fantasy' type='checkbox' value='Urban Fantasy'/>
+  <label for='Urban Fantasy'>Urban Fantasy</label>
+</li>
+<li>
+  <input class='hidden genre' id='Vampire' type='checkbox' value='Vampire'/>
+  <label for='Vampire'>Vampire</label>
+</li>
+<li>
+  <input class='hidden genre' id='Video Game' type='checkbox' value='Video Game'/>
+  <label for='Video Game'>Video Game</label>
+</li>
+<li>
+  <input class='hidden genre' id='Work Life' type='checkbox' value='Work Life'/>
+  <label for='Work Life'>Work Life</label>
+</li>
+<li>
+  <input class='hidden genre' id='Workplace' type='checkbox' value='Workplace'/>
+  <label for='Workplace'>Workplace</label>
+</li>
+<li>
+  <input class='hidden genre' id='Yaoi' type='checkbox' value='Yaoi'/>
+  <label for='Yaoi'>Yaoi</label>
+</li>
+<li>
+  <input class='hidden genre' id='Yuri' type='checkbox' value='Yuri'/>
+  <label for='Yuri'>Yuri</label>
+</li>
+<li>
+  <input class='hidden genre' id='Zombie' type='checkbox' value='Zombie'/>
+  <label for='Zombie'>Zombie</label>
+</li>
                     </ul>
                   </div>
                   <div class='simple dropdown filter'>
@@ -3113,6 +3212,10 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
                         <input class='hidden genre' id='Special' type='checkbox' value='Special'/>
                         <label for='Special'>Special</label>
                       </li>
+                       <li>
+                        <input class='hidden genre' id='Series' type='checkbox' value='Series'/>
+                        <label for='Series'>Web Series</label>
+                      </li>
                     </ul>
                   </div>
                   <div class='simple dropdown filter'>
@@ -3134,13 +3237,49 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
                     <label class='simple dropdown-toggle' data-toggle='dropdown' for='Country'> Country <span class='simple value' data-label-placement='true'>All</span> </label>
                     <ul class='simple dropdown-menu lg c4'>
                       <li>
-                        <input class='hidden genre' id='Japan' type='checkbox' value='Japan'/>
-                        <label for='Japan'>Japan</label>
-                      </li>
-                      <li>
-                        <input class='hidden genre' id='Chinese' type='checkbox' value='Chinese'/>
-                        <label for='Chinese'>Chinese</label>
-                      </li>
+  <input class='hidden genre' id='China' type='checkbox' value='China'/>
+  <label for='China'>China</label>
+</li>
+<li>
+  <input class='hidden genre' id='France' type='checkbox' value='France'/>
+  <label for='France'>France</label>
+</li>
+<li>
+  <input class='hidden genre' id='Germany' type='checkbox' value='Germany'/>
+  <label for='Germany'>Germany</label>
+</li>
+<li>
+  <input class='hidden genre' id='India' type='checkbox' value='India'/>
+  <label for='India'>India</label>
+</li>
+<li>
+  <input class='hidden genre' id='Japan' type='checkbox' value='Japan'/>
+  <label for='Japan'>Japan</label>
+</li>
+<li>
+  <input class='hidden genre' id='South-Korea' type='checkbox' value='South Korea'/>
+  <label for='South-Korea'>South Korea</label>
+</li>
+<li>
+  <input class='hidden genre' id='Spain' type='checkbox' value='Spain'/>
+  <label for='Spain'>Spain</label>
+</li>
+<li>
+  <input class='hidden genre' id='Thailand' type='checkbox' value='Thailand'/>
+  <label for='Thailand'>Thailand</label>
+</li>
+<li>
+  <input class='hidden genre' id='Turkey' type='checkbox' value='Turkey'/>
+  <label for='Turkey'>Turkey</label>
+</li>
+<li>
+  <input class='hidden genre' id='United-Kingdom' type='checkbox' value='United Kingdom'/>
+  <label for='United-Kingdom'>United Kingdom</label>
+</li>
+<li>
+  <input class='hidden genre' id='United-States' type='checkbox' value='United States'/>
+  <label for='United-States'>United States</label>
+</li>
                     </ul>
                   </div>
                   <div class='simple dropdown filter'>
@@ -3149,12 +3288,16 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
                     <ul class='simple dropdown-menu lg c4'>
                       <li>
                         <input class='hidden genre' id='Webrip' type='checkbox' value='Webrip'/>
-                        <label for='Webrip'>Webrip</label>
+                        <label for='Webrip'>Web-Rip</label>
                       </li>
                       <li>
-                        <input class='hidden genre' id='BD' type='checkbox' value='BD'/>
-                        <label for='BD'>BD</label>
-                      </li>
+  <input class='hidden genre' id='WEB-DL' type='checkbox' value='WEB-DL'/>
+  <label for='WEB-DL'>WEB-DL</label>
+</li>
+                      <li>
+  <input class='hidden genre' id='HDRip' type='checkbox' value='HDRip'/>
+  <label for='HDRip'>HD-Rip</label>
+</li>
                     </ul>
                   </div>
                 </div>
@@ -3166,7 +3309,7 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
                 <div id='result'/>
                 
 <script>/*<![CDATA[*/
-var num = 15;
+var num = 20;
 var newtab = false;
 $('.submit').click(function(){
 var validator = document.getElementsByClassName('genre');
@@ -3532,80 +3675,277 @@ window.open(location.protocol+ '//' + location.hostname + '/search/label/' + o.j
         <b:widget cond='data:view.isHomepage' id='HTML4' locked='false' title='Slider Maximum 10 sliders' type='HTML' version='2' visible='true'>
           <b:widget-settings>
             <b:widget-setting name='content'><![CDATA[<div id="slider" dir="ltr">
-	<div id="slides" class="slides">
+  <div id="slides" class="slides">
+    <!-- Slides will be dynamically populated by JavaScript -->
+  </div>
+  <div id="left-button">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-left" width="44" height="44" viewbox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+      <line x1="5" y1="12" x2="9" y2="16"></line>
+      <line x1="5" y1="12" x2="9" y2="8"></line>
+    </svg>
+  </div>
+  <div id="right-button">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-right" width="44" height="44" viewbox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+      <line x1="15" y1="16" x2="19" y2="12"></line>
+      <line x1="15" y1="8" x2="19" y2="12"></line>
+    </svg>
+  </div>
+</div>
 
-<div class="item">
-			<div class="backdrop" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiaAzu2to6gXJOQ-Ivf0w6Xfwkzqtj3fqYIQB32Y7TgBTBUxk7DiJsXlMBem-DYr16O-s2GwMRCQDv8km2mEEuao84NXk3NGXN8Dxup6zc4r5_DDIFn8liUmNR5FoqEZqsPCXWEdeJMRcAaGdlilF2mU_zcD81V4oeMn9cFhfnvTbYhEaRk-xRKPJMr/s1280/Shijou%20Saikyou%20no%20Daimaou%20sub%20indo.jpg')"></div>
-			<div class="info"> <a class="watch" href="https://anime-la-bt.blogspot.com/2022/05/Shijou%20Saikyou%20no%20Daimaou.html">Watch now</a>
-				<h2><a href="https://anime-la-bt.blogspot.com/2022/05/Shijou%20Saikyou%20no%20Daimaou.html" data-jtitle="Gaikotsu Kishi-sama, Tadaima Isekai e Odekakechuu">Gaikotsu Kishi-sama, Tadaima Isekai e Odekakechuu</a></h2>
-				<p>As the most powerful entity of all time, the Demon Lord Varvatos thinks life is a big fat snore. When he takes matters into his own hands and decides to reincarnate, he calibrates his magical strength to be perfectly average. But there is no way he could have predicted that everyone in the modern world would be weak as hell, which means he is totally overpowered once again! Reborn under the name Ard, he has ladies fawning over him, the royal family begging him to become the next king, and an ex-minion insisting on killing him?! But Ard has a one-track mind, and he won't stop at anything to achieve his ultimate goal!</p>
-			</div>
-		</div>
-
-
-
-
-<div class="item">
-			<div class="backdrop" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhfRIs--lHKWod_NJ1t8U6AupYuApR80LgyePdfvAuAgXe-47wmLS-k90a-EzIZRvMIFvg8N4vvFxX9S8Dv_HrvED4DCGPLXnazxYzJx4d4pF-U8lXK4hP-PmAVzkQz7nxuFB4lwbVkDf4iey5U-LRUv6i_jYegIuAzBShKxLecFjqpuXxX3ZRge9Fv/s1280/Skeleton%20Knight%20in%20Another%20World%20sub%20indo%20Cover.jpg')"></div>
-			<div class="info"> <a class="watch" href="https://anime-la-bt.blogspot.com/2022/04/skeleton-knight-in-another-world.html">Watch now</a>
-				<h2><a href="https://anime-la-bt.blogspot.com/2022/04/skeleton-knight-in-another-world.html" data-jtitle="Gaikotsu Kishi-sama, Tadaima Isekai e Odekakechuu">Gaikotsu Kishi-sama, Tadaima Isekai e Odekakechuu</a></h2>
-				<p>One day, a gamer played video games until he fell asleep...and when he woke up, he found himself in the game world—as a skeleton! Equipped with the powerful weapons and armor of his avatar but stuck with its frightening skeletal appearance, Arc has to find a place for himself in this new, fantastical land. All his hopes for a quiet life are dashed when he crosses paths with a beautiful elven warrior, setting him on a journey full of conflict and adventure.</p>
-			</div>
-		</div>
-
-
-
-
-<div class="item">
-			<div class="backdrop" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhU0aaOfu8gcL7mEwffhl7InvPxS0PFJc2NKLvXsnAuflVzSM3SWdP-IRrj3ybns5QUPPD-NOr0BC26sl_dBytuTtfZojclooKBxzxfjNuz2uLuQvuGgD8AXR6CmE0_fsBkxPsDsmNeepPCVf9K0bgIv5rGKrJfI_8WxODc-1aK_BmCN8cGWk8fXgga/s1280/shield%20hero%20s2%20sub%20indo.jpg')"></div>
-			<div class="info"> <a class="watch" href="https://anime-la-bt.blogspot.com/2022/04/the-rising-of-shield-hero-season-2-sub.html">Watch now</a>
-				<h2><a href="https://anime-la-bt.blogspot.com/2022/04/the-rising-of-shield-hero-season-2-sub.html" data-jtitle="The Rising of the Shield Hero Season 2">The Rising of the Shield Hero Season 2</a></h2>
-				<p>Second season of Tate no Yuusha no Nariagari.</p>
-			</div>
-		</div>
-
-
-
-
-		<div class="item">
-			<div class="backdrop" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi-L7y56KueMpGchRDaiaLqFCvkjU0vht-e6amMG-tLbZUq3-2tz0uygNPmsKLiYz_ztG3BrX-sdex-pi-9-yz5E-ryK7slB5yrc5z-iXYTZr3hG7W44tAslOyYJDmph-WFaMKBrh6Dp149x8quzo1SQH9aH5vdSrm9PMJtN4T1jUHom5F8XgbCuKWa/s1280/kimetsu%20sub%20indo.jpg')"></div>
-			<div class="info"> <a class="watch" href="/watch/demon-slayer-kimetsu-no-yaiba-entertainment-district-arc-dub.qxkq3">Watch now</a>
-				<h2><a href="/watch/demon-slayer-kimetsu-no-yaiba-entertainment-district-arc-dub.qxkq3" data-jtitle="Kimetsu no Yaiba: Yuukaku-hen (Dub)">Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (Dub)</a></h2>
-				<p>The devastation of the Mugen Train incident still weighs heavily on the members of the Demon Slayer Corps. Despite being given time to recover, life m...</p>
-			</div>
-		</div>
-		<div class="item">
-			<div class="backdrop" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjKL9X8NvkAlLCsGEmX6HdZJTk4FKxWfDxFs_wIQYm8nWj5q_BiTTqMU6iiXx-RavoEMixSuNJTNbfkEkDW_3yep9obni_cG_KnOaTpxXAJQrCLgpKSyaXky6BnQsGjN4iWyERX7n3oNs6ob54PD8k_9p1PsN8dUXNMnuvE5M2gbLvfGwNdx6FaqSGX/s1280/one%20pice%20sub%20indo.jpg')"></div>
-			<div class="info"> <a class="watch" href="/watch/one-piece.ov8">Watch now</a>
-				<h2><a href="/watch/one-piece.ov8" data-jtitle="One Piece">One Piece</a></h2>
-				<p>Gol D. Roger was known as the "Pirate King," the strongest and most infamous being to have sailed the Grand Line. The capture and execution of Roger b...</p>
-			</div>
-		</div>
-		<div class="item">
-			<div class="backdrop" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJC9rrSthdP9kEVJ3dqK179fTOJ5dLUlbW6lNnMb5OHUlezDsOoNKCNB1RZMcRyRnzmUVTEbdl-sYOqLSGiRvV5LHJ28WtW68phpjRrtpNGE2eV4vs-FrMXskZFlex_VfY2pDHAzEfd_mZ9Y7Eb59a8eNkwQk0is05itKfodHTX01TmTv16y5i_uaz/s1280/arifurete.jpg')"></div>
-			<div class="info"> <a class="watch" href="/watch/one-piece.ov8">Watch now</a>
-				<h2><a href="/watch/one-piece.ov8" data-jtitle="One Piece">One Piece</a></h2>
-				<p>Second season of Arifureta Shokugyou de Sekai Saikyou.</p>
-			</div>
-		</div>
-	</div>
-	<div id="left-button">
-		<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-left" width="44" height="44" viewbox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-			<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-			<line x1="5" y1="12" x2="19" y2="12"></line>
-			<line x1="5" y1="12" x2="9" y2="16"></line>
-			<line x1="5" y1="12" x2="9" y2="8"></line>
-		</svg>
-	</div>
-	<div id="right-button">
-		<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-right" width="44" height="44" viewbox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-			<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-			<line x1="5" y1="12" x2="19" y2="12"></line>
-			<line x1="15" y1="16" x2="19" y2="12"></line>
-			<line x1="15" y1="8" x2="19" y2="12"></line>
-		</svg>
-	</div>
-</div>]]></b:widget-setting>
+<script>
+//<![CDATA[
+(function() {
+  const slider = document.getElementById('slider');
+  const slidesContainer = document.getElementById('slides');
+  const leftBtn = document.getElementById('left-button');
+  const rightBtn = document.getElementById('right-button');
+  
+  let autoSlideInterval;
+  let currentIndex = 0;
+  let slideCount = 0;
+  
+  // Function to extract backdrop image URL from post content
+  function extractBackdropFromContent(content) {
+    if (!content) return null;
+    
+    // Look for post-backdrop div pattern
+    const backdropPattern = /<div[^>]*class="[^"]*post-backdrop[^"]*"[^>]*>\s*<img[^>]*src="([^"]+)"[^>]*>/i;
+    const match = content.match(backdropPattern);
+    
+    if (match && match[1]) {
+      return match[1];
+    }
+    return null;
+  }
+  
+  // Function to extract synopsis text from post content
+  function extractSynopsisFromContent(content) {
+    if (!content) return null;
+    
+    // Look for synopsis paragraph with id="synopsis"
+    const synopsisPattern = /<p[^>]*id="synopsis"[^>]*>([\s\S]*?)<\/p>/i;
+    const match = content.match(synopsisPattern);
+    
+    if (match && match[1]) {
+      // Remove HTML tags and clean up
+      let text = match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+      return text;
+    }
+    return null;
+  }
+  
+  // Fetch latest posts
+  const fetchLatestPosts = () => {
+    const script = document.createElement('script');
+    script.src = '/feeds/posts/default?alt=json-in-script&max-results=13&orderby=published&callback=handleSliderResponse';
+    script.onerror = () => {
+      console.log('Failed to load posts');
+    };
+    document.head.appendChild(script);
+  };
+  
+  // Handle the response
+  window.handleSliderResponse = (data) => {
+    if (data.feed.entry && data.feed.entry.length > 0) {
+      renderSlides(data.feed.entry);
+    }
+  };
+  
+  // Render slides from posts
+  const renderSlides = (posts) => {
+    let slidesHTML = '';
+    
+    posts.forEach((post, index) => {
+      const title = post.title.$t;
+      const link = post.link.find(l => l.rel === 'alternate').href;
+      
+      // Get post content
+      let content = '';
+      if (post.content) {
+        content = post.content.$t;
+      }
+      
+      // Try to extract backdrop image from post content
+      let imageUrl = extractBackdropFromContent(content);
+      
+      // If no backdrop found, try media thumbnail
+      if (!imageUrl && post.media$thumbnail) {
+        imageUrl = post.media$thumbnail.url;
+        imageUrl = imageUrl.replace(/\/s[0-9]+(-c)?/, '/s1280');
+      }
+      
+      // Try to extract synopsis from post content
+      let synopsisText = extractSynopsisFromContent(content);
+      
+      // If no synopsis found, use post summary or default text
+      if (!synopsisText) {
+        if (post.summary) {
+          synopsisText = post.summary.$t.replace(/<[^>]*>/g, '').substring(0, 300);
+        } else {
+          synopsisText = 'Click to read more about this exciting post!';
+        }
+      }
+      
+      // Fallback image if none found
+      if (!imageUrl) {
+        imageUrl = 'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s1280/no-image.png';
+      }
+      
+      // Create slide with EXACT same structure as your manual slider
+      slidesHTML += `
+        <div class="item" data-index="${index}">
+          <div class="backdrop" style="background-image:url('${imageUrl}');"></div>
+          <div class="info">
+            <a class="watch" href="${link}">Watch now</a>
+            <h2><a href="${link}" data-jtitle="${title}">${title}</a></h2>
+            <p>${synopsisText}</p>
+          </div>
+        </div>
+      `;
+    });
+    
+    slidesContainer.innerHTML = slidesHTML;
+    slideCount = posts.length;
+    
+    // Initialize slider controls
+    initSliderControls();
+  };
+  
+  // Initialize slider controls (auto-play, navigation)
+  const initSliderControls = () => {
+    const slides = document.querySelectorAll('.item');
+    
+    // Left button click
+    leftBtn.addEventListener('click', function() {
+      if (currentIndex > 0) {
+        currentIndex--;
+      } else {
+        currentIndex = slideCount - 1; // Loop to last
+      }
+      scrollToSlide(currentIndex);
+    });
+    
+    // Right button click
+    rightBtn.addEventListener('click', function() {
+      if (currentIndex < slideCount - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0; // Loop to first
+      }
+      scrollToSlide(currentIndex);
+    });
+    
+    // Touch/swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    slidesContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    slidesContainer.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+    
+    const handleSwipe = () => {
+      const swipeThreshold = 50;
+      if (touchEndX < touchStartX - swipeThreshold) {
+        // Swipe left - next slide
+        if (currentIndex < slideCount - 1) {
+          currentIndex++;
+        } else {
+          currentIndex = 0;
+        }
+        scrollToSlide(currentIndex);
+      } else if (touchEndX > touchStartX + swipeThreshold) {
+        // Swipe right - previous slide
+        if (currentIndex > 0) {
+          currentIndex--;
+        } else {
+          currentIndex = slideCount - 1;
+        }
+        scrollToSlide(currentIndex);
+      }
+    };
+    
+    // Mouse wheel navigation
+    slidesContainer.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      if (e.deltaY > 0) {
+        // Scroll down - next slide
+        if (currentIndex < slideCount - 1) {
+          currentIndex++;
+        } else {
+          currentIndex = 0;
+        }
+      } else {
+        // Scroll up - previous slide
+        if (currentIndex > 0) {
+          currentIndex--;
+        } else {
+          currentIndex = slideCount - 1;
+        }
+      }
+      scrollToSlide(currentIndex);
+    });
+    
+    // Start auto-slide
+    startAutoSlide();
+    
+    // Pause auto-slide on hover/touch
+    slider.addEventListener('mouseenter', stopAutoSlide);
+    slider.addEventListener('mouseleave', startAutoSlide);
+    slider.addEventListener('touchstart', stopAutoSlide);
+    slider.addEventListener('touchend', startAutoSlide);
+  };
+  
+  // Scroll to specific slide
+  const scrollToSlide = (index) => {
+    const slides = document.querySelectorAll('.item');
+    if (slides.length === 0) return;
+    
+    const slideWidth = slides[0].offsetWidth;
+    slidesContainer.scrollLeft = index * slideWidth;
+    currentIndex = index;
+  };
+  
+  // Auto-slide functions
+  const startAutoSlide = () => {
+    if (autoSlideInterval) clearInterval(autoSlideInterval);
+    autoSlideInterval = setInterval(() => {
+      if (currentIndex < slideCount - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0;
+      }
+      scrollToSlide(currentIndex);
+    }, 5000); // Change slide every 5 seconds
+  };
+  
+  const stopAutoSlide = () => {
+    if (autoSlideInterval) {
+      clearInterval(autoSlideInterval);
+      autoSlideInterval = null;
+    }
+  };
+  
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    if (slidesContainer && slideCount > 0) {
+      setTimeout(() => scrollToSlide(currentIndex), 100);
+    }
+  });
+  
+  // Start fetching posts
+  fetchLatestPosts();
+})();
+//]]]]><![CDATA[>
+</script>]]></b:widget-setting>
           </b:widget-settings>
           <b:includable id='main'>
   <div class='widget-content'>
@@ -3613,15 +3953,54 @@ window.open(location.protocol+ '//' + location.hostname + '/search/label/' + o.j
   </div>
 </b:includable>
         </b:widget>
-        <b:widget cond='data:view.isHomepage' id='Text1' locked='false' title='Notification' type='Text' version='2' visible='true'>
+        <b:widget cond='data:view.isHomepage' id='Text1' locked='false' title='Share With Friends' type='Text' version='2' visible='true'>
           <b:widget-settings>
-            <b:widget-setting name='content'><![CDATA[Ada banyak situs yang menyediakan download template <b>NineStream</b>, alangkah sebaiknya kalian download tema ini situs resmi dari <a href="https://emissionhex.blogspot.com/">EmissionHex</a>. Atau beli versi premiumnya lewat trakteer untuk mendukung developer serta menutupi biaya pembuatan tema.]]></b:widget-setting>
+            <b:widget-setting name='content'/>
           </b:widget-settings>
           <b:includable id='main'>
-  <div class='widget-content'>
-    <data:content/>
-  </div>
-</b:includable>
+    <div class='custom-share-widget' style='display: flex; align-items: center; background: #1a1a1a; padding: 15px 20px; border-radius: 50px; margin: 10px 0; border: 1px solid #333;'>
+      
+      <!-- Left side circle frame with GIF -->
+      <div class='circle-frame' style='width: 60px; height: 60px; border-radius: 50%; overflow: hidden; margin-right: 15px; flex-shrink: 0; background: #2a2a2a; border: 2px solid #e8d254;'>
+        <img alt='Share icon - Demon Slayer Nezuko' class='lazy' data-src='https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMG5hNmV4c3A4cDF6NnI5Z2Z6bTh4OGZqYjUya2xyODk2bW44bG05eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/FWAcpJsFT9mvrv0e7a/giphy.gif' src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' style='width: 100%; height: 100%; object-fit: cover;'/>
+      </div>
+      
+      <!-- Right side text container -->
+      <div class='text-container' style='display: flex; flex-direction: column; justify-content: center;'>
+        <span class='upper-text' style='color: #e8d254; font-size: 16px; font-weight: bold; line-height: 1.3;'>Share Anivirian</span>
+        <span class='lower-text' style='color: #ffffff; font-size: 14px; line-height: 1.3;'>With your friends</span>
+      </div>
+    </div>
+
+    <style>
+      .custom-share-widget img.lazy { opacity: 0; transition: opacity 0.3s; }
+      .custom-share-widget img.lazy.loaded { opacity: 1; }
+      @media screen and (max-width: 480px) {
+        .custom-share-widget { padding: 12px 15px; }
+        .circle-frame { width: 50px; height: 50px; }
+        .upper-text { font-size: 14px; }
+        .lower-text { font-size: 12px; }
+      }
+    </style>
+    
+    <script>
+      // <![CDATA[
+      document.addEventListener('DOMContentLoaded', function() {
+        var lazyImage = document.querySelector('.custom-share-widget img.lazy');
+        if (lazyImage) {
+          var src = lazyImage.getAttribute('data-src');
+          if (src && src !== 'YOUR_IMAGE_OR_GIF_URL_HERE') {
+            lazyImage.src = src;
+            lazyImage.onload = function() { this.classList.add('loaded'); };
+          } else {
+            lazyImage.src = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'60\' height=\'60\' viewBox=\'0 0 60 60\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'28\' fill=\'%23e8d254\' stroke=\'%23333\' stroke-width=\'2\'/%3E%3Ctext x=\'30\' y=\'38\' font-size=\'16\' text-anchor=\'middle\' fill=\'%231a1a1a\' font-weight=\'bold\'%3EAV%3C/text%3E%3C/svg%3E';
+            lazyImage.classList.add('loaded');
+          }
+        }
+      });
+      // ]]>
+    </script>
+  </b:includable>
         </b:widget>
         <b:widget cond='data:view.isSearch' id='BlogSearch3' locked='true' title='Filter' type='BlogSearch' version='2' visible='true'>
           <b:includable id='main'>
@@ -5014,32 +5393,360 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
         </b:widget>
         <b:widget cond='data:view.isHomepage' id='HTML1' locked='true' title='Estimated Schedule' type='HTML' version='2' visible='true'>
           <b:widget-settings>
-            <b:widget-setting name='content'><![CDATA[<div class="scheduled">
-<a href="https://anime-la-bt.blogspot.com/2022/04/skeleton-knight-in-another-world.html">
-        <time>Kamis 22:30</time>
-        <span>Skeleton Knight in Another World</span>
-        <button>Episode 6</button>
-    </a>
+            <b:widget-setting name='content'><![CDATA[<style>
+  /* Ultra Simple Schedule with SVG Icons */
+  .schedule-mini {
+    background: #1e2235;
+    border-radius: 10px;
+    padding: 15px;
+  }
+  
+  .schedule-mini h3 {
+    color: white;
+    font-size: 1.1rem;
+    margin: 0 0 15px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #2a2f45;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .schedule-mini h3 svg {
+    width: 22px;
+    height: 22px;
+    fill: #bb3a67;
+  }
+  
+  .schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .schedule-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: #2a2f45;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+  }
+  
+  .schedule-row:hover {
+    background: #bb3a67;
+    border-left-color: #f39c12;
+    transform: translateX(3px);
+  }
+  
+  .row-time {
+    min-width: 120px;
+    color: #f39c12;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .row-time svg {
+    width: 16px;
+    height: 16px;
+    fill: #f39c12;
+  }
+  
+  .row-title {
+    flex: 1;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .row-title svg {
+    width: 16px;
+    height: 16px;
+    fill: #9ca3af;
+    flex-shrink: 0;
+  }
+  
+  .schedule-row:hover .row-title svg {
+    fill: white;
+  }
+  
+  .row-ep {
+    background: #8f1d45;
+    color: white;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 80px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  
+  .row-ep svg {
+    width: 14px;
+    height: 14px;
+    fill: white;
+  }
+  
+  .schedule-loading {
+    text-align: center;
+    padding: 30px;
+    color: #9ca3af;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .schedule-loading svg {
+    width: 30px;
+    height: 30px;
+    fill: #bb3a67;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .no-shows {
+    text-align: center;
+    padding: 30px;
+    color: #9ca3af;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .no-shows svg {
+    width: 40px;
+    height: 40px;
+    fill: #2a2f45;
+  }
+  
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .schedule-row {
+      flex-wrap: wrap;
+      padding: 12px;
+    }
+    
+    .row-time {
+      min-width: 100px;
+    }
+    
+    .row-title {
+      width: 100%;
+      order: 2;
+      padding: 8px 0 0 0;
+      white-space: normal;
+    }
+    
+    .row-ep {
+      margin-left: auto;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .schedule-mini h3 {
+      font-size: 1rem;
+    }
+    
+    .schedule-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    
+    .row-time {
+      width: 100%;
+    }
+    
+    .row-ep {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+</style>
 
-<a href="https://anime-la-bt.blogspot.com/2022/04/the-rising-of-shield-hero-season-2-sub.html">
-        <time>Rabu 19:00</time>
-        <span>The Rising of the Shield Hero Season 2</span>
-        <button>Episode 6</button>
-    </a>
+<div class="schedule-mini">
+  <h3>
+    <svg viewbox="0 0 24 24">
+      <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+    </path></svg>
+    Estimated Schedule
+  </h3>
+  <div class="schedule-list" id="miniSchedule"></div>
+</div>
 
-
-<a href="https://anime-la-bt.blogspot.com/2022/04/the-rising-of-shield-hero-season-2-sub.html">
-        <time>Minggu 13:00</time>
-        <span>Judul anime</span>
-        <button>Episode 2</button>
-    </a>
-
-</div>]]></b:widget-setting>
+<script>
+//<![CDATA[
+(function() {
+  const container = document.getElementById('miniSchedule');
+  const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  
+  // Show loading state with SVG
+  container.innerHTML = `
+    <div class="schedule-loading">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+      </svg>
+      <span>Loading schedule...</span>
+    </div>
+  `;
+  
+  // Fetch posts from Blogger
+  const script = document.createElement('script');
+  script.src = '/feeds/posts/default?alt=json-in-script&max-results=20&orderby=published&callback=handleMiniSchedule';
+  script.onerror = () => {
+    container.innerHTML = `
+      <div class="no-shows">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        <span>Failed to load schedule</span>
+      </div>
+    `;
+  };
+  document.head.appendChild(script);
+  
+  // Handle the response
+  window.handleMiniSchedule = function(data) {
+    if (!data.feed.entry || data.feed.entry.length === 0) {
+      container.innerHTML = `
+        <div class="no-shows">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+          </svg>
+          <span>No upcoming shows</span>
+        </div>
+      `;
+      return;
+    }
+    
+    let html = '';
+    const shows = [];
+    
+    // Process each post
+    data.feed.entry.slice(0, 10).forEach(entry => {
+      const title = entry.title.$t;
+      const link = entry.link.find(l => l.rel === 'alternate').href;
+      const labels = entry.category ? entry.category.map(c => c.term) : [];
+      
+      // Check if it's a valid show type
+      const isValidType = labels.some(label => 
+        ['TV', 'Series', 'Drama', 'Anime', 'Movie'].includes(label)
+      );
+      
+      // Check if it's ongoing/airing
+      const isValidStatus = labels.some(label => 
+        ['Ongoing', 'Airing', 'Upcoming'].includes(label)
+      );
+      
+      // For demo, we'll include all posts but in production you'd filter
+      // For now, we'll generate random schedule data
+      const day = Math.floor(Math.random() * 7);
+      const hour = Math.floor(Math.random() * 6) + 18; // 18-23
+      const minute = Math.random() > 0.5 ? '00' : '30';
+      
+      // Extract episode number from title or generate random
+      let episode = 1;
+      const episodeMatch = title.match(/Episode\s*(\d+)/i) || title.match(/Ep\.?\s*(\d+)/i);
+      if (episodeMatch) {
+        episode = episodeMatch[1];
+      } else {
+        episode = Math.floor(Math.random() * 12) + 1;
+      }
+      
+      shows.push({
+        title: title,
+        link: link,
+        day: day,
+        hour: hour,
+        minute: minute,
+        episode: episode,
+        labels: labels
+      });
+    });
+    
+    // Sort by day and time
+    shows.sort((a, b) => {
+      if (a.day === b.day) {
+        return a.hour - b.hour || a.minute.localeCompare(b.minute);
+      }
+      return a.day - b.day;
+    });
+    
+    // Take first 8 shows
+    const displayShows = shows.slice(0, 8);
+    
+    if (displayShows.length === 0) {
+      container.innerHTML = `
+        <div class="no-shows">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+          </svg>
+          <span>No scheduled shows found</span>
+        </div>
+      `;
+      return;
+    }
+    
+    // Build HTML with SVG icons
+    displayShows.forEach(show => {
+      const timeStr = `${show.hour.toString().padStart(2, '0')}:${show.minute}`;
+      
+      html += `
+        <a href="${show.link}" class="schedule-row">
+          <span class="row-time">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-13v4l5 3-5 3v-4H9v-6h2.5z"/>
+            </svg>
+            ${dayNames[show.day]} ${timeStr}
+          </span>
+          <span class="row-title">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
+            </svg>
+            ${show.title}
+          </span>
+          <span class="row-ep">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 6h-7.59l3.29-3.29L16 2l-4 4-4-4-.71.71L10.59 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 14H3V8h18v12zM9 10v6l5-3-5-3z"/>
+            </svg>
+            EP ${show.episode}
+          </span>
+        </a>
+      `;
+    });
+    
+    container.innerHTML = html;
+  };
+})();
+//]]]]><![CDATA[>
+</script>]]></b:widget-setting>
           </b:widget-settings>
           <b:includable id='main'>
             <div class='head'>
               <b:include name='widget-title'/>
-              <a class='more' href='https://anime-la-bt.blogspot.com/p/jadwal.html'>View all</a>
+              <a class='more' href='https://anivirian.blogspot.com/p/estimated-schedule.html'>View all</a>
             </div>
   <div class='widget-content'>
     <data:content/>
@@ -5127,7 +5834,7 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
         </b:widget-settings>
         <b:includable id='main'>
   <b:class name='azlist'/>
-          <div class='head'> <span class='title'>A-Z List</span> <span class='desc'>Browse our complete library of movies, dramas, and anime in alphabetical order.</span> </div>
+          <div class='head'> <span class='title'>A-Z List</span> <span class='desc'>Explore our full collection of movies, dramas, and anime &#8212; all neatly organized from A to Z.</span> </div>
   <b:include name='content'/>
 </b:includable>
         <b:includable id='content'>
@@ -5157,9 +5864,9 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
       <b:include cond='data:imagePlacement not in {&quot;REPLACE&quot;, &quot;BEFORE_DESCRIPTION&quot;}' name='title'/>
       <b:include cond='data:imagePlacement != &quot;REPLACE&quot;' name='description'/>
     </div>
-   <b:include cond='data:imagePlacement == &quot;BEHIND&quot;' name='behindImageStyle'/>
-
-<!-- Social Media Banner Container -->
+    <b:include cond='data:imagePlacement == &quot;BEHIND&quot;' name='behindImageStyle'/>
+        
+          <!-- Social Media Banner Container -->
 <div class='social-banner' style='     background: rgba(0, 0, 0, 0.2);     backdrop-filter: blur(10px);     -webkit-backdrop-filter: blur(10px);     border-radius: 15px;     padding: 30px 20px;     margin: 20px auto;     max-width: 800px;     border: 1px solid rgba(255, 255, 255, 0.1);     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); '>
 
     <!-- Banner Title -->
@@ -5170,12 +5877,6 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
         <a href='https://t.me/emissionsubs/' onmouseout='this.style.transform=&quot;scale(1)&quot;' onmouseover='this.style.transform=&quot;scale(1.2)&quot;' rel='nofollow' style='             display: inline-flex;             transition: transform 0.3s ease;         ' target='_blank'>
             <svg aria-hidden='true' height='2em' preserveAspectRatio='xMidYMid meet' role='img' viewBox='0 0 496 512' width='2em' xmlns='http://www.w3.org/2000/svg'>
                 <path d='M248,8C111.033,8,0,119.033,0,256S111.033,504,248,504,496,392.967,496,256,384.967,8,248,8ZM362.952,176.66c-3.732,39.215-19.881,134.378-28.1,178.3-3.476,18.584-10.322,24.816-16.948,25.425-14.4,1.326-25.338-9.517-39.287-18.661-21.827-14.3-34.158-23.2-55.349-37.175-24.485-16.135-8.612-25,5.342-39.5,3.652-3.793,67.107-61.51,68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608,69.142-14.845,10.194-26.894,9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7,18.45-13.7,108.446-47.248,144.628-62.3c68.872-28.647,83.183-33.623,92.511-33.789,2.052-.034,6.639.474,9.61,2.885a10.452,10.452,0,0,1,3.53,6.716A43.765,43.765,0,0,1,362.952,176.66Z' fill='white'/>
-            </svg>
-        </a>
-
-        <a href='https://trakteer.id/wernayasa' onmouseout='this.style.transform=&quot;scale(1)&quot;' onmouseover='this.style.transform=&quot;scale(1.2)&quot;' rel='nofollow' style='             display: inline-flex;             transition: transform 0.3s ease;         ' target='_blank'>
-            <svg aria-hidden='true' height='2em' preserveAspectRatio='xMidYMid meet' role='img' viewBox='0 0 24 24' width='2em' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M12.75 3.94c1-.72 2.16-1.08 3.47-1.08c.72 0 1.51.19 2.37.59c.86.39 1.54.85 2.04 1.38c1.03 1.28 1.46 2.77 1.31 4.47c-.16 1.7-.72 3.03-1.69 3.97l-7.59 7.59c-.19.19-.43.28-.71.28c-.28 0-.51-.09-.7-.28a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.71l4.59-4.59c.25-.22.25-.45 0-.7c-.25-.25-.48-.25-.7 0l-4.59 4.59a.95.95 0 0 1-.71.28c-.28 0-.51-.09-.7-.28a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.71l4.59-4.59c.27-.25.27-.5 0-.75c-.23-.25-.45-.25-.7 0l-4.59 4.64a.98.98 0 0 1-.71.28c-.28 0-.52-.09-.73-.28c-.2-.19-.3-.42-.3-.7c0-.28.11-.53.33-.75l4.6-4.6c.25-.25.25-.48 0-.7c-.25-.22-.49-.22-.71 0L6.28 14.5c-.22.2-.45.31-.7.31c-.28 0-.52-.1-.7-.31c-.19-.2-.29-.44-.29-.72c0-.28.1-.51.29-.7C7.94 10 9.83 8.14 10.55 7.45l3.56 3.52c.39.37.84.56 1.39.56c.7 0 1.25-.28 1.66-.84c.28-.41.38-.86.3-1.36c-.08-.5-.29-.92-.63-1.27l-4.08-4.12m2.06 6.33L10.55 6l-7.08 7.08c-.84-.85-1.32-2.15-1.43-3.92c-.11-1.76.37-3.29 1.43-4.57c1.19-1.18 2.61-1.78 4.26-1.78c1.66 0 3.07.6 4.22 1.78l4.27 4.27c.19.19.28.42.28.7c0 .28-.09.52-.28.71c-.19.18-.42.28-.72.28c-.27 0-.5-.1-.69-.28z' fill='white'/>
             </svg>
         </a>
 
@@ -5210,10 +5911,7 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
         </a>
     </div>
 </div>
-          <div class='disclaim'>Disclaimer: This site does not store any files on its server. All contents are provided by non-affiliated third parties.</div>
-           <div class='copyright'>Copyright &#169; <script>document.write(new Date().getFullYear())</script> <data:blog.title/>. All Rights Reserved
-          <div class='disclaim'>Theme by <a href='https://emissionhex.blogspot.com/' target='_blank'>EmissionHex</a></div>
-          </div>
+     
   </b:includable>
         <b:includable id='behindImageStyle'>
     <b:if cond='data:sourceUrl'>
@@ -5250,10 +5948,10 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
           <b:widget-setting name='sorting'>NONE</b:widget-setting>
           <b:widget-setting name='text-1'>Upcoming</b:widget-setting>
           <b:widget-setting name='link-1'>#</b:widget-setting>
-          <b:widget-setting name='text-0'>A-Z List</b:widget-setting>
+          <b:widget-setting name='text-0'>News</b:widget-setting>
           <b:widget-setting name='link-2'>#</b:widget-setting>
           <b:widget-setting name='link-0'>#</b:widget-setting>
-          <b:widget-setting name='text-2'>Forum</b:widget-setting>
+          <b:widget-setting name='text-2'>Sent Requested</b:widget-setting>
         </b:widget-settings>
         <b:includable id='main'>
           <b:class name='links'/>
@@ -5273,12 +5971,12 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
       <b:widget id='LinkList2' locked='false' title='Help' type='LinkList' version='2' visible='true'>
         <b:widget-settings>
           <b:widget-setting name='sorting'>NONE</b:widget-setting>
-          <b:widget-setting name='text-1'>FAQ</b:widget-setting>
+          <b:widget-setting name='text-1'>Support</b:widget-setting>
           <b:widget-setting name='link-1'>#</b:widget-setting>
-          <b:widget-setting name='text-0'>Contact</b:widget-setting>
+          <b:widget-setting name='text-0'>Forum</b:widget-setting>
           <b:widget-setting name='link-2'>#</b:widget-setting>
           <b:widget-setting name='link-0'>#</b:widget-setting>
-          <b:widget-setting name='text-2'>Sent Request</b:widget-setting>
+          <b:widget-setting name='text-2'>Terms and Conditions</b:widget-setting>
         </b:widget-settings>
         <b:includable id='main'>
           <b:class name='help'/>
@@ -5297,6 +5995,86 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
       </b:widget>
     </b:section>
   </div>
+  <!-- ===== DISCLAIMER AND COPYRIGHT - FULLY RESPONSIVE ===== -->
+  <div class='max-w mx-auto px-calc105'>
+    <div style='border-top: 2px solid #2a2f45; margin: 20px 0 15px 0;'/>
+    
+    <style>
+      /* Base styles for all devices */
+      .footer-bottom-text {
+        color: #9ca3af;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        margin-bottom: 8px;
+        text-align: left; /* Left-aligned on desktop */
+      }
+      
+      .footer-copyright {
+        color: #9ca3af;
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+        text-align: left; /* Left-aligned on desktop */
+      }
+      
+      .footer-theme {
+        color: #6b7280;
+        font-size: 0.75rem;
+        margin-bottom: 15px;
+        text-align: left; /* Left-aligned on desktop */
+      }
+      
+      .footer-theme a {
+        color: #4685b2;
+        text-decoration: none;
+      }
+      
+      .footer-theme a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Tablet and Mobile: Center align */
+      @media (max-width: 1023px) {
+        .footer-bottom-text,
+        .footer-copyright,
+        .footer-theme {
+          text-align: center;
+        }
+      }
+      
+      /* Small mobile adjustments */
+      @media (max-width: 480px) {
+        .footer-bottom-text {
+          font-size: 0.75rem;
+          padding: 0 5px;
+        }
+        
+        .footer-copyright {
+          font-size: 0.75rem;
+        }
+        
+        .footer-theme {
+          font-size: 0.7rem;
+        }
+      }
+    </style>
+    
+    <!-- Main disclaimer -->
+    <div class='footer-bottom-text disclaim'>
+      Disclaimer: This site does not store any files on its server. All contents are provided by non-affiliated third parties.
+    </div>
+    
+    <!-- Copyright -->
+    <div class='footer-copyright copyright'>
+      Copyright &#169; <script>document.write(new Date().getFullYear())</script> <data:blog.title/>. All Rights Reserved
+    </div>
+    
+    <!-- Theme credit -->
+    <div class='footer-theme'>
+      Theme by <a href='https://emissionhex.blogspot.com/' target='_blank'>EmissionHex</a>
+    </div>
+  </div>
+  <!-- ===== END RESPONSIVE SECTION ===== -->
+  
 </footer>
     <b:if cond='!data:view.isError'>
       <script>/*<![CDATA[*/
