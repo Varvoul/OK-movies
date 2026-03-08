@@ -1,0 +1,111 @@
+<!-- Casts with Smooth Horizontal Scrolling and Navigation Arrows -->
+<div style="margin-bottom: 30px; position: relative;">
+  <strong style="color: white; display: block; margin-bottom: 15px; font-size: 1.1rem; letter-spacing: 0.5px;">CAST MEMBERS</strong>
+  
+  <!-- Navigation Arrows (visible only on desktop) -->
+  <div class="cast-nav-arrow left-arrow" style="position: absolute; left: -15px; top: 55%; transform: translateY(-50%); z-index: 10; display: none; cursor: pointer; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onmouseover="this.style.background='rgba(145,36,58,0.4)'; this.style.borderColor='#91243a'" onmouseout="this.style.background='rgba(0, 0, 0, 0.3)'; this.style.borderColor='rgba(255,255,255,0.2)'">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  
+  <div class="cast-nav-arrow right-arrow" style="position: absolute; right: -15px; top: 55%; transform: translateY(-50%); z-index: 10; display: none; cursor: pointer; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onmouseover="this.style.background='rgba(145,36,58,0.4)'; this.style.borderColor='#91243a'" onmouseout="this.style.background='rgba(0, 0, 0, 0.3)'; this.style.borderColor='rgba(255,255,255,0.2)'">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  
+  <!-- Horizontal Scroll Container -->
+  <div class="cast-scroll-container" style="overflow-x: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: #91243a rgba(255,255,255,0.1); padding: 5px 5px 15px 5px; margin: 0 -5px; position: relative;" onscroll="updateArrowVisibility(this)">
+    
+    <!-- Cast Grid - Now with flex for horizontal scrolling -->
+    <div style="display: flex; flex-direction: row; gap: 15px; min-width: min-content; padding: 0 5px;">
+      
+      <!-- Cast Member 1 -->
+      <a href="#" style="text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 10px 15px 10px 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 100px; background: transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; width: auto;" 
+         onmouseover="this.style.backgroundColor='rgba(145,36,58,0.15)'; this.style.borderColor='#91243a'; this.style.transform='translateY(-2px)'" 
+         onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'" 
+         onclick="this.style.backgroundColor='#91243a'; this.style.color='white'; this.style.borderColor='#91243a'">
+        
+        <!-- Perfect Circle Image Container -->
+        <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid rgba(255,255,255,0.2); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+          <img src="https://cdn.myanimelist.net/images/voiceactors/2/78287.jpg" 
+               alt="Yuki Kaji" 
+               style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        
+        <!-- Cast Info -->
+        <div style="flex: 1; min-width: 0;">
+          <div style="color: white; font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Yuki Kaji</div>
+          <div style="color: #aaa; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Kagueya (Japanese)</div>
+        </div>
+      </a>
+      
+      <!-- Cast Member 2 -->
+      <a href="#" style="text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 10px 15px 10px 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 100px; background: transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; width: auto;" 
+         onmouseover="this.style.backgroundColor='rgba(145,36,58,0.15)'; this.style.borderColor='#91243a'; this.style.transform='translateY(-2px)'" 
+         onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'" 
+         onclick="this.style.backgroundColor='#91243a'; this.style.color='white'; this.style.borderColor='#91243a'">
+        
+        <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid rgba(255,255,255,0.2); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+          <img src="https://cdn.myanimelist.net/images/voiceactors/3/79395.jpg" 
+               alt="Saori Hayami" 
+               style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        
+        <div style="flex: 1; min-width: 0;">
+          <div style="color: white; font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Saori Hayami</div>
+          <div style="color: #aaa; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Princess Stella (Japanese)</div>
+        </div>
+      </a>
+      
+      <!-- Cast Member 3 -->
+      <a href="#" style="text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 10px 15px 10px 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 100px; background: transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; width: auto;" 
+         onmouseover="this.style.backgroundColor='rgba(145,36,58,0.15)'; this.style.borderColor='#91243a'; this.style.transform='translateY(-2px)'" 
+         onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'" 
+         onclick="this.style.backgroundColor='#91243a'; this.style.color='white'; this.style.borderColor='#91243a'">
+        
+        <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid rgba(255,255,255,0.2); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+          <img src="https://cdn.myanimelist.net/images/voiceactors/3/61525.jpg" 
+               alt="Kenjiro Tsuda" 
+               style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        
+        <div style="flex: 1; min-width: 0;">
+          <div style="color: white; font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Kenjiro Tsuda</div>
+          <div style="color: #aaa; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">General Zarkon (Japanese)</div>
+        </div>
+      </a>
+      
+      <!-- Cast Member 4 -->
+      <a href="#" style="text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 10px 15px 10px 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 100px; background: transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; width: auto;" 
+         onmouseover="this.style.backgroundColor='rgba(145,36,58,0.15)'; this.style.borderColor='#91243a'; this.style.transform='translateY(-2px)'" 
+         onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'" 
+         onclick="this.style.backgroundColor='#91243a'; this.style.color='white'; this.style.borderColor='#91243a'">
+        
+        <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid rgba(255,255,255,0.2); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+          <img src="https://cdn.myanimelist.net/images/voiceactors/2/61096.jpg" 
+               alt="Miyuki Sawashiro" 
+               style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        
+        <div style="flex: 1; min-width: 0;">
+          <div style="color: white; font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Miyuki Sawashiro</div>
+          <div style="color: #aaa; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Queen Selene (Japanese)</div>
+        </div>
+      </a>
+      
+    </div>
+  </div>
+  
+  <!-- Scroll Instruction (optional) -->
+  <div style="text-align: right; margin-top: 8px; color: #777; font-size: 0.75rem; display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 18L15 12L9 6" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>Swipe to scroll more</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 18L9 12L15 6" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</div>
