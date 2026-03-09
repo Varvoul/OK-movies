@@ -15,7 +15,7 @@
     <meta expr:charset='data:blog.encoding'/>
     <meta content='unsafe-url' name='referrer'/>
     <!-- Meta Kata Kunci -->
-    <meta content='anime sub indo, anime subtitle indonesia, download' name='keywords'/>
+    <meta content='movie, drama, web series, anime, anime sub, anime sub download, anime subtitle indonesia, download' name='keywords'/>
     <meta expr:content='data:blog.title' property='article:tag'/>
 	<!-- Meta Deskripsi -->
 	<b:if cond='data:view.description'>
@@ -99,7 +99,7 @@
 <Variable name="logo.color" description="Logo color" type="color" default="#959595"  value="#888888"/>
 <Variable name="logo.margin" description="Logo margin right" type="length" min="0px" max="50px" default="15px"  value="22px"/>
 <Variable name="logo.width" description="Logo width" type="length"
-            min="10px" max="100px" default="50px"  value="50px"/>
+            min="10px" max="100px" default="50px"  value="15px"/>
 <Variable name="logo.height" description="Logo Height" type="length"
             min="10px" max="100px" default="40px"  value="40px"/>
 </Group>
@@ -127,7 +127,7 @@
 * Website	: emissionhex.blogspot.com
 **************************************************/
 :root {
-    --body: #131313;
+    --body: #0f1721;
     --text: #959595;
     --link: #fff;
     --link-hover: #EA4C89;
@@ -1089,7 +1089,7 @@ footer .socials a + a{margin-left:10px;}
 
 /* Bookmark */ 
 .numshow{margin-top:-10px;}
-.bookmark{color:yellow;font-size:.8rem;border:solid 1px yellow;border-radius:5px;text-align:center;padding:0;height:45px;line-height:45px;cursor:pointer;font-weight:300;margin:5px 0;text-transform:uppercase;letter-spacing:.2rem;outline:none;display:block;-webkit-transition:all .2s;transition:all .2s;font-family:Roboto,Sans-Serif;}
+.bookmark{color:#edd182;font-size:.8rem;border:solid 1px yellow;border-radius:5px;text-align:center;padding:0;height:45px;line-height:45px;cursor:pointer;font-weight:300;margin:5px 0;text-transform:uppercase;letter-spacing:.2rem;outline:none;display:block;-webkit-transition:all .2s;transition:all .2s;font-family:Roboto,Sans-Serif;}
 .bookmark{background:#191919;-webkit-transition:all .2s;transition:all .2s;border:solid 1px yellow;}
 .bookmark::before{content:"";position:relative;margin-bottom:-44px;width:100%;height:100%;display:block;top:0;right:0;will-change:auto;}
 .bookmark::before{content:"";background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='img' width='24' height='24' preserveAspectRatio='xMidYMid meet' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23ffd600' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m16 6l4 14M12 6v14M8 8v12M4 4v16'/%3E%3C/svg%3E");background-repeat:no-repeat;background-size:24px auto;background-position:center right 1rem;}
@@ -1607,6 +1607,34 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
  </div>
 </b:includable>
     </b:widget>
+    <b:widget id='Image1' locked='false' title='' type='Image' visible='true'>
+      <b:widget-settings>
+        <b:widget-setting name='displayUrl'>https://blogger.googleusercontent.com/img/a/AVvXsEiFCmlLuLIyZRrbkDPyAWj3bSswYQ7ECNlLW0-w3ofSez6H-YTkLu_y6QxmE-SvbuI1IutNS17FM6XWdQtpValq_CBjdHFOJQBAHua6fCJNDxc5dHtFNjnXBNGFOafDnnQ49EW5nMTp9U1qo_PhiJRWKWlX7dOV8_4QMqWn4BMQ0h6ZkucjBzJA1RoopVM=s150</b:widget-setting>
+        <b:widget-setting name='displayHeight'>36</b:widget-setting>
+        <b:widget-setting name='sectionWidth'>150</b:widget-setting>
+        <b:widget-setting name='shrinkToFit'>true</b:widget-setting>
+        <b:widget-setting name='displayWidth'>150</b:widget-setting>
+        <b:widget-setting name='link'>https://anivirian.blogspot.com</b:widget-setting>
+        <b:widget-setting name='caption'/>
+      </b:widget-settings>
+      <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <b:include name='content'/>
+</b:includable>
+      <b:includable id='content'>
+  <div class='widget-content'>
+    <b:tag cond='data:link' expr:href='data:link' name='a'>
+      <img expr:alt='data:title' expr:height='data:height' expr:id='data:widget.instanceId + &quot;_img&quot;' expr:src='data:sourceUrl' expr:width='data:width'>
+        <b:attr cond='data:sourceSet' expr:value='data:sourceSet' name='srcset'/>
+      </img>
+    </b:tag>
+    <br/>
+    <b:if cond='data:caption'>
+      <span class='caption'><data:caption/></span>
+    </b:if>
+  </div>
+</b:includable>
+    </b:widget>
     <b:widget id='BlogSearch2' locked='true' title='Search This blog' type='BlogSearch' version='2' visible='true'>
       <b:includable id='main'>
         <b:attr name='id' value='search'/>
@@ -1636,17 +1664,17 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="40" height="40" preserveaspectratio="xMidYMid meet" viewbox="0 0 256 199"><path fill="#5865F2" d="M216.856 16.597A208.502 208.502 0 0 0 164.042 0c-2.275 4.113-4.933 9.645-6.766 14.046c-19.692-2.961-39.203-2.961-58.533 0c-1.832-4.4-4.55-9.933-6.846-14.046a207.809 207.809 0 0 0-52.855 16.638C5.618 67.147-3.443 116.4 1.087 164.956c22.169 16.555 43.653 26.612 64.775 33.193A161.094 161.094 0 0 0 79.735 175.3a136.413 136.413 0 0 1-21.846-10.632a108.636 108.636 0 0 0 5.356-4.237c42.122 19.702 87.89 19.702 129.51 0a131.66 131.66 0 0 0 5.355 4.237a136.07 136.07 0 0 1-21.886 10.653c4.006 8.02 8.638 15.67 13.873 22.848c21.142-6.58 42.646-16.637 64.815-33.213c5.316-56.288-9.08-105.09-38.056-148.36ZM85.474 135.095c-12.645 0-23.015-11.805-23.015-26.18s10.149-26.2 23.015-26.2c12.867 0 23.236 11.804 23.015 26.2c.02 14.375-10.148 26.18-23.015 26.18Zm85.051 0c-12.645 0-23.014-11.805-23.014-26.18s10.148-26.2 23.014-26.2c12.867 0 23.236 11.804 23.015 26.2c0 14.375-10.148 26.18-23.015 26.18Z"/></path></svg>
 </a>
 
-<!-- Twitter/X -->
-<a href="https://twitter.com/" target="_blank" rel="nofollow">
-  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="40" height="40" preserveaspectratio="xMidYMid meet" viewbox="0 0 24 24">
-    <path fill="#000000" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584l-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
-  </path></svg>
-</a>
-
 <!-- Telegram -->
 <a href="https://telegram.org/" target="_blank" rel="nofollow">
   <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="40" height="40" preserveaspectratio="xMidYMid meet" viewbox="0 0 24 24">
     <path fill="#26A5E4" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.26-1.911.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.916.49-1.305.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+  </path></svg>
+</a>
+
+<!-- Twitter/X -->
+<a href="https://twitter.com/" target="_blank" rel="nofollow">
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="40" height="40" preserveaspectratio="xMidYMid meet" viewbox="0 0 24 24">
+    <path fill="#000000" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584l-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
   </path></svg>
 </a>]]></b:widget-setting>
       </b:widget-settings>
@@ -2739,7 +2767,7 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
   </ul>
 </b:includable>
         </b:widget>
-        <b:widget id='BlogArchive1' locked='false' title='Archive' type='BlogArchive' visible='true'>
+        <b:widget id='BlogArchive1' locked='false' title='Archive' type='BlogArchive' visible='false'>
           <b:widget-settings>
             <b:widget-setting name='showStyle'>HIERARCHY</b:widget-setting>
             <b:widget-setting name='yearPattern'>yyyy</b:widget-setting>
@@ -4844,7 +4872,7 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
                       </b:if>
                     </b:with>
                   </div>
-                  <div class='bookmark' expr:data-id='data:post.id'>Bookmark</div>
+                  <div class='bookmark' expr:data-id='data:post.id'>Add to List</div>
                 </div>
                 <div class='info'>
                   <div class='rating' data-count='19' data-value='7.1' itemprop='aggregateRating' itemscope='' itemtype='http://schema.org/AggregateRating'>
@@ -5849,13 +5877,13 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
       </b:widget>
       <b:widget id='Header1' locked='false' title='Anivirian (Header)' type='Header' version='2' visible='true'>
         <b:widget-settings>
-          <b:widget-setting name='displayUrl'/>
-          <b:widget-setting name='displayHeight'>0</b:widget-setting>
-          <b:widget-setting name='sectionWidth'>-1</b:widget-setting>
-          <b:widget-setting name='useImage'>false</b:widget-setting>
+          <b:widget-setting name='displayUrl'>https://blogger.googleusercontent.com/img/a/AVvXsEh3hxwec3icIu5m9336zRHKjLO7wpq_oOJqGI0ldgaQz-rS_kNg1rpcAUiscbBdh8YcW5mfDyrPkMCHJM5VgbPzmdZC_QTZ7d9dZg6wMDQTiJuzwJq4malxmlbWyXdDhPp29pPtAczIF6QJcdWRlVySfgT7vsqBOvoj55SFTBUAPy_fPiFQehhHRtX0RSw=s494</b:widget-setting>
+          <b:widget-setting name='displayHeight'>117</b:widget-setting>
+          <b:widget-setting name='sectionWidth'>1431</b:widget-setting>
+          <b:widget-setting name='useImage'>true</b:widget-setting>
           <b:widget-setting name='shrinkToFit'>false</b:widget-setting>
-          <b:widget-setting name='imagePlacement'>BEHIND</b:widget-setting>
-          <b:widget-setting name='displayWidth'>0</b:widget-setting>
+          <b:widget-setting name='imagePlacement'>BEFORE_DESCRIPTION</b:widget-setting>
+          <b:widget-setting name='displayWidth'>494</b:widget-setting>
         </b:widget-settings>
         <b:includable id='main' var='this'>
           <b:class name='credit'/>
@@ -6397,7 +6425,7 @@ if(list == null){
   if(!$(this).hasClass('bookmarked')){
     	bookmark.addItemTobookmark(id,name,status,type,link,img);
   		$(this).addClass('bookmarked')
-  		$(this).html('Bookmarked')
+  		$(this).html('Add to List')
   }else{
   	bookmark.removeThisItem(id);
   	$(this).html('Bookmark')
