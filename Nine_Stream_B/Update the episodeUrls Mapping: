@@ -1,0 +1,30 @@
+// Create server URL mappings
+const episodeUrls = {
+    // SUB servers
+    'SUB-HD-01': subEpisodesHD01,
+    'SUB-HD-02': subEpisodesHD02,
+    'SUB-HD-03': subEpisodesHD03,
+    'SUB-HD-04': subEpisodesHD04,
+    'SUB-HD-05': subEpisodesHD05,
+    
+    // DUB servers
+    'DUB-HD-01': dubEpisodesHD01,
+    'DUB-HD-02': dubEpisodesHD02,
+    'DUB-HD-03': dubEpisodesHD03,
+    'DUB-HD-04': dubEpisodesHD04,
+    'DUB-HD-05': dubEpisodesHD05,
+    
+    // UNCENSORED servers
+    'UNCENSORED-HD-01': uncensoredEpisodesHD01,
+    'UNCENSORED-HD-02': uncensoredEpisodesHD02,
+    'UNCENSORED-HD-03': uncensoredEpisodesHD03,
+    'UNCENSORED-HD-04': uncensoredEpisodesHD04,
+    'UNCENSORED-HD-05': uncensoredEpisodesHD05,
+    
+    // RAW servers (if you add the button in HTML)
+    'RAW-HD-01': rawEpisodesHD01,
+    'RAW-HD-02': rawEpisodesHD02,
+    'RAW-HD-03': rawEpisodesHD03,
+    'RAW-HD-04': rawEpisodesHD04,
+    'RAW-HD-05': rawEpisodesHD05
+};
