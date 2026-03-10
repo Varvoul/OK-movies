@@ -1,0 +1,263 @@
+# 📝 Method 3: JSON-LD Format for Schedule Data
+
+Great choice! JSON-LD is the most structured and professional method. Here's how to implement it in your blog posts:
+
+## 📋 Template for Method 3 (JSON-LD)
+
+Copy and paste this into the **HTML view** of your blog post (at the end of the post):
+
+```html
+<script type="application/ld+json" style="display: none;">
+{
+    "@context": "https://schema.org",
+    "@type": "TVEpisode",
+    "name": "EPISODE_TITLE_HERE",
+    "episodeNumber": EPISODE_NUMBER_HERE,
+    "datePublished": "YYYY-MM-DD",
+    "timeRequired": "PT23M",
+    "partOfSeason": {
+        "@type": "TVSeason",
+        "seasonNumber": SEASON_NUMBER_HERE
+    },
+    "partOfSeries": {
+        "@type": "TVSeries",
+        "name": "SERIES_TITLE_HERE"
+    },
+    "broadcast": {
+        "@type": "BroadcastEvent",
+        "dayOfWeek": "DAY_OF_WEEK_HERE",
+        "startTime": "HH:MM",
+        "timezone": "Asia/Tokyo"
+    },
+    "status": "STATUS_HERE",
+    "description": "NOTES_OR_DESCRIPTION_HERE"
+}
+</script>
+```
+
+---
+
+## 📝 Complete Examples for Different Posts
+
+### Example 1: Chained Soldier Episode 10
+
+```html
+<script type="application/ld+json" style="display: none;">
+{
+    "@context": "https://schema.org",
+    "@type": "TVEpisode",
+    "name": "The Calm Before",
+    "episodeNumber": 10,
+    "datePublished": "2026-03-12",
+    "timeRequired": "PT23M",
+    "partOfSeason": {
+        "@type": "TVSeason",
+        "seasonNumber": 2
+    },
+    "partOfSeries": {
+        "@type": "TVSeries",
+        "name": "Chained Soldier"
+    },
+    "broadcast": {
+        "@type": "BroadcastEvent",
+        "dayOfWeek": "Thursday",
+        "startTime": "22:30",
+        "timezone": "Asia/Tokyo"
+    },
+    "status": "Upcoming",
+    "description": "Season Finale Part 1"
+}
+</script>
+```
+
+### Example 2: Demon Slayer Episode 5
+
+```html
+<script type="application/ld+json" style="display: none;">
+{
+    "@context": "https://schema.org",
+    "@type": "TVEpisode",
+    "name": "New Hashira",
+    "episodeNumber": 5,
+    "datePublished": "2026-03-13",
+    "timeRequired": "PT24M",
+    "partOfSeason": {
+        "@type": "TVSeason",
+        "seasonNumber": 4
+    },
+    "partOfSeries": {
+        "@type": "TVSeries",
+        "name": "Demon Slayer"
+    },
+    "broadcast": {
+        "@type": "BroadcastEvent",
+        "dayOfWeek": "Friday",
+        "startTime": "22:30",
+        "timezone": "Asia/Tokyo"
+    },
+    "status": "Airing",
+    "description": ""
+}
+</script>
+```
+
+### Example 3: One Piece Episode 1120
+
+```html
+<script type="application/ld+json" style="display: none;">
+{
+    "@context": "https://schema.org",
+    "@type": "TVEpisode",
+    "name": "The Final Battle",
+    "episodeNumber": 1120,
+    "datePublished": "2026-03-14",
+    "timeRequired": "PT24M",
+    "partOfSeason": {
+        "@type": "TVSeason",
+        "seasonNumber": 21
+    },
+    "partOfSeries": {
+        "@type": "TVSeries",
+        "name": "One Piece"
+    },
+    "broadcast": {
+        "@type": "BroadcastEvent",
+        "dayOfWeek": "Saturday",
+        "startTime": "23:30",
+        "timezone": "Asia/Tokyo"
+    },
+    "status": "Ongoing",
+    "description": ""
+}
+</script>
+```
+
+### Example 4: Solo Leveling Episode 14
+
+```html
+<script type="application/ld+json" style="display: none;">
+{
+    "@context": "https://schema.org",
+    "@type": "TVEpisode",
+    "name": "Jeju Island",
+    "episodeNumber": 14,
+    "datePublished": "2026-03-15",
+    "timeRequired": "PT23M",
+    "partOfSeason": {
+        "@type": "TVSeason",
+        "seasonNumber": 1
+    },
+    "partOfSeries": {
+        "@type": "TVSeries",
+        "name": "Solo Leveling"
+    },
+    "broadcast": {
+        "@type": "BroadcastEvent",
+        "dayOfWeek": "Sunday",
+        "startTime": "21:00",
+        "timezone": "Asia/Tokyo"
+    },
+    "status": "Airing",
+    "description": ""
+}
+</script>
+```
+
+### Example 5: Special/OVA Episode
+
+```html
+<script type="application/ld+json" style="display: none;">
+{
+    "@context": "https://schema.org",
+    "@type": "TVEpisode",
+    "name": "Beach Episode",
+    "episodeNumber": 1,
+    "datePublished": "2026-04-09",
+    "timeRequired": "PT30M",
+    "partOfSeason": {
+        "@type": "TVSeason",
+        "seasonNumber": 1
+    },
+    "partOfSeries": {
+        "@type": "TVSeries",
+        "name": "Chained Soldier OVA"
+    },
+    "broadcast": {
+        "@type": "BroadcastEvent",
+        "dayOfWeek": "Thursday",
+        "startTime": "23:00",
+        "timezone": "Asia/Tokyo"
+    },
+    "status": "Special",
+    "description": "Blu-ray Release"
+}
+</script>
+```
+
+---
+
+## 📋 Field-by-Field Guide
+
+| Field | Description | Example | Required |
+|-------|-------------|---------|----------|
+| `name` | Episode title | `"The Calm Before"` | ✅ Yes |
+| `episodeNumber` | Episode number | `10` | ✅ Yes |
+| `datePublished` | Air date (YYYY-MM-DD) | `"2026-03-12"` | ✅ Yes |
+| `timeRequired` | Duration (PT#M = # minutes) | `"PT23M"` | ❌ Optional |
+| `seasonNumber` | Season number | `2` | ✅ Yes |
+| `series.name` | Series title | `"Chained Soldier"` | ✅ Yes |
+| `broadcast.dayOfWeek` | Day of week | `"Thursday"` | ✅ Yes |
+| `broadcast.startTime` | Air time (24-hour) | `"22:30"` | ✅ Yes |
+| `broadcast.timezone` | Timezone | `"Asia/Tokyo"` | ✅ Yes |
+| `status` | Status (Airing/Upcoming/Ongoing/Special) | `"Upcoming"` | ✅ Yes |
+| `description` | Additional notes | `"Season Finale"` | ❌ Optional |
+
+---
+
+## 🏷️ Blogger Labels to Add
+
+For each post, add these **labels** in Blogger:
+
+### Status Label (Choose ONE):
+- `Airing`
+- `Upcoming`  
+- `Ongoing`
+- `Special`
+
+### Type Label (Optional):
+- `Anime`
+- `Drama`
+- `TV Series`
+
+---
+
+## ✅ Quick Checklist for Each Post
+
+- [ ] Copy the JSON-LD template
+- [ ] Replace `EPISODE_TITLE_HERE` with actual episode title
+- [ ] Replace `EPISODE_NUMBER_HERE` with episode number
+- [ ] Replace `YYYY-MM-DD` with air date
+- [ ] Replace `SEASON_NUMBER_HERE` with season number
+- [ ] Replace `SERIES_TITLE_HERE` with series name
+- [ ] Replace `DAY_OF_WEEK_HERE` with day (e.g., "Thursday")
+- [ ] Replace `HH:MM` with air time (e.g., "22:30")
+- [ ] Replace `STATUS_HERE` with status (Airing/Upcoming/Ongoing/Special)
+- [ ] Add `description` field if needed (optional)
+- [ ] Add status label in Blogger (`Airing`, `Upcoming`, `Ongoing`, or `Special`)
+- [ ] Publish post
+
+---
+
+## 🔍 How the Schedule Display Will Use This
+
+The script will extract:
+- **Time** → from `broadcast.startTime`
+- **Series Title** → from `partOfSeries.name`
+- **Episode Title** → from `name`
+- **Episode Number** → from `episodeNumber`
+- **Air Date** → from `datePublished`
+- **Status** → from `status`
+- **Notes** → from `description`
+- **Post Link** → from the post URL (automatic)
+
+Everything will appear beautifully in your schedule display! 🎉
