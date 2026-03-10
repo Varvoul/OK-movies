@@ -722,6 +722,42 @@
   .synopsis-container.expanded {
     cursor: pointer;
   }
+    /* Server category label with icon */
+.server-category-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.5px;
+}
+
+/* Server icon styling */
+.server-icon {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 3px;
+    box-sizing: content-box;
+    transition: all 0.2s ease;
+}
+
+.server-icon:hover {
+    background-color: rgba(73, 139, 187, 0.2);
+}
+
+/* Change icon color when server in category is active */
+.server-category:has(.active-server) .server-icon path,
+.server-category:has(.active-server) .server-icon circle,
+.server-category:has(.active-server) .server-icon line {
+    stroke: #498BBB;
+}
+
+.server-category:has(.active-server) .server-icon {
+    background-color: rgba(73, 139, 187, 0.3);
+}
 </style>
 
 <!-- Player and controls standalone block -->
@@ -755,36 +791,64 @@
         </div>
 
         <!-- Server Selection: Three categories with HD-01 to HD-05 -->
-        <div class="server-category">
-            <span class="server-category-label">SUB</span>
-            <div class="server-buttons-row" id="server-group-sub">
-                <button class="server-btn" data-server="SUB-HD-01">HD-01</button>
-                <button class="server-btn" data-server="SUB-HD-02">HD-02</button>
-                <button class="server-btn" data-server="SUB-HD-03">HD-03</button>
-                <button class="server-btn" data-server="SUB-HD-04">HD-04</button>
-                <button class="server-btn" data-server="SUB-HD-05">HD-05</button>
-            </div>
-        </div>
-        <div class="server-category">
-            <span class="server-category-label">DUB</span>
-            <div class="server-buttons-row" id="server-group-dub">
-                <button class="server-btn" data-server="DUB-HD-01">HD-01</button>
-                <button class="server-btn" data-server="DUB-HD-02">HD-02</button>
-                <button class="server-btn" data-server="DUB-HD-03">HD-03</button>
-                <button class="server-btn" data-server="DUB-HD-04">HD-04</button>
-                <button class="server-btn" data-server="DUB-HD-05">HD-05</button>
-            </div>
-        </div>
-        <div class="server-category">
-            <span class="server-category-label">RAW</span>
-            <div class="server-buttons-row" id="server-group-raw">
-                <button class="server-btn" data-server="RAW-HD-01">HD-01</button>
-                <button class="server-btn" data-server="RAW-HD-02">HD-02</button>
-                <button class="server-btn" data-server="RAW-HD-03">HD-03</button>
-                <button class="server-btn" data-server="RAW-HD-04">HD-04</button>
-                <button class="server-btn" data-server="RAW-HD-05">HD-05</button>
-            </div>
-        </div>
+       <!-- Server Selection: Three categories with HD-01 to HD-05 that work for all seasons -->
+<div class="server-category">
+    <div class="server-category-label">
+        <svg class="server-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 12C2 15.7712 2 17.6569 3.17157 18.8284C4.34315 20 6.22876 20 10 20H14C17.7712 20 19.6569 20 20.8284 18.8284C22 17.6569 22 15.7712 22 12C22 8.22876 22 6.34315 20.8284 5.17157C19.6569 4 17.7712 4 14 4H10C6.22876 4 4.34315 4 3.17157 5.17157C2.51839 5.82475 2.22937 6.69989 2.10149 8" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M10 16H6" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M14 13H18" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M14 16H12.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M9.5 13H11.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M18 16H16.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M6 13H7" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+        </svg>
+        <span>SUB</span>
+    </div>
+    <div class="server-buttons-row" id="server-group-sub">
+        <button class="server-btn" data-server="SUB-HD-01">HD-01</button>
+        <button class="server-btn" data-server="SUB-HD-02">HD-02</button>
+        <button class="server-btn" data-server="SUB-HD-03">HD-03</button>
+        <button class="server-btn" data-server="SUB-HD-04">HD-04</button>
+        <button class="server-btn" data-server="SUB-HD-05">HD-05</button>
+    </div>
+</div>
+
+<div class="server-category">
+    <div class="server-category-label">
+        <svg class="server-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 10V12C19 15.866 15.866 19 12 19M5 10V12C5 15.866 8.13401 19 12 19M12 19V22M8 22H16M15 6H13M15 10H13M12 15C10.3431 15 9 13.6569 9 12V5C9 3.34315 10.3431 2 12 2C13.6569 2 15 3.34315 15 5V12C15 13.6569 13.6569 15 12 15Z" stroke="#9ca3af" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span>DUB</span>
+    </div>
+    <div class="server-buttons-row" id="server-group-dub">
+        <button class="server-btn" data-server="DUB-HD-01">HD-01</button>
+        <button class="server-btn" data-server="DUB-HD-02">HD-02</button>
+        <button class="server-btn" data-server="DUB-HD-03">HD-03</button>
+        <button class="server-btn" data-server="DUB-HD-04">HD-04</button>
+        <button class="server-btn" data-server="DUB-HD-05">HD-05</button>
+    </div>
+</div>
+
+<div class="server-category">
+    <div class="server-category-label">
+        <svg class="server-icon" width="20" height="20" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="160" cy="96" r="48" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+            <circle cx="160" cy="416" r="48" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+            <line x1="160" y1="368" x2="160" y2="144" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+            <circle cx="352" cy="160" r="48" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+            <path d="M352,208c0,128-192,48-192,160" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+        </svg>
+        <span>RAW</span>
+    </div>
+    <div class="server-buttons-row" id="server-group-raw">
+        <button class="server-btn" data-server="RAW-HD-01">HD-01</button>
+        <button class="server-btn" data-server="RAW-HD-02">HD-02</button>
+        <button class="server-btn" data-server="RAW-HD-03">HD-03</button>
+        <button class="server-btn" data-server="RAW-HD-04">HD-04</button>
+        <button class="server-btn" data-server="RAW-HD-05">HD-05</button>
+    </div>
+</div>
 
         <!-- Seasons Selection -->
         <div style="margin-top: 16px;">
