@@ -1,0 +1,836 @@
+<style>
+/* Report Form Container */
+.report-form-container {
+    background: #1e2235;
+    border-radius: 16px;
+    padding: 30px;
+    margin: 20px 0;
+    border: 1px solid #2a2f45;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* Form Title */
+.report-form-title {
+    color: white;
+    font-size: 1.8rem;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+.report-form-subtitle {
+    color: #9ca3af;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+    text-align: center;
+    border-bottom: 1px solid #2a2f45;
+    padding-bottom: 20px;
+}
+
+/* Form Groups */
+.report-form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.report-form-group label {
+    display: block;
+    color: #e5e7eb;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.report-form-group label .required {
+    color: #bb3a67;
+    margin-left: 3px;
+}
+
+/* Input with button container */
+.input-with-btn {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.input-with-btn .report-form-control {
+    flex: 1;
+}
+
+/* Form Controls */
+.report-form-control {
+    width: 100%;
+    background: #2a2f45;
+    border: 1px solid #3a4055;
+    border-radius: 8px;
+    padding: 12px 15px;
+    color: white;
+    font-size: 0.95rem;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: all 0.2s;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.report-form-control:focus {
+    border-color: #bb3a67;
+    box-shadow: 0 0 0 3px rgba(187,58,103,0.15);
+}
+
+.report-form-control::placeholder {
+    color: #6b7280;
+    opacity: 0.7;
+}
+
+.report-form-control:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+textarea.report-form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Verify Email Button */
+.verify-btn {
+    background: #2a2f45;
+    border: 1px solid #bb3a67;
+    color: white;
+    font-weight: 500;
+    padding: 12px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    min-width: 120px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.verify-btn:hover:not(:disabled) {
+    background: #bb3a67;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(187,58,103,0.3);
+}
+
+.verify-btn.verified {
+    background: #10b981;
+    border-color: #10b981;
+    cursor: default;
+}
+
+.verify-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.verify-btn.loading {
+    color: transparent;
+    pointer-events: none;
+    position: relative;
+}
+
+.verify-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: verify-spin 0.8s linear infinite;
+}
+
+@keyframes verify-spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Verification Code Field */
+.verification-field {
+    margin-top: 10px;
+    display: none;
+}
+
+.verification-field.show {
+    display: block;
+}
+
+.verification-hint {
+    color: #9ca3af;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.verification-hint svg {
+    width: 16px;
+    height: 16px;
+    fill: #f39c12;
+}
+
+/* Issues Cloud Container */
+.issues-cloud {
+    background: #2a2f45;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0 10px;
+    border: 1px solid #3a4055;
+}
+
+.issues-cloud-title {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.issues-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.issue-checkbox {
+    display: none;
+}
+
+.issue-label {
+    display: inline-block;
+    background: #1e2235;
+    color: #9ca3af;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #3a4055;
+    user-select: none;
+}
+
+.issue-label:hover {
+    background: #bb3a67;
+    color: white;
+    border-color: #bb3a67;
+    transform: translateY(-2px);
+}
+
+.issue-checkbox:checked + .issue-label {
+    background: #bb3a67;
+    color: white;
+    border-color: #bb3a67;
+    box-shadow: 0 4px 10px rgba(187,58,103,0.3);
+}
+
+/* Submit Button */
+.report-submit-btn {
+    background: #bb3a67;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 16px 40px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(187,58,103,0.4);
+    letter-spacing: 0.5px;
+    margin: 20px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: fit-content;
+    min-width: 220px;
+}
+
+.report-submit-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+    transition: transform 0.3s;
+}
+
+.report-submit-btn:hover:not(:disabled) {
+    background: #9f2f54;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(187,58,103,0.5);
+}
+
+.report-submit-btn:hover svg {
+    transform: translateX(5px);
+}
+
+.report-submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Status Messages */
+.report-status {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    display: none;
+    text-align: center;
+}
+
+.report-status.success {
+    display: block;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid #10b981;
+    color: #10b981;
+}
+
+.report-status.error {
+    display: block;
+    background: rgba(220, 38, 38, 0.1);
+    border: 1px solid #dc2626;
+    color: #ff6b6b;
+}
+
+.report-status.info {
+    display: block;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid #3b82f6;
+    color: #60a5fa;
+}
+
+.report-status.warning {
+    display: block;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid #f59e0b;
+    color: #fbbf24;
+}
+
+/* Thank You Animation */
+.thank-you-message {
+    display: none;
+    text-align: center;
+    padding: 30px;
+    animation: fadeInScale 0.5s ease;
+}
+
+.thank-you-message.show {
+    display: block;
+}
+
+.thank-you-message svg {
+    width: 80px;
+    height: 80px;
+    fill: #10b981;
+    margin-bottom: 20px;
+    animation: bounce 0.5s ease;
+}
+
+.thank-you-message h3 {
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.thank-you-message p {
+    color: #9ca3af;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Footer Note */
+.report-footer-note {
+    margin-top: 20px;
+    text-align: center;
+    border-top: 1px solid #2a2f45;
+    padding-top: 15px;
+    color: #9ca3af;
+    font-size: 0.85rem;
+}
+
+.report-footer-note a {
+    color: #bb3a67;
+    text-decoration: none;
+}
+
+.report-footer-note a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .report-form-container {
+        padding: 20px;
+    }
+    
+    .report-form-title {
+        font-size: 1.5rem;
+    }
+    
+    .input-with-btn {
+        flex-direction: column;
+    }
+    
+    .verify-btn {
+        width: 100%;
+    }
+    
+    .issues-grid {
+        gap: 8px;
+    }
+    
+    .issue-label {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .report-submit-btn {
+        width: 100%;
+    }
+}
+</style>
+
+<!-- Report Form Container -->
+<div class="report-form-container" id="reportFormContainer">
+    <h2 class="report-form-title">Report an Issue / Contact Us</h2>
+    <p class="report-form-subtitle">Found a problem or need help? Let us know and we'll get back to you within 24-48 hours.</p>
+    
+    <!-- Form Container (visible initially) -->
+    <div id="reportFormFields">
+        <!-- Step 1: Email Verification Form (separate from main form) -->
+        <div id="verificationStep" style="margin-bottom: 30px;">
+            <div style="background: #2a2f45; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                <h3 style="color: white; margin-bottom: 15px;">Step 1: Verify Your Email</h3>
+                
+                <!-- Email Field with Verify Button -->
+                <div class="report-form-group">
+                    <label>Email ID <span class="required">*</span></label>
+                    <div class="input-with-btn">
+                        <input type="email" class="report-form-control" placeholder="your.email@example.com" id="verifyEmailField" required>
+                        <button type="button" class="verify-btn" id="verifyEmailBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="white"/>
+                            </svg>
+                            Send Code
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Verification Code Field (hidden until verify clicked) -->
+                <div class="report-form-group verification-field" id="verificationField">
+                    <label>6-Digit Verification Code <span class="required">*</span></label>
+                    <div class="input-with-btn">
+                        <input type="text" class="report-form-control" placeholder="Enter 6-digit code" id="verificationCodeInput" maxlength="6" pattern="[0-9]{6}" inputmode="numeric">
+                        <button type="button" class="verify-btn" id="confirmCodeBtn" disabled>Verify Code</button>
+                    </div>
+                    <div class="verification-hint">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                        <span id="verificationHint">Please check your email for the 6-digit verification code.</span>
+                    </div>
+                </div>
+                
+                <!-- Verification Status -->
+                <div id="verificationStatus" class="report-status" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <!-- Step 2: Main Report Form (hidden until email verified) -->
+        <div id="mainReportForm" style="display: none;">
+            <form id="reportForm">
+                <!-- Hidden field to indicate verified email -->
+                <input type="hidden" name="verified_email" id="verifiedEmailField">
+                <input type="hidden" name="verification_method" value="email_verified">
+                
+                <!-- Full Name Field -->
+                <div class="report-form-group">
+                    <label>Full Name <span class="required">*</span></label>
+                    <input type="text" name="full_name" class="report-form-control" placeholder="Enter your full name" id="fullName" required>
+                </div>
+                
+                <!-- Email Field (display only, disabled) -->
+                <div class="report-form-group">
+                    <label>Verified Email <span class="required">*</span></label>
+                    <input type="email" class="report-form-control" id="displayEmailField" disabled>
+                    <p style="color: #10b981; font-size: 0.85rem; margin-top: 5px;">✓ Email verified</p>
+                </div>
+                
+                <!-- Issues Cloud -->
+                <div class="report-form-group">
+                    <label>What issue are you experiencing? <span class="required">*</span> (Select all that apply)</label>
+                    <div class="issues-cloud">
+                        <div class="issues-cloud-title">🔍 Select issue type:</div>
+                        <div class="issues-grid" id="issuesGrid">
+                            <!-- Video Issues -->
+                            <input type="checkbox" name="issue_video" value="Video Issue" class="issue-checkbox" id="issue_video">
+                            <label for="issue_video" class="issue-label">🎬 Video Issue</label>
+                            
+                            <input type="checkbox" name="issue_server" value="Server Not Loading" class="issue-checkbox" id="issue_server">
+                            <label for="issue_server" class="issue-label">🔄 Server Not Loading</label>
+                            
+                            <input type="checkbox" name="issue_mismatch" value="Server Mismatch" class="issue-checkbox" id="issue_mismatch">
+                            <label for="issue_mismatch" class="issue-label">⚠️ Server Mismatch</label>
+                            
+                            <input type="checkbox" name="issue_nav" value="Episode Navigation Button Issue" class="issue-checkbox" id="issue_nav">
+                            <label for="issue_nav" class="issue-label">⏭️ Episode Nav Button Issue</label>
+                            
+                            <input type="checkbox" name="issue_av" value="Video and Audio Mismatch" class="issue-checkbox" id="issue_av">
+                            <label for="issue_av" class="issue-label">🔊 Video/Audio Mismatch</label>
+                            
+                            <!-- Subtitle Issues -->
+                            <input type="checkbox" name="issue_subtitle" value="Subtitle Issue" class="issue-checkbox" id="issue_subtitle">
+                            <label for="issue_subtitle" class="issue-label">📝 Subtitle Issue</label>
+                            
+                            <input type="checkbox" name="issue_subtitle_not" value="Subtitle Not Showing" class="issue-checkbox" id="issue_subtitle_not">
+                            <label for="issue_subtitle_not" class="issue-label">🚫 Subtitle Not Showing</label>
+                            
+                            <!-- Download Issues -->
+                            <input type="checkbox" name="issue_download" value="Video Download Problem" class="issue-checkbox" id="issue_download">
+                            <label for="issue_download" class="issue-label">⬇️ Video Download Problem</label>
+                            
+                            <input type="checkbox" name="issue_how_download" value="How to Download" class="issue-checkbox" id="issue_how_download">
+                            <label for="issue_how_download" class="issue-label">❓ How to Download</label>
+                            
+                            <!-- Cast/Scroll Issues -->
+                            <input type="checkbox" name="issue_cast" value="Cast Scroll Not Working" class="issue-checkbox" id="issue_cast">
+                            <label for="issue_cast" class="issue-label">🎭 Cast Scroll Not Working</label>
+                            
+                            <!-- Comment Issues -->
+                            <input type="checkbox" name="issue_comments_not" value="Comments Not Showing" class="issue-checkbox" id="issue_comments_not">
+                            <label for="issue_comments_not" class="issue-label">💬 Comments Not Showing</label>
+                            
+                            <input type="checkbox" name="issue_cannot_post" value="Unable to Post New Comment" class="issue-checkbox" id="issue_cannot_post">
+                            <label for="issue_cannot_post" class="issue-label">📝 Cannot Post Comment</label>
+                            
+                            <input type="checkbox" name="issue_comment_general" value="Comment Issue" class="issue-checkbox" id="issue_comment_general">
+                            <label for="issue_comment_general" class="issue-label">❗ General Comment Issue</label>
+                            
+                            <input type="checkbox" name="issue_cannot_see" value="Cannot See Comments" class="issue-checkbox" id="issue_cannot_see">
+                            <label for="issue_cannot_see" class="issue-label">👁️ Cannot See Comments</label>
+                            
+                            <input type="checkbox" name="issue_rule_violation" value="Comment Policy Violation" class="issue-checkbox" id="issue_rule_violation">
+                            <label for="issue_rule_violation" class="issue-label">⚠️ Comment Policy Violation</label>
+                            
+                            <!-- Other -->
+                            <input type="checkbox" name="issue_bug" value="Bug" class="issue-checkbox" id="issue_bug">
+                            <label for="issue_bug" class="issue-label">🐛 Bug</label>
+                            
+                            <input type="checkbox" name="issue_other" value="Other" class="issue-checkbox" id="issue_other">
+                            <label for="issue_other" class="issue-label">🔧 Other</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Message Field -->
+                <div class="report-form-group">
+                    <label>Describe the issue in detail <span class="required">*</span></label>
+                    <textarea name="message" class="report-form-control" placeholder="Please provide as much detail as possible to help us resolve the issue quickly..." id="messageField" required rows="5"></textarea>
+                </div>
+                
+                <!-- Hidden Formspree fields -->
+                <input type="hidden" name="_subject" value="New Report/Contact Form Submission - Anivirian">
+                <input type="hidden" name="_replyto" id="replytoField">
+                
+                <!-- Submit Button -->
+                <button type="submit" class="report-submit-btn" id="reportSubmitBtn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M2 20l20-8L2 4v6l14 2-14 2v6z"/>
+                    </svg>
+                    Submit Report
+                </button>
+            </form>
+        </div>
+        
+        <!-- Status Message Area -->
+        <div id="reportStatus" class="report-status"></div>
+    </div>
+    
+    <!-- Thank You Message (hidden initially) -->
+    <div class="thank-you-message" id="thankYouMessage">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+        <h3>Thank You!</h3>
+        <p>Your report has been submitted successfully. Our team will review it and respond within 24-48 hours.</p>
+        <p style="font-size: 0.9rem; color: #bb3a67;">A confirmation has been sent to your verified email address.</p>
+    </div>
+    
+    <!-- Footer Note -->
+    <div class="report-footer-note" id="reportFooterNote">
+        <p>We typically respond within 24-48 hours.</p>
+        <p style="margin-top: 8px;">Need immediate help? <a href="https://anivirian.blogspot.com/p/faq.html">Check our FAQ</a></p>
+    </div>
+</div>
+
+<!-- Email Verification & Form Submission Script -->
+<script>
+(function() {
+    // Elements
+    const verifyEmailBtn = document.getElementById('verifyEmailBtn');
+    const verifyEmailField = document.getElementById('verifyEmailField');
+    const verificationField = document.getElementById('verificationField');
+    const verificationCodeInput = document.getElementById('verificationCodeInput');
+    const confirmCodeBtn = document.getElementById('confirmCodeBtn');
+    const verificationHint = document.getElementById('verificationHint');
+    const verificationStatus = document.getElementById('verificationStatus');
+    const mainReportForm = document.getElementById('mainReportForm');
+    const verificationStep = document.getElementById('verificationStep');
+    const displayEmailField = document.getElementById('displayEmailField');
+    const verifiedEmailField = document.getElementById('verifiedEmailField');
+    const replytoField = document.getElementById('replytoField');
+    const reportForm = document.getElementById('reportForm');
+    const submitBtn = document.getElementById('reportSubmitBtn');
+    const thankYouMsg = document.getElementById('thankYouMessage');
+    const footerNote = document.getElementById('reportFooterNote');
+    const formFields = document.getElementById('reportFormFields');
+    
+    // State
+    let sentVerificationCode = '';
+    let verifiedEmail = '';
+    let isVerified = false;
+    
+    // Helper: Show status message
+    function showStatus(message, type, target = verificationStatus) {
+        target.textContent = message;
+        target.className = `report-status ${type}`;
+        target.style.display = 'block';
+        
+        // Auto-hide after 8 seconds for non-errors
+        if (type !== 'error') {
+            setTimeout(() => {
+                target.style.display = 'none';
+            }, 8000);
+        }
+    }
+    
+    // Helper: Validate email
+    function isValidEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+    // Step 1: Send verification code
+    verifyEmailBtn.addEventListener('click', function() {
+        const email = verifyEmailField.value.trim();
+        
+        if (!email) {
+            showStatus('Please enter your email address', 'error');
+            return;
+        }
+        
+        if (!isValidEmail(email)) {
+            showStatus('Please enter a valid email address', 'error');
+            return;
+        }
+        
+        // Show loading
+        verifyEmailBtn.disabled = true;
+        verifyEmailBtn.classList.add('loading');
+        verifyEmailBtn.innerHTML = 'Sending...';
+        
+        // Generate 6-digit code
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        sentVerificationCode = code;
+        
+        // Store email temporarily
+        verifiedEmail = email;
+        
+        // Send verification email via Formspree (separate submission)
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('verification_code', code);
+        formData.append('_subject', 'Email Verification Code - Anivirian');
+        formData.append('message', `Your verification code is: ${code}\n\nThis code will expire in 10 minutes. If you didn't request this, please ignore this email.`);
+        
+        fetch('https://formspree.io/f/maqpedzk', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Show verification field
+                verificationField.classList.add('show');
+                verifyEmailBtn.classList.remove('loading');
+                verifyEmailBtn.innerHTML = '✓ Code Sent';
+                verifyEmailBtn.classList.add('verified');
+                verifyEmailBtn.disabled = true;
+                verifyEmailField.disabled = true;
+                confirmCodeBtn.disabled = false;
+                
+                showStatus('Verification code sent! Please check your email (including spam folder).', 'info');
+                verificationHint.textContent = 'Enter the 6-digit code sent to your email';
+            } else {
+                throw new Error('Failed to send verification email');
+            }
+        })
+        .catch(error => {
+            console.error('Verification error:', error);
+            verifyEmailBtn.disabled = false;
+            verifyEmailBtn.classList.remove('loading');
+            verifyEmailBtn.innerHTML = 'Send Code';
+            showStatus('Failed to send verification code. Please try again.', 'error');
+        });
+    });
+    
+    // Step 2: Confirm verification code
+    confirmCodeBtn.addEventListener('click', function() {
+        const enteredCode = verificationCodeInput.value.trim();
+        
+        if (!enteredCode) {
+            showStatus('Please enter the verification code', 'error');
+            return;
+        }
+        
+        if (!/^\d{6}$/.test(enteredCode)) {
+            showStatus('Please enter a valid 6-digit code', 'error');
+            return;
+        }
+        
+        if (enteredCode === sentVerificationCode) {
+            // Verification successful
+            isVerified = true;
+            
+            // Update UI
+            confirmCodeBtn.innerHTML = '✓ Verified';
+            confirmCodeBtn.classList.add('verified');
+            confirmCodeBtn.disabled = true;
+            verificationCodeInput.disabled = true;
+            
+            // Hide verification step, show main form
+            verificationStep.style.display = 'none';
+            mainReportForm.style.display = 'block';
+            
+            // Set verified email in main form
+            displayEmailField.value = verifiedEmail;
+            verifiedEmailField.value = verifiedEmail;
+            replytoField.value = verifiedEmail;
+            
+            showStatus('✓ Email verified successfully! You can now submit your report.', 'success', verificationStatus);
+            
+            // Scroll to main form
+            mainReportForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            showStatus('Invalid verification code. Please check and try again.', 'error');
+            verificationCodeInput.value = '';
+            verificationCodeInput.focus();
+        }
+    });
+    
+    // Main form submission
+    if (reportForm) {
+        reportForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validate required fields
+            const fullName = document.getElementById('fullName').value.trim();
+            const message = document.getElementById('messageField').value.trim();
+            const checkboxes = document.querySelectorAll('#issuesGrid .issue-checkbox:checked');
+            
+            if (!fullName) {
+                showStatus('Please enter your full name', 'error', verificationStatus);
+                return;
+            }
+            
+            if (checkboxes.length === 0) {
+                showStatus('Please select at least one issue type', 'error', verificationStatus);
+                return;
+            }
+            
+            if (!message) {
+                showStatus('Please describe the issue in detail', 'error', verificationStatus);
+                return;
+            }
+            
+            // Show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Submitting...';
+            
+            // Collect selected issues as readable text
+            let issuesList = '';
+            checkboxes.forEach(cb => {
+                const label = document.querySelector(`label[for="${cb.id}"]`).textContent.trim();
+                issuesList += `• ${label}\n`;
+            });
+            
+            // Prepare form data
+            const formData = new FormData(reportForm);
+            
+            // Add issues as a readable field
+            formData.append('selected_issues', issuesList);
+            
+            // Add verification info
+            formData.append('verification_status', 'verified');
+            
+            try {
+                const response = await fetch('https://formspree.io/f/maqpedzk', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Hide form, show thank you
+                    formFields.style.display = 'none';
+                    footerNote.style.display = 'none';
+                    thankYouMsg.classList.add('show');
+                    
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    const data = await response.json();
+                    showStatus(data.error || 'Submission failed. Please try again.', 'error', verificationStatus);
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Submit Report';
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                showStatus('Network error. Please check your connection and try again.', 'error', verificationStatus);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Report';
+            }
+        });
+    }
+    
+    // Handle back/forward cache
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            location.reload();
+        }
+    });
+})();
+</script>
+
+<!-- Noscript fallback -->
+<noscript>
+    <div style="background: #2a2f45; border-left: 4px solid #f39c12; border-radius: 8px; padding: 15px; margin: 20px 0; color: #f39c12; text-align: center;">
+        <strong>JavaScript is required for this form.</strong> Please enable JavaScript or email us directly at 
+        <a href="mailto:support@anivirian.com" style="color: #bb3a67;">support@anivirian.com</a>
+    </div>
+</noscript>
