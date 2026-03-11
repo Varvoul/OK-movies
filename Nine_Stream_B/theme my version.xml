@@ -2369,7 +2369,7 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
             <b:widget-setting name='content'><![CDATA[<ul id="rSI" class="lsn m-0 p-0 grid gtc-r2a">
   <script type='text/javascript'>/*<![CDATA[*/
     const rSI={cImage:function(t){let e=t,n=e.indexOf("<img"),a=e.indexOf('src="',n),i=e.indexOf('"',a+5),c=e.substr(a+5,i-a-5);return-1!=n&&-1!=a&&-1!=i&&""!=c?c:this.noImage},compile:function(t){if("entry"in t.feed){let e="";t.feed.entry.forEach(t=>{const n=t.title.$t,a=t.link.find(t=>"alternate"==t.rel).href,i="media$thumbnail"in t?t.media$thumbnail.url.match(/\/s[0-9]{2}-(w[0-9]+-)?c/)?t.media$thumbnail.url.replace(/\/s[0-9]{2}-(w[0-9]+-)?c/,"/w400-h225-p-k-no-nu"):t.media$thumbnail.url.replace(/\=s[0-9]{2}-(w[0-9]+-)?c/,"=w400-h225-p-k-no-nu"):"content"in t&&this.cImage(t.content.$t);e+=`<li class="p-y10 grid gtc-c52"><a class="block ofc oh" href="${a}" title="${n}"><img class="ar-3:4 r2 h-auto w-max" src="${i}" alt="${n}"></a><a href="${a}" class="fs-md fw-400 c-aba clamp oh">${n}</a></li>`}),document.getElementById("rSI").innerHTML=e}},create:function(t){const e=document.createElement("script");e.src=t,document.body.appendChild(e)},getRandom:function(t){const e=Math.floor(Math.random()*(t.feed.openSearch$totalResults.$t-this.numb-1+1))+1;this.create(`/feeds/posts/default${0==this.cat?"":`/-/${this.cat}`}?alt=json-in-script&start-index=${e}&max-results=${this.numb}&callback=rSI.compile`)},noImage:"https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/w300-h225-p-k-no-nu/dagruel-no-image.png",run:function(t=10,e=!1){if(this.cat=e,this.numb=t,!document.getElementById("rSI"))return console.log("Error Not Function");this.create(`/feeds/posts/default${0==this.cat?"":`/-/${this.cat}`}?alt=json-in-script&max-results=0&callback=rSI.getRandom`)}};
-    rSI.run(3, 'Movie');
+    rSI.run(13, 'Movie');
   /*]]]]><![CDATA[>*/</script>
 </ul>]]></b:widget-setting>
           </b:widget-settings>
@@ -2694,8 +2694,8 @@ mTP.Select = ["Action", "Adventure", "Comedy", "Drama", "Ecchi", "Fantasy", "Gam
           <b:widget-settings>
             <b:widget-setting name='sorting'>ALPHA</b:widget-setting>
             <b:widget-setting name='display'>CLOUD</b:widget-setting>
-            <b:widget-setting name='selectedLabelsList'>Action,Anime,Music,Sci-Fi,Supernatural</b:widget-setting>
-            <b:widget-setting name='showType'>ALL</b:widget-setting>
+            <b:widget-setting name='selectedLabelsList'>Action,Adventure,Drama,Ecchi,Fantasy,Harem,Historical,Romance,Samurai,Sci-Fi,Shounen,Supernatural</b:widget-setting>
+            <b:widget-setting name='showType'>USER_SELECTED</b:widget-setting>
             <b:widget-setting name='showFreqNumbers'>true</b:widget-setting>
           </b:widget-settings>
           <b:includable id='main' var='this'>
@@ -5108,9 +5108,306 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
             </a>
           </b:includable>
           <b:includable id='rule'>
-            <div class='tabcontent' id='rule'>
-                 <div class='heading'>9Anime Comment Policies &amp; Guidelines</div> <ol> <li><strong class='rule'>Spoiling Content</strong> <p><strong class='definition'>Definition</strong></p> <p>&#8220;Anime Comment&#8221; is a spoiler-free section and is usually used for a general discussion about anime without spoiling any content.</p> <p>&#8220;Episode Comment&#8221; may contain spoilers for current or previous episodes. Contents from manga or future episodes are considered as spoilers.<br/></p> <p>Hiding spoilers with spoiler tags is not allowed either.<br/></p> <p><strong>Consequences</strong></p> <p><em>Minor Spoiler:-</em></p> <p><strong>1st Offense:</strong> Warning + Temporary Ban (Ranging 1 day to 3 days)</p> <p><strong>2nd Offense Within 30 Days of 1st Offense:</strong> Permanent Ban</p> <p><em>Major Spoiler:-</em></p> <p><strong>1st Offense: </strong>Permanent Ban<br/></p> </li> <li><strong class='rule'>Diversion From Topic</strong> <p><strong class='definition'>Definition</strong></p> <p>The comment section should be about the anime on hand. Although references from other anime may be used, the core topic of the comments should be about the anime at hand.</p> <p>This rule also applies on advertising other streaming websites which results in an instant ban.<br/></p> <p>This rule also applies to spam, posting comments like &#8220;first&#8221;, &#8220;second&#8221;, etc. are considered spam.<br/></p> <p><strong>Consequences</strong></p> <p><strong>1st Offense:</strong> Warning + Temporary Ban (Ranging 1 day to 3 days)</p> <p><strong>2nd Offense Within 30 Days of 1st Offense:</strong> Permanent Ban<br/></p> </li> <li><strong class='rule'>Flame War</strong> <p><strong class='definition'>Definition</strong></p> <p>Exchange of angry or abusive messages between the comments. Any form of insulting is also considered as flame war.<br/></p> <p><strong>Consequences</strong></p> <p><strong>1st Offense:</strong> Warning + Temporary Ban (Ranging 1 day to 3 days)</p> <p><strong>2nd Offense Within 30 Days of 1st Offense:</strong> Permanent Ban</p> </li> <li><strong class='rule'>Posting Harmful Link</strong> <p><strong class='definition'>Definition</strong></p> <p>Post of hyperlinks for websites that may contain viruses or may harm your PC or device.<br/></p> <p><strong>Consequences</strong></p> <p><strong>1st Offense:</strong> Permanent Ban + Deletion of All Comments</p> </li> <li><strong class='rule'>Posting NSFW Content</strong> <p><strong class='definition'>Definition</strong></p> <p>Posting contents that are not safe for work, such as pornographic images or video, ecchi anime, hentai, etc.<br/></p> <p><strong>Consequences</strong></p> <p><strong>1st Offense:</strong> Warning + Temporary Ban (Ranging 1 day to 3 days)</p> <p><strong>2nd Offense Within 30 Days of 1st Offense:</strong> Permanent Ban<br/></p> </li> <li><strong class='rule'>Inappropriate Profile Picture</strong> <p><strong class='definition'>Definition</strong></p> <p>Using a profile picture that is not safe for work. Although minor ecchi or fanservice is acceptable.<br/></p> <p><strong>Consequences</strong></p> <p><strong>1st Offense:</strong> Warning + Temporary Ban (Ranging 1 day to 3 days)</p> <p><strong>2nd Offense Within 30 Days of 1st Offense:</strong> Permanent Ban<br/></p> </li> <li><strong class='rule'>Use of Common Sense</strong> <p><strong class='definition'>Definition</strong></p> <p>If you think that you&#8217;ll get in trouble for what you&#8217;re about to do, don&#8217;t do it.<br/></p> <p><strong>Consequences</strong></p> <p><strong>1st Offense:</strong> Warning + Temporary Ban (Ranging 1 day to 3 days)</p> <p><strong>2nd Offense Within 30 Days of 1st Offense:</strong> Permanent Ban<br/></p> </li> <li><strong class='rule'>Upvote Abusing</strong> <p><strong class='definition'>Definition</strong></p> <p>Creating multiple alternative accounts to upvote your own comments.<br/></p> <p><strong>Consequences</strong></p> <p><strong>1st Offense:</strong> Permanent Ban on All Accounts + Deletion of All Comments<br/></p> </li> <li><strong class='rule'>Downvote Abusing</strong> <p><strong class='definition'>Definition</strong></p> <p>Targeting a user and downvoting all his comments, or creating multiple accounts to downvote one or more comments.<br/></p> <p><strong>Consequences</strong></p> <p><strong>1st Offense:</strong> Permanent Ban on All Accounts<br/></p> </li> <li><strong class='rule'>Swearing</strong> <p><strong class='definition'>Definition</strong></p> <p>Swearing is fine, as long as it&#8217;s not directed towards anyone, even as a joke. It may be misinterpreted by a moderator.<br/></p> <p><strong>Consequences</strong></p> <p><strong>1st Offense:</strong> Warning + Temporary Ban (Ranging 1 day to 3 days)</p> <p><strong>2nd Offense Within 30 Days of 1st Offense:</strong> Permanent Ban<br/></p> </li> <li><strong class='rule'>Moderator Verdict</strong> <p><strong class='definition'>Definition</strong></p> <p>A moderator&#8217;s verdict is final and arguing with them will only cause further punishment. If you have a complaint against a staff member, or wish to file a ban appeal, go to the <a href='#'>9Anime Discord Server</a> and post your issue in the <strong>#disqus-appeals</strong> channel.<br/></p> <p><strong>Consequences</strong></p> <p><strong>1st Offense:</strong> Warning + Temporary Ban (Ranging 1 day to 3 days)</p> <p><strong>2nd Offense Within 30 Days of 1st Offense:</strong> Permanent Ban</p> </li></ol><div class='heading'>Think you have been unfairly warned or banned?</div> <p>If you believe that you&#8217;ve been unfairly banned or if you have a complaint against one or more Disqus Staff Members, you may post an appeal or complaint on 9Anime Discord Server.<br/></p> <p><strong>STEPS</strong></p> <ol> <li>Join 9Anime Discord Server: <a href='#'>https://discord.gg/xxxxxxx</a></li> <li>Read the #rules channel and follow instructions. (Optional, but highly recommended)</li> <li>Head towards #disqus-appeals channel.</li> <li>Use the appropriate template to appeal a ban or file a complaint.</li> </ol> 
-              </div>
+    <div class='tabcontent' id='rule'>
+        
+        <!-- 16:9 Ratio Image - Centered -->
+        <!-- 16:9 Ratio Image - Centered -->
+<div style='text-align: center; margin: 20px auto; max-width: 800px;'>
+    <img alt='Anivirian Community Guidelines' src='YOUR_IMAGE_URL_HERE' style='width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 1px solid #2a2f45;'/>
+</div>
+
+        <div class='heading' style='font-size: 2rem; margin: 30px 0 20px; text-align: center; color: #fff;'>Anivirian Comment Policies &amp; Guidelines</div>
+        
+        <div style='background: #1e2235; padding: 20px; border-radius: 12px; margin-bottom: 30px; border-left: 4px solid #bb3a67;'>
+            <p style='color: #e5e7eb; font-size: 1.1rem; line-height: 1.6; margin: 0;'>
+                &quot;Freedom demands sacrifice.&quot; &#8226; Erwin Smith
+            </p>
+        </div>
+        
+        <p style='color: #9ca3af; font-size: 1rem; line-height: 1.6; margin-bottom: 30px;'>
+            This article outlines the official community policy that all users are expected to follow to help maintain a peaceful, engaging, and welcoming space for everyone at Anivirian. Inside, you&#39;ll find a clear breakdown of behaviors and actions that may result in a warning, mute, or ban, depending on the severity of the violation.
+        </p>
+        
+        <p style='color: #9ca3af; font-size: 1rem; line-height: 1.6; margin-bottom: 30px;'>
+            Our moderation team carefully reviews each case to ensure fair judgment. The Anivirian Team reserves the right to take action against users who exploit the platform or disrupt the community through disrespectful or harmful behavior.
+        </p>
+        
+        <!-- Moderative Actions Section -->
+        <div style='background: #1e2235; border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #2a2f45;'>
+            <h3 style='color: white; font-size: 1.4rem; margin-bottom: 20px; border-bottom: 2px solid #2a2f45; padding-bottom: 10px;'>
+                <span style='background: #bb3a67; padding: 5px 15px; border-radius: 20px; font-size: 1rem; margin-right: 10px;'>1</span>
+                Moderative Actions
+            </h3>
+            <p style='color: #9ca3af; margin-bottom: 20px;'>These define actions taken on your account in response to rule violations.</p>
+            
+            <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;'>
+                <div style='background: #2a2f45; padding: 15px; border-radius: 8px;'>
+                    <div style='color: #f39c12; font-weight: 700; margin-bottom: 10px; font-size: 1.2rem;'>Ban</div>
+                    <p style='color: #e5e7eb; margin: 0;'>Issued for serious or repeated violations of our Community Guidelines. A Ban permanently removes access to all community features, including locking and pausing your Watchlist.</p>
+                </div>
+                <div style='background: #2a2f45; padding: 15px; border-radius: 8px;'>
+                    <div style='color: #f39c12; font-weight: 700; margin-bottom: 10px; font-size: 1.2rem;'>Mute</div>
+                    <p style='color: #e5e7eb; margin: 0;'>Issued for minor or first-time violations. A Mute temporarily restricts your ability to participate in community discussions. Your Watchlist is not affected.</p>
+                </div>
+            </div>
+            
+            <h4 style='color: white; font-size: 1.2rem; margin: 20px 0 15px;'>Notified Reason</h4>
+            <p style='color: #9ca3af; margin-bottom: 15px;'>When a moderative action is applied, the user will receive a notification stating the reason. The categories include:</p>
+            
+            <ul style='list-style: none; padding: 0; margin: 0;'>
+                <li style='margin-bottom: 10px; padding-left: 20px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67;'>&#8226;</span>
+                    <strong>Spam:</strong> Excessive or disruptive posting, flooding reply threads or chats.
+                </li>
+                <li style='margin-bottom: 10px; padding-left: 20px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67;'>&#8226;</span>
+                    <strong>Abuse:</strong> Misuse of features or manipulating community features.
+                </li>
+                <li style='margin-bottom: 10px; padding-left: 20px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67;'>&#8226;</span>
+                    <strong>Other:</strong> Includes harassment, hate speech, or any behavior violating community standards.
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Anti-Spam & Fair Play Rules -->
+        <div style='background: #1e2235; border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #2a2f45;'>
+            <h3 style='color: white; font-size: 1.4rem; margin-bottom: 20px; border-bottom: 2px solid #2a2f45; padding-bottom: 10px;'>
+                <span style='background: #bb3a67; padding: 5px 15px; border-radius: 20px; font-size: 1rem; margin-right: 10px;'>2</span>
+                Comment Rules
+            </h3>
+            
+            <ol style='list-style: none; padding: 0; margin: 0;'>
+               <!-- 1. Spoiling Content - Combined Rule for All Content Types -->
+<li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.1</span>
+    <strong class='rule' style='color: #fff;'>Spoiling Content</strong>
+    
+    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> 
+    &quot;General Discussion&quot; sections are spoiler-free zones intended for conversations without revealing plot points. 
+    &quot;Episode/Chapter Comment&quot; sections may contain spoilers for currently airing/released episodes only.
+    
+    <br/><br/><strong style='color: #fff;'>For Anime &amp; TV Series:</strong> Discussion of events from manga, light novels, 
+    or source material beyond the adapted episodes is strictly prohibited. Future plot points from unaired episodes 
+    are considered major spoilers.
+    
+    <br/><br/><strong style='color: #fff;'>For Movies:</strong> Plot twists, endings, and post-credit scenes 
+    must remain in designated spoiler sections for the first 30 days after release. &quot;General Discussion&quot; areas 
+    must remain spoiler-free.
+    
+    <br/><br/><strong style='color: #fff;'>For Web Series:</strong> Full season spoilers are only permitted in 
+    episode-specific comment sections after the episode has aired. Discussion of future episodes based on trailers, 
+    promotional material, or leaked content is strictly forbidden.
+    
+    <br/><br/><strong style='color: #fff;'>For All Content:</strong> Hiding spoilers with spoiler tags or formatting 
+    does NOT make them acceptable in spoiler-free zones. If a section is marked &quot;Spoiler-Free,&quot; no plot reveals 
+    are allowed regardless of how they&#39;re presented.</p>
+    
+    <p style='color: #9ca3af; margin: 15px 0 5px;'><span style='color: #f39c12;'>🔹 Spoiler Categories:</span></p>
+    <p style='color: #e5e7eb; margin: 0 0 5px 15px;'><span style='color: #bb3a67;'>Minor Spoilers:</span> Revealing details about current/previous episodes, basic plot setup, non-critical character reveals.</p>
+    <p style='color: #e5e7eb; margin: 0 0 5px 15px;'><span style='color: #bb3a67;'>Major Spoilers:</span> Character deaths, plot twists, finales, post-credit scenes, source material beyond adapted content, future episode leaks.</p>
+    
+    <p style='color: #9ca3af; margin: 15px 0 5px;'><span style='color: #f39c12;'>Consequences:</span></p>
+    <p style='color: #e5e7eb; margin: 0 0 5px 15px;'><em>Minor Spoiler:</em> 1st Offense: Warning + 1-3 day mute &#8226; 2nd Offense within 30 days: Permanent Ban</p>
+    <p style='color: #e5e7eb; margin: 0 0 0 15px;'><em>Major Spoiler:</em> Immediate Permanent Ban + Deletion of Offending Comments</p>
+    
+    <p style='color: #9ca3af; margin: 15px 0 0; font-size: 0.9rem;'><span style='color: #f39c12;'>📌 Note:</span> When in doubt, assume it&#39;s a spoiler. If you think you might ruin someone&#39;s experience, please refrain from posting or use designated spoiler sections.</p>
+</li>
+                <!-- 2. Diversion From Topic -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.2</span>
+                    <strong class='rule' style='color: #fff;'>Topic Relevance</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> Comments should focus on the anime at hand. References to other series are acceptable, but the core discussion must remain relevant. This also prohibits advertising other streaming platforms and spam comments like &quot;first&quot;, &quot;second&quot;, etc.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> 1st Offense: Warning + 1-3 day mute &#8226; 2nd Offense within 30 days: Permanent Ban</p>
+                </li>
+                
+                <!-- 3. Flame War -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.3</span>
+                    <strong class='rule' style='color: #fff;'>Harassment &amp; Toxicity</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> Exchange of angry or abusive messages between commenters. Any form of insulting, bullying, or personal attacks constitutes harassment.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> 1st Offense: Warning + 1-3 day mute &#8226; 2nd Offense within 30 days: Permanent Ban</p>
+                </li>
+                
+                <!-- 4. Posting Harmful Link -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.4</span>
+                    <strong class='rule' style='color: #fff;'>Harmful Links</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> Posting hyperlinks to websites that may contain malware, viruses, or harm users&#39; devices.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> Immediate Permanent Ban + Deletion of All Comments</p>
+                </li>
+                
+                <!-- 5. Posting NSFW Content -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.5</span>
+                    <strong class='rule' style='color: #fff;'>NSFW Content</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> Posting content not safe for work, including pornographic images/video, explicit hentai, or sexually explicit material.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> 1st Offense: Warning + 1-3 day mute &#8226; 2nd Offense within 30 days: Permanent Ban</p>
+                </li>
+                
+                <!-- 6. Inappropriate Profile Picture -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.6</span>
+                    <strong class='rule' style='color: #fff;'>Profile Pictures</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> Using profile pictures that are not safe for work. Minor ecchi or fan service is acceptable, but explicit content is prohibited.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> 1st Offense: Warning + 1-3 day mute &#8226; 2nd Offense within 30 days: Permanent Ban</p>
+                </li>
+                
+                <!-- 7. Use of Common Sense -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.7</span>
+                    <strong class='rule' style='color: #fff;'>Common Sense</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> If you think you&#39;ll get in trouble for what you&#39;re about to post, don&#39;t post it. Trust your judgment.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> 1st Offense: Warning + 1-3 day mute &#8226; 2nd Offense within 30 days: Permanent Ban</p>
+                </li>
+                
+                <!-- 8. Upvote Abusing -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.8</span>
+                    <strong class='rule' style='color: #fff;'>Vote Manipulation</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> Creating multiple alternate accounts to upvote your own comments or manipulate community engagement.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> Permanent Ban on All Accounts + Deletion of All Comments</p>
+                </li>
+                
+                <!-- 9. Downvote Abusing -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.9</span>
+                    <strong class='rule' style='color: #fff;'>Targeted Downvoting</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> Targeting a user and downvoting all their comments, or creating multiple accounts to downvote specific comments.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> Permanent Ban on All Accounts</p>
+                </li>
+                
+                <!-- 10. Swearing -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.10</span>
+                    <strong class='rule' style='color: #fff;'>Language</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> Swearing is acceptable as long as it&#39;s not directed at anyone, even as a joke, as it may be misinterpreted by moderators.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> 1st Offense: Warning + 1-3 day mute &#8226; 2nd Offense within 30 days: Permanent Ban</p>
+                </li>
+                
+                <!-- 11. No Low-Effort Comments -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.11</span>
+                    <strong class='rule' style='color: #fff;'>Low-Effort Comments</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> Avoid one-word replies like &quot;Nice&quot;, &quot;First&quot;, or &quot;Started at X Date&quot;. These don&#39;t add value to the conversation and create unnecessary clutter.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> 1st Offense: Warning + 1-3 day mute &#8226; 2nd Offense within 30 days: Permanent Ban</p>
+                </li>
+                
+                <!-- 12. No Begging for Engagement -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.12</span>
+                    <strong class='rule' style='color: #fff;'>Begging for Engagement</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> Comments like &quot;Like if you agree&quot; or &quot;Help me get to 100 likes!&quot; disrupt natural engagement and meaningful discussion.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> 1st Offense: Warning + 1-3 day mute &#8226; 2nd Offense within 30 days: Permanent Ban</p>
+                </li>
+                
+                <!-- 13. English Language -->
+                <li style='margin-bottom: 25px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>2.13</span>
+                    <strong class='rule' style='color: #fff;'>English Language</strong>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Definition:</span> Comments should be in English to maintain readability for all users and allow proper moderation.</p>
+                    <p style='color: #9ca3af; margin: 8px 0 5px;'><span style='color: #f39c12;'>Consequences:</span> 1st Offense: Warning + 1-3 day mute &#8226; 2nd Offense within 30 days: Permanent Ban</p>
+                </li>
+            </ol>
+        </div>
+        
+        <!-- Moderation & Rule Enforcement -->
+        <div style='background: #1e2235; border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #2a2f45;'>
+            <h3 style='color: white; font-size: 1.4rem; margin-bottom: 20px; border-bottom: 2px solid #2a2f45; padding-bottom: 10px;'>
+                <span style='background: #bb3a67; padding: 5px 15px; border-radius: 20px; font-size: 1rem; margin-right: 10px;'>3</span>
+                Moderation &amp; Rule Enforcement
+            </h3>
+            
+            <ol style='list-style: none; padding: 0; margin: 0;'>
+                <li style='margin-bottom: 20px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>3.1</span>
+                    <strong>Respect Moderator Decisions</strong>
+                    <p style='color: #9ca3af; margin: 5px 0 0;'>Admins and Moderators reserve the right to take action on your content. Do not argue or harass them. Treat the staff with respect. Impersonating staff members is strictly prohibited.</p>
+                </li>
+                
+                <li style='margin-bottom: 20px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>3.2</span>
+                    <strong>Community Reporting</strong>
+                    <p style='color: #9ca3af; margin: 5px 0 0;'>Your support plays a key role in keeping our community safe. Help by reporting any rule violations you encounter. Together, we can create a space that&#39;s safe, engaging, and enjoyable for all.</p>
+                </li>
+                
+                <li style='margin-bottom: 20px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>3.3</span>
+                    <strong>Intent vs. Impact</strong>
+                    <p style='color: #9ca3af; margin: 5px 0 0;'>We moderate based on how your comment affects others&#8212;not just your intention. Even if something wasn&#39;t meant to offend, if it causes harm, it still counts as a violation.</p>
+                </li>
+                
+                <li style='margin-bottom: 20px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>3.4</span>
+                    <strong>Reporting Violations</strong>
+                    <p style='color: #9ca3af; margin: 5px 0 0;'>To help keep the community safe, report users with clear proof (screenshots). User reports should be submitted through our official channels for proper review.</p>
+                </li>
+            </ol>
+        </div>
+        
+        <!-- Ban & Appeal System -->
+        <div style='background: #1e2235; border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #2a2f45;'>
+            <h3 style='color: white; font-size: 1.4rem; margin-bottom: 20px; border-bottom: 2px solid #2a2f45; padding-bottom: 10px;'>
+                <span style='background: #bb3a67; padding: 5px 15px; border-radius: 20px; font-size: 1rem; margin-right: 10px;'>4</span>
+                Ban &amp; Appeal System
+            </h3>
+            
+            <ol style='list-style: none; padding: 0; margin: 0;'>
+                <li style='margin-bottom: 20px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>4.1</span>
+                    <strong>Zero Tolerance for Repeat Offenders</strong>
+                    <p style='color: #9ca3af; margin: 5px 0 0;'>We believe in second chances, but if a user continues to break rules after warnings or mutes, stronger actions may be taken, including permanent bans.</p>
+                </li>
+                
+                <li style='margin-bottom: 20px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>4.2</span>
+                    <strong>Appeals Process</strong>
+                    <p style='color: #9ca3af; margin: 5px 0 0;'>Suspended accounts may appeal through our official support channel. However, second bans are rarely overturned and are typically permanent.</p>
+                </li>
+                
+                <li style='margin-bottom: 20px; padding-left: 30px; position: relative; color: #e5e7eb;'>
+                    <span style='position: absolute; left: 0; color: #bb3a67; font-weight: 700;'>4.3</span>
+                    <strong>Moderator Discretion</strong>
+                    <p style='color: #9ca3af; margin: 5px 0 0;'>Not every situation can be predicted. Moderators have the authority to use their judgment to take action that protects the community&#39;s best interest.</p>
+                </li>
+            </ol>
+        </div>
+        
+       <!-- Closing Message -->
+<div style='background: #1a1e2f; border-radius: 8px; padding: 25px; margin: 30px 0; border-left: 4px solid #bb3a67;'>
+    <p style='color: #e5e7eb; font-size: 1rem; line-height: 1.6; margin: 0; font-style: italic;'>
+        &quot;Thank you for helping keep Anivirian a welcoming place for all anime fans to enjoy and discuss their favorite series.&quot;
+    </p>
+</div>
+        
+<!-- Appeal Instructions -->
+<div style='background: #1e2235; border-radius: 12px; padding: 20px; margin-top: 30px; border: 1px solid #2a2f45;'>
+    <div class='heading' style='font-size: 1.5rem; margin-bottom: 20px; color: #fff;'>Think you have been unfairly warned or banned?</div>
+    <p style='color: #9ca3af; margin-bottom: 20px;'>If you believe that you&#39;ve been unfairly banned or if you have a complaint against a Staff Member, you may submit an appeal through our official channels.</p>
+    
+    <div style='background: #2a2f45; border-radius: 8px; padding: 20px;'>
+        <p style='color: white; font-weight: 700; margin-bottom: 15px;'>APPEAL PROCESS:</p>
+        <ol style='margin: 0; padding-left: 20px; color: #9ca3af;'>
+            <li style='margin-bottom: 10px;'>Contact us through our official support channels</li>
+            <li style='margin-bottom: 10px;'>Include your username and reason for appeal</li>
+            <li style='margin-bottom: 10px;'>Provide any relevant context or screenshots</li>
+            <li style='margin-bottom: 0;'>Wait for our team to review your case</li>
+        </ol>
+    </div>
+    
+    <!-- Centered Rounded Appeal Button -->
+    <div style='text-align: center; margin-top: 25px;'>
+        <a href='https://anivirian.blogspot.com/p/submit-appeal.html' onmouseout='this.style.background=&quot;#bb3a67&quot;; this.style.borderColor=&quot;#bb3a67&quot;; this.style.transform=&quot;translateY(0)&quot;;' onmouseover='this.style.background=&quot;#9f2f54&quot;; this.style.borderColor=&quot;#9f2f54&quot;; this.style.transform=&quot;translateY(-2px)&quot;;' style='display: inline-block;                    background: #bb3a67;                    color: white;                    font-weight: 600;                    padding: 12px 30px;                    border-radius: 50px;                    text-decoration: none;                    font-size: 1rem;                   letter-spacing: 0.5px;                   border: 1px solid #bb3a67;                   transition: all 0.3s ease;                   box-shadow: 0 4px 12px rgba(187, 58, 103, 0.3);' target='_blank'>
+            <svg fill='none' style='width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+                <path d='M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2z' fill='white'/>
+                <path d='M6 9h12v2H6zm0 4h8v2H6z' fill='white'/>
+            </svg>
+            Submit an Appeal
+        </a>
+    </div>
+</div>
+        
+    </div>
 </b:includable>
           <b:includable id='sharingButton'>
             <span expr:aria-label='data:platform.shareMessage' expr:class='&quot;sharing-platform-button sharing-element-&quot; + data:platform.key' expr:data-href='data:shareUrl + &quot;&amp;target=&quot; + data:platform.target' expr:data-url='data:originalUrl' expr:title='data:platform.shareMessage' role='menuitem' tabindex='-1'>
@@ -5182,7 +5479,7 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
                 <h3>Comments</h3>
                 <div class='tabs'>
                 <span class='tablinks' id='defaultOpen' onclick='openTab(event, &apos;disqus_thread&apos;)'>Comment</span>
-  <span class='tablinks' onclick='openTab(event, &apos;comment&apos;)'>Report <b:if cond='data:post.numberOfComments &gt; 0'><data:post.numberOfComments/></b:if></span>
+  <span class='tablinks' onclick='window.location.href=&quot;https://anivirian.blogspot.com/p/submit-report.html&quot;; return false;'>Report</span>
   <span class='tablinks' onclick='openTab(event, &apos;rule&apos;)'>Rule</span>
                 </div>
               </div>
@@ -5422,11 +5719,40 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
         <b:widget cond='data:view.isHomepage' id='HTML1' locked='true' title='Estimated Schedule' type='HTML' version='2' visible='true'>
           <b:widget-settings>
             <b:widget-setting name='content'><![CDATA[<style>
-  /* Ultra Simple Schedule with SVG Icons */
+  /* Ultra Simple Schedule with SVG Icons and World Clock */
   .schedule-mini {
     background: #1e2235;
     border-radius: 10px;
     padding: 15px;
+    position: relative;
+  }
+  
+  /* World Timer - Top Right */
+  .mini-world-timer {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #2a2f45;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #3a4055;
+    z-index: 5;
+  }
+  
+  .mini-world-timer svg {
+    width: 14px;
+    height: 14px;
+    fill: #bb3a67;
+  }
+  
+  .mini-timer-display {
+    font-weight: 500;
+    letter-spacing: 0.3px;
   }
   
   .schedule-mini h3 {
@@ -5438,6 +5764,7 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
     display: flex;
     align-items: center;
     gap: 8px;
+    padding-right: 140px; /* Make space for timer */
   }
   
   .schedule-mini h3 svg {
@@ -5450,6 +5777,23 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
     display: flex;
     flex-direction: column;
     gap: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+  }
+  
+  .schedule-list::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .schedule-list::-webkit-scrollbar-track {
+    background: #2a2f45;
+    border-radius: 4px;
+  }
+  
+  .schedule-list::-webkit-scrollbar-thumb {
+    background: #bb3a67;
+    border-radius: 4px;
   }
   
   .schedule-row {
@@ -5470,7 +5814,7 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
   }
   
   .row-time {
-    min-width: 120px;
+    min-width: 100px;
     color: #f39c12;
     font-weight: 600;
     font-size: 0.9rem;
@@ -5571,6 +5915,17 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
   
   /* Mobile responsive */
   @media (max-width: 768px) {
+    .mini-world-timer {
+      position: static;
+      margin-bottom: 10px;
+      width: fit-content;
+    }
+    
+    .schedule-mini h3 {
+      padding-right: 0;
+      flex-wrap: wrap;
+    }
+    
     .schedule-row {
       flex-wrap: wrap;
       padding: 12px;
@@ -5615,6 +5970,14 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
 </style>
 
 <div class="schedule-mini">
+  <!-- World Timer - Top Right -->
+  <div class="mini-world-timer" id="miniWorldTimer">
+    <svg viewbox="0 0 24 24">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-13v4l5 3-5 3v-4H9v-6h2.5z"/>
+    </path></svg>
+    <span class="mini-timer-display" id="miniTimerDisplay">Loading...</span>
+  </div>
+  
   <h3>
     <svg viewbox="0 0 24 24">
       <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
@@ -5628,9 +5991,56 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
 //<![CDATA[
 (function() {
   const container = document.getElementById('miniSchedule');
+  const timerDisplay = document.getElementById('miniTimerDisplay');
   const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
   
-  // Show loading state with SVG
+  // ✅ YOUR BLOG URL - CORRECT!
+  const BLOG_URL = 'https://anivirian.blogspot.com';
+  
+  // Configuration
+  const CONFIG = {
+    blogUrl: BLOG_URL,
+    validTypes: ['Anime', 'TV', 'Drama', 'Series', 'Movie', 'Special'],
+    validStatuses: ['Ongoing', 'Airing', 'Upcoming', 'Special'],
+    maxResults: 50
+  };
+  
+  // ============================================
+  // WORLD TIMER - Shows user's actual local time
+  // ============================================
+  function updateWorldTimer() {
+    if (!timerDisplay) return;
+    
+    const now = new Date();
+    
+    // Get user's local timezone offset
+    const offset = -now.getTimezoneOffset();
+    const offsetHours = Math.floor(Math.abs(offset) / 60);
+    const offsetMins = Math.abs(offset) % 60;
+    const offsetSign = offset >= 0 ? '+' : '-';
+    
+    // Format time in user's local time (24-hour format)
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    // Format date
+    const dateStr = now.toLocaleDateString('en-US', {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric'
+    });
+    
+    timerDisplay.textContent = `(GMT${offsetSign}${offsetHours.toString().padStart(2, '0')}) ${dateStr} ${hours}:${minutes}:${seconds}`;
+  }
+  
+  // Start timer updates
+  updateWorldTimer();
+  setInterval(updateWorldTimer, 1000);
+  
+  // ============================================
+  // LOADING STATE
+  // ============================================
   container.innerHTML = `
     <div class="schedule-loading">
       <svg viewBox="0 0 24 24">
@@ -5640,114 +6050,154 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
     </div>
   `;
   
-  // Fetch posts from Blogger
-  const script = document.createElement('script');
-  script.src = '/feeds/posts/default?alt=json-in-script&max-results=20&orderby=published&callback=handleMiniSchedule';
-  script.onerror = () => {
-    container.innerHTML = `
-      <div class="no-shows">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-        </svg>
-        <span>Failed to load schedule</span>
-      </div>
-    `;
-  };
-  document.head.appendChild(script);
-  
-  // Handle the response
-  window.handleMiniSchedule = function(data) {
-    if (!data.feed.entry || data.feed.entry.length === 0) {
-      container.innerHTML = `
-        <div class="no-shows">
-          <svg viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-          </svg>
-          <span>No upcoming shows</span>
-        </div>
-      `;
-      return;
-    }
+  // ============================================
+  // FETCH BLOGGER FEED WITH STATUS FILTERS
+  // ============================================
+  function fetchBloggerFeed() {
+    let allShows = [];
+    let completedRequests = 0;
     
-    let html = '';
+    // Fetch posts with status labels
+    CONFIG.validStatuses.forEach((status, index) => {
+      const script = document.createElement('script');
+      script.src = `${CONFIG.blogUrl}/feeds/posts/default/-/${encodeURIComponent(status)}?alt=json-in-script&max-results=${CONFIG.maxResults}&callback=handleStatusFeed_${index}`;
+      
+      window[`handleStatusFeed_${index}`] = function(data) {
+        if (data.feed.entry && data.feed.entry.length > 0) {
+          const showsFromFeed = parseShowsFromFeed(data.feed.entry, status);
+          allShows = [...allShows, ...showsFromFeed];
+        }
+        
+        completedRequests++;
+        
+        if (completedRequests === CONFIG.validStatuses.length) {
+          processAndDisplayShows(allShows);
+        }
+      };
+      
+      document.head.appendChild(script);
+    });
+    
+    // Fallback if feeds don't load
+    setTimeout(() => {
+      if (allShows.length === 0) {
+        fetchAllPosts(); // Try without filtering
+      }
+    }, 5000);
+  }
+  
+  // ============================================
+  // FETCH ALL POSTS (FALLBACK)
+  // ============================================
+  function fetchAllPosts() {
+    const script = document.createElement('script');
+    script.src = `${CONFIG.blogUrl}/feeds/posts/default?alt=json-in-script&max-results=${CONFIG.maxResults}&callback=handleAllPosts`;
+    
+    window.handleAllPosts = function(data) {
+      if (data.feed.entry && data.feed.entry.length > 0) {
+        const shows = parseShowsFromFeed(data.feed.entry);
+        processAndDisplayShows(shows);
+      } else {
+        showNoShows();
+      }
+    };
+    
+    document.head.appendChild(script);
+  }
+  
+  // ============================================
+  // PARSE SHOWS FROM FEED
+  // ============================================
+  function parseShowsFromFeed(entries, defaultStatus = '') {
     const shows = [];
     
-    // Process each post
-    data.feed.entry.slice(0, 10).forEach(entry => {
+    entries.forEach(entry => {
       const title = entry.title.$t;
-      const link = entry.link.find(l => l.rel === 'alternate').href;
+      const postUrl = entry.link.find(l => l.rel === 'alternate').href;
+      const content = entry.content ? entry.content.$t : '';
       const labels = entry.category ? entry.category.map(c => c.term) : [];
       
-      // Check if it's a valid show type
+      // Check if it's a valid type (Anime, TV, Drama, Series, Movie, Special)
       const isValidType = labels.some(label => 
-        ['TV', 'Series', 'Drama', 'Anime', 'Movie'].includes(label)
+        CONFIG.validTypes.includes(label)
       );
       
-      // Check if it's ongoing/airing
-      const isValidStatus = labels.some(label => 
-        ['Ongoing', 'Airing', 'Upcoming'].includes(label)
-      );
+      // Check status from labels
+      const status = labels.find(label => 
+        CONFIG.validStatuses.includes(label)
+      ) || defaultStatus || 'Airing';
       
-      // For demo, we'll include all posts but in production you'd filter
-      // For now, we'll generate random schedule data
-      const day = Math.floor(Math.random() * 7);
-      const hour = Math.floor(Math.random() * 6) + 18; // 18-23
-      const minute = Math.random() > 0.5 ? '00' : '30';
-      
-      // Extract episode number from title or generate random
+      // Try to extract episode number
       let episode = 1;
-      const episodeMatch = title.match(/Episode\s*(\d+)/i) || title.match(/Ep\.?\s*(\d+)/i);
+      const episodeMatch = title.match(/Episode\s*(\d+)/i) || 
+                          title.match(/Ep\.?\s*(\d+)/i) ||
+                          content.match(/episode[:\s]*(\d+)/i);
       if (episodeMatch) {
         episode = episodeMatch[1];
-      } else {
-        episode = Math.floor(Math.random() * 12) + 1;
       }
       
+      // Try to extract time from content or hidden schedule data
+      let time = 'TBA';
+      
+      // Look for time in hidden schedule data (if present in content)
+      const timeMatch = content.match(/data-time="(\d{2}:\d{2})"/) || 
+                        content.match(/air time[:\s]*(\d{2}:\d{2})/i);
+      if (timeMatch) {
+        time = timeMatch[1];
+      }
+      
+      // Clean title (remove episode number from main title)
+      const cleanTitle = title.replace(/Episode\s*\d+[\s:.-]*/i, '').trim();
+      
       shows.push({
-        title: title,
-        link: link,
-        day: day,
-        hour: hour,
-        minute: minute,
+        title: cleanTitle || title,
+        fullTitle: title,
+        link: postUrl,
         episode: episode,
-        labels: labels
+        time: time,
+        status: status,
+        labels: labels,
+        isValidType: isValidType
       });
     });
     
-    // Sort by day and time
-    shows.sort((a, b) => {
-      if (a.day === b.day) {
-        return a.hour - b.hour || a.minute.localeCompare(b.minute);
-      }
-      return a.day - b.day;
-    });
+    return shows;
+  }
+  
+  // ============================================
+  // PROCESS AND DISPLAY SHOWS
+  // ============================================
+  function processAndDisplayShows(shows) {
+    // Filter to only include valid types
+    const validShows = shows.filter(show => show.isValidType);
     
-    // Take first 8 shows
-    const displayShows = shows.slice(0, 8);
-    
-    if (displayShows.length === 0) {
-      container.innerHTML = `
-        <div class="no-shows">
-          <svg viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-          </svg>
-          <span>No scheduled shows found</span>
-        </div>
-      `;
+    if (validShows.length === 0) {
+      showNoShows();
       return;
     }
     
-    // Build HTML with SVG icons
+    // Sort by time (just for consistent display)
+    validShows.sort((a, b) => a.time.localeCompare(b.time));
+    
+    // Take first 8 shows
+    const displayShows = validShows.slice(0, 8);
+    
+    if (displayShows.length === 0) {
+      showNoShows();
+      return;
+    }
+    
+    // Build HTML
+    let html = '';
+    
     displayShows.forEach(show => {
-      const timeStr = `${show.hour.toString().padStart(2, '0')}:${show.minute}`;
-      
       html += `
-        <a href="${show.link}" class="schedule-row">
+        <a href="${show.link}" class="schedule-row" target="_blank" rel="noopener">
           <span class="row-time">
             <svg viewBox="0 0 24 24">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-13v4l5 3-5 3v-4H9v-6h2.5z"/>
             </svg>
-            ${dayNames[show.day]} ${timeStr}
+            ${show.time}
           </span>
           <span class="row-title">
             <svg viewBox="0 0 24 24">
@@ -5766,7 +6216,41 @@ max-height: 0;overflow: hidden;transition: max-height .2s;}
     });
     
     container.innerHTML = html;
+  }
+  
+  // ============================================
+  // SHOW NO SHOWS MESSAGE
+  // ============================================
+  function showNoShows() {
+    container.innerHTML = `
+      <div class="no-shows">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        <span>No scheduled shows found</span>
+      </div>
+    `;
+  }
+  
+  // ============================================
+  // ERROR HANDLER
+  // ============================================
+  window.handleMiniScheduleError = function() {
+    container.innerHTML = `
+      <div class="no-shows">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        <span>Failed to load schedule</span>
+      </div>
+    `;
   };
+  
+  // ============================================
+  // INITIALIZE
+  // ============================================
+  fetchBloggerFeed();
+  
 })();
 //]]]]><![CDATA[>
 </script>]]></b:widget-setting>
