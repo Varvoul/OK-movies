@@ -1,0 +1,1425 @@
+<style>
+/* Request Form Container */
+.request-form-container {
+    background: #1e2235;
+    border-radius: 20px;
+    padding: 35px;
+    margin: 25px 0;
+    border: 1px solid #2a2f45;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+}
+
+/* Form Title */
+.request-form-title {
+    color: white;
+    font-size: 2.2rem;
+    margin: 0 0 10px 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+.request-form-subtitle {
+    color: #9ca3af;
+    font-size: 1rem;
+    margin-bottom: 25px;
+    text-align: center;
+    border-bottom: 2px solid #2a2f45;
+    padding-bottom: 20px;
+}
+
+/* Step Indicator */
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #2a2f45;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border: 2px solid #3a4055;
+    transition: all 0.3s;
+}
+
+.step.active .step-number {
+    background: #bb3a67;
+    color: white;
+    border-color: #bb3a67;
+    box-shadow: 0 0 15px rgba(187,58,103,0.5);
+}
+
+.step.completed .step-number {
+    background: #10b981;
+    color: white;
+    border-color: #10b981;
+}
+
+.step-label {
+    color: #9ca3af;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.step.active .step-label {
+    color: white;
+}
+
+/* Form Groups */
+.request-form-group {
+    margin-bottom: 25px;
+}
+
+.request-form-group label {
+    display: block;
+    color: #e5e7eb;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.request-form-group label .required {
+    color: #bb3a67;
+    margin-left: 3px;
+}
+
+.request-form-group label .optional {
+    color: #9ca3af;
+    font-size: 0.85rem;
+    font-weight: 400;
+    margin-left: 8px;
+}
+
+/* Form Controls */
+.request-form-control {
+    width: 100%;
+    background: #2a2f45;
+    border: 2px solid #3a4055;
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: white;
+    font-size: 1rem;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: all 0.2s;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.request-form-control:focus {
+    border-color: #bb3a67;
+    box-shadow: 0 0 0 4px rgba(187,58,103,0.2);
+}
+
+.request-form-control::placeholder {
+    color: #6b7280;
+    opacity: 0.7;
+}
+
+.request-form-control:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+textarea.request-form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Input with button container */
+.input-with-btn {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.input-with-btn .request-form-control {
+    flex: 1;
+}
+
+/* Verify Email Button */
+.verify-btn {
+    background: #2a2f45;
+    border: 2px solid #bb3a67;
+    color: white;
+    font-weight: 500;
+    padding: 14px 25px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    min-width: 140px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.verify-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+}
+
+.verify-btn:hover:not(:disabled) {
+    background: #bb3a67;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(187,58,103,0.4);
+}
+
+.verify-btn.verified {
+    background: #10b981;
+    border-color: #10b981;
+    cursor: default;
+}
+
+.verify-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.verify-btn.loading {
+    color: transparent;
+    pointer-events: none;
+    position: relative;
+}
+
+.verify-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: verify-spin 0.8s linear infinite;
+}
+
+@keyframes verify-spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Verification Code Field */
+.verification-field {
+    margin-top: 15px;
+    display: none;
+    background: #2a2f45;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #3a4055;
+}
+
+.verification-field.show {
+    display: block;
+}
+
+.verification-hint {
+    color: #f39c12;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.verification-hint svg {
+    width: 18px;
+    height: 18px;
+    fill: #f39c12;
+}
+
+/* Code input group */
+.code-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.code-input-group input {
+    flex: 1;
+    text-transform: uppercase;
+    font-family: monospace;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+/* Genres Container (Scrollable Multi-select) */
+.genres-container {
+    background: #2a2f45;
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px solid #3a4055;
+    max-height: 250px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #bb3a67 #1e2235;
+}
+
+.genres-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.genres-container::-webkit-scrollbar-track {
+    background: #1e2235;
+    border-radius: 10px;
+}
+
+.genres-container::-webkit-scrollbar-thumb {
+    background: #bb3a67;
+    border-radius: 10px;
+}
+
+.genres-container::-webkit-scrollbar-thumb:hover {
+    background: #9f2f54;
+}
+
+.genres-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.genre-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: #1e2235;
+    border-radius: 8px;
+    border: 1px solid #3a4055;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.genre-checkbox:hover {
+    border-color: #bb3a67;
+    transform: translateX(3px);
+}
+
+.genre-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #bb3a67;
+    cursor: pointer;
+}
+
+.genre-checkbox label {
+    color: #e5e7eb;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin: 0;
+    flex: 1;
+}
+
+/* Show Type Cloud */
+.show-type-cloud {
+    background: #2a2f45;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #3a4055;
+}
+
+.show-type-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.type-checkbox {
+    display: none;
+}
+
+.type-label {
+    display: inline-block;
+    background: #1e2235;
+    color: #9ca3af;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #3a4055;
+    user-select: none;
+}
+
+.type-label:hover {
+    background: #bb3a67;
+    color: white;
+    border-color: #bb3a67;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(187,58,103,0.3);
+}
+
+.type-checkbox:checked + .type-label {
+    background: #bb3a67;
+    color: white;
+    border-color: #bb3a67;
+    box-shadow: 0 5px 15px rgba(187,58,103,0.4);
+}
+
+/* File Upload Area */
+.file-upload-area {
+    background: #2a2f45;
+    border: 2px dashed #3a4055;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.file-upload-area:hover {
+    border-color: #bb3a67;
+    background: rgba(187,58,103,0.1);
+}
+
+.file-upload-area svg {
+    width: 50px;
+    height: 50px;
+    fill: #9ca3af;
+    margin-bottom: 15px;
+}
+
+.file-upload-area h4 {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.file-upload-area p {
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+.file-upload-area .file-limit {
+    color: #bb3a67;
+    font-size: 0.85rem;
+    margin-top: 10px;
+}
+
+.file-input {
+    display: none;
+}
+
+/* File Preview Grid */
+.file-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.file-preview-item {
+    background: #1e2235;
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid #3a4055;
+    position: relative;
+}
+
+.file-preview-item img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.file-preview-item .file-name {
+    color: #e5e7eb;
+    font-size: 0.8rem;
+    word-break: break-all;
+    margin-bottom: 5px;
+}
+
+.file-preview-item .file-size {
+    color: #9ca3af;
+    font-size: 0.75rem;
+}
+
+.file-preview-item .remove-file {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 25px;
+    height: 25px;
+    background: rgba(220, 38, 38, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+}
+
+.file-preview-item .remove-file:hover {
+    background: #dc2626;
+    transform: scale(1.1);
+}
+
+/* Submit Button */
+.request-submit-btn {
+    background: #bb3a67;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 18px 45px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(187,58,103,0.5);
+    letter-spacing: 0.5px;
+    margin: 30px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: fit-content;
+    min-width: 250px;
+}
+
+.request-submit-btn svg {
+    width: 22px;
+    height: 22px;
+    fill: white;
+    transition: transform 0.3s;
+}
+
+.request-submit-btn:hover:not(:disabled) {
+    background: #9f2f54;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(187,58,103,0.7);
+}
+
+.request-submit-btn:hover svg {
+    transform: translateX(8px) scale(1.1);
+}
+
+.request-submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Status Messages */
+.request-status {
+    margin-top: 25px;
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-size: 1rem;
+    display: none;
+    text-align: center;
+}
+
+.request-status.success {
+    display: block;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid #10b981;
+    color: #10b981;
+}
+
+.request-status.error {
+    display: block;
+    background: rgba(220, 38, 38, 0.15);
+    border: 1px solid #dc2626;
+    color: #ff6b6b;
+}
+
+.request-status.info {
+    display: block;
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid #3b82f6;
+    color: #60a5fa;
+}
+
+.request-status.warning {
+    display: block;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid #f59e0b;
+    color: #fbbf24;
+}
+
+/* Thank You Animation */
+.thank-you-message {
+    display: none;
+    text-align: center;
+    padding: 40px;
+    animation: fadeInScale 0.6s ease;
+}
+
+.thank-you-message.show {
+    display: block;
+}
+
+.thank-you-message svg {
+    width: 100px;
+    height: 100px;
+    fill: #10b981;
+    margin-bottom: 25px;
+    animation: bounce 0.6s ease;
+}
+
+.thank-you-message h2 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.thank-you-message p {
+    color: #9ca3af;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.thank-you-message .request-id {
+    background: #2a2f45;
+    padding: 15px;
+    border-radius: 12px;
+    color: #bb3a67;
+    font-family: monospace;
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Footer Note */
+.request-footer-note {
+    margin-top: 25px;
+    text-align: center;
+    border-top: 1px solid #2a2f45;
+    padding-top: 20px;
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+.request-footer-note a {
+    color: #bb3a67;
+    text-decoration: none;
+}
+
+.request-footer-note a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile Responsive */
+@media (max-width: 700px) {
+    .request-form-container {
+        padding: 20px;
+    }
+    
+    .request-form-title {
+        font-size: 1.8rem;
+    }
+    
+    .step-indicator {
+        gap: 20px;
+    }
+    
+    .input-with-btn {
+        flex-direction: column;
+    }
+    
+    .verify-btn {
+        width: 100%;
+    }
+    
+    .code-input-group {
+        flex-direction: column;
+    }
+    
+    .show-type-grid {
+        gap: 8px;
+    }
+    
+    .type-label {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+    }
+    
+    .file-preview-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .request-submit-btn {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+/* Loading state for form */
+.request-submit-btn.loading {
+    color: transparent;
+    pointer-events: none;
+    position: relative;
+}
+
+.request-submit-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: btn-spin 0.8s linear infinite;
+}
+
+@keyframes btn-spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+  
+  .type-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #1e2235;
+    color: #9ca3af;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #3a4055;
+    user-select: none;
+}
+
+.type-label svg.type-icon {
+    width: 1.2em;
+    height: 1.2em;
+    fill: currentColor;
+    stroke: currentColor;
+}
+
+.type-checkbox:checked + .type-label {
+    background: #bb3a67;
+    color: white;
+    border-color: #bb3a67;
+    box-shadow: 0 4px 10px rgba(187,58,103,0.3);
+}
+
+.type-checkbox:checked + .type-label svg.type-icon {
+    fill: white;
+    stroke: white;
+}
+
+.type-label:hover {
+    background: #bb3a67;
+    color: white;
+    border-color: #bb3a67;
+    transform: translateY(-2px);
+}
+
+.type-label:hover svg.type-icon {
+    fill: white;
+    stroke: white;
+}
+</style>
+
+<!-- Request Form Container -->
+<div class="request-form-container" id="requestFormContainer">
+    <h1 class="request-form-title">🎬 Send Request</h1>
+    <p class="request-form-subtitle">Request a show to be uploaded to Anivirian. Fill out the form below and we'll review your request.</p>
+    
+    <!-- Step Indicator -->
+    <div class="step-indicator">
+        <div class="step active" id="step1">
+            <div class="step-number">1</div>
+            <div class="step-label">Verify Email</div>
+        </div>
+        <div class="step" id="step2">
+            <div class="step-number">2</div>
+            <div class="step-label">Request Details</div>
+        </div>
+        <div class="step" id="step3">
+            <div class="step-number">3</div>
+            <div class="step-label">Submit</div>
+        </div>
+    </div>
+    
+    <!-- Form Container -->
+    <div id="requestFormFields">
+        
+        <!-- STEP 1: Email Verification -->
+        <div id="verificationStep">
+            <div style="background: #2a2f45; border-radius: 16px; padding: 25px; margin-bottom: 25px;">
+                <h3 style="color: white; margin-bottom: 20px; font-size: 1.4rem;">Step 1: Verify Your Email</h3>
+                
+                <!-- Email Field with Verify Button -->
+                <div class="request-form-group">
+                    <label>Email Address <span class="required">*</span></label>
+                    <div class="input-with-btn">
+                        <input type="email" class="request-form-control" placeholder="your.email@example.com" id="verifyEmailField" required>
+                        <button type="button" class="verify-btn" id="verifyEmailBtn">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                            Send Code
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Verification Code Field -->
+                <div class="verification-field" id="verificationField">
+                    <label style="color: #e5e7eb; margin-bottom: 10px; display: block;">6-8 Character Verification Code <span class="required">*</span></label>
+                    <div class="code-input-group">
+                        <input type="text" class="request-form-control" placeholder="e.g., A7B3C9D2" id="verificationCodeInput" maxlength="8" style="text-transform: uppercase;">
+                        <button type="button" class="verify-btn" id="confirmCodeBtn" disabled>Verify Code</button>
+                    </div>
+                    <div class="verification-hint">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                        <span id="verificationHint">Code format: 4 letters + 4 numbers mixed (e.g., A7B3C9D2)</span>
+                    </div>
+                </div>
+                
+                <!-- Verification Status -->
+                <div id="verificationStatus" class="request-status"></div>
+            </div>
+        </div>
+        
+        <!-- STEP 2: Main Request Form (hidden until email verified) -->
+        <div id="mainRequestForm" style="display: none;">
+            <form id="requestForm" action="https://formspree.io/f/xyknerae" method="POST" enctype="multipart/form-data">
+                
+                <!-- Hidden fields -->
+                <input type="hidden" name="verified_email" id="verifiedEmailField">
+                <input type="hidden" name="verification_method" value="email_verified">
+                
+                <!-- Full Name Field -->
+                <div class="request-form-group">
+                    <label>Full Name <span class="required">*</span></label>
+                    <input type="text" name="full_name" class="request-form-control" placeholder="Enter your full name" id="fullName" required>
+                </div>
+                
+                <!-- Verified Email Display -->
+                <div class="request-form-group">
+                    <label>Verified Email <span class="required">*</span></label>
+                    <input type="email" class="request-form-control" id="displayEmailField" disabled>
+                    <p style="color: #10b981; font-size: 0.9rem; margin-top: 5px;">✓ Email verified</p>
+                </div>
+                
+                <!-- Show Title Field -->
+                <div class="request-form-group">
+                    <label>Show Title <span class="required">*</span></label>
+                    <input type="text" name="show_title" class="request-form-control" placeholder="e.g., Attack on Titan, Breaking Bad, etc." id="showTitle" required>
+                </div>
+                
+                <!-- Short Description (Optional) -->
+                <div class="request-form-group">
+                    <label>Short Description <span class="optional">(optional)</span></label>
+                    <textarea name="description" class="request-form-control" placeholder="Tell us about the show, why you want it, any relevant details..." id="description" rows="4"></textarea>
+                </div>
+                
+                <!-- Show Genre (Multi-select scrollable) -->
+                <div class="request-form-group">
+                    <label>Show Genre <span class="required">*</span> (Select all that apply)</label>
+                    <div class="genres-container">
+                        <div class="genres-grid" id="genresGrid">
+                            <!-- Genres will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Show Type (Cloud style checkboxes) -->
+<div class="request-form-group">
+    <label>Show Type <span class="required">*</span> (Select one)</label>
+    <div class="show-type-cloud">
+        <div class="show-type-grid" id="showTypeGrid">
+            
+            <!-- Anime -->
+            <input type="radio" name="show_type" value="Anime" class="type-checkbox" id="type_anime" required>
+            <label for="type_anime" class="type-label">
+                <svg class="type-icon" viewBox="0 0 96 96" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M38.892 14.296C26.973 19.323 15.061 32.693 15.01 41.102c-.009 1.359-2.437 8.367-13.59 39.218L.039 84.141l27.731-.321c31.091-.359 32.628-.667 41.006-8.237 18.829-17.01 3.415-50.678-20.822-45.48-20.01 4.292-21.144 34.431-1.379 36.658 12.603 1.421 18.192-11.422 8.707-20.006-1.841-1.666-2.037-1.62-4.623 1.079-2.699 2.817-2.699 2.82-.68 4.647 4.522 4.092 1.159 8.906-4.439 6.355-6.306-2.873-7.474-12.102-2.199-17.377 13.386-13.386 34.151 8.644 23.31 24.731-16.699 24.779-55.114-1.28-42.293-28.69 8.743-18.692 31.564-23.429 50.15-10.41l5.702 3.995 7.395-5.566c8.152-6.136 8.232-6.278 5.458-9.658-2.098-2.557-1.74-2.656-8.938 2.474l-3.978 2.835-8.663-4.293c-11.285-5.592-23.213-6.537-32.592-2.581M16 62.281c0 .371-1.105 3.609-2.455 7.196L11.09 76h15.259l-2.071-2.25c-1.138-1.237-3.467-4.476-5.174-7.196C17.397 63.834 16 61.911 16 62.281" fill-rule="evenodd"/>
+                </svg>
+                Anime
+            </label>
+            
+            <!-- Movie -->
+            <input type="radio" name="show_type" value="Movie" class="type-checkbox" id="type_movie" required>
+            <label for="type_movie" class="type-label">
+                <svg class="type-icon" viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M90.734,210.977c22.547,0.016,43.172-9.203,57.922-24c14.781-14.734,24-35.359,24-57.906 s-9.219-43.188-24-57.938c-14.75-14.781-35.375-24-57.922-23.984c-22.547-0.016-43.172,9.203-57.922,24 c-14.781,14.734-24,35.375-23.984,57.922c-0.016,22.547,9.203,43.156,23.984,57.906C47.563,201.773,68.188,210.992,90.734,210.977z M66.109,104.43c6.375-6.344,14.938-10.188,24.625-10.203c9.703,0.016,18.25,3.859,24.641,10.203 c6.328,6.375,10.188,14.938,10.188,24.641c0,9.688-3.859,18.234-10.188,24.625c-6.391,6.328-14.938,10.188-24.641,10.203 c-9.688-0.016-18.25-3.875-24.625-10.203c-6.344-6.391-10.188-14.938-10.203-24.625C55.922,119.367,59.766,110.805,66.109,104.43z"/>
+                    <path d="M270.219,210.977c22.547,0.016,43.172-9.203,57.922-24c14.781-14.75,24-35.359,23.984-57.906 c0.016-22.547-9.203-43.188-23.984-57.922c-14.75-14.797-35.375-24.016-57.922-24c-22.531-0.016-43.172,9.203-57.922,23.984 c-14.797,14.75-24,35.391-23.984,57.938c-0.016,22.547,9.203,43.172,23.984,57.906 C227.047,201.773,247.688,210.992,270.219,210.977z M245.594,104.43c6.375-6.344,14.938-10.188,24.625-10.203 c9.688,0.016,18.25,3.859,24.625,10.203c6.344,6.375,10.188,14.938,10.203,24.641c-0.016,9.688-3.859,18.234-10.203,24.625 c-6.375,6.328-14.938,10.188-24.625,10.203c-9.688-0.016-18.25-3.875-24.625-10.203c-6.344-6.391-10.188-14.938-10.203-24.625 C235.406,119.367,239.25,110.805,245.594,104.43z"/>
+                    <path d="M313.047,224.195H45.953c-12.625-0.016-24.234,5.172-32.5,13.453C5.172,245.914,0,257.523,0,270.148v148.75 c0,12.625,5.172,24.25,13.453,32.5c8.266,8.281,19.875,13.469,32.5,13.453h267.094c12.609,0.016,24.234-5.172,32.484-13.453 c8.297-8.25,13.484-19.875,13.469-32.5v-148.75c0.016-12.625-5.172-24.234-13.469-32.5 C337.281,229.367,325.656,224.18,313.047,224.195z M317.813,418.898c-0.031,1.391-0.516,2.453-1.406,3.375 c-0.922,0.891-1.984,1.375-3.359,1.391H45.953c-1.391-0.016-2.438-0.5-3.359-1.391c-0.891-0.922-1.375-1.984-1.406-3.375v-148.75 c0.031-1.375,0.516-2.438,1.406-3.375c0.922-0.875,1.969-1.375,3.359-1.391h267.094c1.375,0.016,2.438,0.516,3.359,1.391 c0.891,0.938,1.375,2,1.406,3.375V418.898z"/>
+                    <path d="M493.875,236.414c-5.828-3.516-12.531-5.359-19.125-5.359c-6.063,0-12.063,1.484-17.609,4.422l-73.734,39.313 v46.719l87.406-46.594v139.297l-87.406-46.672v46.734l73.734,39.297c5.547,2.953,11.547,4.422,17.609,4.422 c6.594,0,13.297-1.766,19.188-5.297C505.125,445.93,512,433.805,512,420.68V268.367C512,255.242,505.125,243.117,493.875,236.414z"/>
+                </svg>
+                Movie
+            </label>
+            
+            <!-- TV -->
+            <input type="radio" name="show_type" value="TV" class="type-checkbox" id="type_tv" required>
+            <label for="type_tv" class="type-label">
+                <svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22L8 22C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16L2 12C2 9.17157 2 7.75736 2.87868 6.87868C3.75736 6 5.17157 6 8 6L16 6C18.8284 6 20.2426 6 21.1213 6.87868C22 7.75736 22 9.17157 22 12V16Z" stroke-width="1.5" fill="none"/>
+                    <path d="M9 2L12 5.5L15 2" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                    <path d="M16 6V22" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                    <circle cx="19" cy="16" r="1" fill="currentColor"/>
+                    <circle cx="19" cy="12" r="1" fill="currentColor"/>
+                </svg>
+                TV
+            </label>
+            
+            <!-- Web Series -->
+            <input type="radio" name="show_type" value="Web Series" class="type-checkbox" id="type_web" required>
+            <label for="type_web" class="type-label">
+                <svg class="type-icon" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M28.015 28.944h-2.049v1.056h-3.043v-1.056h-13.908v1.056h-3.043l0.001-1.056h-1.988c-1.098 0-1.987-0.89-1.987-1.987v-18.937c0-1.097 0.89-1.987 1.987-1.987h6.954c0 0 0.438-0.608 1.239-1.162l-2.553-2.554 0.703-0.702 2.755 2.754c0.524-0.225 1.131-0.385 1.83-0.385 0.743 0 1.373 0.183 1.91 0.43l2.799-2.799 0.702 0.702-2.614 2.615c0.729 0.537 1.115 1.102 1.115 1.102h9.189c1.098 0 1.987 0.89 1.987 1.987v18.937c0.001 1.097-0.889 1.986-1.986 1.986zM20.937 10.007c0-0.549-0.445-0.993-0.994-0.993h-13.908c-0.549 0-0.994 0.444-0.994 0.993v14.964c0 0.549 0.445 0.993 0.994 0.993h13.907c0.549 0 0.994-0.444 0.994-0.993v-14.964zM24.042 25.964h2.917v-0.993h-2.917v0.993zM24.042 23.977h2.917v-0.992h-2.917v0.992zM24.042 21.928h2.917v-0.993h-2.917v0.993zM24.042 19.941h2.917v-0.994h-2.917v0.994zM25.431 9.038c-0.822 0-1.49 0.667-1.49 1.49s0.668 1.49 1.49 1.49c0.823 0 1.49-0.667 1.49-1.49s-0.667-1.49-1.49-1.49zM25.431 13c-0.822 0-1.49 0.666-1.49 1.489s0.668 1.49 1.49 1.49c0.823 0 1.49-0.667 1.49-1.49s-0.667-1.489-1.49-1.489z"/>
+                </svg>
+                Web Series
+            </label>
+            
+            <!-- Drama -->
+            <input type="radio" name="show_type" value="Drama" class="type-checkbox" id="type_drama" required>
+            <label for="type_drama" class="type-label">
+                <svg class="type-icon" viewBox="0 0 299.196 299.196" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M101.833,91.468c-4.882-4.882-4.882-12.796,0-17.678c3.915-3.915,9.781-4.682,14.469-2.316 c4.495-7.917,11.674-13.995,20.423-17.098c4.113-1.459,8.411-2.199,12.774-2.199c7.024,0,13.906,1.934,19.902,5.593 c1.78,1.086,3.645,2.177,5.584,3.27V27.843c0-5.351-2.384-10.359-6.539-13.738c-4.164-3.386-9.556-4.705-14.789-3.607 c-18.029,3.77-41.526,5.845-66.164,5.845s-48.135-2.075-66.164-5.845c-1.214-0.254-2.437-0.379-3.65-0.379 c-4.024,0-7.948,1.375-11.142,3.974C2.382,17.47,0,22.482,0,27.843v92.63c0,44.46,33.335,81.281,76.323,86.782 c-0.817-14.212,1.207-28.581,6.123-42.396l3.408-9.578c-6.281,0.383-12.452,2.963-17.241,7.752c-4.881,4.881-12.797,4.881-17.678,0 c-4.882-4.882-4.882-12.796,0-17.678c11.885-11.885,28.163-16.756,43.655-14.626l12.438-34.957 C105.186,94.514,103.445,93.08,101.833,91.468z M71.95,91.468c-6.775,6.775-15.784,10.507-25.366,10.507 c-9.583,0-18.592-3.731-25.367-10.507c-4.882-4.882-4.882-12.796,0-17.678c4.881-4.881,12.797-4.881,17.678,0 c4.241,4.241,11.139,4.239,15.378,0c4.881-4.881,12.797-4.881,17.678,0C76.832,78.672,76.832,86.587,71.95,91.468z"/>
+                    <path d="M296.544,127.725c-2.847-4.684-7.654-7.85-13.084-8.592c-17.524-2.393-40.144-8.091-64.195-16.649 c-24.051-8.558-45.186-18.428-60.283-27.642c-2.89-1.764-6.176-2.665-9.483-2.665c-2.05,0-4.109,0.346-6.087,1.048 c-5.169,1.834-9.233,5.901-11.071,11.068l-31.052,87.27c-16.291,45.785,7.619,96.108,53.404,112.398 c9.75,3.469,19.706,5.115,29.495,5.115c36.179,0,70.081-22.484,82.903-58.519l31.052-87.27 C299.98,138.124,299.391,132.408,296.544,127.725z M131.629,151.079c-2.963-6.235-0.31-13.692,5.926-16.654 8.655-4.113,18.394-4.608,27.421-1.396c9.027,3.213,16.264,9.748,20.376,18.403c2.963,6.235,0.31,13.692-5.926,16.654 c-1.731,0.823-3.558,1.213-5.355,1.213c-4.676,0-9.159-2.635-11.299-7.139c-1.247-2.623-3.44-4.605-6.177-5.578 c-2.736-0.975-5.688-0.823-8.311,0.423C142.049,159.97,134.591,157.315,131.629,151.079z M208.213,242.594 c-7.141,3.393-14.681,5-22.105,5c-19.349,0-37.936-10.901-46.776-29.509c-2.963-6.235-0.31-13.691,5.926-16.654 c6.235-2.964,13.692-0.31,16.654,5.926c6.318,13.297,22.275,18.975,35.573,12.657c6.236-2.963,13.692-0.31,16.654,5.926 C217.102,232.175,214.448,239.631,208.213,242.594z M255.378,195.11c-1.731,0.823-3.558,1.213-5.355,1.213 c-4.676,0-9.159-2.635-11.299-7.139c-2.574-5.416-9.073-7.729-14.489-5.155c-6.233,2.965-13.691,0.311-16.654-5.926 c-2.963-6.235-0.31-13.692,5.926-16.654c17.864-8.489,39.309-0.861,47.798,17.007C264.267,184.691,261.613,192.148,255.378,195.11z"/>
+                </svg>
+                Drama
+            </label>
+            
+            <!-- Reality Show -->
+            <input type="radio" name="show_type" value="Reality Show" class="type-checkbox" id="type_reality" required>
+            <label for="type_reality" class="type-label">
+                <svg class="type-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.77778 21H14.2222C17.3433 21 18.9038 21 20.0248 20.2646C20.51 19.9462 20.9267 19.5371 21.251 19.0607C22 17.9601 22 16.4279 22 13.3636C22 10.2994 22 8.76721 21.251 7.6666C20.9267 7.19014 20.51 6.78104 20.0248 6.46268C19.3044 5.99013 18.4027 5.82123 17.022 5.76086C16.3631 5.76086 15.7959 5.27068 15.6667 4.63636C15.4728 3.68489 14.6219 3 13.6337 3H10.3663C9.37805 3 8.52715 3.68489 8.33333 4.63636C8.20412 5.27068 7.63685 5.76086 6.978 5.76086C5.59733 5.82123 4.69555 5.99013 3.97524 6.46268C3.48995 6.78104 3.07328 7.19014 2.74902 7.6666C2 8.76721 2 10.2994 2 13.3636C2 16.4279 2 17.9601 2.74902 19.0607C3.07328 19.5371 3.48995 19.9462 3.97524 20.2646C5.09624 21 6.65675 21 9.77778 21ZM12 9.27273C9.69881 9.27273 7.83333 11.1043 7.83333 13.3636C7.83333 15.623 9.69881 17.4545 12 17.4545C14.3012 17.4545 16.1667 15.623 16.1667 13.3636C16.1667 11.1043 14.3012 9.27273 12 9.27273ZM12 10.9091C10.6193 10.9091 9.5 12.008 9.5 13.3636C9.5 14.7192 10.6193 15.8182 12 15.8182C13.3807 15.8182 14.5 14.7192 14.5 13.3636C14.5 12.008 13.3807 10.9091 12 10.9091ZM16.7222 10.0909C16.7222 9.63904 17.0953 9.27273 17.5556 9.27273H18.6667C19.1269 9.27273 19.5 9.63904 19.5 10.0909C19.5 10.5428 19.1269 10.9091 18.6667 10.9091H17.5556C17.0953 10.9091 16.7222 10.5428 16.7222 10.0909Z"/>
+                </svg>
+                Reality Show
+            </label>
+        </div>
+    </div>
+</div>
+                
+                <!-- File Upload (Optional, max 3 files) -->
+                <div class="request-form-group">
+                    <label>Upload Images/Posters <span class="optional">(optional, max 3 files)</span></label>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                        <h4>Click to upload or drag and drop</h4>
+                        <p>PNG, JPG, JPEG, WEBP up to 5MB each</p>
+                        <p class="file-limit">Maximum 3 files</p>
+                        <input type="file" name="uploads" id="fileInput" multiple accept="image/*" style="display: none;">
+                    </div>
+                    <div id="filePreviewContainer" class="file-preview-grid"></div>
+                </div>
+                
+                <!-- Hidden field for selected genres (comma-separated) -->
+                <input type="hidden" name="selected_genres" id="selectedGenres">
+                
+                <!-- Submit Button -->
+                <button type="submit" class="request-submit-btn" id="requestSubmitBtn" disabled>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M2 20l20-8L2 4v6l14 2-14 2v6z"/>
+                    </svg>
+                    Submit Request
+                </button>
+            </form>
+        </div>
+        
+        <!-- Status Message Area -->
+        <div id="requestStatus" class="request-status"></div>
+    </div>
+    
+    <!-- Thank You Message -->
+    <div class="thank-you-message" id="thankYouMessage">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+        <h2>Request Sent!</h2>
+        <p>Thank you for your request! Our team will review it and get back to you within 48-72 hours.</p>
+        <div class="request-id" id="requestIdDisplay"></div>
+        <p style="font-size: 0.95rem;">You'll receive a confirmation email at your verified address.</p>
+    </div>
+    
+    <!-- Footer Note -->
+    <div class="request-footer-note" id="requestFooterNote">
+        <p>We review all requests and aim to respond within 48-72 hours.</p>
+        <p style="margin-top: 10px;">Questions? <a href="https://anivirian.blogspot.com/p/contact-us.html">Contact us</a></p>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+(function() {
+    // ============================================
+    // ELEMENT REFERENCES
+    // ============================================
+    const verifyEmailBtn = document.getElementById('verifyEmailBtn');
+    const verifyEmailField = document.getElementById('verifyEmailField');
+    const verificationField = document.getElementById('verificationField');
+    const verificationCodeInput = document.getElementById('verificationCodeInput');
+    const confirmCodeBtn = document.getElementById('confirmCodeBtn');
+    const verificationHint = document.getElementById('verificationHint');
+    const verificationStatus = document.getElementById('verificationStatus');
+    const mainRequestForm = document.getElementById('mainRequestForm');
+    const verificationStep = document.getElementById('verificationStep');
+    const displayEmailField = document.getElementById('displayEmailField');
+    const verifiedEmailField = document.getElementById('verifiedEmailField');
+    const requestForm = document.getElementById('requestForm');
+    const submitBtn = document.getElementById('requestSubmitBtn');
+    const thankYouMsg = document.getElementById('thankYouMessage');
+    const footerNote = document.getElementById('requestFooterNote');
+    const formFields = document.getElementById('requestFormFields');
+    const requestIdDisplay = document.getElementById('requestIdDisplay');
+    const fileInput = document.getElementById('fileInput');
+    const fileUploadArea = document.getElementById('fileUploadArea');
+    const filePreviewContainer = document.getElementById('filePreviewContainer');
+    
+    // Step indicators
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    
+    // ============================================
+    // GENRES LIST (Alphabetically organized)
+    // ============================================
+    const genres = [
+        "Action", "Adventure", "Animation", "Biography", "Comedy", 
+        "Crime", "Documentary", "Drama", "Family", "Fantasy", 
+        "Film-Noir", "Game-Show", "History", "Horror", "Music", 
+        "Musical", "Mystery", "News", "Reality-TV", "Romance", 
+        "Sci-Fi", "Sport", "Talk-Show", "Thriller", "War", "Western"
+    ];
+    
+    // Populate genres grid
+    const genresGrid = document.getElementById('genresGrid');
+    genres.sort().forEach(genre => {
+        const checkboxDiv = document.createElement('div');
+        checkboxDiv.className = 'genre-checkbox';
+        
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.name = 'genres';
+        input.value = genre;
+        input.id = `genre_${genre.replace(/\s+/g, '_')}`;
+        
+        const label = document.createElement('label');
+        label.htmlFor = input.id;
+        label.textContent = genre;
+        
+        checkboxDiv.appendChild(input);
+        checkboxDiv.appendChild(label);
+        genresGrid.appendChild(checkboxDiv);
+    });
+    
+    // ============================================
+    // STATE
+    // ============================================
+    let sentVerificationCode = '';
+    let verifiedEmail = '';
+    let isVerified = false;
+    let selectedFiles = [];
+    const MAX_FILES = 3;
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+    
+    // ============================================
+    // HELPER FUNCTIONS
+    // ============================================
+    function showStatus(message, type, target = verificationStatus) {
+        target.textContent = message;
+        target.className = `request-status ${type}`;
+        target.style.display = 'block';
+        
+        if (type !== 'error') {
+            setTimeout(() => {
+                target.style.display = 'none';
+            }, 8000);
+        }
+    }
+    
+    function isValidEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+    function generateVerificationCode() {
+        const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        const numbers = '23456789';
+        let code = '';
+        
+        // Generate 4 letters and 4 numbers
+        for (let i = 0; i < 4; i++) {
+            code += letters[Math.floor(Math.random() * letters.length)];
+            code += numbers[Math.floor(Math.random() * numbers.length)];
+        }
+        
+        // Shuffle the code
+        return code.split('').sort(() => Math.random() - 0.5).join('');
+    }
+    
+    function updateSteps(step) {
+        step1.classList.remove('active', 'completed');
+        step2.classList.remove('active', 'completed');
+        step3.classList.remove('active', 'completed');
+        
+        if (step === 1) {
+            step1.classList.add('active');
+        } else if (step === 2) {
+            step1.classList.add('completed');
+            step2.classList.add('active');
+        } else if (step === 3) {
+            step1.classList.add('completed');
+            step2.classList.add('completed');
+            step3.classList.add('active');
+        }
+    }
+    
+    // ============================================
+    // EMAIL VERIFICATION
+    // ============================================
+    verifyEmailBtn.addEventListener('click', function() {
+        const email = verifyEmailField.value.trim();
+        
+        if (!email) {
+            showStatus('Please enter your email address', 'error');
+            return;
+        }
+        
+        if (!isValidEmail(email)) {
+            showStatus('Please enter a valid email address', 'error');
+            return;
+        }
+        
+        // Show loading
+        verifyEmailBtn.disabled = true;
+        verifyEmailBtn.classList.add('loading');
+        verifyEmailBtn.innerHTML = 'Sending...';
+        
+        // Generate mixed verification code
+        const code = generateVerificationCode();
+        sentVerificationCode = code;
+        verifiedEmail = email;
+        
+        // Send verification email
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('verification_code', code);
+        formData.append('_subject', 'Show Request Verification Code - Anivirian');
+        formData.append('message', `Your verification code is: ${code}\n\nThis code will expire in 15 minutes.\n\nCode format: 4 letters + 4 numbers mixed.`);
+        
+        fetch('https://formspree.io/f/xyknerae', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                verificationField.classList.add('show');
+                verifyEmailBtn.classList.remove('loading');
+                verifyEmailBtn.innerHTML = '✓ Code Sent';
+                verifyEmailBtn.classList.add('verified');
+                verifyEmailBtn.disabled = true;
+                verifyEmailField.disabled = true;
+                confirmCodeBtn.disabled = false;
+                
+                showStatus('Verification code sent! Please check your email.', 'info');
+                verificationHint.textContent = 'Enter the 6-8 character code sent to your email';
+                updateSteps(1);
+            } else {
+                throw new Error('Failed to send verification email');
+            }
+        })
+        .catch(error => {
+            console.error('Verification error:', error);
+            verifyEmailBtn.disabled = false;
+            verifyEmailBtn.classList.remove('loading');
+            verifyEmailBtn.innerHTML = 'Send Code';
+            showStatus('Failed to send verification code. Please try again.', 'error');
+        });
+    });
+    
+    // ============================================
+    // VERIFICATION CODE CONFIRMATION
+    // ============================================
+    confirmCodeBtn.addEventListener('click', function() {
+        const enteredCode = verificationCodeInput.value.trim().toUpperCase();
+        
+        if (!enteredCode) {
+            showStatus('Please enter the verification code', 'error');
+            return;
+        }
+        
+        if (enteredCode.length < 6 || enteredCode.length > 8) {
+            showStatus('Code must be 6-8 characters long', 'error');
+            return;
+        }
+        
+        if (enteredCode === sentVerificationCode) {
+            // Verification successful
+            isVerified = true;
+            
+            confirmCodeBtn.innerHTML = '✓ Verified';
+            confirmCodeBtn.classList.add('verified');
+            confirmCodeBtn.disabled = true;
+            verificationCodeInput.disabled = true;
+            
+            // Hide verification step, show main form
+            verificationStep.style.display = 'none';
+            mainRequestForm.style.display = 'block';
+            updateSteps(2);
+            
+            // Set verified email in main form
+            displayEmailField.value = verifiedEmail;
+            verifiedEmailField.value = verifiedEmail;
+            
+            // Enable submit button
+            submitBtn.disabled = false;
+            
+            showStatus('✓ Email verified successfully! You can now submit your request.', 'success', verificationStatus);
+            
+            // Scroll to main form
+            mainRequestForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            showStatus('Invalid verification code. Please check and try again.', 'error');
+            verificationCodeInput.value = '';
+            verificationCodeInput.focus();
+        }
+    });
+    
+    // ============================================
+    // FILE UPLOAD HANDLING
+    // ============================================
+    fileUploadArea.addEventListener('click', () => {
+        fileInput.click();
+    });
+    
+    fileUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        fileUploadArea.style.borderColor = '#bb3a67';
+        fileUploadArea.style.background = 'rgba(187,58,103,0.1)';
+    });
+    
+    fileUploadArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        fileUploadArea.style.borderColor = '#3a4055';
+        fileUploadArea.style.background = '#2a2f45';
+    });
+    
+    fileUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        fileUploadArea.style.borderColor = '#3a4055';
+        fileUploadArea.style.background = '#2a2f45';
+        
+        const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+        handleFiles(files);
+    });
+    
+    fileInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        handleFiles(files);
+    });
+    
+    function handleFiles(files) {
+        const validFiles = files.filter(f => {
+            if (f.size > MAX_FILE_SIZE) {
+                showStatus(`File "${f.name}" exceeds 5MB limit`, 'error', verificationStatus);
+                return false;
+            }
+            return true;
+        });
+        
+        if (selectedFiles.length + validFiles.length > MAX_FILES) {
+            showStatus(`Maximum ${MAX_FILES} files allowed`, 'error', verificationStatus);
+            return;
+        }
+        
+        selectedFiles = [...selectedFiles, ...validFiles];
+        updateFilePreviews();
+    }
+    
+    function updateFilePreviews() {
+        filePreviewContainer.innerHTML = '';
+        
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            
+            reader.onload = (e) => {
+                const previewItem = document.createElement('div');
+                previewItem.className = 'file-preview-item';
+                
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'file-name';
+                nameDiv.textContent = file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name;
+                
+                const sizeDiv = document.createElement('div');
+                sizeDiv.className = 'file-size';
+                sizeDiv.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-file';
+                removeBtn.innerHTML = '×';
+                removeBtn.onclick = () => {
+                    selectedFiles.splice(index, 1);
+                    updateFilePreviews();
+                };
+                
+                previewItem.appendChild(img);
+                previewItem.appendChild(nameDiv);
+                previewItem.appendChild(sizeDiv);
+                previewItem.appendChild(removeBtn);
+                filePreviewContainer.appendChild(previewItem);
+            };
+            
+            reader.readAsDataURL(file);
+        });
+    }
+    
+    // ============================================
+    // FORM SUBMISSION
+    // ============================================
+    if (requestForm) {
+        requestForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validate required fields
+            const fullName = document.getElementById('fullName').value.trim();
+            const showTitle = document.getElementById('showTitle').value.trim();
+            const selectedGenres = Array.from(document.querySelectorAll('#genresGrid input:checked')).map(cb => cb.value);
+            const selectedType = document.querySelector('input[name="show_type"]:checked');
+            
+            if (!fullName) {
+                showStatus('Please enter your full name', 'error', verificationStatus);
+                return;
+            }
+            
+            if (!showTitle) {
+                showStatus('Please enter the show title', 'error', verificationStatus);
+                return;
+            }
+            
+            if (selectedGenres.length === 0) {
+                showStatus('Please select at least one genre', 'error', verificationStatus);
+                return;
+            }
+            
+            if (!selectedType) {
+                showStatus('Please select a show type', 'error', verificationStatus);
+                return;
+            }
+            
+            // Show loading
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            submitBtn.innerHTML = 'Submitting...';
+            updateSteps(3);
+            
+            // Prepare form data
+            const formData = new FormData(requestForm);
+            
+            // Add selected genres as readable field
+            formData.append('selected_genres', selectedGenres.join(', '));
+            
+            // Add files
+            selectedFiles.forEach(file => {
+                formData.append('uploads', file);
+            });
+            
+            // Add verification info
+            formData.append('verification_status', 'verified');
+            formData.append('submission_id', 'REQ-' + Date.now().toString(36).toUpperCase());
+            
+            try {
+                const response = await fetch(requestForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Show success
+                    formFields.style.display = 'none';
+                    footerNote.style.display = 'none';
+                    thankYouMsg.classList.add('show');
+                    
+                    // Generate request ID for display
+                    const requestId = 'REQ-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+                    requestIdDisplay.textContent = requestId;
+                    
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    const data = await response.json();
+                    showStatus(data.error || 'Submission failed. Please try again.', 'error', verificationStatus);
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                    submitBtn.innerHTML = 'Submit Request';
+                    updateSteps(2);
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                showStatus('Network error. Please check your connection and try again.', 'error', verificationStatus);
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+                submitBtn.innerHTML = 'Submit Request';
+                updateSteps(2);
+            }
+        });
+    }
+    
+    // Handle back/forward cache
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            location.reload();
+        }
+    });
+})();
+</script>
+
+<!-- Noscript fallback -->
+<noscript>
+    <div style="background: #2a2f45; border-left: 4px solid #f39c12; border-radius: 8px; padding: 15px; margin: 20px 0; color: #f39c12; text-align: center;">
+        <strong>JavaScript is required for this form.</strong> Please enable JavaScript or email your request directly to 
+        <a href="mailto:requests@anivirian.com" style="color: #bb3a67;">requests@anivirian.com</a>
+    </div>
+</noscript>
