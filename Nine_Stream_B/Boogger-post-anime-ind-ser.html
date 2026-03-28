@@ -1,0 +1,1406 @@
+<style>
+    /* Prevent horizontal scrolling and set base styles */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #171a29; /* Theme background color */
+        color: #e5e7eb;
+        min-height: 100vh;
+    }
+    
+    /* Better touch scrolling and tap highlights */
+    * {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+    }
+    
+    /* Scrollbar styling */
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(73, 139, 187, 0.3);
+        border-radius: 4px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(73, 139, 187, 0.5);
+    }
+    
+    /* Video Container Responsive */
+    .video-container-wrapper {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: 0.75rem;
+        background: #000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .video-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    
+    /* Episode list item - mobile optimized */
+    .episode-list-item {
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        background-color: #141a25;
+        cursor: pointer;
+        color: #e5e7eb;
+        font-size: 14px;
+        line-height: 1.4;
+        word-break: break-word;
+        border: 1px solid #2d3347;
+    }
+    
+    @media (max-width: 640px) {
+        .episode-list-item {
+            padding: 14px 16px;
+            font-size: 15px;
+        }
+    }
+    
+    .episode-list-item:hover {
+        background-color: #1e2533 !important;
+        border-left: 3px solid #498BBB;
+        transform: translateX(4px);
+        box-shadow: 0 2px 8px rgba(73,139,187,0.2);
+    }
+    
+    .episode-list-item.active {
+        background-color: #1e2533 !important;
+        border-left: 3px solid #498BBB;
+        font-weight: 500;
+        border-color: #498BBB;
+    }
+    
+    /* Server buttons - mobile optimized */
+    .server-btn {
+        transition: all 0.15s ease;
+        cursor: pointer;
+        background-color: #141a25 !important;
+        color: #e5e7eb !important;
+        border: 1px solid #2d3347;
+        padding: 8px 12px;
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: 6px;
+        min-width: 60px;
+        text-align: center;
+        touch-action: manipulation;
+    }
+    
+    @media (max-width: 480px) {
+        .server-btn {
+            padding: 10px 8px;
+            font-size: 12px;
+            min-width: 55px;
+        }
+    }
+    
+    .server-btn:hover {
+        background-color: #1e2533 !important;
+        border-color: #498BBB;
+    }
+    
+    .server-btn.active-server {
+        background-color: #498BBB !important;
+        color: white !important;
+        border-color: #498BBB !important;
+    }
+    
+    .server-btn:active {
+        transform: scale(0.97);
+    }
+    
+    /* Season button styling - mobile optimized */
+    .season-btn {
+        transition: all 0.2s ease;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1px solid transparent;
+        background-color: #141a25 !important;
+        color: #e5e7eb;
+        font-size: 14px;
+        touch-action: manipulation;
+        white-space: nowrap;
+    }
+    
+    @media (max-width: 640px) {
+        .season-btn {
+            padding: 12px 16px;
+            font-size: 14px;
+            flex: 0 0 auto;
+        }
+    }
+    
+    .season-btn.active-season {
+        background: #1e2533 !important;
+        border-color: #498BBB !important;
+        color: #498BBB;
+    }
+    
+    .season-btn:hover:not(.active-season) {
+        background: #1e2533 !important;
+        border-color: #2d3347;
+    }
+    
+    .season-btn:active {
+        transform: scale(0.97);
+    }
+    
+    /* Layout containers */
+    .player-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 12px;
+    }
+    
+    @media (min-width: 640px) {
+        .player-section {
+            padding: 16px;
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .player-section {
+            padding: 20px;
+        }
+    }
+    
+    .controls-panel {
+        background: #171a29;
+        border-radius: 16px;
+        padding: 16px;
+        margin-top: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        border: 1px solid #2d3347;
+        color: #e5e7eb;
+    }
+    
+    @media (min-width: 640px) {
+        .controls-panel {
+            padding: 20px;
+            border-radius: 20px;
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .controls-panel {
+            padding: 24px;
+        }
+    }
+    
+    .section-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #f3f4f6;
+    }
+    
+    @media (min-width: 640px) {
+        .section-title {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+    }
+    
+    .server-category {
+        margin-bottom: 16px;
+    }
+    
+    @media (min-width: 640px) {
+        .server-category {
+            margin-bottom: 20px;
+        }
+    }
+    
+    .server-category-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 8px;
+        display: block;
+        letter-spacing: 0.5px;
+    }
+    
+    @media (min-width: 640px) {
+        .server-category-label {
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+    }
+    
+    .server-buttons-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    @media (max-width: 480px) {
+        .server-buttons-row {
+            gap: 6px;
+        }
+    }
+    
+    .episodes-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-height: 350px;
+        overflow-y: auto;
+        padding-right: 8px;
+    }
+    
+    @media (min-width: 640px) {
+        .episodes-grid {
+            max-height: 400px;
+            gap: 8px;
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .episodes-grid {
+            max-height: 450px;
+        }
+    }
+    
+    .seasons-row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 8px;
+        margin-bottom: 20px;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+    
+    @media (min-width: 640px) {
+        .seasons-row {
+            flex-wrap: wrap;
+            overflow-x: visible;
+            gap: 10px;
+        }
+    }
+    
+    /* loading overlay */
+    .video-loading-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        border-radius: 12px;
+    }
+    
+    @media (min-width: 640px) {
+        .video-loading-overlay {
+            font-size: 1.5rem;
+        }
+    }
+    
+    /* Info strip - mobile optimized */
+    .current-info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+        font-size: 0.9rem;
+        background: #141a25;
+        padding: 16px;
+        border-radius: 12px;
+        color: #d1d5db;
+        border: 1px solid #2d3347;
+    }
+    
+    @media (min-width: 640px) {
+        .current-info {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 16px;
+        }
+    }
+    
+    .info-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+    }
+    
+    @media (min-width: 640px) {
+        .info-row {
+            gap: 16px;
+        }
+    }
+    
+    .info-item {
+        display: flex;
+        align-items: center;
+        background: #171a29;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid #2d3347;
+    }
+    
+    .info-item span:first-child {
+        color: #9ca3af;
+        margin-right: 6px;
+        font-size: 0.8rem;
+    }
+    
+    .info-value {
+        font-weight: 600;
+        color: #498BBB;
+        font-size: 0.9rem;
+    }
+    
+    /* Navigation buttons - mobile optimized */
+    .nav-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        width: 100%;
+    }
+    
+    @media (min-width: 640px) {
+        .nav-buttons {
+            width: auto;
+            gap: 10px;
+        }
+    }
+    
+    .nav-btn {
+        background: #141a25;
+        border: 1px solid #2d3347;
+        color: #e5e7eb;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex: 1 1 auto;
+        touch-action: manipulation;
+        min-height: 44px; /* Better touch target */
+    }
+    
+    @media (min-width: 480px) {
+        .nav-btn {
+            flex: 0 1 auto;
+            padding: 8px 20px;
+        }
+    }
+    
+    @media (min-width: 640px) {
+        .nav-btn {
+            min-height: auto;
+            padding: 8px 16px;
+        }
+    }
+    
+    .nav-btn:hover {
+        background: #1e2533;
+        border-color: #498BBB;
+        color: white;
+    }
+    
+    .nav-btn:active {
+        transform: scale(0.96);
+    }
+    
+    /* Add to list button */
+    .add-to-list-btn {
+        background: #141a25;
+        border: 1px solid #498BBB;
+        color: #e5e7eb;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex: 1 1 auto;
+        touch-action: manipulation;
+        min-height: 44px;
+    }
+    
+    @media (min-width: 480px) {
+        .add-to-list-btn {
+            flex: 0 1 auto;
+            padding: 8px 20px;
+        }
+    }
+    
+    @media (min-width: 640px) {
+        .add-to-list-btn {
+            min-height: auto;
+            padding: 8px 16px;
+        }
+    }
+    
+    .add-to-list-btn:hover {
+        background: #498BBB;
+        color: white;
+    }
+    
+    .add-to-list-btn:active {
+        transform: scale(0.96);
+    }
+    
+    /* Server message */
+    .server-message {
+        font-size: 0.85rem;
+        color: #fcd34d;
+        background: rgba(20, 26, 37, 0.95);
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin-bottom: 16px;
+        border-left: 4px solid #fbbf24;
+        border: 1px solid #2d3347;
+        line-height: 1.5;
+    }
+    
+    @media (min-width: 640px) {
+        .server-message {
+            font-size: 0.9rem;
+            padding: 12px 20px;
+        }
+    }
+    
+    /* Helper note */
+    .helper-note {
+        font-size: 0.75rem;
+        color: #9ca3af;
+        margin-top: 16px;
+        text-align: center;
+        padding: 8px;
+        background: #141a25;
+        border-radius: 20px;
+        border: 1px solid #2d3347;
+    }
+    
+    /* Landscape mode optimization */
+    @media (orientation: landscape) and (max-height: 600px) {
+        .video-container-wrapper {
+            max-height: 50vh;
+        }
+        
+        .episodes-grid {
+            max-height: 200px;
+        }
+        
+        .server-buttons-row {
+            gap: 4px;
+        }
+        
+        .server-btn {
+            padding: 6px 8px;
+            font-size: 11px;
+        }
+        
+        .current-info {
+            padding: 10px;
+        }
+        
+        .nav-btn, .add-to-list-btn {
+            padding: 6px 12px;
+            min-height: 36px;
+        }
+    }
+    
+    /* Large desktop optimization */
+    @media (min-width: 1440px) {
+        .player-section {
+            max-width: 1400px;
+        }
+        
+        .episodes-grid {
+            max-height: 500px;
+        }
+        
+        .server-btn {
+            padding: 10px 16px;
+            font-size: 14px;
+        }
+    }
+  
+  /* Custom scrollbar styling */
+  .cast-scroll-container::-webkit-scrollbar {
+    height: 0px;
+  }
+  
+  .cast-scroll-container::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+  }
+  
+  .cast-scroll-container::-webkit-scrollbar-thumb {
+    background: #4a5f7e;
+    border-radius: 10px;
+  }
+  
+  .cast-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #4a5f7e;
+  }
+  
+  /* Hide arrows on mobile by default, show on desktop via media query */
+  @media (min-width: 768px) {
+    .cast-nav-arrow {
+      display: flex !important;
+    }
+    
+    /* Hide arrows when can't scroll in that direction */
+    .cast-nav-arrow.left-arrow.hidden,
+    .cast-nav-arrow.right-arrow.hidden {
+      opacity: 0.3;
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .cast-nav-arrow {
+      display: none !important;
+    }
+  }
+  
+  .synopsis-container {
+    position: relative;
+    cursor: pointer;
+    color: #ddd;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    background: #1e2235;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border-left: 3px solid #4685b2;
+    max-height: 150px; /* Shows approximately 1/3 of the text */
+    overflow: hidden;
+  }
+  
+  .synopsis-container.expanded {
+    max-height: 1000px; /* Large enough to show full content */
+    transition: max-height 0.5s ease-in-out;
+  }
+  
+  /* Gradient overlay when collapsed */
+  .synopsis-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(to bottom, transparent, #1e2235);
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  
+  .synopsis-container.expanded::after {
+    opacity: 0;
+  }
+  
+  /* Expand/collapse indicator */
+  .synopsis-container::before {
+    content: 'Click to read more';
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4685b2;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  
+  .synopsis-container.expanded::before {
+    content: 'Click to collapse';
+    background: #2a2f45;
+  }
+  
+  .synopsis-container:hover::before {
+    opacity: 1;
+  }
+  
+  .synopsis-container.expanded:hover::before {
+    opacity: 1;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .synopsis-container {
+      max-height: 130px; /* Slightly smaller on mobile */
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .synopsis-container::before {
+      font-size: 0.7rem;
+      padding: 3px 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .synopsis-container {
+      max-height: 120px; /* Even smaller on small mobile */
+    }
+  }
+  
+  /* Optional: Add a subtle hover effect on the border */
+  .synopsis-container:hover {
+    border-left-color: #5c9ed4;
+  }
+  
+  /* Improve readability */
+  .synopsis-container.expanded {
+    cursor: pointer;
+  }
+    /* Server category label with icon */
+.server-category-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.5px;
+}
+
+/* Server icon styling */
+.server-icon {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 3px;
+    box-sizing: content-box;
+    transition: all 0.2s ease;
+}
+
+.server-icon:hover {
+    background-color: rgba(73, 139, 187, 0.2);
+}
+
+/* Change icon color when server in category is active */
+.server-category:has(.active-server) .server-icon path,
+.server-category:has(.active-server) .server-icon circle,
+.server-category:has(.active-server) .server-icon line {
+    stroke: #498BBB;
+}
+
+.server-category:has(.active-server) .server-icon {
+    background-color: rgba(73, 139, 187, 0.3);
+}
+</style>
+
+<!-- Player and controls standalone block -->
+<div class="player-section" id="standalone-player">
+    <!-- Dynamic Video Player -->
+    <div class="video-container-wrapper" id="video-player-container-main">
+        <div class="video-loading-overlay" id="video-loading-overlay-main">
+            <span>▶ Watch Now</span>
+        </div>
+    </div>
+
+    <!-- Video Control Section -->
+    <div class="controls-panel">
+        <!-- Current selection info with navigation -->
+        <div class="current-info">
+            <div class="info-row">
+                <div class="info-item"><span>Season:</span> <span class="info-value" id="display-season">1</span></div>
+                <div class="info-item"><span>Episode:</span> <span class="info-value" id="display-episode">1</span></div>
+                <div class="info-item"><span>Server:</span> <span class="info-value" id="display-server">SUB-HD-01</span></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-episode-btn">◀ Prev</button>
+                <button class="nav-btn" id="next-episode-btn">Next ▶</button>
+                <button class="add-to-list-btn" id="add-to-list-btn">+ Add to List</button>
+            </div>
+        </div>
+
+        <!-- Server message -->
+        <div class="server-message" id="server-message">
+           If the current server is down, please try other servers.
+        </div>
+
+        <!-- Server Selection: Three categories with HD-01 to HD-05 -->
+       <!-- Server Selection: Three categories with HD-01 to HD-05 that work for all seasons -->
+<div class="server-category">
+    <div class="server-category-label">
+        <svg class="server-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 12C2 15.7712 2 17.6569 3.17157 18.8284C4.34315 20 6.22876 20 10 20H14C17.7712 20 19.6569 20 20.8284 18.8284C22 17.6569 22 15.7712 22 12C22 8.22876 22 6.34315 20.8284 5.17157C19.6569 4 17.7712 4 14 4H10C6.22876 4 4.34315 4 3.17157 5.17157C2.51839 5.82475 2.22937 6.69989 2.10149 8" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M10 16H6" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M14 13H18" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M14 16H12.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M9.5 13H11.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M18 16H16.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M6 13H7" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+        </svg>
+        <span>SUB</span>
+    </div>
+    <div class="server-buttons-row" id="server-group-sub">
+        <button class="server-btn" data-server="SUB-HD-01">HD-01</button>
+        <button class="server-btn" data-server="SUB-HD-02">HD-02</button>
+        <button class="server-btn" data-server="SUB-HD-03">HD-03</button>
+      <button class="server-btn" data-server="SUB-HD-04">HD-04</button>
+        
+        
+    </div>
+</div>
+
+<div class="server-category">
+    <div class="server-category-label">
+        <svg class="server-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 10V12C19 15.866 15.866 19 12 19M5 10V12C5 15.866 8.13401 19 12 19M12 19V22M8 22H16M15 6H13M15 10H13M12 15C10.3431 15 9 13.6569 9 12V5C9 3.34315 10.3431 2 12 2C13.6569 2 15 3.34315 15 5V12C15 13.6569 13.6569 15 12 15Z" stroke="#9ca3af" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span>DUB</span>
+    </div>
+    <div class="server-buttons-row" id="server-group-dub">
+        <button class="server-btn" data-server="DUB-HD-01">HD-01</button>
+        <button class="server-btn" data-server="DUB-HD-02">HD-02</button>
+        <button class="server-btn" data-server="DUB-HD-03">HD-03</button>
+      <button class="server-btn" data-server="DUB-HD-04">HD-04</button>
+        
+        
+    </div>
+</div>
+
+<div class="server-category">
+    <div class="server-category-label">
+        <svg class="server-icon" width="20" height="20" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="160" cy="96" r="48" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+            <circle cx="160" cy="416" r="48" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+            <line x1="160" y1="368" x2="160" y2="144" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+            <circle cx="352" cy="160" r="48" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+            <path d="M352,208c0,128-192,48-192,160" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+        </svg>
+        <span>RAW</span>
+    </div>
+    <div class="server-buttons-row" id="server-group-raw">
+        <button class="server-btn" data-server="RAW-HD-01">HD-01</button>
+        <button class="server-btn" data-server="RAW-HD-02">HD-02</button>
+        <button class="server-btn" data-server="RAW-HD-03">HD-03</button>
+      <button class="server-btn" data-server="RAW-HD-04">HD-04</button>
+        
+        
+    </div>
+</div>
+
+        <!-- Seasons Selection -->
+        <div style="margin-top: 16px;">
+            <div class="section-title">Watch More Seasons</div>
+            <div class="seasons-row" id="seasons-container">
+                <button class="season-btn" data-season="1">Season 1</button>
+                
+            </div>
+        </div>
+
+        <!-- Episodes Selection -->
+        <div style="margin-top: 16px;">
+            <div class="section-title">Select Episode</div>
+            <div class="episodes-grid custom-scrollbar" id="episodes-container"></div>
+        </div>
+
+        <div class="helper-note">
+            * Select season → episode → server to load video
+        </div>
+    </div>
+</div>
+
+<!-- Include Tailwind and fonts -->
+<link href="https://cdn.tailwindcss.com" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<span><!--more--></span>
+<!--[ Thumbnail ]-->
+<div style="display: none;">
+  <img src="https://cdn.imgchest.com/files/f3d45c60e1e3.jpg"  alt="Dead Account Anime poster" />
+</div>
+<!--[ Backdrop ]-->
+<div class="post-backdrop" style="display: none;">
+  <img alt="Slider backdrop" src="https://cdn.imgchest.com/files/673719729855.jpg">
+</div>
+
+
+<!--[ Synopsis ]-->
+
+<p id="synopsis" class="synopsis-container">Always ready for a fight! Destruction for destruction's sake! The online streamer Aoringo is a troll, making the worst of the worst of boundary-pushing flamebait content and raking in the revenue from the hate-watchers. You may think he's nothing more than a bottom feeder and a drain on society, but in reality, he's high school dropout Souji Enishiro, a caring older brother with a sweet tooth who loves nothing more than his little sister. His viral videos? Just a way to pay his sister's medical bills. And even if all of humanity hates him, he doesn't care, so long as his little sister gets better. But then, something very strange begins to happen...  Don't miss the debut of this modern-day occult exorcism battle manga!
+</p>
+
+
+<!--[ Extra information ]-->
+
+<div id="extra-info">
+
+  <div class="info-organized">
+  <!-- Title -->
+  <div><strong>Title:</strong> <span>
+Dead Account</span></div>
+
+  <!-- Original -->
+  <div><strong>Original:</strong> <span>骸骨騎士様、只今異世界へお出掛け中</span></div>
+
+  <!-- Japanese/Korean/Chinese/Taiwanese (only for anime/drama) -->
+  <div><strong>Japanese:</strong> <span>デッドアカウント</span></div>
+
+  <!-- Synonyms -->
+  <div><strong>Synonyms:</strong> <span>Dead Account; デドアカ; เดดแอ็กเคานต์ พิฆาตบัญชีมรณะ</span></div>
+
+  <!-- Aired -->
+  <div><strong>Aired:</strong> <span>Jan 10, 2026 to Mar 28, 2026
+</span></div>
+
+  <!-- Premiered -->
+  <div><strong>Premiered:</strong> <span><a href="/search?q=Winter 2022">Winter 2026</a></span></div>
+
+        <!-- Episode -->
+  <div><strong>Episode:</strong> <span>12</span></div>
+
+       <!-- Broadcast -->
+  <div><strong>Broadcast:</strong> <span>Saturdays at 23:30 (JST)</span></div>
+
+  <!-- Duration -->
+  <div><strong>Duration:</strong> <span>23 min</span></div>
+
+  <!-- Score with Stars (MyAnimeList | IMDb) -->
+  <div><strong>Score:</strong> 
+    <span class="score-display">
+      <!-- MAL Score with Blue Star -->
+      <span class="mal-score">
+        <svg class="star-icon mal-star" width="16" height="16" viewBox="0 0 24 24" fill="#3b88c4" style="vertical-align: middle; margin-right: 2px;">
+          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+        </svg>
+        MAL: 6.36
+      </span>
+      
+      <span class="separator" style="margin: 0 5px; color: #aaa;">|</span>
+      
+      <!-- IMDb Score with Yellow Star -->
+      <span class="imdb-score">
+        <svg class="star-icon imdb-star" width="16" height="16" viewBox="0 0 24 24" fill="#f5c518" style="vertical-align: middle; margin-right: 2px;">
+          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+        </svg>
+        IMDb: 5.6
+      </span>
+    </span>
+  </div>
+
+  <!-- Studio -->
+  <div><strong>Studio:</strong> 
+    <span>
+      <a href="/search?q=SynergySP" title="SynergySP">SynergySP</a>
+    </span>
+  </div>
+
+  <!-- Producer -->
+  <div><strong>Producer:</strong> <span>TV Asahi, Kodansha, Nippon Columbia, Studio Mausu, Sammy, Crunchyroll, Bushiroad Move</span></div>
+
+ 
+</div>
+
+</div>
+
+<script>
+  // Function to handle arrow clicks and visibility
+  function setupCastScrolling() {
+    const container = document.querySelector('.cast-scroll-container');
+    const leftArrow = document.querySelector('.left-arrow');
+    const rightArrow = document.querySelector('.right-arrow');
+    
+    if (!container || !leftArrow || !rightArrow) return;
+    
+    const scrollAmount = 300;
+    
+    leftArrow.addEventListener('click', function() {
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+    
+    rightArrow.addEventListener('click', function() {
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+    
+    function updateArrows() {
+      const isAtStart = container.scrollLeft <= 5;
+      const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 5;
+      leftArrow.classList.toggle('hidden', isAtStart);
+      rightArrow.classList.toggle('hidden', isAtEnd);
+    }
+    
+    setTimeout(updateArrows, 100);
+    container.addEventListener('scroll', updateArrows);
+    window.addEventListener('resize', updateArrows);
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupCastScrolling);
+  } else {
+    setupCastScrolling();
+  }
+  
+  window.updateArrowVisibility = function(container) {
+    const leftArrow = document.querySelector('.left-arrow');
+    const rightArrow = document.querySelector('.right-arrow');
+    if (!leftArrow || !rightArrow) return;
+    const isAtStart = container.scrollLeft <= 5;
+    const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 5;
+    leftArrow.classList.toggle('hidden', isAtStart);
+    rightArrow.classList.toggle('hidden', isAtEnd);
+  };
+  
+  (function() {
+    // Episode titles
+    const episodeTitles = [
+      "He's a Flamebaiter",
+      "Miden Academy",
+      "Cyberkinesis Output Test",
+      "The Worst Trio Possible",
+      "The Anachronistic Exorcist",
+      "An Encounter In the Mountains",
+      "The A-B Battle",
+      "Open the Window, and...",
+      "The Battle at Sainokawara",
+      "He's a Freezer-type",
+      "The A-B Alliance"
+    ];
+
+    // ============================================
+    // SUB SERVER LINKS (HD-01 to HD-04)
+    // Each HD has its own independent links
+    // ============================================
+    
+    // SUB HD-01 (Independent)
+    const subEpisodesHD01 = [
+      'https://bysejikuar.com/e/hw93auhkvob6/dead-account-sub-01',
+      'https://bysejikuar.com/e/ikc04iib4myf/watch-dead-account-anime-sub-ep-02',
+      'https://bysejikuar.com/e/d3shmarar38y/dead-account-anime-english-sub-ep-03',
+      'https://bysejikuar.com/e/qvgk2yu8m5d6/dead-account-anime-english-sub-ep-04',
+      'https://bysejikuar.com/e/wq3gr74d7g45/dead-account-anime-english-sub-ep-05',
+      'https://bysejikuar.com/e/sjwbyhuj8c4d/dead-account-anime-english-sub-ep-06',
+      'https://bysejikuar.com/e/m22rji1849ip/dead-account-anime-english-sub-ep-07',
+      'https://bysejikuar.com/e/19yq255uz24n/dead-account-anime-english-sub-ep-08',
+      'https://bysejikuar.com/e/2m4f0qm7b41h/dead-account-anime-english-sub-ep-09',
+      'https://bysejikuar.com/e/jm1hi7zcdvwp/dead-account-anime-english-sub-ep10',
+      'https://bysejikuar.com/e/l9ycfdmefnog/dead-account-anime-english-sub-ep-11'
+    ];
+    
+    // SUB HD-02 (Independent)
+    const subEpisodesHD02 = [
+'https://hqq.ac/e/OE83Z0pJUC9uUklFTlE3bVRhV1RoQT09',     'https://hqq.ac/e/cXZoT0RoSE16a0tzZ0VyS2ZMNGFiQT09', // Episode 02
+'https://hqq.ac/e/Z3BjVDBrZWltT2RQM2pqc2NFZjlTQT09', // Episode 03
+'https://hqq.ac/e/UU5JbzhMOEs2V3VIQUtOTlRJOERJZz09', // Episode 04
+'https://hqq.ac/e/eTdDY0grOTNBL0VGRzNsbkhheUFyUT09', // Episode 05
+'https://hqq.ac/e/K012TUZWU1hQVWRhS1o5TVNhaldjQT09', // Episode 06
+'https://hqq.ac/e/SnA0dmg4bVdpWUNDZFVkUDhhQ2ltdz09', // Episode 07
+'https://hqq.ac/e/VlQ0aTNibmtrOURvYjg4a2xyVER3dz09', // Episode 08
+'https://hqq.ac/e/aURtcERVVlBlQVY3Vmhyd1Rrb3RnZz09', // Episode 09
+'https://hqq.ac/e/RldMNHRneTBKWnpvS2pKZzBiVFFOZz09', // Episode 10
+'https://hqq.ac/e/V2EwaW5qUlVycW5pVEN3aTArdDZLQT09'  // Episode 11
+      
+    ];
+    
+    // SUB HD-04 (Independent - add your HD-04 links here later)
+    const subEpisodesHD03 = [
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1768290821/Dead_Account_sub_01_ksivvz.mp4', 
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709828/Watch_Dead_Account_Anime_Sub_Ep_02_by0cpm.mp4', 
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709835/Dead_Account_Anime_English_SUB_Ep_03_vbcdqa.mp4', 
+      
+ 'https://player.cloudinary.com/embed/?cloud_name=dos8ad1kj&public_id=Dead_Account_Anime_English_SUB_Ep_04_xni1s8', 
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709858/Dead_Account_Anime_English_SUB_Ep_05_o4azdk.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709845/Dead_Account_Anime_English_SUB_Ep_06_zvf54s.mp4', 
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709850/Dead_Account_Anime_English_SUB_Ep_07_inuoqt.mp4', 
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774708867/Dead_Account_Anime_English_SUB_Ep_08_coz6ii.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709871/Dead_Account_Anime_English_SUB_Ep_09_y1qath.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709829/Dead_Account_Anime_English_SUB_Ep10_nhmpgi.mp4', 
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709923/Dead_Account_Anime_English_SUB_Ep_11_uiwedc.mp4'
+    ];
+    
+    // SUB HD-03 (Independent - currently empty, add links later)
+    const subEpisodesHD04 = [
+ 
+ 'https://mixdrop.top/e/gjkve8nxuw0j4vm', // Episode 01     
+  'https://mixdrop.top/e/dkdgxopdb7jej1q', // Epi 92    
+'https://mixdrop.top/e/q19k7xzmi4ozrr', // Episode 03
+'https://mixdrop.top/e/jdzov01eb3d8oz', // Episode 04
+'https://mixdrop.top/e/gjkvmp64hnm3mw', // Episode 05
+'https://mixdrop.top/e/7kpx4l1qtdwpp36', // Episode 06
+'https://mixdrop.top/e/z1z39vm8s66dq9', // Episode 07
+'https://mixdrop.top/e/8lqz96wghvzmjz', // Episode 08
+'https://mixdrop.top/e/6791wvnkbgzk3o', // Episode 09
+'https://mixdrop.top/e/jdzovnwwa7ozr1j', // Episode 10
+'https://mixdrop.top/e/363logwpidn03d'  // Episode 11
+    ];
+    
+    
+
+    // ============================================
+    // DUB SERVER LINKS (HD-01 to HD-04)
+    // Each HD has its own independent links
+    // ============================================
+    
+    // DUB HD-01 (Independent)
+    const dubEpisodesHD01 = [
+      'https://bysejikuar.com/e/b6sb2ri9956k/watch-dead-account-anime-english-dub-ep-03',
+      'https://bysejikuar.com/e/fm75d41y8whj/watch-dead-account-anime-english-dub-ep-04',
+      'https://bysejikuar.com/e/rn7iwtidw46i/dead-account-anime-english-dub-05',
+      'https://bysejikuar.com/e/17dy6jy4z6g7/dead-account-anime-english-dub-06',
+      'https://bysejikuar.com/e/lwvd4p4erg59/dead-account-anime-english-dub-07',
+     , 'https://bysejikuar.com/e/zukjg4ymgaf9/dead-account-anime-english-dub-08',
+      'https://bysejikuar.com/e/5tgvpnaykywb/dead-account-anime-english-dub-09'
+    ];
+    
+    // DUB HD-02 (Independent)
+    const dubEpisodesHD02 = [
+'https://vod.netmagcdn.com:2228/hls/CCSUR226rOQxeF5dGG9jK62SlH0DV81PMu19G6fPKRMxt-55rLP4z+TpuAghEnOB80P5EreNpDirHXTTYtI1lnI-wgD+C96IaIvJFuWnDw2N0C20INaCCeVJRKrclMvjLnKE41MiPJo5mx19TqJjPA==/master.m3u8',    
+'https://vod.netmagcdn.com:2228/hls/9tjDUt-A-yQ9Dz8681q9Jxa6w73TruVdRaOyznWYXlScFG+ZqgHVPhdtLnK29U04wAuTGjglUHBVdYy8RY+jJ-Mv564O1uZfvPYx4wyDkQAKVZsFumhl0avLFYtXq5-tXAk55KOdtiKNiaxg7qsExg==/master.m3u8',     'https://hqq.ac/e/TDY0Z2Y3Y3JEMkwzdkVSU3JubmtCQT09', // Episode 03
+'https://hqq.ac/e/a1dzZjdpQVhTYmIxd1gwOEQzb0I0Zz09', // Episode 04
+'https://hqq.ac/e/bGJzaVNDTGhDNSsrdUUxcmpYMDZUdz09', // Episode 05
+'https://hqq.ac/e/Sm44NUVGUi8rSnpENVNXK2dBdWIxdz09', // Episode 06
+'https://hqq.ac/e/TDlRVm5jWWtuMVVwZmFrbDlKcUs4QT09', // Episode 07
+'https://hqq.ac/e/Kzd6WVV0VElrT08vMzUwRDVLY3hDdz09', // Episode 08
+'https://hqq.ac/e/R2dlZDdYVHRIVFNoU2hLMllrRVFJdz09'  // Episode 09
+    ];
+    
+    // DUB HD-03 (Independent - currently empty, add links later)
+    const dubEpisodesHD03 = [
+      'https://mixdrop.top/e/el038rppinvelx', // Episode 03
+'https://mixdrop.top/e/dkdgop9vtp84xk', // Episode 04
+'https://mixdrop.top/e/vkzx143wbnve83', // Episode 05
+'https://mixdrop.top/e/ow90dmmrhkzvkd', // Episode 06
+'https://mixdrop.top/e/l7qpv1djf30n77', // Episode 07
+'https://mixdrop.top/e/jdzovww1b7p7lrv', // Episode 08
+'https://mixdrop.top/e/r69lv8onuv4og8d'  // Episode 09
+    ];
+    
+    // DUB HD-04 (Independent - add your HD-04 links here later)
+    const dubEpisodesHD04 = [
+      '', 
+      '', 
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709009/Watch_Dead_Account_Anime_English_Dub_Ep_03_faj1ka.mp4', 
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709828/Watch_Dead_Account_Anime_English_Dub_Ep_04_afewwx.mp4', 
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709855/Dead_Account_Anime_English_Dub_05_tav3jx.mp4', 
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709917/Dead_Account_Anime_English_Dub_06_qvhwnc.mp4', 
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774708998/Dead_Account_Anime_English_Dub_07_wfydpz.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774708928/Dead_Account_Anime_English_Dub_08_jiokke.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709826/Dead_Account_Anime_English_Dub_09_zfg8hh.mp4',
+      '',
+      '',
+      ''
+    ];
+
+    // ============================================
+    // RAW SERVER LINKS (Mirror SUB links)
+    // ============================================
+    const rawEpisodesHD01 = [...subEpisodesHD01];
+    const rawEpisodesHD02 = [...subEpisodesHD02];
+    const rawEpisodesHD03 = [...subEpisodesHD03];
+    const rawEpisodesHD04 = [...subEpisodesHD04];
+
+    // ============================================
+    // EPISODE URL MAPPING
+    // Each server points to its independent array
+    // ============================================
+    const episodeUrls = {
+      'SUB-HD-01': subEpisodesHD01,
+      'SUB-HD-02': subEpisodesHD02,
+      'SUB-HD-03': subEpisodesHD03,
+      'SUB-HD-04': subEpisodesHD04,
+      'DUB-HD-01': dubEpisodesHD01,
+      'DUB-HD-02': dubEpisodesHD02,
+      'DUB-HD-03': dubEpisodesHD03,
+      'DUB-HD-04': dubEpisodesHD04,
+      'RAW-HD-01': rawEpisodesHD01,
+      'RAW-HD-02': rawEpisodesHD02,
+      'RAW-HD-03': rawEpisodesHD03,
+      'RAW-HD-04': rawEpisodesHD04
+    };
+
+    // Episode data for seasons
+    const episodeData = {
+      '1': episodeTitles.map((title, idx) => ({ id: idx+1, title })),
+      '2': Array(6).fill().map((_, i) => ({ id: i+1, title: `Season 2 Episode ${i+1}` })),
+      '3': Array(4).fill().map((_, i) => ({ id: i+1, title: `Season 3 Episode ${i+1}` })),
+      '4': Array(3).fill().map((_, i) => ({ id: i+1, title: `Season 4 Episode ${i+1}` })),
+      'ova': Array(3).fill().map((_, i) => ({ id: i+1, title: `OVA Episode ${i+1}` }))
+    };
+
+    // State
+    let currentSeason = '1';
+    let currentEpisode = 1;
+    let currentServer = 'SUB-HD-01';
+
+    // DOM elements
+    const container = document.getElementById('video-player-container-main');
+    const overlay = document.getElementById('video-loading-overlay-main');
+    const displaySeason = document.getElementById('display-season');
+    const displayEpisode = document.getElementById('display-episode');
+    const displayServer = document.getElementById('display-server');
+    const episodesContainer = document.getElementById('episodes-container');
+    const seasonBtns = document.querySelectorAll('.season-btn');
+    const serverBtns = document.querySelectorAll('.server-btn');
+    const prevBtn = document.getElementById('prev-episode-btn');
+    const nextBtn = document.getElementById('next-episode-btn');
+    const addToListBtn = document.getElementById('add-to-list-btn');
+
+    function updateInfoDisplay() {
+      if (displaySeason) displaySeason.innerText = currentSeason;
+      if (displayEpisode) displayEpisode.innerText = currentEpisode;
+      if (displayServer) displayServer.innerText = currentServer;
+    }
+
+    function clearServerActive() {
+      serverBtns.forEach(btn => btn.classList.remove('active-server'));
+    }
+
+    function clearSeasonActive() {
+      seasonBtns.forEach(btn => btn.classList.remove('active-season'));
+    }
+
+    function loadVideo() {
+      if (!container) return;
+      const episodes = episodeData[currentSeason] || [];
+      if (currentEpisode > episodes.length) currentEpisode = 1;
+
+      const episodeIndex = currentEpisode - 1;
+      let videoUrl = '';
+      const serverUrls = episodeUrls[currentServer];
+      
+      if (serverUrls && episodeIndex < serverUrls.length && serverUrls[episodeIndex]) {
+        videoUrl = serverUrls[episodeIndex];
+      }
+
+      if (!videoUrl) {
+        container.innerHTML = '<div class="video-container" style="display: flex; align-items: center; justify-content: center; color: white; background: #000;">No video available for this episode on this server. Try another server.</div>';
+        if (overlay) overlay.style.display = 'none';
+        return;
+      }
+
+      let embedUrl = videoUrl;
+      if (videoUrl.includes('strmup.to')) {
+        embedUrl = videoUrl + (videoUrl.includes('?') ? '&' : '?') + 'autoplay=1&controls=1&modestbranding=1&rel=0';
+      } else {
+        embedUrl = videoUrl + (videoUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+      }
+
+      container.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.className = 'video-container';
+      iframe.src = embedUrl;
+      iframe.frameBorder = '0';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.title = `S${currentSeason} E${currentEpisode}`;
+      container.appendChild(iframe);
+
+      if (overlay) overlay.style.display = 'none';
+    }
+
+    function renderEpisodes() {
+      const episodes = episodeData[currentSeason] || [];
+      let html = '';
+      episodes.forEach(ep => {
+        const activeClass = (ep.id === currentEpisode) ? 'active' : '';
+        const epNumber = ep.id.toString().padStart(2, '0');
+        html += `<div class="episode-list-item ${activeClass}" data-episode-id="${ep.id}">EP ${epNumber}: ${ep.title}</div>`;
+      });
+      episodesContainer.innerHTML = html;
+
+      document.querySelectorAll('.episode-list-item').forEach(el => {
+        el.addEventListener('click', function(e) {
+          const epId = parseInt(this.dataset.episodeId);
+          if (!isNaN(epId)) {
+            currentEpisode = epId;
+            document.querySelectorAll('.episode-list-item').forEach(item => item.classList.remove('active'));
+            this.classList.add('active');
+            updateInfoDisplay();
+            if (currentServer) loadVideo();
+          }
+        });
+      });
+    }
+
+    function init() {
+      clearSeasonActive();
+      seasonBtns.forEach(btn => {
+        if (btn.dataset.season === currentSeason) {
+          btn.classList.add('active-season');
+        }
+      });
+
+      clearServerActive();
+      serverBtns.forEach(btn => {
+        if (btn.dataset.server === currentServer) {
+          btn.classList.add('active-server');
+        }
+      });
+
+      renderEpisodes();
+      updateInfoDisplay();
+      if (currentServer) loadVideo();
+    }
+
+    // Event listeners
+    seasonBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const season = this.dataset.season;
+        if (!season) return;
+        currentSeason = season;
+        currentEpisode = 1;
+        clearSeasonActive();
+        this.classList.add('active-season');
+        renderEpisodes();
+        updateInfoDisplay();
+        if (currentServer) loadVideo();
+      });
+    });
+
+    serverBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const server = this.dataset.server;
+        if (!server) return;
+        currentServer = server;
+        clearServerActive();
+        this.classList.add('active-server');
+        updateInfoDisplay();
+        loadVideo();
+      });
+    });
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function() {
+        const episodes = episodeData[currentSeason] || [];
+        const currentIndex = episodes.findIndex(ep => ep.id === currentEpisode);
+        if (currentIndex > 0) {
+          currentEpisode = episodes[currentIndex - 1].id;
+          renderEpisodes();
+          updateInfoDisplay();
+          if (currentServer) loadVideo();
+        }
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function() {
+        const episodes = episodeData[currentSeason] || [];
+        const currentIndex = episodes.findIndex(ep => ep.id === currentEpisode);
+        if (currentIndex < episodes.length - 1) {
+          currentEpisode = episodes[currentIndex + 1].id;
+          renderEpisodes();
+          updateInfoDisplay();
+          if (currentServer) loadVideo();
+        }
+      });
+    }
+
+    if (addToListBtn) {
+      const storageKey = 'quravel_list_status';
+      const savedStatus = localStorage.getItem(storageKey);
+      if (savedStatus === 'in_list') {
+        addToListBtn.innerHTML = '✓ In List';
+        addToListBtn.style.background = '#498BBB';
+        addToListBtn.style.color = 'white';
+        addToListBtn.style.borderColor = '#498BBB';
+      }
+
+      addToListBtn.addEventListener('click', function() {
+        if (this.innerText.includes('Add')) {
+          this.innerHTML = '✓ In List';
+          this.style.background = '#498BBB';
+          this.style.color = 'white';
+          this.style.borderColor = '#498BBB';
+          localStorage.setItem(storageKey, 'in_list');
+        } else {
+          this.innerHTML = '+ Add to List';
+          this.style.background = '#141a25';
+          this.style.color = '#e5e7eb';
+          this.style.borderColor = '#498BBB';
+          localStorage.removeItem(storageKey);
+        }
+      });
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', function() {
+        if (currentServer) loadVideo();
+      });
+    }
+
+    init();
+  })();
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const synopsis = document.getElementById('synopsis');
+    if (synopsis) {
+      synopsis.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('expanded');
+      });
+    }
+  });
+</script>
