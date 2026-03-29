@@ -22,11 +22,11 @@
     gap: 25px;
   }
   
-  /* Profile Container Styles */
+  /* --- UPDATED PROFILE STYLES (Smaller) --- */
   .profile-container {
     position: relative;
     width: 100%;
-    max-width: 300px;
+    max-width: 180px;
     margin: 0 auto 20px auto;
     cursor: pointer;
   }
@@ -34,39 +34,34 @@
   .profile-frame {
     position: relative;
     width: 100%;
-    padding-bottom: 100%; /* Creates perfect circle */
+    padding-bottom: 100%;
     border-radius: 50%;
     overflow: hidden;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: 4px solid #2a2f45;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    border: 3px solid #2a2f45;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     transition: all 0.3s ease;
   }
   
   .profile-frame:hover {
     transform: scale(1.02);
     border-color: #91243a;
-    box-shadow: 0 15px 35px rgba(145,36,58,0.3);
+    box-shadow: 0 12px 28px rgba(145,36,58,0.3);
   }
   
   .profile-frame img {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center;
     transition: all 0.3s ease;
   }
   
   .profile-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.55);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -74,25 +69,23 @@
     opacity: 0;
     transition: opacity 0.3s ease;
     border-radius: 50%;
+    backdrop-filter: blur(2px);
   }
   
-  .profile-container:hover .profile-overlay {
-    opacity: 1;
-  }
+  .profile-container:hover .profile-overlay { opacity: 1; }
   
   .profile-overlay svg {
-    width: 30%;
-    height: 30%;
+    width: 28%; height: 28%;
     fill: white;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
   }
   
   .profile-overlay span {
     color: white;
-    font-size: clamp(0.8rem, 3vw, 1rem);
+    font-size: clamp(0.7rem, 2.5vw, 0.85rem);
     font-weight: 500;
     text-align: center;
-    padding: 0 10px;
+    padding: 0 8px;
   }
   
   .change-photo-btn {
@@ -100,9 +93,8 @@
     bottom: 5px;
     right: 5px;
     background: #91243a;
-    color: white;
-    width: 40px;
-    height: 40px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -111,29 +103,95 @@
     border: 2px solid white;
     transition: all 0.3s ease;
     z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
+  .change-photo-btn:hover { background: #b22d4a; transform: scale(1.08); }
+  .change-photo-btn svg { width: 18px; height: 18px; fill: white; }
   
-  .change-photo-btn:hover {
-    background: #b22d4a;
-    transform: scale(1.1);
+  @media screen and (max-width: 1279px) {
+    .profile-container { max-width: 160px; }
+    .change-photo-btn { width: 32px; height: 32px; }
+    .change-photo-btn svg { width: 16px; height: 16px; }
   }
-  
-  .change-photo-btn svg {
-    width: 20px;
-    height: 20px;
-    fill: white;
+  @media screen and (max-width: 768px) {
+    .profile-container { max-width: 140px; }
+    .profile-frame { border-width: 2.5px; }
+    .change-photo-btn { width: 28px; height: 28px; bottom: 4px; right: 4px; }
+    .change-photo-btn svg { width: 14px; height: 14px; }
   }
-  
-  /* Hidden file input */
-  #profileImageInput {
-    display: none;
+  @media screen and (max-width: 480px) {
+    .profile-container { max-width: 120px; }
+    .profile-frame { border-width: 2px; }
+    .change-photo-btn { width: 26px; height: 26px; }
+    .change-photo-btn svg { width: 13px; height: 13px; }
   }
-  
-  /* Profile image in export/import */
-  .profile-data {
-    display: none;
+  /* --- END PROFILE STYLES --- */
+
+  /* --- FOLDER TABS STYLES (Horizontal Scroll) --- */
+  .folders-wrapper {
+    position: relative;
+    margin-bottom: 25px;
+    margin-top: 5px;
   }
-  
+  .folders-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 10px;
+    padding: 5px 0 10px 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  .folders-scroll::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+  .folder-tab {
+    flex: 0 0 auto;
+    padding: 8px 20px;
+    background: #2a2f45;
+    border-radius: 40px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    border: 1px solid #3a4055;
+  }
+  .folder-tab:hover { background: #3a415a; }
+  .folder-tab.active {
+    background: #498BBB;
+    border-color: #498BBB;
+    color: white;
+    box-shadow: 0 2px 8px rgba(73,139,187,0.3);
+  }
+  .folder-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: rgba(30,34,53,0.8);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    border: 1px solid #3a4460;
+    transition: all 0.2s;
+  }
+  .folder-nav-arrow:hover { background: #498BBB; border-color: #498BBB; }
+  .folder-nav-arrow.left { left: -10px; }
+  .folder-nav-arrow.right { right: -10px; }
+  .folder-nav-arrow svg { width: 18px; height: 18px; stroke: white; stroke-width: 2.5; }
+  @media (max-width: 768px) {
+    .folder-nav-arrow { display: none; }
+    .folders-scroll { gap: 8px; }
+    .folder-tab { padding: 6px 16px; font-size: 0.85rem; }
+  }
+  /* --- END FOLDER STYLES --- */
+
+  /* --- Rest of your existing styles (keep unchanged) --- */
   .side-menu ul {
     background: #1c1c1c;
     padding: 15px;
@@ -141,7 +199,6 @@
     margin-bottom: 1.66rem;
     list-style: none;
   }
-  
   .side-menu .menu li a {
     display: block;
     padding: 10px 20px;
@@ -151,25 +208,10 @@
     text-decoration: none;
     transition: all 0.2s;
   }
-  
-  .side-menu .menu li a:hover {
-    background: #292929;
-    color: white;
-  }
-  
-  .side-menu .menu li a.active {
-    background: #91243a;
-    color: white;
-  }
-  
-  .box:nth-child(odd) {
-    background: #181818;
-  }
-  
-  .box:nth-child(even) {
-    background: #1e1e1e;
-  }
-  
+  .side-menu .menu li a:hover { background: #292929; color: white; }
+  .side-menu .menu li a.active { background: #91243a; color: white; }
+  .box:nth-child(odd) { background: #181818; }
+  .box:nth-child(even) { background: #1e1e1e; }
   .bsx a {
     grid-area: j;
     color: white;
@@ -178,19 +220,9 @@
     font-size: 1.1em;
     margin-bottom: 4px;
   }
-  
-  .bsx a:hover {
-    color: #91243a;
-  }
-  
-  .typez {
-    grid-area: t;
-  }
-  
-  .bt {
-    grid-area: s;
-  }
-  
+  .bsx a:hover { color: #91243a; }
+  .typez { grid-area: t; }
+  .bt { grid-area: s; }
   .bsx img {
     width: 80px !important;
     aspect-ratio: 3/4;
@@ -199,11 +231,7 @@
     grid-area: i;
     overflow: hidden;
   }
-  
-  .btnRemove {
-    grid-area: r;
-  }
-  
+  .btnRemove { grid-area: r; }
   .bsx {
     display: grid;
     grid-template-areas: "i j j j" "i t s c" "i e r r";
@@ -212,7 +240,6 @@
     row-gap: 8px;
     grid-area: l;
   }
-  
   .typez .epx {
     background: #6b3d46;
     color: white;
@@ -223,7 +250,6 @@
     display: inline-block;
     text-transform: uppercase;
   }
-  
   .bt .epx {
     background: #8f2e40;
     color: white;
@@ -233,11 +259,7 @@
     font-weight: 500;
     display: inline-block;
   }
-  
-  .certification {
-    grid-area: c;
-  }
-  
+  .certification { grid-area: c; }
   .cert-badge {
     background: #34495e;
     color: white;
@@ -248,13 +270,7 @@
     display: inline-block;
     text-transform: uppercase;
   }
-  
-  .episode-number {
-    grid-area: e;
-    display: flex;
-    align-items: center;
-  }
-  
+  .episode-number { grid-area: e; display: flex; align-items: center; }
   .episode-badge {
     background: #2c3e50;
     color: #ecf0f1;
@@ -266,20 +282,8 @@
     align-items: center;
     gap: 4px;
   }
-  
-  .episode-badge svg {
-    width: 14px;
-    height: 14px;
-    fill: #f1c40f;
-  }
-  
-  .rating-number {
-    grid-area: r;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-  }
-  
+  .episode-badge svg { width: 14px; height: 14px; fill: #f1c40f; }
+  .rating-number { grid-area: r; display: flex; align-items: center; justify-content: flex-end; }
   .rating-badge {
     background: #f39c12;
     color: #000000;
@@ -291,13 +295,7 @@
     align-items: center;
     gap: 5px;
   }
-  
-  .rating-badge svg {
-    width: 16px;
-    height: 16px;
-    fill: #000000;
-  }
-  
+  .rating-badge svg { width: 16px; height: 16px; fill: #000000; }
   .btnRemove svg {
     color: #921925;
     padding: 8px;
@@ -306,12 +304,7 @@
     height: 32px;
     transition: all 0.2s;
   }
-  
-  .btnRemove:hover svg {
-    color: #dc3545;
-    background: #2e2e2e;
-  }
-  
+  .btnRemove:hover svg { color: #dc3545; background: #2e2e2e; }
   .clearAll {
     background: #2c3e50;
     color: white;
@@ -323,11 +316,7 @@
     transition: all 0.2s;
     text-align: right;
   }
-  
-  .clearAll:hover {
-    background: #91243a;
-  }
-  
+  .clearAll:hover { background: #91243a; }
   .notice {
     background: rgba(145, 36, 58, 0.15);
     border-left: 4px solid #91243a;
@@ -338,7 +327,6 @@
     font-size: 0.9em;
     line-height: 1.6;
   }
-  
   .text-muted {
     color: #999;
     font-size: 0.85em;
@@ -347,7 +335,6 @@
     background: rgba(255,255,255,0.05);
     border-radius: 4px;
   }
-  
   .watchlist-toolbar {
     display: flex;
     flex-wrap: wrap;
@@ -356,34 +343,20 @@
     align-items: center;
     justify-content: space-between;
   }
-  
   .toolbar-left {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     align-items: center;
   }
-  
   .toolbar-right {
     display: flex;
     gap: 10px;
     align-items: center;
   }
-  
-  .search-container {
-    position: relative;
-    min-width: 250px;
-  }
-  
-  .desktop-search {
-    display: block;
-  }
-  
-  .search-input-wrapper {
-    position: relative;
-    width: 100%;
-  }
-  
+  .search-container { position: relative; min-width: 250px; }
+  .desktop-search { display: block; }
+  .search-input-wrapper { position: relative; width: 100%; }
   .search-input {
     width: 100%;
     padding: 12px 20px;
@@ -396,16 +369,8 @@
     outline: none;
     transition: all 0.2s;
   }
-  
-  .search-input:focus {
-    border-color: #91243a;
-    box-shadow: 0 0 0 2px rgba(145,36,58,0.2);
-  }
-  
-  .search-input::placeholder {
-    color: #6b7280;
-  }
-  
+  .search-input:focus { border-color: #91243a; box-shadow: 0 0 0 2px rgba(145,36,58,0.2); }
+  .search-input::placeholder { color: #6b7280; }
   .search-icon-inside {
     position: absolute;
     right: 15px;
@@ -414,7 +379,6 @@
     color: #9ca3af;
     pointer-events: none;
   }
-  
   .mobile-search-icon {
     display: none;
     background: #2c3e50;
@@ -427,27 +391,10 @@
     cursor: pointer;
     transition: all 0.2s;
   }
-  
-  .mobile-search-icon:hover {
-    background: #91243a;
-  }
-  
-  .mobile-search-icon svg {
-    width: 24px;
-    height: 24px;
-    fill: white;
-  }
-  
-  .mobile-search-box {
-    display: none;
-    margin-top: 15px;
-    width: 100%;
-  }
-  
-  .mobile-search-box.active {
-    display: block;
-  }
-  
+  .mobile-search-icon:hover { background: #91243a; }
+  .mobile-search-icon svg { width: 24px; height: 24px; fill: white; }
+  .mobile-search-box { display: none; margin-top: 15px; width: 100%; }
+  .mobile-search-box.active { display: block; }
   .search-suggestions {
     position: absolute;
     top: 100%;
@@ -463,11 +410,7 @@
     display: none;
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   }
-  
-  .search-suggestions.active {
-    display: block;
-  }
-  
+  .search-suggestions.active { display: block; }
   .suggestion-item {
     display: grid;
     grid-template-columns: 50px 1fr auto auto auto;
@@ -478,70 +421,21 @@
     cursor: pointer;
     transition: all 0.2s;
   }
-  
-  .suggestion-item:last-child {
-    border-bottom: none;
-  }
-  
-  .suggestion-item:hover {
-    background: #2a2f45;
-  }
-  
-  .suggestion-thumb {
-    width: 50px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 6px;
-  }
-  
-  .suggestion-title {
-    color: white;
-    font-weight: 500;
-    font-size: 0.95rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .suggestion-type,
-  .suggestion-status,
-  .suggestion-rating {
+  .suggestion-item:last-child { border-bottom: none; }
+  .suggestion-item:hover { background: #2a2f45; }
+  .suggestion-thumb { width: 50px; height: 70px; object-fit: cover; border-radius: 6px; }
+  .suggestion-title { color: white; font-weight: 500; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .suggestion-type, .suggestion-status, .suggestion-rating {
     font-size: 0.8rem;
     padding: 4px 10px;
     border-radius: 20px;
     white-space: nowrap;
   }
-  
-  .suggestion-type {
-    background: #6b3d46;
-    color: white;
-  }
-  
-  .suggestion-status {
-    background: #8f2e40;
-    color: white;
-  }
-  
-  .suggestion-rating {
-    background: #f39c12;
-    color: black;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-  }
-  
-  .suggestion-rating svg {
-    width: 12px;
-    height: 12px;
-    fill: black;
-  }
-  
-  .no-results {
-    padding: 20px;
-    text-align: center;
-    color: #9ca3af;
-  }
-  
+  .suggestion-type { background: #6b3d46; color: white; }
+  .suggestion-status { background: #8f2e40; color: white; }
+  .suggestion-rating { background: #f39c12; color: black; display: flex; align-items: center; gap: 3px; }
+  .suggestion-rating svg { width: 12px; height: 12px; fill: black; }
+  .no-results { padding: 20px; text-align: center; color: #9ca3af; }
   .action-btn {
     background: #2c3e50;
     color: white;
@@ -557,35 +451,18 @@
     transition: all 0.2s;
     border: 1px solid #3a4055;
   }
-  
-  .action-btn:hover {
-    background: #91243a;
-    border-color: #91243a;
-  }
-  
-  .action-btn svg {
-    width: 18px;
-    height: 18px;
-    fill: white;
-  }
-  
+  .action-btn:hover { background: #91243a; border-color: #91243a; }
+  .action-btn svg { width: 18px; height: 18px; fill: white; }
   .modal-overlay {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.8);
     z-index: 2000;
     align-items: center;
     justify-content: center;
   }
-  
-  .modal-overlay.active {
-    display: flex;
-  }
-  
+  .modal-overlay.active { display: flex; }
   .modal-content {
     background: #1e2235;
     border-radius: 16px;
@@ -596,7 +473,6 @@
     overflow-y: auto;
     border: 1px solid #2a2f45;
   }
-  
   .modal-header {
     display: flex;
     justify-content: space-between;
@@ -605,13 +481,7 @@
     padding-bottom: 15px;
     border-bottom: 1px solid #2a2f45;
   }
-  
-  .modal-header h3 {
-    color: white;
-    margin: 0;
-    font-size: 1.3rem;
-  }
-  
+  .modal-header h3 { color: white; margin: 0; font-size: 1.3rem; }
   .modal-close {
     background: none;
     border: none;
@@ -620,11 +490,7 @@
     cursor: pointer;
     padding: 0 5px;
   }
-  
-  .modal-close:hover {
-    color: white;
-  }
-  
+  .modal-close:hover { color: white; }
   .import-option {
     background: #2a2f45;
     border-radius: 12px;
@@ -632,19 +498,8 @@
     margin-bottom: 15px;
     border: 1px solid #3a4055;
   }
-  
-  .import-option h4 {
-    color: white;
-    margin: 0 0 10px 0;
-    font-size: 1.1rem;
-  }
-  
-  .import-option p {
-    color: #9ca3af;
-    margin: 0 0 15px 0;
-    font-size: 0.9rem;
-  }
-  
+  .import-option h4 { color: white; margin: 0 0 10px 0; font-size: 1.1rem; }
+  .import-option p { color: #9ca3af; margin: 0 0 15px 0; font-size: 0.9rem; }
   .file-input {
     width: 100%;
     padding: 10px;
@@ -654,7 +509,6 @@
     color: white;
     margin-bottom: 10px;
   }
-  
   .url-input {
     width: 100%;
     padding: 12px 15px;
@@ -664,12 +518,7 @@
     color: white;
     margin-bottom: 10px;
   }
-  
-  .url-input:focus {
-    border-color: #91243a;
-    outline: none;
-  }
-  
+  .url-input:focus { border-color: #91243a; outline: none; }
   .import-btn {
     background: #91243a;
     color: white;
@@ -681,157 +530,53 @@
     width: 100%;
     transition: all 0.2s;
   }
-  
-  .import-btn:hover {
-    background: #b22d4a;
-  }
-  
-  .import-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .import-status {
-    margin-top: 15px;
-    padding: 10px;
-    border-radius: 8px;
-    display: none;
-  }
-  
-  .import-status.success {
-    display: block;
-    background: rgba(40, 167, 69, 0.2);
-    border: 1px solid #28a745;
-    color: #28a745;
-  }
-  
-  .import-status.error {
-    display: block;
-    background: rgba(220, 53, 69, 0.2);
-    border: 1px solid #dc3545;
-    color: #dc3545;
-  }
-  
+  .import-btn:hover { background: #b22d4a; }
+  .import-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .import-status { margin-top: 15px; padding: 10px; border-radius: 8px; display: none; }
+  .import-status.success { display: block; background: rgba(40, 167, 69, 0.2); border: 1px solid #28a745; color: #28a745; }
+  .import-status.error { display: block; background: rgba(220, 53, 69, 0.2); border: 1px solid #dc3545; color: #dc3545; }
   @media screen and (max-width: 1279px) {
-    .gta-hpm {
-      grid-template-areas: "h h" "p p" "m m";
-    }
-    
-    .desktop-search {
-      display: none;
-    }
-    
-    .mobile-search-icon {
-      display: flex !important;
-    }
-    
-    .watchlist-toolbar {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    
-    .toolbar-left, .toolbar-right {
-      justify-content: center;
-    }
-    
-    .profile-container {
-      max-width: 250px;
-    }
+    .gta-hpm { grid-template-areas: "h h" "p p" "m m"; }
+    .desktop-search { display: none; }
+    .mobile-search-icon { display: flex !important; }
+    .watchlist-toolbar { flex-direction: column; align-items: stretch; }
+    .toolbar-left, .toolbar-right { justify-content: center; }
   }
-  
   @media screen and (max-width: 768px) {
     .bsx {
       grid-template-areas: "i j" "i t" "i s" "i c" "i e" "r r";
       grid-template-columns: auto 1fr;
     }
-    
-    .rating-number {
-      justify-content: flex-start;
-      margin-top: 8px;
-    }
-    
+    .rating-number { justify-content: flex-start; margin-top: 8px; }
     .suggestion-item {
       grid-template-columns: 40px 1fr;
-      grid-template-areas: 
-        "thumb title"
-        "thumb type"
-        "thumb status"
-        "thumb rating";
+      grid-template-areas: "thumb title" "thumb type" "thumb status" "thumb rating";
       gap: 5px;
     }
-    
-    .suggestion-thumb {
-      grid-area: thumb;
-      width: 40px;
-      height: 56px;
-    }
-    
-    .suggestion-title {
-      grid-area: title;
-    }
-    
-    .suggestion-type {
-      grid-area: type;
-      justify-self: start;
-    }
-    
-    .suggestion-status {
-      grid-area: status;
-      justify-self: start;
-    }
-    
-    .suggestion-rating {
-      grid-area: rating;
-      justify-self: start;
-    }
-    
-    .toolbar-left, .toolbar-right {
-      flex-wrap: wrap;
-    }
-    
-    .action-btn {
-      width: 100%;
-      justify-content: center;
-    }
-    
-    .profile-container {
-      max-width: 200px;
-    }
-    
-    .change-photo-btn {
-      width: 35px;
-      height: 35px;
-    }
-    
-    .change-photo-btn svg {
-      width: 16px;
-      height: 16px;
-    }
+    .suggestion-thumb { grid-area: thumb; width: 40px; height: 56px; }
+    .suggestion-title { grid-area: title; }
+    .suggestion-type { grid-area: type; justify-self: start; }
+    .suggestion-status { grid-area: status; justify-self: start; }
+    .suggestion-rating { grid-area: rating; justify-self: start; }
+    .toolbar-left, .toolbar-right { flex-wrap: wrap; }
+    .action-btn { width: 100%; justify-content: center; }
   }
 </style>
 
 <section class="side-menu">
-  <!-- Profile Container with Circle Frame -->
   <div class="profile-container" id="profileContainer">
     <div class="profile-frame" id="profileFrame">
       <img src="https://i.postimg.cc/4xLD2gzc/611735745839456014cd88892ca03699.jpg" alt="User profile" id="profileImage">
       <div class="profile-overlay">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
         <span>Change Photo</span>
       </div>
     </div>
     <div class="change-photo-btn" id="changePhotoBtn" title="Change profile photo">
-      <svg viewBox="0 0 24 24">
-        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     </div>
   </div>
-  
-  <!-- Hidden file input for profile image upload -->
-  <input type="file" id="profileImageInput" accept="image/*">
-  
+  <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
   <ul class="menu"> 
     <li><a href="/p/my-watchlist.html" class="active">My Watchlist</a></li> 
   </ul>
@@ -840,568 +585,335 @@
 <section class="bookmark-wrap">
   <div class="watchlist-toolbar">
     <div class="toolbar-left">
-      <button class="action-btn" id="exportBtn">
-        <svg viewBox="0 0 24 24">
-          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-        </svg>
-        Export List
-      </button>
-      
-      <button class="action-btn" id="importBtn">
-        <svg viewBox="0 0 24 24">
-          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-        </svg>
-        Import List
-      </button>
-      
-      <button class="action-btn" id="clearAllBtn">
-        <svg viewBox="0 0 24 24">
-          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-        </svg>
-        Clear All
-      </button>
+      <button class="action-btn" id="exportBtn"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> Export List</button>
+      <button class="action-btn" id="importBtn"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> Import List</button>
+      <button class="action-btn" id="clearAllBtn"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg> Clear All</button>
     </div>
-    
     <div class="toolbar-right">
       <div class="desktop-search">
         <div class="search-input-wrapper">
           <input type="text" id="desktopSearchInput" class="search-input" placeholder="Search your watchlist...">
-          <span class="search-icon-inside">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </span>
+          <span class="search-icon-inside"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
           <div id="desktopSuggestions" class="search-suggestions"></div>
         </div>
       </div>
-      
-      <div class="mobile-search-icon" id="mobileSearchIcon">
-        <svg viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
-          <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      </div>
+      <div class="mobile-search-icon" id="mobileSearchIcon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2"/></svg></div>
     </div>
   </div>
-  
   <div class="mobile-search-box" id="mobileSearchBox">
     <div class="search-input-wrapper">
       <input type="text" id="mobileSearchInput" class="search-input" placeholder="Search your watchlist...">
-      <span class="search-icon-inside">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </span>
+      <span class="search-icon-inside"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
       <div id="mobileSuggestions" class="search-suggestions"></div>
     </div>
+  </div>
+
+  <!-- FOLDERS SECTION (Horizontal Scroll) -->
+  <div class="folders-wrapper">
+    <div class="folders-scroll" id="foldersScroll">
+      <div class="folder-tab active" data-folder="all">All</div>
+      <div class="folder-tab" data-folder="Planning to Watch">Planning</div>
+      <div class="folder-tab" data-folder="Watching">Watching</div>
+      <div class="folder-tab" data-folder="Completed">Completed</div>
+      <div class="folder-tab" data-folder="Re-watching">Re-watching</div>
+      <div class="folder-tab" data-folder="My Favourite">My Favourites</div>
+    </div>
+    <div class="folder-nav-arrow left" id="foldersLeftArrow"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+    <div class="folder-nav-arrow right" id="foldersRightArrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
   </div>
 
   <!-- Import Modal -->
   <div class="modal-overlay" id="importModal">
     <div class="modal-content">
-      <div class="modal-header">
-        <h3>Import Watchlist</h3>
-        <button class="modal-close" id="closeModal">&times;</button>
-      </div>
-      
-      <div class="import-option">
-        <h4>📁 Import from File</h4>
-        <p>Upload a previously exported watchlist file (.json)</p>
-        <input type="file" id="fileInput" class="file-input" accept=".json">
-        <button class="import-btn" id="importFromFileBtn" disabled>Import from File</button>
-      </div>
-      
-      <div class="import-option">
-        <h4>🔗 Import from URL</h4>
-        <p>Paste your watchlist page URL to sync your list</p>
-        <input type="url" id="urlInput" class="url-input" placeholder="https://anivirian.blogspot.com/p/my-watchlist.html">
-        <button class="import-btn" id="importFromUrlBtn">Import from URL</button>
-      </div>
-      
+      <div class="modal-header"><h3>Import Watchlist</h3><button class="modal-close" id="closeModal">&times;</button></div>
+      <div class="import-option"><h4>📁 Import from File</h4><p>Upload a previously exported watchlist file (.json)</p><input type="file" id="fileInput" class="file-input" accept=".json"><button class="import-btn" id="importFromFileBtn" disabled>Import from File</button></div>
+      <div class="import-option"><h4>🔗 Import from URL</h4><p>Paste your watchlist page URL to sync your list</p><input type="url" id="urlInput" class="url-input" placeholder="https://anivirian.blogspot.com/p/my-watchlist.html"><button class="import-btn" id="importFromUrlBtn">Import from URL</button></div>
       <div id="importStatus" class="import-status"></div>
     </div>
   </div>
 
-  <div class='notice'>
-    <strong>📌 Note:</strong> Your watchlist and profile image are saved in your current browser. Maximum 200 items. Use Export/Import to backup or sync your list across devices.
-  </div>
-  
-  <p class='text-muted'>
-    • Click the <strong>X icon</strong> to remove from list<br>
-    • Click on title to watch<br>
-    • Click on profile image to change photo<br>
-    • Profile image is included in export/import
-  </p>
-  
+  <div class='notice'><strong>📌 Note:</strong> Your watchlist and profile image are saved in your current browser. Maximum 200 items. Use Export/Import to backup or sync your list across devices.</div>
+  <p class='text-muted'>• Click the <strong>X icon</strong> to remove from list<br>• Click on title to watch<br>• Click on profile image to change photo<br>• Profile image and statuses are included in export/import</p>
   <div class='showBookmark'></div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-  // Configuration
-  var limitBookmark = 200;
-  var defaultProfileImage = 'https://i.postimg.cc/4xLD2gzc/611735745839456014cd88892ca03699.jpg';
-  
-  // Profile Image Manager
-  var profileManager = (function(){
-    var profileImage = defaultProfileImage;
+    // --- Configuration ---
+    var limitBookmark = 200;
+    var defaultProfileImage = 'https://i.postimg.cc/4xLD2gzc/611735745839456014cd88892ca03699.jpg';
+
+    // --- Profile Manager ---
+    var profileManager = (function(){
+      var profileImage = defaultProfileImage;
+      function setProfileImage(imageData) { localStorage.setItem('profileImage', imageData); profileImage = imageData; }
+      function loadProfileImage() { var saved = localStorage.getItem('profileImage'); if (saved) profileImage = saved; return profileImage; }
+      function getProfileImage() { return profileImage; }
+      return { setProfileImage: setProfileImage, loadProfileImage: loadProfileImage, getProfileImage: getProfileImage };
+    })();
+
+    // Load profile image
+    var savedProfileImage = profileManager.loadProfileImage();
+    document.getElementById('profileImage').src = savedProfileImage;
+
+    // --- Profile image upload (Corrected: no visible button) ---
+    const profileImageInput = document.getElementById('profileImageInput');
+    const changePhotoBtn = document.getElementById('changePhotoBtn');
+    const profileImageEl = document.getElementById('profileImage');
+    const profileContainer = document.getElementById('profileContainer');
     
-    function setProfileImage(imageData) {
-      localStorage.setItem('profileImage', imageData);
-      profileImage = imageData;
-    }
+    changePhotoBtn.addEventListener('click', function(e) { e.stopPropagation(); profileImageInput.click(); });
+    profileContainer.addEventListener('click', function() { profileImageInput.click(); });
     
-    function loadProfileImage() {
-      var saved = localStorage.getItem('profileImage');
-      if (saved) {
-        profileImage = saved;
+    profileImageInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imageData = e.target.result;
+          profileImageEl.src = imageData;
+          profileManager.setProfileImage(imageData);
+        };
+        reader.readAsDataURL(file);
       }
-      return profileImage;
+    });
+
+    // --- Bookmark Manager with Status Support ---
+    var bookmark = (function(){
+      var list = [];
+      function setBookmark() { localStorage.setItem('bookmark', JSON.stringify(list)); }
+      function loadBookmark() { var saved = localStorage.getItem('bookmark'); list = saved ? JSON.parse(saved) : []; }
+      loadBookmark();
+
+      var obj = {};
+      obj.clearALL = function() { list = []; setBookmark(); displayIt(); };
+      obj.removeThisItem = function(id) { list = list.filter(item => item.id !== id); setBookmark(); displayIt(); };
+      obj.getAll = function() { return list; };
+      obj.getByFolder = function(folder) {
+        if (folder === 'all') return list;
+        return list.filter(item => item.statuses && item.statuses.includes(folder));
+      };
+      obj.addOrUpdateItem = function(item) {
+        var existing = list.find(i => i.id === item.id);
+        if (existing) {
+          existing.statuses = item.statuses || [];
+          existing.name = item.name;
+          existing.link = item.link;
+          existing.img = item.img;
+        } else {
+          if (list.length >= limitBookmark) list.shift();
+          list.push({ id: item.id, name: item.name, link: item.link, img: item.img, type: item.type || 'Anime', status: item.status || 'Airing', statuses: item.statuses || [] });
+        }
+        setBookmark();
+        displayIt();
+      };
+      obj.importList = function(newList) {
+        if (!Array.isArray(newList)) return false;
+        const validList = newList.filter(item => item.id && item.name && item.link && item.img);
+        if (validList.length === 0) return false;
+        const existingIds = new Set(list.map(item => item.id));
+        const newItems = validList.filter(item => !existingIds.has(item.id));
+        list = [...list, ...newItems].slice(0, limitBookmark);
+        setBookmark();
+        displayIt();
+        return true;
+      };
+      obj.exportList = function() {
+        const exportData = { profileImage: profileManager.getProfileImage(), watchlist: list, exportDate: new Date().toISOString(), version: '2.0' };
+        return JSON.stringify(exportData, null, 2);
+      };
+      return obj;
+    })();
+
+    // --- Helper Functions ---
+    function getRandomRating() { return (Math.random() * 4 + 6).toFixed(1); }
+    function getRandomEpisode() { return Math.floor(Math.random() * 24) + 1; }
+    function getRandomCertification() { var certs = ['TV-14', 'TV-MA', 'TV-PG', 'R', 'PG-13', 'TV-Y7', 'NC-17']; return certs[Math.floor(Math.random() * certs.length)]; }
+
+    // --- Display Function with Folder Filtering ---
+    let currentFolder = 'all';
+    function displayIt() {
+      var items = bookmark.getByFolder(currentFolder);
+      var structure = '';
+      for(var i in items) {
+        var item = items[i];
+        var rating = getRandomRating();
+        var episode = getRandomEpisode();
+        var certification = getRandomCertification();
+        var statusBadges = (item.statuses && item.statuses.length) ? `<span style="margin-left: 8px; font-size: 0.7rem; background:#1e2a3a; padding:2px 6px; border-radius:12px;">${item.statuses.slice(0,2).join(', ')}${item.statuses.length>2 ? ' +'+(item.statuses.length-2) : ''}</span>` : '';
+        structure += '<article class="box" itemscope itemtype="http://schema.org/CreativeWork">' +
+          '<div id="' + item.id + '" class="bsx">' +
+          '<img src="' + (item.img || 'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png') + 
+          '" loading="lazy" itemprop="image" title="' + item.name + '" alt="' + item.name + '" onerror="this.src=\'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png\'">' +
+          '<a href="' + item.link + '" itemprop="url" title="' + item.name + '">' + item.name + statusBadges + '</a>' +
+          '<div class="typez"><span class="epx">' + (item.type || 'Anime') + '</span></div>' +
+          '<div class="bt"><span class="epx">' + (item.status || 'Airing') + '</span></div>' +
+          '<div class="certification"><span class="cert-badge">' + certification + '</span></div>' +
+          '<div class="episode-number"><span class="episode-badge"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-13v4l5 3-5 3v-4H9v-6h2.5z"/></svg>EP ' + episode + '</span></div>' +
+          '<div class="rating-number"><span class="rating-badge"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>' + rating + '</span></div>' +
+          '</div>' +
+          '<div class="btnRemove" data-id="' + item.id + '"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></div>' +
+        '</article>';
+      }
+      if(items.length == 0) {
+        $('.showBookmark').html('<div style="text-align: center; padding: 40px; color: #999;">📭 Your watchlist is empty in this folder. Start adding shows!</div>');
+      } else {
+        $('.showBookmark').html(structure);
+      }
+      // Highlight active folder tab
+      document.querySelectorAll('.folder-tab').forEach(tab => {
+        if(tab.dataset.folder === currentFolder) tab.classList.add('active');
+        else tab.classList.remove('active');
+      });
     }
-    
-    function getProfileImage() {
-      return profileImage;
+
+    // --- Folder UI & Horizontal Scroll ---
+    function initFolders() {
+      const scrollContainer = document.getElementById('foldersScroll');
+      const leftArrow = document.getElementById('foldersLeftArrow');
+      const rightArrow = document.getElementById('foldersRightArrow');
+      const updateArrows = () => {
+        if(!scrollContainer) return;
+        const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+        if(leftArrow) leftArrow.style.opacity = scrollContainer.scrollLeft <= 5 ? '0.3' : '1';
+        if(rightArrow) rightArrow.style.opacity = scrollContainer.scrollLeft >= maxScroll - 5 ? '0.3' : '1';
+      };
+      if(leftArrow) leftArrow.addEventListener('click', () => { scrollContainer.scrollBy({ left: -200, behavior: 'smooth' }); setTimeout(updateArrows, 200); });
+      if(rightArrow) rightArrow.addEventListener('click', () => { scrollContainer.scrollBy({ left: 200, behavior: 'smooth' }); setTimeout(updateArrows, 200); });
+      scrollContainer.addEventListener('scroll', updateArrows);
+      window.addEventListener('resize', updateArrows);
+      updateArrows();
+
+      document.querySelectorAll('.folder-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          currentFolder = tab.dataset.folder;
+          displayIt();
+          document.getElementById('mobileSearchBox')?.classList.remove('active');
+        });
+      });
     }
-    
-    return {
-      setProfileImage: setProfileImage,
-      loadProfileImage: loadProfileImage,
-      getProfileImage: getProfileImage
-    };
-  })();
-  
-  // Load profile image on page load
-  var savedProfileImage = profileManager.loadProfileImage();
-  document.getElementById('profileImage').src = savedProfileImage;
-  
-  // Profile image upload functionality
-  const profileImageInput = document.getElementById('profileImageInput');
-  const changePhotoBtn = document.getElementById('changePhotoBtn');
-  const profileImage = document.getElementById('profileImage');
-  const profileContainer = document.getElementById('profileContainer');
-  
-  changePhotoBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    profileImageInput.click();
-  });
-  
-  profileContainer.addEventListener('click', function() {
-    profileImageInput.click();
-  });
-  
-  profileImageInput.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
+
+    // --- Search Functionality ---
+    function setupSearch() {
+      const desktopInput = document.getElementById('desktopSearchInput');
+      const mobileInput = document.getElementById('mobileSearchInput');
+      const desktopSuggestions = document.getElementById('desktopSuggestions');
+      const mobileSuggestions = document.getElementById('mobileSuggestions');
+      const mobileIcon = document.getElementById('mobileSearchIcon');
+      const mobileBox = document.getElementById('mobileSearchBox');
+      if (mobileIcon) mobileIcon.addEventListener('click', () => { mobileBox.classList.toggle('active'); if(mobileBox.classList.contains('active')) setTimeout(() => mobileInput.focus(), 100); });
+      function performSearch(query, suggestionsDiv) {
+        if (!suggestionsDiv) return;
+        const watchlist = bookmark.getAll();
+        if (query.length < 2) { suggestionsDiv.innerHTML = ''; suggestionsDiv.classList.remove('active'); return; }
+        const results = watchlist.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
+        if (results.length === 0) { suggestionsDiv.innerHTML = '<div class="no-results">No matching shows found</div>'; suggestionsDiv.classList.add('active'); return; }
+        let html = '';
+        results.slice(0, 10).forEach(item => {
+          const rating = getRandomRating();
+          const type = item.type || 'Anime';
+          const status = item.status || 'Airing';
+          const imgUrl = item.img || 'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png';
+          html += `<div class="suggestion-item" onclick="window.location.href='${item.link}'"><img src="${imgUrl}" class="suggestion-thumb" alt="${item.name}" onerror="this.src='https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png'"><span class="suggestion-title">${item.name}</span><span class="suggestion-type">${type}</span><span class="suggestion-status">${status}</span><span class="suggestion-rating"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>${rating}</span></div>`;
+        });
+        suggestionsDiv.innerHTML = html;
+        suggestionsDiv.classList.add('active');
+      }
+      if (desktopInput) {
+        desktopInput.addEventListener('input', (e) => performSearch(e.target.value, desktopSuggestions));
+        document.addEventListener('click', (e) => { if (!desktopInput.contains(e.target) && !desktopSuggestions.contains(e.target)) desktopSuggestions.classList.remove('active'); });
+      }
+      if (mobileInput) {
+        mobileInput.addEventListener('input', (e) => performSearch(e.target.value, mobileSuggestions));
+        document.addEventListener('click', (e) => { if (!mobileInput.contains(e.target) && !mobileSuggestions.contains(e.target) && !mobileIcon.contains(e.target)) { mobileSuggestions.classList.remove('active'); mobileBox.classList.remove('active'); } });
+      }
+    }
+
+    // --- Export/Import (updated to include statuses) ---
+    document.getElementById('exportBtn').addEventListener('click', function() {
+      const data = bookmark.exportList();
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `watchlist-${new Date().toISOString().slice(0,10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    const modal = document.getElementById('importModal');
+    const importBtn = document.getElementById('importBtn');
+    const closeModal = document.getElementById('closeModal');
+    const fileInput = document.getElementById('fileInput');
+    const importFromFileBtn = document.getElementById('importFromFileBtn');
+    const importFromUrlBtn = document.getElementById('importFromUrlBtn');
+    const urlInput = document.getElementById('urlInput');
+    const importStatus = document.getElementById('importStatus');
+
+    importBtn.addEventListener('click', () => modal.classList.add('active'));
+    closeModal.addEventListener('click', () => { modal.classList.remove('active'); fileInput.value = ''; urlInput.value = ''; importStatus.style.display = 'none'; importStatus.className = 'import-status'; });
+    fileInput.addEventListener('change', () => { importFromFileBtn.disabled = !fileInput.files.length; });
+
+    importFromFileBtn.addEventListener('click', function() {
+      const file = fileInput.files[0];
+      if (!file) return;
       const reader = new FileReader();
       reader.onload = function(e) {
-        const imageData = e.target.result;
-        profileImage.src = imageData;
-        profileManager.setProfileImage(imageData);
+        try {
+          const importData = JSON.parse(e.target.result);
+          if (importData.profileImage && Array.isArray(importData.watchlist)) {
+            profileImageEl.src = importData.profileImage;
+            profileManager.setProfileImage(importData.profileImage);
+            if (bookmark.importList(importData.watchlist)) {
+              importStatus.textContent = '✅ List and profile image imported successfully!';
+              importStatus.className = 'import-status success';
+              setTimeout(() => { modal.classList.remove('active'); importStatus.style.display = 'none'; fileInput.value = ''; }, 2000);
+            } else { importStatus.textContent = '❌ Invalid watchlist data'; importStatus.className = 'import-status error'; }
+          } else if (Array.isArray(importData)) {
+            if (bookmark.importList(importData)) {
+              importStatus.textContent = '✅ List imported successfully!';
+              importStatus.className = 'import-status success';
+              setTimeout(() => { modal.classList.remove('active'); importStatus.style.display = 'none'; fileInput.value = ''; }, 2000);
+            } else { importStatus.textContent = '❌ Invalid file format'; importStatus.className = 'import-status error'; }
+          } else { importStatus.textContent = '❌ Invalid file format'; importStatus.className = 'import-status error'; }
+        } catch(err) { importStatus.textContent = '❌ Error parsing file'; importStatus.className = 'import-status error'; }
       };
-      reader.readAsDataURL(file);
-    }
-  });
-  
-  // Bookmark Manager Object
-  var bookmark = (function(){
-    var list = [];
+      reader.readAsText(file);
+    });
 
-    function setBookmark() {
-      localStorage.setItem('bookmark', JSON.stringify(list));
-    }
-
-    function loadBookmark() {
-      var saved = localStorage.getItem('bookmark');
-      list = saved ? JSON.parse(saved) : [];
-    }
-
-    loadBookmark();
-
-    var obj = {};
-    
-    obj.clearALL = function() {
-      list = [];
-      setBookmark();
-      displayIt();
-    };
-    
-    obj.removeThisItem = function(id) {
-      list = list.filter(item => item.id !== id);
-      setBookmark();
-      displayIt();
-    };
-    
-    obj.getAll = function() {
-      return list;
-    };
-    
-    obj.importList = function(newList) {
-      if (!Array.isArray(newList)) return false;
-      
-      const validList = newList.filter(item => 
-        item.id && item.name && item.link && item.img
-      );
-      
-      if (validList.length === 0) return false;
-      
-      const existingIds = new Set(list.map(item => item.id));
-      const newItems = validList.filter(item => !existingIds.has(item.id));
-      
-      list = [...list, ...newItems].slice(0, limitBookmark);
-      setBookmark();
-      displayIt();
-      return true;
-    };
-    
-    obj.exportList = function() {
-      // Include profile image in export
-      const exportData = {
-        profileImage: profileManager.getProfileImage(),
-        watchlist: list,
-        exportDate: new Date().toISOString(),
-        version: '1.0'
-      };
-      return JSON.stringify(exportData, null, 2);
-    };
-    
-    return obj;
-  })();
-
-  function getRandomRating() {
-    return (Math.random() * 4 + 6).toFixed(1);
-  }
-
-  function getRandomEpisode() {
-    return Math.floor(Math.random() * 24) + 1;
-  }
-
-  function getRandomCertification() {
-    var certs = ['TV-14', 'TV-MA', 'TV-PG', 'R', 'PG-13', 'TV-Y7', 'NC-17'];
-    return certs[Math.floor(Math.random() * certs.length)];
-  }
-
-  function displayIt() {
-    var getData = bookmark.getAll();
-    var structure = '';
-    
-    for(var i in getData) {
-      var rating = getRandomRating();
-      var episode = getRandomEpisode();
-      var certification = getRandomCertification();
-      var item = getData[i];
-      
-      structure += '<article class="box" itemscope itemtype="http://schema.org/CreativeWork">' +
-        '<div id="' + item.id + '" class="bsx">' +
-        
-        '<img src="' + (item.img || 'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png') + 
-        '" loading="lazy" itemprop="image" title="' + item.name + '" alt="' + item.name + '" onerror="this.src=\'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png\'">' +
-        
-        '<a href="' + item.link + '" itemprop="url" title="' + item.name + '">' + item.name + '</a>' +
-        
-        '<div class="typez"><span class="epx">' + (item.type || 'Anime') + '</span></div>' +
-        
-        '<div class="bt"><span class="epx">' + (item.status || 'Airing') + '</span></div>' +
-        
-        '<div class="certification"><span class="cert-badge">' + certification + '</span></div>' +
-        
-        '<div class="episode-number">' +
-          '<span class="episode-badge">' +
-            '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-13v4l5 3-5 3v-4H9v-6h2.5z"/></svg>' +
-            'EP ' + episode +
-          '</span>' +
-        '</div>' +
-        
-        '<div class="rating-number">' +
-          '<span class="rating-badge">' +
-            '<svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>' +
-            rating +
-          '</span>' +
-        '</div>' +
-        
-        '</div>' +
-        
-        '<div class="btnRemove" data-id="' + item.id + '">' +
-          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' +
-            '<path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>' +
-          '</svg>' +
-        '</div>' +
-        
-      '</article>';
-    }
-    
-    if(getData == null || getData.length == 0) {
-      $('.showBookmark').html('<div style="text-align: center; padding: 40px; color: #999;">📭 Your watchlist is empty. Start adding shows to your list!</div>');
-    } else {
-      $('.showBookmark').html(structure);
-    }
-  }
-
-  // Search functionality
-  function setupSearch() {
-    const desktopInput = document.getElementById('desktopSearchInput');
-    const mobileInput = document.getElementById('mobileSearchInput');
-    const desktopSuggestions = document.getElementById('desktopSuggestions');
-    const mobileSuggestions = document.getElementById('mobileSuggestions');
-    const mobileIcon = document.getElementById('mobileSearchIcon');
-    const mobileBox = document.getElementById('mobileSearchBox');
-    
-    if (mobileIcon) {
-      mobileIcon.addEventListener('click', function() {
-        mobileBox.classList.toggle('active');
-        if (mobileBox.classList.contains('active')) {
-          setTimeout(() => mobileInput.focus(), 100);
-        }
-      });
-    }
-    
-    function performSearch(query, suggestionsDiv) {
-      if (!suggestionsDiv) return;
-      
-      const watchlist = bookmark.getAll();
-      
-      if (query.length < 2) {
-        suggestionsDiv.innerHTML = '';
-        suggestionsDiv.classList.remove('active');
-        return;
-      }
-      
-      const results = watchlist.filter(item => {
-        if (!item || !item.name) return false;
-        return item.name.toLowerCase().includes(query.toLowerCase());
-      });
-      
-      if (results.length === 0) {
-        suggestionsDiv.innerHTML = '<div class="no-results">No matching shows found</div>';
-        suggestionsDiv.classList.add('active');
-        return;
-      }
-      
-      let html = '';
-      results.slice(0, 10).forEach(item => {
-        const rating = getRandomRating();
-        const type = item.type || 'Anime';
-        const status = item.status || 'Airing';
-        const imgUrl = item.img || 'https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png';
-        
-        html += `
-          <div class="suggestion-item" onclick="window.location.href='${item.link}'">
-            <img src="${imgUrl}" 
-                 class="suggestion-thumb" 
-                 alt="${item.name}"
-                 onerror="this.src='https://1.bp.blogspot.com/-BYDJ1dpFEhE/X9QnAUfeORI/AAAAAAAAHxw/OjfaqiPHjhAmCgJts39XIg7o4KR-8YtdACNcBGAsYHQ/s300/no-image.png'">
-            <span class="suggestion-title">${item.name}</span>
-            <span class="suggestion-type">${type}</span>
-            <span class="suggestion-status">${status}</span>
-            <span class="suggestion-rating">
-              <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-              ${rating}
-            </span>
-          </div>
-        `;
-      });
-      
-      suggestionsDiv.innerHTML = html;
-      suggestionsDiv.classList.add('active');
-    }
-    
-    if (desktopInput) {
-      desktopInput.addEventListener('input', function(e) {
-        performSearch(e.target.value, desktopSuggestions);
-      });
-      
-      document.addEventListener('click', function(e) {
-        if (!desktopInput.contains(e.target) && !desktopSuggestions.contains(e.target)) {
-          desktopSuggestions.classList.remove('active');
-        }
-      });
-    }
-    
-    if (mobileInput) {
-      mobileInput.addEventListener('input', function(e) {
-        performSearch(e.target.value, mobileSuggestions);
-      });
-      
-      document.addEventListener('click', function(e) {
-        if (!mobileInput.contains(e.target) && !mobileSuggestions.contains(e.target) && !mobileIcon.contains(e.target)) {
-          mobileSuggestions.classList.remove('active');
-          mobileBox.classList.remove('active');
-        }
-      });
-    }
-  }
-
-  // Export functionality
-  document.getElementById('exportBtn').addEventListener('click', function() {
-    const data = bookmark.exportList();
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `watchlist-${new Date().toISOString().slice(0,10)}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  });
-
-  // Import modal functionality
-  const modal = document.getElementById('importModal');
-  const importBtn = document.getElementById('importBtn');
-  const closeModal = document.getElementById('closeModal');
-  const fileInput = document.getElementById('fileInput');
-  const importFromFileBtn = document.getElementById('importFromFileBtn');
-  const importFromUrlBtn = document.getElementById('importFromUrlBtn');
-  const urlInput = document.getElementById('urlInput');
-  const importStatus = document.getElementById('importStatus');
-
-  importBtn.addEventListener('click', function() {
-    modal.classList.add('active');
-  });
-
-  closeModal.addEventListener('click', function() {
-    modal.classList.remove('active');
-    fileInput.value = '';
-    urlInput.value = '';
-    importStatus.style.display = 'none';
-    importStatus.className = 'import-status';
-  });
-
-  fileInput.addEventListener('change', function() {
-    importFromFileBtn.disabled = !this.files.length;
-  });
-
-  // Import from file with profile image support
-  importFromFileBtn.addEventListener('click', function() {
-    const file = fileInput.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        const importData = JSON.parse(e.target.result);
-        
-        // Check if it's the new format with profile image
-        if (importData.profileImage && Array.isArray(importData.watchlist)) {
-          // Import profile image
-          profileImage.src = importData.profileImage;
-          profileManager.setProfileImage(importData.profileImage);
-          
-          // Import watchlist
-          if (bookmark.importList(importData.watchlist)) {
-            importStatus.textContent = '✅ List and profile image imported successfully!';
-            importStatus.className = 'import-status success';
-            setTimeout(() => {
-              modal.classList.remove('active');
-              importStatus.style.display = 'none';
-              fileInput.value = '';
-            }, 2000);
-          } else {
-            importStatus.textContent = '❌ Invalid watchlist data';
-            importStatus.className = 'import-status error';
-          }
-        } 
-        // Legacy format (just array)
-        else if (Array.isArray(importData)) {
-          if (bookmark.importList(importData)) {
-            importStatus.textContent = '✅ List imported successfully!';
-            importStatus.className = 'import-status success';
-            setTimeout(() => {
-              modal.classList.remove('active');
-              importStatus.style.display = 'none';
-              fileInput.value = '';
-            }, 2000);
-          } else {
-            importStatus.textContent = '❌ Invalid file format';
-            importStatus.className = 'import-status error';
-          }
-        } else {
-          importStatus.textContent = '❌ Invalid file format';
-          importStatus.className = 'import-status error';
-        }
-      } catch (err) {
-        importStatus.textContent = '❌ Error parsing file';
-        importStatus.className = 'import-status error';
-      }
-    };
-    reader.readAsText(file);
-  });
-
-  // Import from URL
-  importFromUrlBtn.addEventListener('click', function() {
-    const url = urlInput.value.trim();
-    if (!url) {
-      importStatus.textContent = '❌ Please enter a URL';
-      importStatus.className = 'import-status error';
-      return;
-    }
-
-    importStatus.textContent = '⏳ Fetching watchlist data...';
-    importStatus.className = 'import-status';
-    importStatus.style.display = 'block';
-    importFromUrlBtn.disabled = true;
-
-    fetch(url)
-      .then(response => response.text())
-      .then(html => {
-        // Look for bookmark data in the page
+    importFromUrlBtn.addEventListener('click', function() {
+      const url = urlInput.value.trim();
+      if (!url) { importStatus.textContent = '❌ Please enter a URL'; importStatus.className = 'import-status error'; return; }
+      importStatus.textContent = '⏳ Fetching watchlist data...'; importStatus.className = 'import-status'; importStatus.style.display = 'block'; importFromUrlBtn.disabled = true;
+      fetch(url).then(response => response.text()).then(html => {
         const bookmarkMatch = html.match(/localStorage\.getItem\(['"]bookmark['"]\)[^;]*/);
-        
         if (bookmarkMatch) {
           const dataMatch = html.match(/\[[\s\S]*?\]/);
           if (dataMatch) {
-            try {
-              const data = JSON.parse(dataMatch[0]);
-              if (bookmark.importList(data)) {
-                importStatus.textContent = '✅ List imported successfully from URL!';
-                importStatus.className = 'import-status success';
-                setTimeout(() => {
-                  modal.classList.remove('active');
-                  importStatus.style.display = 'none';
-                  urlInput.value = '';
-                }, 2000);
-              } else {
-                importStatus.textContent = '❌ No valid watchlist data found';
-                importStatus.className = 'import-status error';
-              }
-            } catch (err) {
-              importStatus.textContent = '❌ Error parsing watchlist data';
-              importStatus.className = 'import-status error';
-            }
-          } else {
-            importStatus.textContent = '❌ Could not extract watchlist data';
-            importStatus.className = 'import-status error';
-          }
-        } else {
-          importStatus.textContent = '❌ No watchlist data found at this URL';
-          importStatus.className = 'import-status error';
-        }
-      })
-      .catch(err => {
-        importStatus.textContent = '❌ Failed to fetch URL';
-        importStatus.className = 'import-status error';
-      })
-      .finally(() => {
-        importFromUrlBtn.disabled = false;
-      });
-  });
+            try { const data = JSON.parse(dataMatch[0]); if (bookmark.importList(data)) { importStatus.textContent = '✅ List imported successfully from URL!'; importStatus.className = 'import-status success'; setTimeout(() => { modal.classList.remove('active'); importStatus.style.display = 'none'; urlInput.value = ''; }, 2000); } else { importStatus.textContent = '❌ No valid watchlist data found'; importStatus.className = 'import-status error'; } } catch(err) { importStatus.textContent = '❌ Error parsing watchlist data'; importStatus.className = 'import-status error'; }
+          } else { importStatus.textContent = '❌ Could not extract watchlist data'; importStatus.className = 'import-status error'; }
+        } else { importStatus.textContent = '❌ No watchlist data found at this URL'; importStatus.className = 'import-status error'; }
+      }).catch(err => { importStatus.textContent = '❌ Failed to fetch URL'; importStatus.className = 'import-status error'; }).finally(() => { importFromUrlBtn.disabled = false; });
+    });
 
-  document.getElementById('clearAllBtn').addEventListener('click', function() {
-    if (confirm('Clear all items from your watchlist?')) {
-      bookmark.clearALL();
-    }
-  });
+    document.getElementById('clearAllBtn').addEventListener('click', function() { if (confirm('Clear all items from your watchlist?')) bookmark.clearALL(); });
 
-  $('.showBookmark').on("click", ".btnRemove", function(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const id = $(this).data('id');
-    if (confirm('Remove this item from your watchlist?')) {
-      bookmark.removeThisItem(id);
-    }
-  });
+    $('.showBookmark').on("click", ".btnRemove", function(event) {
+      event.preventDefault(); event.stopPropagation();
+      const id = $(this).data('id');
+      if (confirm('Remove this item from your watchlist?')) bookmark.removeThisItem(id);
+    });
 
-  displayIt();
-  setTimeout(setupSearch, 500);
+    // --- Listen for storage events from other pages (blog posts) ---
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'bookmark') { displayIt(); setupSearch(); }
+      if (e.key === 'quravel_atl_selections') { /* could reload if needed */ }
+    });
+
+    // --- Initialize everything ---
+    initFolders();
+    displayIt();
+    setTimeout(setupSearch, 500);
   </script>
 </section>
