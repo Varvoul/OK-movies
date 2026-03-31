@@ -1,3 +1,100 @@
+<!-- Cast Section with Card Style - No Border, No Hover Effect -->
+<div id="cast-section-wrapper">
+  <!-- Cast Members -->
+  <div style="margin-bottom: 30px; position: relative;">
+    <strong style="color: white; display: block; margin-bottom: 15px; font-size: 1.1rem; letter-spacing: 0.5px;">CAST MEMBERS</strong>
+
+    <div class="cast-nav-arrow left-arrow" style="position: absolute; left: -15px; top: 55%; transform: translateY(-50%); z-index: 10; display: none; cursor: pointer; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); width: 40px; height: 40px; border-radius: 50%; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onmouseover="this.style.background='rgba(29,147,173,0.4)'; this.style.borderColor='#1d93ad'" onmouseout="this.style.background='rgba(0,0,0,0.3)'; this.style.borderColor='rgba(255,255,255,0.2)'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <div class="cast-nav-arrow right-arrow" style="position: absolute; right: -15px; top: 55%; transform: translateY(-50%); z-index: 10; display: none; cursor: pointer; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); width: 40px; height: 40px; border-radius: 50%; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onmouseover="this.style.background='rgba(29,147,173,0.4)'; this.style.borderColor='#1d93ad'" onmouseout="this.style.background='rgba(0,0,0,0.3)'; this.style.borderColor='rgba(255,255,255,0.2)'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <div class="cast-scroll-container" style="overflow-x: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: #1d93ad rgba(255,255,255,0.1); padding: 5px 5px 15px 5px; margin: 0 -5px; position: relative;" onscroll="updateArrowVisibility(this)">
+      <div style="display: flex; flex-direction: row; gap: 20px; min-width: min-content; padding: 0 5px;">
+
+        <!-- Cast Member 1 - Card Style (No Border, No Hover) -->
+        <a href="#" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 140px; padding: 15px 12px; border-radius: 16px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: none; transition: none; flex-shrink: 0; cursor: pointer;">
+          <div style="width: 90px; height: 90px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid #1d93ad; box-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 12px;">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/2/78287.jpg" alt="Yuki Kaji" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="text-align: center; width: 100%;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; margin-bottom: 4px;">Yuki Kaji</div>
+            <div style="color: #aaa; font-size: 0.75rem;">Kagueya (Japanese)</div>
+          </div>
+        </a>
+
+        <!-- Cast Member 2 - Card Style (No Border, No Hover) -->
+        <a href="#" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 140px; padding: 15px 12px; border-radius: 16px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: none; transition: none; flex-shrink: 0; cursor: pointer;">
+          <div style="width: 90px; height: 90px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid #1d93ad; box-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 12px;">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/3/79395.jpg" alt="Saori Hayami" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="text-align: center; width: 100%;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; margin-bottom: 4px;">Saori Hayami</div>
+            <div style="color: #aaa; font-size: 0.75rem;">Princess Stella (Japanese)</div>
+          </div>
+        </a>
+
+        <!-- Cast Member 3 - Card Style (No Border, No Hover) -->
+        <a href="#" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 140px; padding: 15px 12px; border-radius: 16px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: none; transition: none; flex-shrink: 0; cursor: pointer;">
+          <div style="width: 90px; height: 90px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid #1d93ad; box-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 12px;">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/3/61525.jpg" alt="Kenjiro Tsuda" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="text-align: center; width: 100%;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; margin-bottom: 4px;">Kenjiro Tsuda</div>
+            <div style="color: #aaa; font-size: 0.75rem;">General Zarkon (Japanese)</div>
+          </div>
+        </a>
+
+        <!-- Cast Member 4 - Card Style (No Border, No Hover) -->
+        <a href="#" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 140px; padding: 15px 12px; border-radius: 16px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: none; transition: none; flex-shrink: 0; cursor: pointer;">
+          <div style="width: 90px; height: 90px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid #1d93ad; box-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 12px;">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/2/61096.jpg" alt="Miyuki Sawashiro" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="text-align: center; width: 100%;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; margin-bottom: 4px;">Miyuki Sawashiro</div>
+            <div style="color: #aaa; font-size: 0.75rem;">Queen Selene (Japanese)</div>
+          </div>
+        </a>
+
+        <!-- Cast Member 5 - Card Style (No Border, No Hover) -->
+        <a href="#" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 140px; padding: 15px 12px; border-radius: 16px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: none; transition: none; flex-shrink: 0; cursor: pointer;">
+          <div style="width: 90px; height: 90px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid #1d93ad; box-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 12px;">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/1/61524.jpg" alt="Daisuke Namikawa" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="text-align: center; width: 100%;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; margin-bottom: 4px;">Daisuke Namikawa</div>
+            <div style="color: #aaa; font-size: 0.75rem;">Narrator (Japanese)</div>
+          </div>
+        </a>
+
+        <!-- Cast Member 6 - Card Style (No Border, No Hover) -->
+        <a href="#" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 140px; padding: 15px 12px; border-radius: 16px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: none; transition: none; flex-shrink: 0; cursor: pointer;">
+          <div style="width: 90px; height: 90px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid #1d93ad; box-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 12px;">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/3/79396.jpg" alt="Tomokazu Sugita" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="text-align: center; width: 100%;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; margin-bottom: 4px;">Tomokazu Sugita</div>
+            <div style="color: #aaa; font-size: 0.75rem;">King Aldric (Japanese)</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <div style="text-align: right; margin-top: 8px; color: #777; font-size: 0.75rem; display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18L15 12L9 6" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Swipe to scroll more</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+</div>
+
+
+
+
 <!-- Casts with Smooth Horizontal Scrolling and Navigation Arrows -->
 <div style="margin-bottom: 30px; position: relative;">
   <strong style="color: white; display: block; margin-bottom: 15px; font-size: 1.1rem; letter-spacing: 0.5px;">CAST MEMBERS</strong>
