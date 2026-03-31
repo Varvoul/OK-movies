@@ -1,0 +1,1340 @@
+<style>
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #171a29;
+        color: #e5e7eb;
+        min-height: 100vh;
+    }
+    
+    * {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+    }
+    
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(73,139,187,0.3); border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(73,139,187,0.5); }
+    
+    .video-container-wrapper {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        border-radius: 0.75rem;
+        background: #000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    
+    .video-container {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        border: none;
+    }
+    
+    .episode-list-item {
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        background-color: #141a25;
+        cursor: pointer;
+        color: #e5e7eb;
+        font-size: 14px;
+        line-height: 1.4;
+        word-break: break-word;
+        border: 1px solid #2d3347;
+    }
+    
+    @media (max-width: 640px) {
+        .episode-list-item { padding: 14px 16px; font-size: 15px; }
+    }
+    
+    .episode-list-item:hover {
+        background-color: #1e2533 !important;
+        border-left: 3px solid #498BBB;
+        transform: translateX(4px);
+        box-shadow: 0 2px 8px rgba(73,139,187,0.2);
+    }
+    
+    .episode-list-item.active {
+        background-color: #1e2533 !important;
+        border-left: 3px solid #498BBB;
+        font-weight: 500;
+        border-color: #498BBB;
+    }
+    
+    .server-btn {
+        transition: all 0.15s ease;
+        cursor: pointer;
+        background-color: #141a25 !important;
+        color: #ffffff !important;
+        border: 1px solid #2d3347;
+        padding: 8px 12px;
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: 6px;
+        min-width: 60px;
+        text-align: center;
+        touch-action: manipulation;
+    }
+    
+    @media (max-width: 480px) {
+        .server-btn { padding: 10px 8px; font-size: 12px; min-width: 55px; }
+    }
+    
+    .server-btn:hover { background-color: #1e2533 !important; border-color: #498BBB; }
+    .server-btn.active-server { background-color: #498BBB !important; color: white !important; border-color: #498BBB !important; }
+    .server-btn:active { transform: scale(0.97); }
+    
+    .season-btn {
+        transition: all 0.2s ease;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1px solid transparent;
+        background-color: #141a25 !important;
+        color: #ffffff;
+        font-size: 14px;
+        touch-action: manipulation;
+        white-space: nowrap;
+    }
+    
+    @media (max-width: 640px) {
+        .season-btn { padding: 12px 16px; font-size: 14px; flex: 0 0 auto; }
+    }
+    
+    .season-btn.active-season { background: #1e2533 !important; border-color: #498BBB !important; color: #498BBB; }
+    .season-btn:hover:not(.active-season) { background: #1e2533 !important; border-color: #2d3347; }
+    .season-btn:active { transform: scale(0.97); }
+    
+    .player-section { max-width: 1200px; margin: 0 auto; padding: 12px; }
+    
+    @media (min-width: 640px) { .player-section { padding: 16px; } }
+    @media (min-width: 1024px) { .player-section { padding: 20px; } }
+    
+    .controls-panel {
+        background: #171a29;
+        border-radius: 16px;
+        padding: 16px;
+        margin-top: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        border: 1px solid #2d3347;
+        color: #ffffff;
+    }
+    
+    @media (min-width: 640px) { .controls-panel { padding: 20px; border-radius: 20px; } }
+    @media (min-width: 1024px) { .controls-panel { padding: 24px; } }
+    
+    .section-title { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: #ffffff; }
+    @media (min-width: 640px) { .section-title { font-size: 1.1rem; margin-bottom: 16px; } }
+    
+    .server-category { margin-bottom: 16px; }
+    @media (min-width: 640px) { .server-category { margin-bottom: 20px; } }
+    
+    .server-category-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #ffffff;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        letter-spacing: 0.5px;
+    }
+    
+    @media (min-width: 640px) { .server-category-label { font-size: 0.8rem; margin-bottom: 10px; } }
+    
+    .server-buttons-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    @media (max-width: 480px) { .server-buttons-row { gap: 6px; } }
+    
+    .episodes-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-height: 350px;
+        overflow-y: auto;
+        padding-right: 8px;
+    }
+    
+    @media (min-width: 640px) { .episodes-grid { max-height: 400px; gap: 8px; } }
+    @media (min-width: 1024px) { .episodes-grid { max-height: 450px; } }
+    
+    .seasons-row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 8px;
+        margin-bottom: 20px;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+    
+    @media (min-width: 640px) { .seasons-row { flex-wrap: wrap; overflow-x: visible; gap: 10px; } }
+    
+    .video-loading-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        border-radius: 12px;
+    }
+    
+    @media (min-width: 640px) { .video-loading-overlay { font-size: 1.5rem; } }
+    
+    .current-info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+        font-size: 0.9rem;
+        background: #141a25;
+        padding: 16px;
+        border-radius: 12px;
+        color: #ffffff;
+        border: 1px solid #2d3347;
+    }
+    
+    @media (min-width: 640px) {
+        .current-info { flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 16px; }
+    }
+    
+    .info-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    @media (min-width: 640px) { .info-row { gap: 16px; } }
+    
+    .info-item {
+        display: flex;
+        align-items: center;
+        background: #171a29;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid #2d3347;
+    }
+    
+    .info-item span:first-child { color: #ffffff; margin-right: 6px; font-size: 0.8rem; }
+    .info-value { font-weight: 600; color: #498BBB; font-size: 0.9rem; }
+    
+    .nav-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        width: 100%;
+        position: relative;
+    }
+    
+    @media (min-width: 640px) { .nav-buttons { width: auto; gap: 10px; } }
+    
+    .nav-btn {
+        background: #141a25;
+        border: 1px solid #2d3347;
+        color: #ffffff;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex: 1 1 auto;
+        touch-action: manipulation;
+        min-height: 44px;
+    }
+    
+    @media (min-width: 480px) { .nav-btn { flex: 0 1 auto; padding: 8px 20px; } }
+    @media (min-width: 640px) { .nav-btn { min-height: auto; padding: 8px 16px; } }
+    
+    .nav-btn:hover { background: #1e2533; border-color: #498BBB; color: white; }
+    .nav-btn:active { transform: scale(0.96); }
+    .nav-btn svg { flex-shrink: 0; }
+
+    /* ===== ADD TO LIST DROPDOWN STYLES ===== */
+    .atl-wrapper {
+        position: relative;
+        flex: 1 1 auto;
+        display: flex;
+    }
+    
+    @media (min-width: 480px) { .atl-wrapper { flex: 0 1 auto; } }
+    
+    .add-to-list-btn {
+        background: #141a25;
+        border: 1px solid #498BBB;
+        color: #ffffff;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        width: 100%;
+        touch-action: manipulation;
+        min-height: 44px;
+        white-space: nowrap;
+        user-select: none;
+    }
+    
+    @media (min-width: 640px) { .add-to-list-btn { min-height: auto; padding: 8px 16px; } }
+    
+    .add-to-list-btn:hover { background: #1a2535; color: white; }
+    .add-to-list-btn:active { transform: scale(0.96); }
+    .add-to-list-btn.has-selection { background: #1a2d3d; border-color: #498BBB; color: #7bc0e8; }
+    
+    .add-to-list-btn .atl-chevron {
+        transition: transform 0.2s ease;
+        flex-shrink: 0;
+        margin-left: 2px;
+    }
+    
+    .add-to-list-btn.open .atl-chevron { transform: rotate(180deg); }
+    
+    .atl-dropdown {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0;
+        min-width: 230px;
+        background: #1a1f30;
+        border: 1px solid #3a4460;
+        border-radius: 10px;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.55);
+        z-index: 9999;
+        overflow: hidden;
+        display: none;
+        animation: atlFadeIn 0.15s ease;
+    }
+    
+    .atl-dropdown.open { display: block; }
+    
+    @keyframes atlFadeIn {
+        from { opacity: 0; transform: translateY(-6px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    
+    .atl-dropdown-header {
+        padding: 8px 14px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: #ffffff;
+        border-bottom: 1px solid #2a3048;
+    }
+    
+    .atl-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        cursor: pointer;
+        transition: background 0.15s ease;
+        color: #ffffff;
+        font-size: 0.88rem;
+        font-weight: 400;
+        border-bottom: 1px solid #232840;
+    }
+    
+    .atl-option:last-child { border-bottom: none; }
+    .atl-option:hover { background: #222a42; color: #ffffff; }
+    
+    .atl-option.selected { background: #1b2e45; color: #7bc0e8; }
+    .atl-option.selected:hover { background: #1e3350; }
+    
+    .atl-option-icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .atl-option-check {
+        width: 16px;
+        height: 16px;
+        border: 1.5px solid #3a4a60;
+        border-radius: 4px;
+        margin-left: auto;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s;
+    }
+    
+    .atl-option.selected .atl-option-check { background: #498BBB; border-color: #498BBB; }
+    .atl-option.remove-option { color: #ffffff; }
+    .atl-option.remove-option:hover { background: #2a1f1f; color: #ffffff; }
+    .atl-option.remove-option .atl-option-check { display: none; }
+    /* ===== END ADD TO LIST STYLES ===== */
+    
+    .server-message {
+        font-size: 0.85rem;
+        color: #fcd34d;
+        background: rgba(20,26,37,0.95);
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin-bottom: 16px;
+        border-left: 4px solid #fbbf24;
+        border: 1px solid #2d3347;
+        line-height: 1.5;
+    }
+    
+    @media (min-width: 640px) { .server-message { font-size: 0.9rem; padding: 12px 20px; } }
+    
+    .helper-note {
+        font-size: 0.75rem;
+        color: #ffffff;
+        margin-top: 16px;
+        text-align: center;
+        padding: 8px;
+        background: #141a25;
+        border-radius: 20px;
+        border: 1px solid #2d3347;
+    }
+    
+    @media (orientation: landscape) and (max-height: 600px) {
+        .video-container-wrapper { max-height: 50vh; }
+        .episodes-grid { max-height: 200px; }
+        .server-buttons-row { gap: 4px; }
+        .server-btn { padding: 6px 8px; font-size: 11px; }
+        .current-info { padding: 10px; }
+        .nav-btn, .add-to-list-btn { padding: 6px 12px; min-height: 36px; }
+    }
+    
+    @media (min-width: 1440px) {
+        .player-section { max-width: 1400px; }
+        .episodes-grid { max-height: 500px; }
+        .server-btn { padding: 10px 16px; font-size: 14px; }
+    }
+    
+    /* Cast section */
+    .cast-scroll-container::-webkit-scrollbar { height: 0px; }
+    .cast-scroll-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    .cast-scroll-container::-webkit-scrollbar-thumb { background: #4a5f7e; border-radius: 10px; }
+    .cast-scroll-container::-webkit-scrollbar-thumb:hover { background: #4a5f7e; }
+    
+    @media (min-width: 768px) {
+        .cast-nav-arrow { display: flex !important; }
+        .cast-nav-arrow.left-arrow.hidden,
+        .cast-nav-arrow.right-arrow.hidden { opacity: 0.3; pointer-events: none; cursor: default; }
+    }
+    @media (max-width: 767px) { .cast-nav-arrow { display: none !important; } }
+    
+    .synopsis-container {
+        position: relative;
+        cursor: pointer;
+        color: #ffffff;
+        line-height: 1.6;
+        font-size: 0.95rem;
+        background: #1e2235;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        border-left: 3px solid #4685b2;
+        max-height: 150px;
+        overflow: hidden;
+    }
+    
+    .synopsis-container.expanded { max-height: 1000px; transition: max-height 0.5s ease-in-out; }
+    
+    .synopsis-container::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 100%; height: 50px;
+        background: linear-gradient(to bottom, transparent, #1e2235);
+        pointer-events: none;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+    
+    .synopsis-container.expanded::after { opacity: 0; }
+    
+    .synopsis-container::before {
+        content: 'Click to read more';
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #4685b2;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 2;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+    
+    .synopsis-container.expanded::before { content: 'Click to collapse'; background: #2a2f45; }
+    .synopsis-container:hover::before { opacity: 1; }
+    .synopsis-container.expanded:hover::before { opacity: 1; }
+    
+    @media (max-width: 768px) {
+        .synopsis-container { max-height: 130px; padding: 15px; font-size: 0.9rem; }
+        .synopsis-container::before { font-size: 0.7rem; padding: 3px 10px; }
+    }
+    @media (max-width: 480px) { .synopsis-container { max-height: 120px; } }
+    
+    .synopsis-container:hover { border-left-color: #5c9ed4; }
+    .synopsis-container.expanded { cursor: pointer; }
+    
+    .server-icon {
+        background-color: rgba(255,255,255,0.05);
+        border-radius: 6px;
+        padding: 3px;
+        box-sizing: content-box;
+        transition: all 0.2s ease;
+    }
+    .server-icon:hover { background-color: rgba(73,139,187,0.2); }
+    
+    .server-category:has(.active-server) .server-icon path,
+    .server-category:has(.active-server) .server-icon circle,
+    .server-category:has(.active-server) .server-icon line { stroke: #498BBB; }
+    .server-category:has(.active-server) .server-icon { background-color: rgba(73,139,187,0.3); }
+</style>
+
+<!-- Player and controls standalone block -->
+<div class="player-section" id="standalone-player">
+    <div class="video-container-wrapper" id="video-player-container-main">
+        <div class="video-loading-overlay" id="video-loading-overlay-main">
+            <span>&#9654; Watch Now</span>
+        </div>
+    </div>
+
+    <div class="controls-panel">
+        <div class="current-info">
+            <div class="info-row">
+                <div class="info-item"><span>Season:</span> <span class="info-value" id="display-season">1</span></div>
+                <div class="info-item"><span>Episode:</span> <span class="info-value" id="display-episode">1</span></div>
+                <div class="info-item"><span>Server:</span> <span class="info-value" id="display-server">SUB-HD-01</span></div>
+            </div>
+            <div class="nav-buttons">
+                <!-- Prev button with SVG icon -->
+                <button class="nav-btn" id="prev-episode-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Prev
+                </button>
+                <!-- Next button with SVG icon -->
+                <button class="nav-btn" id="next-episode-btn">
+                    Next
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+                <!-- Add to List Dropdown Wrapper -->
+                <div class="atl-wrapper" id="atl-wrapper">
+                    <button class="add-to-list-btn" id="add-to-list-btn" aria-haspopup="listbox" aria-expanded="false">
+                        <span id="atl-btn-icon-wrap">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                        <span id="atl-btn-label">Add to List</span>
+                        <svg class="atl-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 9l6 6 6-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+
+                    <div class="atl-dropdown" id="atl-dropdown" role="listbox" aria-multiselectable="true">
+                        <div class="atl-dropdown-header">My Watch Status</div>
+
+                        <div class="atl-option" data-value="Planning to Watch" role="option">
+                            <span class="atl-option-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 6H21M8 12H21M8 18H21M3.5 6H3.51M3.5 12H3.51M3.5 18H3.51" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <span>Planning to Watch</span>
+                            <span class="atl-option-check">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </div>
+
+                        <div class="atl-option" data-value="Watching" role="option">
+                            <span class="atl-option-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 12C2 12 5 5 12 5C19 5 22 12 22 12C22 12 19 19 12 19C5 19 2 12 2 12Z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="12" cy="12" r="3" stroke="white" stroke-width="1.8"/>
+                                </svg>
+                            </span>
+                            <span>Watching</span>
+                            <span class="atl-option-check">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </div>
+
+                        <div class="atl-option" data-value="Completed" role="option">
+                            <span class="atl-option-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <span>Completed</span>
+                            <span class="atl-option-check">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </div>
+
+                        <div class="atl-option" data-value="Re-watching" role="option">
+                            <span class="atl-option-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <span>Re-watching</span>
+                            <span class="atl-option-check">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </div>
+
+                        <div class="atl-option" data-value="My Favourite" role="option">
+                            <span class="atl-option-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <span>My Favourite</span>
+                            <span class="atl-option-check">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </div>
+
+                        <div class="atl-option" data-value="Dropped" role="option">
+                            <span class="atl-option-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.8"/>
+                                    <path d="M15 9l-6 6M9 9l6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                                </svg>
+                            </span>
+                            <span>Dropped</span>
+                            <span class="atl-option-check">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </div>
+
+                        <div class="atl-option remove-option" data-value="Remove" role="option">
+                            <span class="atl-option-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <span>Remove from List</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Add to List -->
+            </div>
+        </div>
+
+        <div class="server-message" id="server-message">
+            If the current server is down, please try other servers.
+        </div>
+
+        <!-- SUB servers -->
+        <div class="server-category">
+            <div class="server-category-label">
+                <svg class="server-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 12C2 15.7712 2 17.6569 3.17157 18.8284C4.34315 20 6.22876 20 10 20H14C17.7712 20 19.6569 20 20.8284 18.8284C22 17.6569 22 15.7712 22 12C22 8.22876 22 6.34315 20.8284 5.17157C19.6569 4 17.7712 4 14 4H10C6.22876 4 4.34315 4 3.17157 5.17157C2.51839 5.82475 2.22937 6.69989 2.10149 8" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M10 16H6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M14 13H18" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M14 16H12.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M9.5 13H11.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M18 16H16.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M6 13H7" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span>SUB</span>
+            </div>
+            <div class="server-buttons-row" id="server-group-sub">
+                <button class="server-btn" data-server="SUB-HD-01">HD-01</button>
+                <button class="server-btn" data-server="SUB-HD-02">HD-02</button>
+                <button class="server-btn" data-server="SUB-HD-03">HD-03</button>
+                <button class="server-btn" data-server="SUB-HD-04">HD-04</button>
+                <button class="server-btn" data-server="SUB-HD-05">HD-05</button>
+            </div>
+        </div>
+
+        <!-- DUB servers -->
+        <div class="server-category">
+            <div class="server-category-label">
+                <svg class="server-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 10V12C19 15.866 15.866 19 12 19M5 10V12C5 15.866 8.13401 19 12 19M12 19V22M8 22H16M15 6H13M15 10H13M12 15C10.3431 15 9 13.6569 9 12V5C9 3.34315 10.3431 2 12 2C13.6569 2 15 3.34315 15 5V12C15 13.6569 13.6569 15 12 15Z" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>DUB</span>
+            </div>
+            <div class="server-buttons-row" id="server-group-dub">
+                <button class="server-btn" data-server="DUB-HD-01">HD-01</button>
+                <button class="server-btn" data-server="DUB-HD-02">HD-02</button>
+                <button class="server-btn" data-server="DUB-HD-03">HD-03</button>
+                <button class="server-btn" data-server="DUB-HD-04">HD-04</button>
+                <button class="server-btn" data-server="DUB-HD-05">HD-05</button>
+            </div>
+        </div>
+
+        <!-- RAW servers -->
+        <div class="server-category">
+            <div class="server-category-label">
+                <svg class="server-icon" width="20" height="20" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="160" cy="96" r="48" style="fill:none;stroke:white;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                    <circle cx="160" cy="416" r="48" style="fill:none;stroke:white;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                    <line x1="160" y1="368" x2="160" y2="144" style="fill:none;stroke:white;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                    <circle cx="352" cy="160" r="48" style="fill:none;stroke:white;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                    <path d="M352,208c0,128-192,48-192,160" style="fill:none;stroke:white;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                </svg>
+                <span>RAW</span>
+            </div>
+            <div class="server-buttons-row" id="server-group-raw">
+                <button class="server-btn" data-server="RAW-HD-01">HD-01</button>
+                <button class="server-btn" data-server="RAW-HD-02">HD-02</button>
+                <button class="server-btn" data-server="RAW-HD-03">HD-03</button>
+                <button class="server-btn" data-server="RAW-HD-04">HD-04</button>
+                <button class="server-btn" data-server="RAW-HD-05">HD-05</button>
+            </div>
+        </div>
+
+        <!-- Seasons -->
+        <div style="margin-top: 16px;">
+            <he class="section-title">Watch More Seasons</h2>
+            <div class="seasons-row" id="seasons-container">
+                <button class="season-btn" data-season="1">Season 1</button>
+                <button class="season-btn" data-season="2">Season 2</button>
+                <button class="season-btn" data-season="3">Season 3</button>
+                <button class="season-btn" data-season="4">Season 4</button>
+                <button class="season-btn" data-season="ova">OVA</button>
+            </div>
+        </div>
+
+        <!-- Episodes -->
+        <div style="margin-top: 16px;">
+            <h2 class="section-title">Select Episode</h2v> 
+            <div class="episodes-grid custom-scrollbar" id="episodes-container"></div>
+        </div>
+
+        <div class="helper-note">* Select season &rarr; episode &rarr; server to load video</div>
+    </div>
+</div>
+
+<link href="https://cdn.tailwindcss.com" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<span><!--more--></span>
+
+<!--[ Thumbnail ]-->
+<div style="display: none;">
+  <img src="https://myanimelist.net/images/anime/1758/153953l.jpg" alt="Tsukuyomi: The Moonlit Fantasy anime poster showing main characters" />
+</div>
+<!--[ Backdrop ]-->
+<div class="post-backdrop" style="display: none;">
+  <img alt="Slider backdrop" src="https://i.postimg.cc/52cQcyh2/Opera_Snapshot_2026_03_04_223331_myanimelist_net.png">
+</div>
+
+<!--[ Synopsis ]-->
+<p id="synopsis" class="synopsis-container">Tsukuyomi is a virtual realm where hopes and dreams come together. Iroha Sakayori, a 17-year-old high school student in Tokyo, leads an extremely busy life trying to balance part-time work and academics. She finds peace by watching a popular streamer named Yachiyo Runami, who is the administrator of an online virtual space called Tsukuyomi.
+
+Iroha frequents Tsukuyomi, where people can live different lives and freely pursue their creativity, and she passes the time by supporting Yachiyo and playing battle games to earn a little extra money. On her way home one day, Iroha finds a telephone pole shining with iridescent hues. To her surprise, an adorable baby emerges from the pole. Unable to abandon it, Iroha takes the infant home and watches her rapidly grow into a girl her own age.
+
+"Are you Princess Kaguya?"
+
+The grown-up Kaguya develops a self-indulgent personality. At Kaguya's fervent request, Iroha helps her start streaming in Tsukuyomi. With Iroha as producer and songwriter and Kaguya as streamer and singer, the two grow steadily closer. Little do they know that ominous forces lie in wait, eager to take Kaguya back to the moon.
+
+This is the tale of Princess Kaguya as never seen before.
+</p>
+
+<!--[ Extra information ]-->
+<div id="extra-info">
+  <div class="info-organized">
+    <div><strong>Title:</strong> <span>Gaikotsu Kishi-sama, Tadaima Isekai e Odekakechuu</span></div>
+    <div><strong>Original:</strong> <span>&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;</span></div>
+    <div><strong>Japanese:</strong> <span>&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;</span></div>
+    <div><strong>Synonyms:</strong> <span>Skeleton Knight in Another World</span></div>
+    <div><strong>Aired:</strong> <span>Jan 06, 2022 to Mar 31, 2022</span></div>
+    <div><strong>Premiered:</strong> <span><a href="/search?q=Winter 2022">Winter 2022</a></span></div>
+    <div><strong>Episode:</strong> <span>12</span></div>
+    <div><strong>Broadcast:</strong> <span>Thursdays at 23:00 JST</span></div>
+    <div><strong>Duration:</strong> <span>23 min</span></div>
+    <div><strong>Score:</strong>
+      <span class="score-display">
+        <span class="mal-score">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#3b88c4" style="vertical-align: middle; margin-right: 2px;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          MAL: 8.6
+        </span>
+        <span style="margin: 0 5px; color: #aaa;">|</span>
+        <span class="imdb-score">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#f5c518" style="vertical-align: middle; margin-right: 2px;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          IMDb: 7.6
+        </span>
+      </span>
+    </div>
+    <div><strong>Studio:</strong> <span><a href="/search?q=LIDENFILMS" title="LIDENFILMS">LIDENFILMS</a></span></div>
+    <div><strong>Producer:</strong> <span>&#8212;</span></div>
+  </div>
+</div>
+
+<!--
+  ============================================================
+  CAST SECTION VISIBILITY CONTROL
+  Set SHOW_CAST = true  → cast members are visible
+  Set SHOW_CAST = false → cast members are hidden
+  ============================================================
+-->
+<div id="cast-section-wrapper">
+  <!-- Cast Members -->
+  <div style="margin-bottom: 30px; position: relative;">
+    <h1 style="color: white; display: block; margin-bottom: 15px; font-size: 1.1rem; letter-spacing: 0.5px;">Cast Members</h1>
+
+    <div class="cast-nav-arrow left-arrow" style="position: absolute; left: -15px; top: 55%; transform: translateY(-50%); z-index: 10; display: none; cursor: pointer; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); width: 40px; height: 40px; border-radius: 50%; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onmouseover="this.style.background='rgba(145,36,58,0.4)'; this.style.borderColor='#91243a'" onmouseout="this.style.background='rgba(0,0,0,0.3)'; this.style.borderColor='rgba(255,255,255,0.2)'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <div class="cast-nav-arrow right-arrow" style="position: absolute; right: -15px; top: 55%; transform: translateY(-50%); z-index: 10; display: none; cursor: pointer; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); width: 40px; height: 40px; border-radius: 50%; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onmouseover="this.style.background='rgba(145,36,58,0.4)'; this.style.borderColor='#91243a'" onmouseout="this.style.background='rgba(0,0,0,0.3)'; this.style.borderColor='rgba(255,255,255,0.2)'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <div class="cast-scroll-container" style="overflow-x: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: #91243a rgba(255,255,255,0.1); padding: 5px 5px 15px 5px; margin: 0 -5px; position: relative;" onscroll="updateArrowVisibility(this)">
+      <div style="display: flex; flex-direction: row; gap: 15px; min-width: min-content; padding: 0 5px;">
+
+        <!-- Cast Member 1 -->
+        <a href="/search?q=Voice+Actor+Name" style="text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 10px 15px 10px 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 100px; background: transparent; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); flex-shrink: 0;"
+           onmouseover="this.style.backgroundColor='rgba(145,36,58,0.15)'; this.style.borderColor='#91243a'; this.style.transform='translateY(-2px)'"
+           onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'"
+           onclick="this.style.backgroundColor='#91243a'; this.style.borderColor='#91243a'">
+          <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid rgba(255,255,255,0.2); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/2/78287.jpg" alt="Yuki Kaji" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; white-space: nowrap;">Yuki Kaji</div>
+            <div style="color: #aaa; font-size: 0.8rem; white-space: nowrap;">Kagueya (Japanese)</div>
+          </div>
+        </a>
+
+        <!-- Cast Member 2 -->
+        <a href="/search?q=Voice+Actor+Name" style="text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 10px 15px 10px 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 100px; background: transparent; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); flex-shrink: 0;"
+           onmouseover="this.style.backgroundColor='rgba(145,36,58,0.15)'; this.style.borderColor='#91243a'; this.style.transform='translateY(-2px)'"
+           onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'"
+           onclick="this.style.backgroundColor='#91243a'; this.style.borderColor='#91243a'">
+          <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid rgba(255,255,255,0.2); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/3/79395.jpg" alt="Saori Hayami" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; white-space: nowrap;">Saori Hayami</div>
+            <div style="color: #aaa; font-size: 0.8rem; white-space: nowrap;">Princess Stella (Japanese)</div>
+          </div>
+        </a>
+
+        <!-- Cast Member 3 -->
+        <a href="/search?q=Voice+Actor+Name" style="text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 10px 15px 10px 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 100px; background: transparent; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); flex-shrink: 0;"
+           onmouseover="this.style.backgroundColor='rgba(145,36,58,0.15)'; this.style.borderColor='#91243a'; this.style.transform='translateY(-2px)'"
+           onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'"
+           onclick="this.style.backgroundColor='#91243a'; this.style.borderColor='#91243a'">
+          <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid rgba(255,255,255,0.2); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/3/61525.jpg" alt="Kenjiro Tsuda" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; white-space: nowrap;">Kenjiro Tsuda</div>
+            <div style="color: #aaa; font-size: 0.8rem; white-space: nowrap;">General Zarkon (Japanese)</div>
+          </div>
+        </a>
+
+        <!-- Cast Member 4 -->
+        <a href="/search?q=Voice+Actor+Name" style="text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 10px 15px 10px 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 100px; background: transparent; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); flex-shrink: 0;"
+           onmouseover="this.style.backgroundColor='rgba(145,36,58,0.15)'; this.style.borderColor='#91243a'; this.style.transform='translateY(-2px)'"
+           onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'"
+           onclick="this.style.backgroundColor='#91243a'; this.style.borderColor='#91243a'">
+          <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid rgba(255,255,255,0.2); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/2/61096.jpg" alt="Miyuki Sawashiro" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; white-space: nowrap;">Miyuki Sawashiro</div>
+            <div style="color: #aaa; font-size: 0.8rem; white-space: nowrap;">Queen Selene (Japanese)</div>
+          </div>
+        </a>
+
+        <!-- Cast Member 5 -->
+        <a href="/search?q=Voice+Actor+Name" style="text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 10px 15px 10px 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 100px; background: transparent; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); flex-shrink: 0;"
+           onmouseover="this.style.backgroundColor='rgba(145,36,58,0.15)'; this.style.borderColor='#91243a'; this.style.transform='translateY(-2px)'"
+           onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'"
+           onclick="this.style.backgroundColor='#91243a'; this.style.borderColor='#91243a'">
+          <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid rgba(255,255,255,0.2); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/1/61524.jpg" alt="Daisuke Namikawa" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; white-space: nowrap;">Daisuke Namikawa</div>
+            <div style="color: #aaa; font-size: 0.8rem; white-space: nowrap;">Narrator (Japanese)</div>
+          </div>
+        </a>
+
+        <!-- Cast Member 6 -->
+        <a href="/search?q=Voice+Actor+Name" style="text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 10px 15px 10px 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 100px; background: transparent; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); flex-shrink: 0;"
+           onmouseover="this.style.backgroundColor='rgba(145,36,58,0.15)'; this.style.borderColor='#91243a'; this.style.transform='translateY(-2px)'"
+           onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'"
+           onclick="this.style.backgroundColor='#91243a'; this.style.borderColor='#91243a'">
+          <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid rgba(255,255,255,0.2); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <img src="https://cdn.myanimelist.net/images/voiceactors/3/79396.jpg" alt="Tomokazu Sugita" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div style="color: white; font-weight: 600; font-size: 0.95rem; white-space: nowrap;">Tomokazu Sugita</div>
+            <div style="color: #aaa; font-size: 0.8rem; white-space: nowrap;">King Aldric (Japanese)</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <div style="text-align: right; margin-top: 8px; color: #777; font-size: 0.75rem; display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18L15 12L9 6" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Swipe to scroll more</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+</div><!-- end #cast-section-wrapper -->
+
+<script>
+/* ============================================================
+   CAST VISIBILITY CONTROL
+   Set to true  = cast section is shown
+   Set to false = cast section is hidden
+   ============================================================ */
+var SHOW_CAST = true;
+
+(function() {
+  var castWrapper = document.getElementById('cast-section-wrapper');
+  if (castWrapper) {
+    castWrapper.style.display = SHOW_CAST ? '' : 'none';
+  }
+})();
+
+/* ============================================================
+   Cast Scroll Arrows
+   ============================================================ */
+function setupCastScrolling() {
+  var container = document.querySelector('.cast-scroll-container');
+  var leftArrow = document.querySelector('.left-arrow');
+  var rightArrow = document.querySelector('.right-arrow');
+  if (!container || !leftArrow || !rightArrow) return;
+  var scrollAmount = 300;
+  leftArrow.addEventListener('click', function() { container.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); });
+  rightArrow.addEventListener('click', function() { container.scrollBy({ left: scrollAmount, behavior: 'smooth' }); });
+  function updateArrows() {
+    var isAtStart = container.scrollLeft <= 5;
+    var isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 5;
+    leftArrow.classList.toggle('hidden', isAtStart);
+    rightArrow.classList.toggle('hidden', isAtEnd);
+  }
+  setTimeout(updateArrows, 100);
+  container.addEventListener('scroll', updateArrows);
+  window.addEventListener('resize', updateArrows);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupCastScrolling);
+} else {
+  setupCastScrolling();
+}
+
+window.updateArrowVisibility = function(container) {
+  var leftArrow = document.querySelector('.left-arrow');
+  var rightArrow = document.querySelector('.right-arrow');
+  if (!leftArrow || !rightArrow) return;
+  leftArrow.classList.toggle('hidden', container.scrollLeft <= 5);
+  rightArrow.classList.toggle('hidden', container.scrollLeft + container.clientWidth >= container.scrollWidth - 5);
+};
+
+/* ============================================================
+   Main Player
+   ============================================================ */
+(function() {
+  var episodeTitles = [
+    "He's a Flamebaiter", "Miden Academy", "Cyberkinesis Output Test",
+    "The Worst Trio Possible", "The Anachronistic Exorcist", "An Encounter In the Mountains",
+    "The A-B Battle", "Open the Window, and...", "The Battle at Sainokawara",
+    "He's a Freezer-type", "The A-B Alliance"
+  ];
+
+  var subEpisodesHD01 = [
+    'https://bysejikuar.com/e/hw93auhkvob6/dead-account-sub-01',
+    'https://bysejikuar.com/e/ikc04iib4myf/watch-dead-account-anime-sub-ep-02',
+    'https://bysejikuar.com/e/d3shmarar38y/dead-account-anime-english-sub-ep-03',
+    'https://bysejikuar.com/e/qvgk2yu8m5d6/dead-account-anime-english-sub-ep-04',
+    'https://bysejikuar.com/e/wq3gr74d7g45/dead-account-anime-english-sub-ep-05',
+    'https://bysejikuar.com/e/sjwbyhuj8c4d/dead-account-anime-english-sub-ep-06',
+    'https://bysejikuar.com/e/m22rji1849ip/dead-account-anime-english-sub-ep-07',
+    'https://bysejikuar.com/e/19yq255uz24n/dead-account-anime-english-sub-ep-08',
+    'https://bysejikuar.com/e/2m4f0qm7b41h/dead-account-anime-english-sub-ep-09',
+    'https://bysejikuar.com/e/jm1hi7zcdvwp/dead-account-anime-english-sub-ep10',
+    'https://bysejikuar.com/e/l9ycfdmefnog/dead-account-anime-english-sub-ep-11'
+  ];
+  var subEpisodesHD02 = [
+    'https://mixdrop.top/e/q19k7xzmi4ozrr', 'https://mixdrop.top/e/dkdgxopdb7jej1q',
+    'https://mixdrop.top/e/jdzov01eb3d8oz', 'https://mixdrop.top/e/gjkvmp64hnm3mw',
+    'https://mixdrop.top/e/7kpx4l1qtdwpp36', 'https://mixdrop.top/e/z1z39vm8s66dq9',
+    'https://mixdrop.top/e/8lqz96wghvzmjz', 'https://mixdrop.top/e/6791wvnkbgzk3o',
+    'https://mixdrop.top/e/jdzovnwwa7ozr1j', 'https://mixdrop.top/e/363logwpidn03d'
+  ];
+  var subEpisodesHD03 = ['','','','','','','','','','',''];
+  var subEpisodesHD04 = ['','','','','','','','','','',''];
+
+  var dubEpisodesHD01 = [
+    'https://bysejikuar.com/e/b6sb2ri9956k/watch-dead-account-anime-english-dub-ep-03',
+    'https://bysejikuar.com/e/fm75d41y8whj/watch-dead-account-anime-english-dub-ep-04',
+    'https://bysejikuar.com/e/rn7iwtidw46i/dead-account-anime-english-dub-05',
+    'https://bysejikuar.com/e/17dy6jy4z6g7/dead-account-anime-english-dub-06',
+    'https://bysejikuar.com/e/lwvd4p4erg59/dead-account-anime-english-dub-07',
+    'https://bysejikuar.com/e/zukjg4ymgaf9/dead-account-anime-english-dub-08',
+    'https://bysejikuar.com/e/5tgvpnaykywb/dead-account-anime-english-dub-09'
+  ];
+  var dubEpisodesHD02 = [
+    'https://mixdrop.top/e/el038rppinvelx', 'https://mixdrop.top/e/dkdgop9vtp84xk',
+    'https://mixdrop.top/e/vkzx143wbnve83', 'https://mixdrop.top/e/ow90dmmrhkzvkd',
+    'https://mixdrop.top/e/l7qpv1djf30n77', 'https://mixdrop.top/e/jdzovww1b7p7lrv',
+    'https://mixdrop.top/e/r69lv8onuv4og8d'
+  ];
+  var dubEpisodesHD03 = ['','','','','','',''];
+  var dubEpisodesHD04 = ['','','','','','',''];
+
+  var rawEpisodesHD01 = subEpisodesHD01.slice();
+  var rawEpisodesHD02 = subEpisodesHD02.slice();
+  var rawEpisodesHD03 = subEpisodesHD03.slice();
+  var rawEpisodesHD04 = subEpisodesHD04.slice();
+
+  var episodeUrls = {
+    'SUB-HD-01': subEpisodesHD01, 'SUB-HD-02': subEpisodesHD02,
+    'SUB-HD-03': subEpisodesHD03, 'SUB-HD-04': subEpisodesHD04,
+    'DUB-HD-01': dubEpisodesHD01, 'DUB-HD-02': dubEpisodesHD02,
+    'DUB-HD-03': dubEpisodesHD03, 'DUB-HD-04': dubEpisodesHD04,
+    'RAW-HD-01': rawEpisodesHD01, 'RAW-HD-02': rawEpisodesHD02,
+    'RAW-HD-03': rawEpisodesHD03, 'RAW-HD-04': rawEpisodesHD04
+  };
+
+  var episodeData = {
+    '1': episodeTitles.map(function(t, i) { return { id: i + 1, title: t }; }),
+    '2': Array(6).fill(0).map(function(_, i) { return { id: i + 1, title: 'Season 2 Episode ' + (i + 1) }; }),
+    '3': Array(4).fill(0).map(function(_, i) { return { id: i + 1, title: 'Season 3 Episode ' + (i + 1) }; }),
+    '4': Array(3).fill(0).map(function(_, i) { return { id: i + 1, title: 'Season 4 Episode ' + (i + 1) }; }),
+    'ova': Array(3).fill(0).map(function(_, i) { return { id: i + 1, title: 'OVA Episode ' + (i + 1) }; })
+  };
+
+  var currentSeason = '1';
+  var currentEpisode = 1;
+  var currentServer = 'SUB-HD-01';
+
+  var videoContainer = document.getElementById('video-player-container-main');
+  var overlay = document.getElementById('video-loading-overlay-main');
+  var displaySeason = document.getElementById('display-season');
+  var displayEpisode = document.getElementById('display-episode');
+  var displayServer = document.getElementById('display-server');
+  var episodesContainer = document.getElementById('episodes-container');
+  var seasonBtns = document.querySelectorAll('.season-btn');
+  var serverBtns = document.querySelectorAll('.server-btn');
+  var prevBtn = document.getElementById('prev-episode-btn');
+  var nextBtn = document.getElementById('next-episode-btn');
+
+  function updateInfoDisplay() {
+    if (displaySeason) displaySeason.innerText = currentSeason;
+    if (displayEpisode) displayEpisode.innerText = currentEpisode;
+    if (displayServer) displayServer.innerText = currentServer;
+  }
+
+  function loadVideo() {
+    if (!videoContainer) return;
+    var episodes = episodeData[currentSeason] || [];
+    if (currentEpisode > episodes.length) currentEpisode = 1;
+    var episodeIndex = currentEpisode - 1;
+    var videoUrl = '';
+    var serverUrls = episodeUrls[currentServer];
+    if (serverUrls && episodeIndex < serverUrls.length && serverUrls[episodeIndex]) {
+      videoUrl = serverUrls[episodeIndex];
+    }
+    if (!videoUrl) {
+      videoContainer.innerHTML = '<div class="video-container" style="display:flex;align-items:center;justify-content:center;color:white;background:#000;border-radius:0.75rem;">No video available for this episode on this server. Try another server.</div>';
+      if (overlay) overlay.style.display = 'none';
+      return;
+    }
+    var embedUrl = videoUrl + (videoUrl.indexOf('?') >= 0 ? '&' : '?') + 'autoplay=1';
+    videoContainer.innerHTML = '';
+    var iframe = document.createElement('iframe');
+    iframe.className = 'video-container';
+    iframe.src = embedUrl;
+    iframe.frameBorder = '0';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.title = 'S' + currentSeason + ' E' + currentEpisode;
+    videoContainer.appendChild(iframe);
+    if (overlay) overlay.style.display = 'none';
+  }
+
+  function renderEpisodes() {
+    var episodes = episodeData[currentSeason] || [];
+    var html = '';
+    episodes.forEach(function(ep) {
+      var activeClass = ep.id === currentEpisode ? 'active' : '';
+      var epNumber = ep.id < 10 ? '0' + ep.id : '' + ep.id;
+      html += '<div class="episode-list-item ' + activeClass + '" data-episode-id="' + ep.id + '">EP ' + epNumber + ': ' + ep.title + '</div>';
+    });
+    episodesContainer.innerHTML = html;
+    document.querySelectorAll('.episode-list-item').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var epId = parseInt(this.getAttribute('data-episode-id'));
+        if (!isNaN(epId)) {
+          currentEpisode = epId;
+          document.querySelectorAll('.episode-list-item').forEach(function(item) { item.classList.remove('active'); });
+          this.classList.add('active');
+          updateInfoDisplay();
+          if (currentServer) loadVideo();
+        }
+      });
+    });
+  }
+
+  function init() {
+    seasonBtns.forEach(function(btn) {
+      btn.classList.remove('active-season');
+      if (btn.getAttribute('data-season') === currentSeason) btn.classList.add('active-season');
+    });
+    serverBtns.forEach(function(btn) {
+      btn.classList.remove('active-server');
+      if (btn.getAttribute('data-server') === currentServer) btn.classList.add('active-server');
+    });
+    renderEpisodes();
+    updateInfoDisplay();
+    if (currentServer) loadVideo();
+  }
+
+  seasonBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var season = this.getAttribute('data-season');
+      if (!season) return;
+      currentSeason = season;
+      currentEpisode = 1;
+      seasonBtns.forEach(function(b) { b.classList.remove('active-season'); });
+      this.classList.add('active-season');
+      renderEpisodes();
+      updateInfoDisplay();
+      if (currentServer) loadVideo();
+    });
+  });
+
+  serverBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var server = this.getAttribute('data-server');
+      if (!server) return;
+      currentServer = server;
+      serverBtns.forEach(function(b) { b.classList.remove('active-server'); });
+      this.classList.add('active-server');
+      updateInfoDisplay();
+      loadVideo();
+    });
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function() {
+      var episodes = episodeData[currentSeason] || [];
+      var idx = -1;
+      for (var i = 0; i < episodes.length; i++) { if (episodes[i].id === currentEpisode) { idx = i; break; } }
+      if (idx > 0) {
+        currentEpisode = episodes[idx - 1].id;
+        renderEpisodes(); updateInfoDisplay();
+        if (currentServer) loadVideo();
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function() {
+      var episodes = episodeData[currentSeason] || [];
+      var idx = -1;
+      for (var i = 0; i < episodes.length; i++) { if (episodes[i].id === currentEpisode) { idx = i; break; } }
+      if (idx >= 0 && idx < episodes.length - 1) {
+        currentEpisode = episodes[idx + 1].id;
+        renderEpisodes(); updateInfoDisplay();
+        if (currentServer) loadVideo();
+      }
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', function() {
+      if (currentServer) loadVideo();
+    });
+  }
+
+  init();
+})();
+
+/* ============================================================
+   Add to List Dropdown
+   ============================================================ */
+(function() {
+  var STORAGE_KEY = 'quravel_atl_selections';
+  var MAX_SELECTIONS = 2;
+
+  var btn = document.getElementById('add-to-list-btn');
+  var dropdown = document.getElementById('atl-dropdown');
+  var btnLabel = document.getElementById('atl-btn-label');
+  var btnIconWrap = document.getElementById('atl-btn-icon-wrap');
+  if (!btn || !dropdown) return;
+
+  var iconMap = {
+    'Planning to Watch': '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M8 6H21M8 12H21M8 18H21M3.5 6H3.51M3.5 12H3.51M3.5 18H3.51" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    'Watching': '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12C2 12 5 5 12 5C19 5 22 12 22 12C22 12 19 19 12 19C5 19 2 12 2 12Z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="white" stroke-width="1.8"/></svg>',
+    'Completed': '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    'Re-watching': '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    'My Favourite': '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    'Dropped': '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.8"/><path d="M15 9l-6 6M9 9l6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    'default': '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>'
+  };
+
+  var selectedValues = [];
+  try {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) { selectedValues = JSON.parse(saved); }
+    if (!Array.isArray(selectedValues)) selectedValues = [];
+  } catch(e) { selectedValues = []; }
+
+  function saveSelections() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedValues)); } catch(e) {}
+  }
+
+  function updateButtonDisplay() {
+    if (selectedValues.length === 0) {
+      btnLabel.textContent = 'Add to List';
+      btnIconWrap.innerHTML = iconMap['default'];
+      btn.classList.remove('has-selection');
+    } else if (selectedValues.length === 1) {
+      btnLabel.textContent = selectedValues[0];
+      btnIconWrap.innerHTML = iconMap[selectedValues[0]] || iconMap['default'];
+      btn.classList.add('has-selection');
+    } else {
+      btnLabel.textContent = selectedValues[0] + ' +1';
+      btnIconWrap.innerHTML = iconMap[selectedValues[0]] || iconMap['default'];
+      btn.classList.add('has-selection');
+    }
+  }
+
+  function updateOptionStates() {
+    var options = dropdown.querySelectorAll('.atl-option:not(.remove-option)');
+    options.forEach(function(opt) {
+      var val = opt.getAttribute('data-value');
+      if (selectedValues.indexOf(val) >= 0) {
+        opt.classList.add('selected');
+      } else {
+        opt.classList.remove('selected');
+      }
+    });
+  }
+
+  function openDropdown() {
+    dropdown.classList.add('open');
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    updateOptionStates();
+  }
+
+  function closeDropdown() {
+    dropdown.classList.remove('open');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+
+  updateButtonDisplay();
+  updateOptionStates();
+
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (dropdown.classList.contains('open')) { closeDropdown(); } else { openDropdown(); }
+  });
+
+  var options = dropdown.querySelectorAll('.atl-option');
+  options.forEach(function(opt) {
+    opt.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var val = this.getAttribute('data-value');
+
+      if (val === 'Remove') {
+        selectedValues = [];
+        saveSelections();
+        updateButtonDisplay();
+        updateOptionStates();
+        closeDropdown();
+        return;
+      }
+
+      var idx = selectedValues.indexOf(val);
+      if (idx >= 0) {
+        selectedValues.splice(idx, 1);
+      } else {
+        if (selectedValues.length >= MAX_SELECTIONS) { selectedValues.shift(); }
+        selectedValues.push(val);
+      }
+
+      saveSelections();
+      updateButtonDisplay();
+      updateOptionStates();
+
+      if (selectedValues.length >= MAX_SELECTIONS) {
+        setTimeout(closeDropdown, 300);
+      }
+    });
+  });
+
+  document.addEventListener('click', function(e) {
+    var wrapper = document.getElementById('atl-wrapper');
+    if (wrapper && !wrapper.contains(e.target)) { closeDropdown(); }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeDropdown(); }
+  });
+})();
+
+/* ============================================================
+   Synopsis Toggle
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', function() {
+  var synopsis = document.getElementById('synopsis');
+  if (synopsis) {
+    synopsis.addEventListener('click', function(e) {
+      e.stopPropagation();
+      this.classList.toggle('expanded');
+    });
+  }
+});
+</script>
