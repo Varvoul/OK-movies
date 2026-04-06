@@ -1,0 +1,1406 @@
+<style>
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: none;
+        text-size-adjust: 100%;
+    }
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #171a29;
+        color: #e5e7eb;
+        min-height: 100vh;
+    }
+    * { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(73,139,187,0.3); border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(73,139,187,0.5); }
+
+    .video-container-wrapper {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        border-radius: 0.75rem;
+        background: #000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .video-container {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        border: none;
+    }
+
+    /* ── Auto-Next Countdown Overlay ── */
+    .autonext-overlay {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(0,0,0,0.85);
+        border: 1px solid #498BBB;
+        border-radius: 12px;
+        padding: 14px 18px;
+        color: #fff;
+        font-size: 0.9rem;
+        z-index: 100;
+        display: none;
+        backdrop-filter: blur(6px);
+        min-width: 220px;
+        box-shadow: 0 4px 20px rgba(73,139,187,0.3);
+    }
+    .autonext-overlay.visible { display: block; }
+    .autonext-title { font-weight: 600; color: #498BBB; margin-bottom: 6px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .autonext-epname { font-size: 0.85rem; color: #e5e7eb; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .autonext-bar-bg { background: rgba(255,255,255,0.15); border-radius: 4px; height: 4px; margin-bottom: 10px; overflow: hidden; }
+    .autonext-bar { height: 100%; background: #498BBB; border-radius: 4px; width: 100%; transition: width 1s linear; }
+    .autonext-actions { display: flex; gap: 8px; }
+    .autonext-cancel-btn, .autonext-now-btn {
+        flex: 1;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+    }
+    .autonext-cancel-btn { background: rgba(255,255,255,0.1); color: #e5e7eb; }
+    .autonext-cancel-btn:hover { background: rgba(255,255,255,0.2); }
+    .autonext-now-btn { background: #498BBB; color: white; }
+    .autonext-now-btn:hover { background: #5a9fce; }
+    .autonext-countdown { font-size: 0.8rem; color: #9ca3af; margin-bottom: 6px; }
+
+    /* ── Auto-Play Toggle Controls ── */
+    .autoplay-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px 16px;
+        background: #141a25;
+        border-radius: 10px;
+        border: 1px solid #2d3347;
+        margin-bottom: 16px;
+        align-items: center;
+    }
+    .autoplay-controls-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #9ca3af;
+        letter-spacing: 0.5px;
+        margin-right: 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex: 0 0 100%;
+        margin-bottom: 4px;
+    }
+    @media (min-width: 640px) {
+        .autoplay-controls-label { flex: 0 0 auto; margin-bottom: 0; }
+    }
+    .toggle-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid #2d3347;
+        background: #171a29;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+        font-size: 0.82rem;
+        color: #9ca3af;
+    }
+    .toggle-item.active { border-color: #498BBB; color: #498BBB; background: rgba(73,139,187,0.1); }
+    .toggle-item:hover { border-color: #498BBB; }
+    /* Toggle Switch */
+    .toggle-switch {
+        width: 32px;
+        height: 18px;
+        border-radius: 9px;
+        background: #2d3347;
+        position: relative;
+        flex-shrink: 0;
+        transition: background 0.2s;
+    }
+    .toggle-switch::after {
+        content: '';
+        position: absolute;
+        width: 12px; height: 12px;
+        border-radius: 50%;
+        background: #9ca3af;
+        top: 3px; left: 3px;
+        transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .toggle-item.active .toggle-switch { background: #498BBB; }
+    .toggle-item.active .toggle-switch::after { left: 17px; background: white; }
+
+    .episode-list-item {
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        background-color: #141a25;
+        cursor: pointer;
+        color: #e5e7eb;
+        font-size: 14px;
+        line-height: 1.4;
+        word-break: break-word;
+        border: 1px solid #2d3347;
+    }
+    @media (max-width: 640px) { .episode-list-item { padding: 14px 16px; font-size: 15px; } }
+    .episode-list-item:hover {
+        background-color: #1e2533 !important;
+        border-left: 3px solid #498BBB;
+        transform: translateX(4px);
+        box-shadow: 0 2px 8px rgba(73,139,187,0.2);
+    }
+    .episode-list-item.active {
+        background-color: #1e2533 !important;
+        border-left: 3px solid #498BBB;
+        font-weight: 500;
+        border-color: #498BBB;
+    }
+
+    .server-btn {
+        transition: all 0.15s ease;
+        cursor: pointer;
+        background-color: #141a25 !important;
+        color: #e5e7eb !important;
+        border: 1px solid #2d3347;
+        padding: 8px 12px;
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: 6px;
+        min-width: 60px;
+        text-align: center;
+        touch-action: manipulation;
+    }
+    @media (max-width: 480px) { .server-btn { padding: 10px 8px; font-size: 12px; min-width: 55px; } }
+    .server-btn:hover { background-color: #1e2533 !important; border-color: #498BBB; }
+    .server-btn.active-server { background-color: #498BBB !important; color: white !important; border-color: #498BBB !important; }
+    .server-btn:active { transform: scale(0.97); }
+
+    .season-btn {
+        transition: all 0.2s ease;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1px solid transparent;
+        background-color: #141a25 !important;
+        color: #e5e7eb;
+        font-size: 14px;
+        touch-action: manipulation;
+        white-space: nowrap;
+    }
+    @media (max-width: 640px) { .season-btn { padding: 12px 16px; font-size: 14px; flex: 0 0 auto; } }
+    .season-btn.active-season { background: #1e2533 !important; border-color: #498BBB !important; color: #498BBB; }
+    .season-btn:hover:not(.active-season) { background: #1e2533 !important; border-color: #2d3347; }
+    .season-btn:active { transform: scale(0.97); }
+
+    .player-section { max-width: 1200px; margin: 0 auto; padding: 12px; }
+    @media (min-width: 640px) { .player-section { padding: 16px; } }
+    @media (min-width: 1024px) { .player-section { padding: 20px; } }
+
+    .controls-panel {
+        background: #171a29;
+        border-radius: 16px;
+        padding: 16px;
+        margin-top: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        border: 1px solid #2d3347;
+        color: #e5e7eb;
+    }
+    @media (min-width: 640px) { .controls-panel { padding: 20px; border-radius: 20px; } }
+    @media (min-width: 1024px) { .controls-panel { padding: 24px; } }
+
+    .section-title { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: #f3f4f6; }
+    @media (min-width: 640px) { .section-title { font-size: 1.1rem; margin-bottom: 16px; } }
+
+    .server-category { margin-bottom: 16px; }
+    @media (min-width: 640px) { .server-category { margin-bottom: 20px; } }
+
+    .server-category-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        letter-spacing: 0.5px;
+    }
+    @media (min-width: 640px) { .server-category-label { font-size: 0.8rem; margin-bottom: 10px; } }
+
+    .server-buttons-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    @media (max-width: 480px) { .server-buttons-row { gap: 6px; } }
+
+    .episodes-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-height: 350px;
+        overflow-y: auto;
+        padding-right: 8px;
+    }
+    @media (min-width: 640px) { .episodes-grid { max-height: 400px; gap: 8px; } }
+    @media (min-width: 1024px) { .episodes-grid { max-height: 450px; } }
+
+    .seasons-row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 8px;
+        margin-bottom: 20px;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+    @media (min-width: 640px) { .seasons-row { flex-wrap: wrap; overflow-x: visible; gap: 10px; } }
+
+    .video-loading-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        border-radius: 12px;
+    }
+    @media (min-width: 640px) { .video-loading-overlay { font-size: 1.5rem; } }
+
+    .current-info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+        font-size: 0.9rem;
+        background: #141a25;
+        padding: 16px;
+        border-radius: 12px;
+        color: #d1d5db;
+        border: 1px solid #2d3347;
+    }
+    @media (min-width: 640px) {
+        .current-info { flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 16px; }
+    }
+
+    .info-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    @media (min-width: 640px) { .info-row { gap: 16px; } }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        background: #171a29;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid #2d3347;
+    }
+    .info-item span:first-child { color: #9ca3af; margin-right: 6px; font-size: 0.8rem; }
+    .info-value { font-weight: 600; color: #498BBB; font-size: 0.9rem; }
+
+    .nav-buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; width: 100%; }
+    @media (min-width: 640px) { .nav-buttons { width: auto; gap: 10px; } }
+
+    .nav-btn {
+        background: #141a25;
+        border: 1px solid #2d3347;
+        color: #e5e7eb;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex: 1 1 auto;
+        touch-action: manipulation;
+        min-height: 44px;
+    }
+    @media (min-width: 480px) { .nav-btn { flex: 0 1 auto; padding: 8px 20px; } }
+    @media (min-width: 640px) { .nav-btn { min-height: auto; padding: 8px 16px; } }
+    .nav-btn:hover { background: #1e2533; border-color: #498BBB; color: white; }
+    .nav-btn:active { transform: scale(0.96); }
+
+    .add-to-list-wrapper { position: relative; display: inline-block; }
+    .add-to-list-btn {
+        background: #141a25;
+        border: 1px solid #498BBB;
+        color: #e5e7eb;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex: 1 1 auto;
+        touch-action: manipulation;
+        min-height: 44px;
+        white-space: nowrap;
+    }
+    @media (min-width: 480px) { .add-to-list-btn { flex: 0 1 auto; padding: 8px 20px; } }
+    @media (min-width: 640px) { .add-to-list-btn { min-height: auto; padding: 8px 16px; } }
+    .add-to-list-btn:hover { background: #498BBB; color: white; }
+    .add-to-list-btn:active { transform: scale(0.96); }
+
+    .status-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: #1e2533;
+        border: 1px solid #2d3347;
+        border-radius: 12px;
+        min-width: 200px;
+        z-index: 1000;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        overflow: hidden;
+        backdrop-filter: blur(8px);
+    }
+    .status-dropdown.hidden { display: none; }
+    .status-option {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 16px;
+        cursor: pointer;
+        transition: background 0.2s;
+        color: white;
+        font-size: 0.9rem;
+        border-bottom: 1px solid #2d3347;
+    }
+    .status-option:last-child { border-bottom: none; }
+    .status-option:hover { background: #2a3147; }
+    .status-option svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .status-option svg path, .status-option svg circle, .status-option svg line { stroke: white; fill: none; }
+    .status-option .option-text { flex: 1; }
+
+    .status-badges-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; justify-content: center; min-height: 40px; }
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent;
+        border: 1px solid #1297b5;
+        border-radius: 40px;
+        padding: 6px 12px 6px 10px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: white;
+        transition: all 0.2s;
+    }
+    .status-badge svg { width: 16px; height: 16px; }
+    .status-badge svg path, .status-badge svg circle, .status-badge svg line { stroke: white; fill: none; }
+    .badge-remove {
+        cursor: pointer;
+        margin-left: 4px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #aaa;
+        transition: color 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px; height: 18px;
+        border-radius: 50%;
+    }
+    .badge-remove:hover { color: #ff6b6b; background: rgba(255,255,255,0.1); }
+
+    .server-message {
+        font-size: 0.85rem;
+        color: #fcd34d;
+        background: rgba(20,26,37,0.95);
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin-bottom: 16px;
+        border-left: 4px solid #fbbf24;
+        border: 1px solid #2d3347;
+        line-height: 1.5;
+    }
+    @media (min-width: 640px) { .server-message { font-size: 0.9rem; padding: 12px 20px; } }
+
+    .helper-note {
+        font-size: 0.75rem;
+        color: #9ca3af;
+        margin-top: 16px;
+        text-align: center;
+        padding: 8px;
+        background: #141a25;
+        border-radius: 20px;
+        border: 1px solid #2d3347;
+    }
+
+    @media (orientation: landscape) and (max-height: 600px) {
+        .video-container-wrapper { max-height: 50vh; }
+        .episodes-grid { max-height: 200px; }
+        .server-buttons-row { gap: 4px; }
+        .server-btn { padding: 6px 8px; font-size: 11px; }
+        .current-info { padding: 10px; }
+        .nav-btn, .add-to-list-btn { padding: 6px 12px; min-height: 36px; }
+    }
+    @media (min-width: 1440px) {
+        .player-section { max-width: 1400px; }
+        .episodes-grid { max-height: 500px; }
+        .server-btn { padding: 10px 16px; font-size: 14px; }
+    }
+
+    .cast-scroll-container::-webkit-scrollbar { height: 0px; }
+    .cast-scroll-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    .cast-scroll-container::-webkit-scrollbar-thumb { background: #4a5f7e; border-radius: 10px; }
+    .cast-scroll-container::-webkit-scrollbar-thumb:hover { background: #4a5f7e; }
+
+    @media (min-width: 768px) {
+        .cast-nav-arrow { display: flex !important; }
+        .cast-nav-arrow.left-arrow.hidden, .cast-nav-arrow.right-arrow.hidden { opacity: 0.3; pointer-events: none; cursor: default; }
+    }
+    @media (max-width: 767px) { .cast-nav-arrow { display: none !important; } }
+
+    .synopsis-container {
+        position: relative;
+        cursor: pointer;
+        color: #ddd;
+        line-height: 1.6;
+        font-size: 0.95rem;
+        background: #1e2235;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        border-left: 3px solid #4685b2;
+        max-height: 150px;
+        overflow: hidden;
+    }
+    .synopsis-container.expanded { max-height: 1000px; transition: max-height 0.5s ease-in-out; }
+    .synopsis-container::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 100%; height: 50px;
+        background: linear-gradient(to bottom, transparent, #1e2235);
+        pointer-events: none;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+    .synopsis-container.expanded::after { opacity: 0; }
+    .synopsis-container::before {
+        content: 'Click to read more';
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #4685b2;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 2;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+    .synopsis-container.expanded::before { content: 'Click to collapse'; background: #2a2f45; }
+    .synopsis-container:hover::before { opacity: 1; }
+    .synopsis-container.expanded:hover::before { opacity: 1; }
+    .synopsis-container:hover { border-left-color: #5c9ed4; }
+    .synopsis-container.expanded { cursor: pointer; }
+    @media (max-width: 768px) {
+        .synopsis-container { max-height: 130px; padding: 15px; font-size: 0.9rem; }
+        .synopsis-container::before { font-size: 0.7rem; padding: 3px 10px; }
+    }
+    @media (max-width: 480px) { .synopsis-container { max-height: 120px; } }
+
+    .server-icon {
+        background-color: rgba(255,255,255,0.05);
+        border-radius: 6px;
+        padding: 3px;
+        box-sizing: content-box;
+        transition: all 0.2s ease;
+    }
+    .server-icon:hover { background-color: rgba(73,139,187,0.2); }
+    .server-category:has(.active-server) .server-icon path,
+    .server-category:has(.active-server) .server-icon circle,
+    .server-category:has(.active-server) .server-icon line { stroke: #498BBB; }
+    .server-category:has(.active-server) .server-icon { background-color: rgba(73,139,187,0.3); }
+</style>
+
+<!-- Player and controls standalone block -->
+<div class="player-section" id="standalone-player">
+    <!-- Dynamic Video Player -->
+    <div class="video-container-wrapper" id="video-player-container-main">
+        <div class="video-loading-overlay" id="video-loading-overlay-main">
+            <span>▶ Watch Now</span>
+        </div>
+        <!-- Auto-Next Countdown Overlay (inside video wrapper) -->
+        <div class="autonext-overlay" id="autonext-overlay">
+            <div class="autonext-title">▶ Up Next</div>
+            <div class="autonext-epname" id="autonext-epname">Episode 2</div>
+            <div class="autonext-countdown" id="autonext-countdown">Playing in 5 seconds...</div>
+            <div class="autonext-bar-bg"><div class="autonext-bar" id="autonext-bar"></div></div>
+            <div class="autonext-actions">
+                <button class="autonext-cancel-btn" id="autonext-cancel-btn">Cancel</button>
+                <button class="autonext-now-btn" id="autonext-now-btn">Play Now ▶</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Control Section -->
+    <div class="controls-panel">
+        <!-- Current selection info with navigation -->
+        <div class="current-info">
+            <div class="info-row">
+                <div class="info-item"><span>Season:</span> <span class="info-value" id="display-season">1</span></div>
+                <div class="info-item"><span>Episode:</span> <span class="info-value" id="display-episode">1</span></div>
+                <div class="info-item"><span>Server:</span> <span class="info-value" id="display-server">SUB-HD-01</span></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-episode-btn">◀ Prev</button>
+                <button class="nav-btn" id="next-episode-btn">Next ▶</button>
+                <div class="add-to-list-wrapper">
+                    <button class="add-to-list-btn" id="add-to-list-btn">+ Add to List</button>
+                    <div class="status-dropdown hidden" id="status-dropdown">
+                        <div class="status-option" data-status="Planning">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 8V12L15 15" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.5"/></svg>
+                            <span class="option-text">Planning</span>
+                        </div>
+                        <div class="status-option" data-status="Watching">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 12C2 12 5 4 12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12Z" stroke="white" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="white" stroke-width="1.5"/></svg>
+                            <span class="option-text">Watching</span>
+                        </div>
+                        <div class="status-option" data-status="Completed">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.5"/></svg>
+                            <span class="option-text">Completed</span>
+                        </div>
+                        <div class="status-option" data-status="Re-watching">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C14.5 4 16.5 5 18 6.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M20 4V8H16" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8V12L15 15" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            <span class="option-text">Re-watching</span>
+                        </div>
+                        <div class="status-option" data-status="Dropped">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M6 6L18 18" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.5"/></svg>
+                            <span class="option-text">Dropped</span>
+                        </div>
+                        <div class="status-option" data-status="My Favourite">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                            <span class="option-text">My Favourite</span>
+                        </div>
+                        <div class="status-option" data-status="Remove">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            <span class="option-text">Remove</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Badges Area -->
+        <div id="status-badges-container" class="status-badges-container"></div>
+
+        <!-- ══ AUTO-PLAY CONTROLS (Toggle Section) ══ -->
+        <div class="autoplay-controls" id="autoplay-controls-bar">
+            <div class="autoplay-controls-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="5,3 19,12 5,21" stroke="#9ca3af" stroke-width="1.5" stroke-linejoin="round" fill="#9ca3af" opacity="0.7"/>
+                </svg>
+                Auto Play
+            </div>
+            <!-- Toggle: Auto-Next Episode -->
+            <div class="toggle-item active" id="toggle-autonext" title="Automatically play next episode when current ends">
+                <div class="toggle-switch"></div>
+                <span>Auto Next</span>
+            </div>
+            <!-- Toggle: Auto Full Screen -->
+            <div class="toggle-item active" id="toggle-fullscreen" title="Go fullscreen automatically when video starts">
+                <div class="toggle-switch"></div>
+                <span>Auto Fullscreen</span>
+            </div>
+        </div>
+
+        <!-- Server message -->
+        <div class="server-message" id="server-message">
+            If the current server is down, please try other servers.
+        </div>
+
+        <!-- SUB Servers -->
+        <div class="server-category">
+            <div class="server-category-label">
+                <svg class="server-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 12C2 15.7712 2 17.6569 3.17157 18.8284C4.34315 20 6.22876 20 10 20H14C17.7712 20 19.6569 20 20.8284 18.8284C22 17.6569 22 15.7712 22 12C22 8.22876 22 6.34315 20.8284 5.17157C19.6569 4 17.7712 4 14 4H10C6.22876 4 4.34315 4 3.17157 5.17157C2.51839 5.82475 2.22937 6.69989 2.10149 8" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+                    <path d="M10 16H6" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+                    <path d="M14 13H18" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+                    <path d="M14 16H12.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+                    <path d="M9.5 13H11.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+                    <path d="M18 16H16.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+                    <path d="M6 13H7" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"></path>
+                </svg>
+                <span>SUB</span>
+            </div>
+            <div class="server-buttons-row" id="server-group-sub">
+                <button class="server-btn" data-server="SUB-HD-01">HD-01</button>
+                <button class="server-btn" data-server="SUB-HD-02">HD-02</button>
+                <button class="server-btn" data-server="SUB-HD-03">HD-03</button>
+                <button class="server-btn" data-server="SUB-HD-04">HD-04</button>
+            </div>
+        </div>
+
+        <!-- DUB Servers -->
+        <div class="server-category">
+            <div class="server-category-label">
+                <svg class="server-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 10V12C19 15.866 15.866 19 12 19M5 10V12C5 15.866 8.13401 19 12 19M12 19V22M8 22H16M15 6H13M15 10H13M12 15C10.3431 15 9 13.6569 9 12V5C9 3.34315 10.3431 2 12 2C13.6569 2 15 3.34315 15 5V12C15 13.6569 13.6569 15 12 15Z" stroke="#9ca3af" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span>DUB</span>
+            </div>
+            <div class="server-buttons-row" id="server-group-dub">
+                <button class="server-btn" data-server="DUB-HD-01">HD-01</button>
+                <button class="server-btn" data-server="DUB-HD-02">HD-02</button>
+                <button class="server-btn" data-server="DUB-HD-03">HD-03</button>
+                <button class="server-btn" data-server="DUB-HD-04">HD-04</button>
+            </div>
+        </div>
+
+        <!-- RAW Servers -->
+        <div class="server-category">
+            <div class="server-category-label">
+                <svg class="server-icon" width="20" height="20" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="160" cy="96" r="48" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                    <circle cx="160" cy="416" r="48" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                    <line x1="160" y1="368" x2="160" y2="144" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                    <circle cx="352" cy="160" r="48" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                    <path d="M352,208c0,128-192,48-192,160" style="fill:none;stroke:#9ca3af;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                </svg>
+                <span>RAW</span>
+            </div>
+            <div class="server-buttons-row" id="server-group-raw">
+                <button class="server-btn" data-server="RAW-HD-01">HD-01</button>
+                <button class="server-btn" data-server="RAW-HD-02">HD-02</button>
+                <button class="server-btn" data-server="RAW-HD-03">HD-03</button>
+                <button class="server-btn" data-server="RAW-HD-04">HD-04</button>
+            </div>
+        </div>
+
+        <!-- Seasons Selection -->
+        <div style="margin-top: 16px;">
+            <div class="section-title">Watch More Seasons</div>
+            <div class="seasons-row" id="seasons-container">
+                <button class="season-btn" data-season="1">Season 1</button>
+            </div>
+        </div>
+
+        <!-- Episodes Selection -->
+        <div style="margin-top: 16px;">
+            <div class="section-title">Select Episode</div>
+            <div class="episodes-grid custom-scrollbar" id="episodes-container"></div>
+        </div>
+
+        <div class="helper-note">
+            * Select season → episode → server to load video
+        </div>
+    </div>
+</div>
+
+<!-- Include Tailwind and fonts -->
+<link href="https://cdn.tailwindcss.com" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<span><!--more--></span>
+
+<!--[ Thumbnail ]-->
+<div style="display: none;">
+  <img src="https://cdn.imgchest.com/files/f3d45c60e1e3.jpg" alt="Dead Account anime poster" />
+</div>
+
+<!--[ Backdrop ]-->
+<div class="post-backdrop" style="display: none;">
+  <img alt="Dead Account anime backdrop" src="https://cdn.imgchest.com/files/673719729855.jpg">
+</div>
+
+<!--[ Synopsis ]-->
+<p id="synopsis" class="synopsis-container">Always ready for a fight! Destruction for destruction's sake! The online streamer Aoringo is a troll, making the worst of the worst of boundary-pushing flamebait content and raking in the revenue from the hate-watchers. You may think he's nothing more than a bottom feeder and a drain on society, but in reality, he's high school dropout Souji Enishiro, a caring older brother with a sweet tooth who loves nothing more than his little sister. His viral videos? Just a way to pay his sister's medical bills. And even if all of humanity hates him, he doesn't care, so long as his little sister gets better. But then, something very strange begins to happen... When people die, their social media can sometimes become "ghost accounts," manifesting their owners as digital specters. Now Soji must master his cyberkinesis powers at Miden Academy before the online afterlife spills into the real world!</p>
+
+<!--[ Extra information ]-->
+<div id="extra-info">
+  <div class="info-organized">
+    <div><strong>Title:</strong> <span>Dead Account</span></div>
+    <div><strong>Original:</strong> <span>デッドアカウント</span></div>
+    <div><strong>Japanese:</strong> <span>デッドアカウント</span></div>
+    <div><strong>Synonyms:</strong> <span>Dead Account; デドアカ; Deddo Akaunto; เดดแอ็กเคานต์ พิฆาตบัญชีมรณะ</span></div>
+    <div><strong>Aired:</strong> <span>Jan 10, 2026 to Mar 28, 2026</span></div>
+    <div><strong>Premiered:</strong> <span><a href="/search?q=Winter+2026">Winter 2026</a></span></div>
+    <div><strong>Episode:</strong> <span>12</span></div>
+    <div><strong>Broadcast:</strong> <span>Saturdays at 23:30 (JST)</span></div>
+    <div><strong>Duration:</strong> <span>23 min</span></div>
+    <div><strong>Score:</strong>
+      <span class="score-display">
+        <span class="mal-score">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#3b88c4" style="vertical-align:middle;margin-right:2px;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          MAL: 6.36
+        </span>
+        <span class="separator" style="margin:0 5px;color:#aaa;">|</span>
+        <span class="imdb-score">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#f5c518" style="vertical-align:middle;margin-right:2px;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          IMDb: 6.4
+        </span>
+      </span>
+    </div>
+    <div><strong>Studio:</strong> <span><a href="/search?q=SynergySP" title="SynergySP">SynergySP</a></span></div>
+    <div><strong>Producer:</strong> <span>TV Asahi, Kodansha, Nippon Columbia, Studio Mausu, Sammy, Crunchyroll, Bushiroad Move</span></div>
+  </div>
+</div>
+
+<script>
+  function setupCastScrolling() {
+    const container = document.querySelector('.cast-scroll-container');
+    const leftArrow = document.querySelector('.left-arrow');
+    const rightArrow = document.querySelector('.right-arrow');
+    if (!container || !leftArrow || !rightArrow) return;
+    const scrollAmount = 300;
+    leftArrow.addEventListener('click', function() { container.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); });
+    rightArrow.addEventListener('click', function() { container.scrollBy({ left: scrollAmount, behavior: 'smooth' }); });
+    function updateArrows() {
+      const isAtStart = container.scrollLeft <= 5;
+      const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 5;
+      leftArrow.classList.toggle('hidden', isAtStart);
+      rightArrow.classList.toggle('hidden', isAtEnd);
+    }
+    setTimeout(updateArrows, 100);
+    container.addEventListener('scroll', updateArrows);
+    window.addEventListener('resize', updateArrows);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupCastScrolling);
+  } else {
+    setupCastScrolling();
+  }
+  window.updateArrowVisibility = function(container) {
+    const leftArrow = document.querySelector('.left-arrow');
+    const rightArrow = document.querySelector('.right-arrow');
+    if (!leftArrow || !rightArrow) return;
+    const isAtStart = container.scrollLeft <= 5;
+    const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 5;
+    leftArrow.classList.toggle('hidden', isAtStart);
+    rightArrow.classList.toggle('hidden', isAtEnd);
+  };
+
+  (function() {
+    const episodeTitles = [
+      "He's a Flamebaiter",
+      "Miden Academy",
+      "Cyberkinesis Output Test",
+      "The Worst Trio Possible",
+      "The Anachronistic Exorcist",
+      "An Encounter In the Mountains",
+      "The A-B Battle",
+      "Open the Window, and...",
+      "The Battle at Sainokawara",
+      "He's a Freezer-type",
+      "The A-B Alliance"
+    ];
+
+    const subEpisodesHD01 = [
+      'https://bysejikuar.com/e/hw93auhkvob6/dead-account-sub-01',
+      'https://bysejikuar.com/e/ikc04iib4myf/watch-dead-account-anime-sub-ep-02',
+      'https://bysejikuar.com/e/d3shmarar38y/dead-account-anime-english-sub-ep-03',
+      'https://bysejikuar.com/e/qvgk2yu8m5d6/dead-account-anime-english-sub-ep-04',
+      'https://bysejikuar.com/e/wq3gr74d7g45/dead-account-anime-english-sub-ep-05',
+      'https://bysejikuar.com/e/sjwbyhuj8c4d/dead-account-anime-english-sub-ep-06',
+      'https://bysejikuar.com/e/m22rji1849ip/dead-account-anime-english-sub-ep-07',
+      'https://bysejikuar.com/e/19yq255uz24n/dead-account-anime-english-sub-ep-08',
+      'https://bysejikuar.com/e/2m4f0qm7b41h/dead-account-anime-english-sub-ep-09',
+      'https://bysejikuar.com/e/jm1hi7zcdvwp/dead-account-anime-english-sub-ep10',
+      'https://bysejikuar.com/e/l9ycfdmefnog/dead-account-anime-english-sub-ep-11'
+    ];
+    const subEpisodesHD02 = [
+      'https://hqq.ac/e/OE83Z0pJUC9uUklFTlE3bVRhV1RoQT09',
+      'https://hqq.ac/e/cXZoT0RoSE16a0tzZ0VyS2ZMNGFiQT09',
+      'https://hqq.ac/e/Z3BjVDBrZWltT2RQM2pqc2NFZjlTQT09',
+      'https://hqq.ac/e/UU5JbzhMOEs2V3VIQUtOTlRJOERJZz09',
+      'https://hqq.ac/e/eTdDY0grOTNBL0VGRzNsbkhheUFyUT09',
+      'https://hqq.ac/e/K012TUZWU1hQVWRhS1o5TVNhaldjQT09',
+      'https://hqq.ac/e/SnA0dmg4bVdpWUNDZFVkUDhhQ2ltdz09',
+      'https://hqq.ac/e/VlQ0aTNibmtrOURvYjg4a2xyVER3dz09',
+      'https://hqq.ac/e/aURtcERVVlBlQVY3Vmhyd1Rrb3RnZz09',
+      'https://hqq.ac/e/RldMNHRneTBKWnpvS2pKZzBiVFFOZz09',
+      'https://hqq.ac/e/V2EwaW5qUlVycW5pVEN3aTArdDZLQT09'
+    ];
+    const subEpisodesHD03 = [
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1768290821/Dead_Account_sub_01_ksivvz.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709828/Watch_Dead_Account_Anime_Sub_Ep_02_by0cpm.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709835/Dead_Account_Anime_English_SUB_Ep_03_vbcdqa.mp4',
+      'https://player.cloudinary.com/embed/?cloud_name=dos8ad1kj&public_id=Dead_Account_Anime_English_SUB_Ep_04_xni1s8',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709858/Dead_Account_Anime_English_SUB_Ep_05_o4azdk.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709845/Dead_Account_Anime_English_SUB_Ep_06_zvf54s.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709850/Dead_Account_Anime_English_SUB_Ep_07_inuoqt.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774708867/Dead_Account_Anime_English_SUB_Ep_08_coz6ii.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709871/Dead_Account_Anime_English_SUB_Ep_09_y1qath.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709829/Dead_Account_Anime_English_SUB_Ep10_nhmpgi.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709923/Dead_Account_Anime_English_SUB_Ep_11_uiwedc.mp4'
+    ];
+    const subEpisodesHD04 = [
+      'https://mixdrop.top/e/gjkve8nxuw0j4vm',
+      'https://mixdrop.top/e/dkdgxopdb7jej1q',
+      'https://mixdrop.top/e/q19k7xzmi4ozrr',
+      'https://mixdrop.top/e/jdzov01eb3d8oz',
+      'https://mixdrop.top/e/gjkvmp64hnm3mw',
+      'https://mixdrop.top/e/7kpx4l1qtdwpp36',
+      'https://mixdrop.top/e/z1z39vm8s66dq9',
+      'https://mixdrop.top/e/8lqz96wghvzmjz',
+      'https://mixdrop.top/e/6791wvnkbgzk3o',
+      'https://mixdrop.top/e/jdzovnwwa7ozr1j',
+      'https://mixdrop.top/e/363logwpidn03d'
+    ];
+    const dubEpisodesHD01 = [
+      'https://bysejikuar.com/e/p7ua30unjt1s/dead-account-online-free-on-muvix-vq-dub-01',
+      'https://bysejikuar.com/e/zk511vi5j5cm/dead-account-online-free-on-muvix-vq-dub-02',
+      'https://bysejikuar.com/e/b6sb2ri9956k/watch-dead-account-anime-english-dub-ep-03',
+      'https://bysejikuar.com/e/fm75d41y8whj/watch-dead-account-anime-english-dub-ep-04',
+      'https://bysejikuar.com/e/rn7iwtidw46i/dead-account-anime-english-dub-05',
+      'https://bysejikuar.com/e/17dy6jy4z6g7/dead-account-anime-english-dub-06',
+      'https://bysejikuar.com/e/lwvd4p4erg59/dead-account-anime-english-dub-07',
+      'https://bysejikuar.com/e/zukjg4ymgaf9/dead-account-anime-english-dub-08',
+      'https://bysejikuar.com/e/5tgvpnaykywb/dead-account-anime-english-dub-09'
+    ];
+    const dubEpisodesHD02 = [
+      'https://waaw.ac/f/2cAZCGorWOOf',
+      'https://waaw.ac/f/7z9lTRUNupDt',
+      'https://hqq.ac/e/TDY0Z2Y3Y3JEMkwzdkVSU3JubmtCQT09',
+      'https://hqq.ac/e/a1dzZjdpQVhTYmIxd1gwOEQzb0I0Zz09',
+      'https://hqq.ac/e/bGJzaVNDTGhDNSsrdUUxcmpYMDZUdz09',
+      'https://hqq.ac/e/Sm44NUVGUi8rSnpENVNXK2dBdWIxdz09',
+      'https://hqq.ac/e/TDlRVm5jWWtuMVVwZmFrbDlKcUs4QT09',
+      'https://hqq.ac/e/Kzd6WVV0VElrT08vMzUwRDVLY3hDdz09',
+      'https://hqq.ac/e/R2dlZDdYVHRIVFNoU2hLMllrRVFJdz09',
+      'https://hqq.ac/e/WHlvT2JFd2U2YjVwRTRhTzkxb1hmZz09'
+    ];
+    const dubEpisodesHD03 = [
+      'https://mixdrop.top/e/vkzxr9pgs1k87p',
+      'https://mixdrop.top/e/1n47j161iq01x8',
+      'https://mixdrop.top/e/el038rppinvelx',
+      'https://mixdrop.top/e/dkdgop9vtp84xk',
+      'https://mixdrop.top/e/vkzx143wbnve83',
+      'https://mixdrop.top/e/ow90dmmrhkzvkd',
+      'https://mixdrop.top/e/l7qpv1djf30n77',
+      'https://mixdrop.top/e/jdzovww1b7p7lrv',
+      'https://mixdrop.top/e/r69lv8onuv4og8d'
+    ];
+    const dubEpisodesHD04 = [
+      '','',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709009/Watch_Dead_Account_Anime_English_Dub_Ep_03_faj1ka.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709828/Watch_Dead_Account_Anime_English_Dub_Ep_04_afewwx.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709855/Dead_Account_Anime_English_Dub_05_tav3jx.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709917/Dead_Account_Anime_English_Dub_06_qvhwnc.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774708998/Dead_Account_Anime_English_Dub_07_wfydpz.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774708928/Dead_Account_Anime_English_Dub_08_jiokke.mp4',
+      'https://res.cloudinary.com/dos8ad1kj/video/upload/v1774709826/Dead_Account_Anime_English_Dub_09_zfg8hh.mp4',
+      '','',''
+    ];
+    const rawEpisodesHD01 = [...subEpisodesHD01];
+    const rawEpisodesHD02 = [...subEpisodesHD02];
+    const rawEpisodesHD03 = [...subEpisodesHD03];
+    const rawEpisodesHD04 = [...subEpisodesHD04];
+
+    const episodeUrls = {
+      'SUB-HD-01': subEpisodesHD01, 'SUB-HD-02': subEpisodesHD02,
+      'SUB-HD-03': subEpisodesHD03, 'SUB-HD-04': subEpisodesHD04,
+      'DUB-HD-01': dubEpisodesHD01, 'DUB-HD-02': dubEpisodesHD02,
+      'DUB-HD-03': dubEpisodesHD03, 'DUB-HD-04': dubEpisodesHD04,
+      'RAW-HD-01': rawEpisodesHD01, 'RAW-HD-02': rawEpisodesHD02,
+      'RAW-HD-03': rawEpisodesHD03, 'RAW-HD-04': rawEpisodesHD04
+    };
+
+    const episodeData = {
+      '1': episodeTitles.map((title, idx) => ({ id: idx+1, title })),
+      '2': Array(6).fill().map((_, i) => ({ id: i+1, title: `Season 2 Episode ${i+1}` })),
+      '3': Array(4).fill().map((_, i) => ({ id: i+1, title: `Season 3 Episode ${i+1}` })),
+      '4': Array(3).fill().map((_, i) => ({ id: i+1, title: `Season 4 Episode ${i+1}` })),
+      'ova': Array(3).fill().map((_, i) => ({ id: i+1, title: `OVA Episode ${i+1}` }))
+    };
+
+    // ── State ──
+    let currentSeason = '1';
+    let currentEpisode = 1;
+    let currentServer = 'SUB-HD-01';
+
+    // Auto-play preferences (persisted in localStorage)
+    const AUTOPLAY_STORAGE_KEY = 'anime_autoplay_settings';
+    let autoNextEnabled = true;
+    let autoFullscreenEnabled = true;
+
+    // Auto-next countdown state
+    let autoNextTimer = null;
+    let autoNextCountdown = 5;
+    const AUTO_NEXT_DELAY = 5; // seconds
+
+    // ── DOM refs ──
+    const container        = document.getElementById('video-player-container-main');
+    const overlay          = document.getElementById('video-loading-overlay-main');
+    const displaySeason    = document.getElementById('display-season');
+    const displayEpisode   = document.getElementById('display-episode');
+    const displayServer    = document.getElementById('display-server');
+    const episodesContainer= document.getElementById('episodes-container');
+    const seasonBtns       = document.querySelectorAll('.season-btn');
+    const serverBtns       = document.querySelectorAll('.server-btn');
+    const prevBtn          = document.getElementById('prev-episode-btn');
+    const nextBtn          = document.getElementById('next-episode-btn');
+    const addToListBtn     = document.getElementById('add-to-list-btn');
+    const dropdown         = document.getElementById('status-dropdown');
+    const badgesContainer  = document.getElementById('status-badges-container');
+    const autonextOverlay  = document.getElementById('autonext-overlay');
+    const autonextEpname   = document.getElementById('autonext-epname');
+    const autonextCountdownEl = document.getElementById('autonext-countdown');
+    const autonextBar      = document.getElementById('autonext-bar');
+    const autonextCancelBtn= document.getElementById('autonext-cancel-btn');
+    const autonextNowBtn   = document.getElementById('autonext-now-btn');
+    const toggleAutoNextEl = document.getElementById('toggle-autonext');
+    const toggleFullscreenEl = document.getElementById('toggle-fullscreen');
+
+    // ── Load / save autoplay settings ──
+    function loadAutoplaySettings() {
+      try {
+        const stored = localStorage.getItem(AUTOPLAY_STORAGE_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          autoNextEnabled      = parsed.autoNext      !== undefined ? parsed.autoNext      : true;
+          autoFullscreenEnabled= parsed.autoFullscreen!== undefined ? parsed.autoFullscreen: true;
+        }
+      } catch(e) {}
+      updateToggleUI();
+    }
+
+    function saveAutoplaySettings() {
+      try {
+        localStorage.setItem(AUTOPLAY_STORAGE_KEY, JSON.stringify({
+          autoNext: autoNextEnabled,
+          autoFullscreen: autoFullscreenEnabled
+        }));
+      } catch(e) {}
+    }
+
+    function updateToggleUI() {
+      if (autoNextEnabled)       toggleAutoNextEl.classList.add('active');
+      else                       toggleAutoNextEl.classList.remove('active');
+      if (autoFullscreenEnabled) toggleFullscreenEl.classList.add('active');
+      else                       toggleFullscreenEl.classList.remove('active');
+    }
+
+    if (toggleAutoNextEl) {
+      toggleAutoNextEl.addEventListener('click', function() {
+        autoNextEnabled = !autoNextEnabled;
+        saveAutoplaySettings();
+        updateToggleUI();
+        if (!autoNextEnabled) cancelAutoNext();
+      });
+    }
+
+    if (toggleFullscreenEl) {
+      toggleFullscreenEl.addEventListener('click', function() {
+        autoFullscreenEnabled = !autoFullscreenEnabled;
+        saveAutoplaySettings();
+        updateToggleUI();
+      });
+    }
+
+    // ── Fullscreen helper ──
+    function requestFullscreen(element) {
+      if (!element) return;
+      try {
+        if (element.requestFullscreen)            element.requestFullscreen();
+        else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
+        else if (element.mozRequestFullScreen)    element.mozRequestFullScreen();
+        else if (element.msRequestFullscreen)     element.msRequestFullscreen();
+      } catch(e) { /* Browser may block without user gesture */ }
+    }
+
+    // ── Auto-Next countdown logic ──
+    function cancelAutoNext() {
+      if (autoNextTimer) { clearInterval(autoNextTimer); autoNextTimer = null; }
+      if (autonextOverlay) autonextOverlay.classList.remove('visible');
+    }
+
+    function startAutoNext() {
+      if (!autoNextEnabled) return;
+      const episodes = episodeData[currentSeason] || [];
+      const currentIndex = episodes.findIndex(ep => ep.id === currentEpisode);
+      if (currentIndex < 0 || currentIndex >= episodes.length - 1) return; // no next episode
+
+      const nextEp = episodes[currentIndex + 1];
+      const epNumStr = String(nextEp.id).padStart(2, '0');
+      if (autonextEpname) autonextEpname.textContent = `EP ${epNumStr}: ${nextEp.title}`;
+
+      autoNextCountdown = AUTO_NEXT_DELAY;
+      if (autonextCountdownEl) autonextCountdownEl.textContent = `Playing in ${autoNextCountdown} seconds...`;
+      if (autonextBar) autonextBar.style.width = '100%';
+      if (autonextOverlay) autonextOverlay.classList.add('visible');
+
+      // Animate bar
+      // Force reflow then start transition
+      setTimeout(() => {
+        if (autonextBar) {
+          autonextBar.style.transition = `width ${AUTO_NEXT_DELAY}s linear`;
+          autonextBar.style.width = '0%';
+        }
+      }, 50);
+
+      autoNextTimer = setInterval(() => {
+        autoNextCountdown--;
+        if (autonextCountdownEl) autonextCountdownEl.textContent = `Playing in ${autoNextCountdown} seconds...`;
+        if (autoNextCountdown <= 0) {
+          cancelAutoNext();
+          goToNextEpisode();
+        }
+      }, 1000);
+    }
+
+    function goToNextEpisode() {
+      const episodes = episodeData[currentSeason] || [];
+      const currentIndex = episodes.findIndex(ep => ep.id === currentEpisode);
+      if (currentIndex >= 0 && currentIndex < episodes.length - 1) {
+        currentEpisode = episodes[currentIndex + 1].id;
+        renderEpisodes();
+        updateInfoDisplay();
+        loadVideo(true); // true = trigger fullscreen
+      }
+    }
+
+    if (autonextCancelBtn) autonextCancelBtn.addEventListener('click', cancelAutoNext);
+    if (autonextNowBtn)    autonextNowBtn.addEventListener('click', function() { cancelAutoNext(); goToNextEpisode(); });
+
+    // ── Video loading with autoplay + fullscreen ──
+    function loadVideo(doFullscreen) {
+      cancelAutoNext(); // Cancel any pending auto-next when manually switching
+      if (!container) return;
+      const episodes = episodeData[currentSeason] || [];
+      if (currentEpisode > episodes.length) currentEpisode = 1;
+      const episodeIndex = currentEpisode - 1;
+      let videoUrl = '';
+      const serverUrls = episodeUrls[currentServer];
+      if (serverUrls && episodeIndex < serverUrls.length && serverUrls[episodeIndex]) {
+        videoUrl = serverUrls[episodeIndex];
+      }
+
+      if (!videoUrl) {
+        container.innerHTML = '<div class="video-container" style="display:flex;align-items:center;justify-content:center;color:white;background:#000;border-radius:12px;">No video available for this episode on this server. Try another server.</div>';
+        if (overlay) overlay.style.display = 'none';
+        return;
+      }
+
+      // Build embed URL with autoplay
+      let embedUrl = videoUrl;
+      const sep = videoUrl.includes('?') ? '&' : '?';
+      if (videoUrl.includes('strmup.to')) {
+        embedUrl = videoUrl + sep + 'autoplay=1&controls=1&modestbranding=1&rel=0';
+      } else if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) {
+        // Direct video file – use a <video> element for better control
+        container.innerHTML = '';
+        const video = document.createElement('video');
+        video.className = 'video-container';
+        video.src = videoUrl;
+        video.controls = true;
+        video.autoplay = true;
+        video.style.background = '#000';
+        video.style.borderRadius = '12px';
+        container.appendChild(video);
+        if (overlay) overlay.style.display = 'none';
+
+        // Auto fullscreen on play
+        video.addEventListener('play', function onFirstPlay() {
+          video.removeEventListener('play', onFirstPlay);
+          if (autoFullscreenEnabled && (doFullscreen !== false)) {
+            setTimeout(() => requestFullscreen(container), 300);
+          }
+        }, { once: true });
+
+        // Trigger auto-next when video ends
+        video.addEventListener('ended', function() {
+          startAutoNext();
+        });
+        return;
+      } else {
+        embedUrl = videoUrl + sep + 'autoplay=1';
+      }
+
+      container.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.className = 'video-container';
+      iframe.src = embedUrl;
+      iframe.frameBorder = '0';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+      iframe.allowFullscreen = true;
+      iframe.title = `S${currentSeason} E${currentEpisode}`;
+      container.appendChild(iframe);
+      if (overlay) overlay.style.display = 'none';
+
+      // Auto fullscreen after iframe loads
+      if (autoFullscreenEnabled && (doFullscreen !== false)) {
+        iframe.addEventListener('load', function() {
+          setTimeout(() => requestFullscreen(container), 500);
+        });
+      }
+
+      // ── Auto-next for iframe/embed videos ──
+      // Since we cannot detect 'ended' inside a cross-origin iframe,
+      // we use a postMessage listener. Many embed players (including
+      // cloudinary, hqq, etc.) fire a message when playback ends.
+      window.addEventListener('message', function onIframeMsg(e) {
+        // Common patterns from video embed players
+        const data = e.data;
+        if (!data) return;
+        let isEnded = false;
+        if (typeof data === 'string') {
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.event === 'ended' || parsed.event === 'videoEnded' ||
+                parsed.event === 'complete' || parsed.info === 0 ||
+                parsed.type === 'ended') isEnded = true;
+          } catch(err) {
+            if (data === 'ended' || data === 'videoEnded' || data === 'complete') isEnded = true;
+          }
+        } else if (typeof data === 'object') {
+          if (data.event === 'ended' || data.event === 'videoEnded' ||
+              data.event === 'complete' || data.info === 0 ||
+              data.type === 'ended') isEnded = true;
+        }
+        if (isEnded) {
+          window.removeEventListener('message', onIframeMsg);
+          startAutoNext();
+        }
+      });
+    }
+
+    // ── Status / watchlist logic ──
+    const STATUS_STORAGE_KEY = 'anime_watch_status_list';
+    let selectedStatuses = [];
+
+    function getStatusIcon(status) {
+      const icons = {
+        'Planning':    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 8V12L15 15" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.5"/></svg>',
+        'Watching':    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12C2 12 5 4 12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12Z" stroke="white" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="white" stroke-width="1.5"/></svg>',
+        'Completed':   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.5"/></svg>',
+        'Re-watching': '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C14.5 4 16.5 5 18 6.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M20 4V8H16" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8V12L15 15" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>',
+        'Dropped':     '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M6 6L18 18" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.5"/></svg>',
+        'My Favourite':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>'
+      };
+      return icons[status] || '';
+    }
+
+    function loadStatusesFromStorage() {
+      const stored = localStorage.getItem(STATUS_STORAGE_KEY);
+      if (stored) {
+        try {
+          selectedStatuses = JSON.parse(stored);
+          if (!Array.isArray(selectedStatuses)) selectedStatuses = [];
+          if (selectedStatuses.length > 2) selectedStatuses = selectedStatuses.slice(0, 2);
+        } catch(e) { selectedStatuses = []; }
+      } else { selectedStatuses = []; }
+      renderBadges();
+      updateButtonAppearance();
+    }
+
+    function saveStatusesToStorage() {
+      localStorage.setItem(STATUS_STORAGE_KEY, JSON.stringify(selectedStatuses));
+      renderBadges();
+      updateButtonAppearance();
+    }
+
+    function renderBadges() {
+      if (!badgesContainer) return;
+      if (selectedStatuses.length === 0) { badgesContainer.innerHTML = ''; return; }
+      let html = '';
+      selectedStatuses.forEach(status => {
+        html += `<div class="status-badge" data-status="${status}">${getStatusIcon(status)}<span>${status}</span><span class="badge-remove" data-status="${status}">✕</span></div>`;
+      });
+      badgesContainer.innerHTML = html;
+      document.querySelectorAll('.badge-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectedStatuses = selectedStatuses.filter(s => s !== btn.dataset.status);
+          saveStatusesToStorage();
+        });
+      });
+    }
+
+    function updateButtonAppearance() {
+      if (!addToListBtn) return;
+      if (selectedStatuses.length > 0) {
+        addToListBtn.innerHTML = '✎ Edit the list';
+        addToListBtn.style.background = '#498BBB';
+        addToListBtn.style.color = 'white';
+        addToListBtn.style.borderColor = '#498BBB';
+      } else {
+        addToListBtn.innerHTML = '+ Add to List';
+        addToListBtn.style.background = '#141a25';
+        addToListBtn.style.color = '#e5e7eb';
+        addToListBtn.style.borderColor = '#498BBB';
+      }
+    }
+
+    function addStatus(status) {
+      if (status === 'Remove') { selectedStatuses = []; saveStatusesToStorage(); closeDropdown(); return; }
+      if (selectedStatuses.includes(status)) {
+        selectedStatuses = selectedStatuses.filter(s => s !== status);
+      } else {
+        if (selectedStatuses.length >= 2) {
+          const orig = addToListBtn.innerHTML;
+          addToListBtn.innerText = 'Max 2 statuses!';
+          setTimeout(() => { addToListBtn.innerHTML = selectedStatuses.length > 0 ? '✎ Edit the list' : '+ Add to List'; }, 1500);
+          closeDropdown(); return;
+        }
+        selectedStatuses.push(status);
+      }
+      saveStatusesToStorage();
+      closeDropdown();
+    }
+
+    function toggleDropdown() { if (!dropdown) return; dropdown.classList.toggle('hidden'); }
+    function closeDropdown()  { if (dropdown)  dropdown.classList.add('hidden'); }
+
+    document.addEventListener('click', function(event) {
+      const wrapper = document.querySelector('.add-to-list-wrapper');
+      if (wrapper && !wrapper.contains(event.target)) closeDropdown();
+    });
+
+    function initStatusDropdown() {
+      document.querySelectorAll('.status-option').forEach(option => {
+        option.addEventListener('click', (e) => { e.stopPropagation(); addStatus(option.dataset.status); });
+      });
+      if (addToListBtn) addToListBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(); });
+    }
+
+    // ── UI helpers ──
+    function updateInfoDisplay() {
+      if (displaySeason)  displaySeason.innerText  = currentSeason;
+      if (displayEpisode) displayEpisode.innerText = currentEpisode;
+      if (displayServer)  displayServer.innerText  = currentServer;
+    }
+
+    function clearServerActive() { serverBtns.forEach(b => b.classList.remove('active-server')); }
+    function clearSeasonActive() { seasonBtns.forEach(b => b.classList.remove('active-season')); }
+
+    function renderEpisodes() {
+      const episodes = episodeData[currentSeason] || [];
+      let html = '';
+      episodes.forEach(ep => {
+        const activeClass = (ep.id === currentEpisode) ? 'active' : '';
+        const epNum = String(ep.id).padStart(2, '0');
+        html += `<div class="episode-list-item ${activeClass}" data-episode-id="${ep.id}">EP ${epNum}: ${ep.title}</div>`;
+      });
+      episodesContainer.innerHTML = html;
+      // Scroll active episode into view
+      const activeEl = episodesContainer.querySelector('.episode-list-item.active');
+      if (activeEl) activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      document.querySelectorAll('.episode-list-item').forEach(el => {
+        el.addEventListener('click', function() {
+          const epId = parseInt(this.dataset.episodeId);
+          if (!isNaN(epId)) {
+            currentEpisode = epId;
+            document.querySelectorAll('.episode-list-item').forEach(item => item.classList.remove('active'));
+            this.classList.add('active');
+            updateInfoDisplay();
+            if (currentServer) loadVideo(true);
+          }
+        });
+      });
+    }
+
+    // ── Event listeners ──
+    seasonBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const season = this.dataset.season;
+        if (!season) return;
+        currentSeason = season;
+        currentEpisode = 1;
+        clearSeasonActive();
+        this.classList.add('active-season');
+        renderEpisodes();
+        updateInfoDisplay();
+        if (currentServer) loadVideo(true);
+      });
+    });
+
+    serverBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const server = this.dataset.server;
+        if (!server) return;
+        currentServer = server;
+        clearServerActive();
+        this.classList.add('active-server');
+        updateInfoDisplay();
+        loadVideo(true);
+      });
+    });
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function() {
+        const episodes = episodeData[currentSeason] || [];
+        const idx = episodes.findIndex(ep => ep.id === currentEpisode);
+        if (idx > 0) {
+          currentEpisode = episodes[idx - 1].id;
+          renderEpisodes(); updateInfoDisplay();
+          if (currentServer) loadVideo(true);
+        }
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function() {
+        const episodes = episodeData[currentSeason] || [];
+        const idx = episodes.findIndex(ep => ep.id === currentEpisode);
+        if (idx >= 0 && idx < episodes.length - 1) {
+          currentEpisode = episodes[idx + 1].id;
+          renderEpisodes(); updateInfoDisplay();
+          if (currentServer) loadVideo(true);
+        }
+      });
+    }
+
+    if (overlay) overlay.addEventListener('click', function() { if (currentServer) loadVideo(true); });
+
+    // ── Init ──
+    function init() {
+      loadAutoplaySettings();
+      clearSeasonActive();
+      seasonBtns.forEach(btn => { if (btn.dataset.season === currentSeason) btn.classList.add('active-season'); });
+      clearServerActive();
+      serverBtns.forEach(btn => { if (btn.dataset.server === currentServer) btn.classList.add('active-server'); });
+      renderEpisodes();
+      updateInfoDisplay();
+      if (currentServer) loadVideo(false); // Don't fullscreen on page load
+      loadStatusesFromStorage();
+      initStatusDropdown();
+    }
+
+    init();
+  })();
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const synopsis = document.getElementById('synopsis');
+    if (synopsis) {
+      synopsis.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('expanded');
+      });
+    }
+  });
+</script>
