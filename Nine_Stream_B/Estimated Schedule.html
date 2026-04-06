@@ -1,823 +1,770 @@
+<!-- ======================================================
+     ESTIMATE SCHEDULE WIDGET — Blogger HTML/JS Gadget
+     Add this to: Layout > Add a Gadget > HTML/JavaScript
+     ====================================================== -->
+
 <style>
-  /* Main Container */
-  .schedule-countdown-container {
-    background: #1e2235;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 30px;
-    font-family: 'Inter', sans-serif;
-    position: relative;
-  }
-  
-  /* World Timer - Top Right */
-  .world-timer {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: #2a2f45;
-    padding: 8px 16px;
-    border-radius: 30px;
-    font-size: 0.85rem;
-    color: #e5e7eb;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid #3a4055;
-    z-index: 5;
-  }
-  
-  .world-timer svg {
-    width: 16px;
-    height: 16px;
-    fill: #bb3a67;
-  }
-  
-  .timer-display {
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-  
-  /* On The Horizon Text */
-  .horizon-text {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: white;
-    margin-bottom: 20px;
-    padding-right: 200px; /* Make space for timer */
-  }
-  
-  /* Horizontal Scroll Container */
-  .days-scroll-container {
-    position: relative;
-    margin-bottom: 25px;
-  }
-  
-  .days-scroll {
-    display: flex;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    gap: 12px;
-    padding: 5px 0 15px 0;
-    -ms-overflow-style: none;  /* Hide scrollbar IE/Edge */
-    scrollbar-width: none;  /* Hide scrollbar Firefox */
-  }
-  
-  .days-scroll::-webkit-scrollbar {
-    display: none;  /* Hide scrollbar Chrome/Safari */
-  }
-  
-  /* Day Card */
-  .day-card {
-    flex: 0 0 auto;
-    width: 85px;
-    background: #b32456;  /* Primary card color */
-    border-radius: 12px;
-    padding: 12px 5px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  }
-  
-  .day-card:hover {
-    transform: translateY(-3px);
-    background: #bb3a67 !important;  /* Secondary color on hover */
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-  }
-  
-  .day-card.active {
-    background: #8f1d45 !important;  /* Dark color for active */
-    transform: scale(1.02);
-  }
-  
-  .day-name {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  .date-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.9);
-  }
-  
-  .month-name {
-    font-weight: 500;
-  }
-  
-  .day-number {
-    font-weight: 600;
-    font-size: 1rem;
-  }
-  
-  /* Navigation Arrows */
-  .scroll-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
-    background: #2a2f45;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    border: 1px solid #3a4055;
-    transition: all 0.2s;
-    opacity: 0.8;
-  }
-  
-  .scroll-arrow:hover {
-    background: #bb3a67;
-    opacity: 1;
-    transform: translateY(-50%) scale(1.1);
-  }
-  
-  .scroll-arrow.hidden {
-    opacity: 0.3;
-    pointer-events: none;
-    cursor: default;
-  }
-  
-  .scroll-arrow.left-arrow {
-    left: -15px;
-  }
-  
-  .scroll-arrow.right-arrow {
-    right: -15px;
-  }
-  
-  .scroll-arrow svg {
-    width: 20px;
-    height: 20px;
-    fill: white;
-  }
-  
-  /* Shows List Container */
-  .shows-list-container {
-    background: #2a2f45;
-    border-radius: 12px;
-    padding: 15px;
-    margin-top: 10px;
-  }
-  
-  .shows-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  /* Show Item Row */
-  .show-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 15px;
-    background: #1e2235;
-    border-radius: 8px;
-    transition: all 0.2s;
-    border-left: 4px solid transparent;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .show-item:hover {
-    background: #8f1d45;
-    border-left-color: #f39c12;
-    transform: translateX(5px);
-  }
-  
-  .show-time {
-    min-width: 90px;
-    font-weight: 600;
-    color: #f39c12;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  .show-time svg {
-    width: 16px;
-    height: 16px;
-    fill: #f39c12;
-  }
-  
-  .show-title {
-    flex: 1;
-    font-weight: 500;
-    color: white;
-    font-size: 0.95rem;
-    padding: 0 15px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .show-episode {
-    min-width: 100px;
-    color: #9ca3af;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  .show-episode svg {
-    width: 14px;
-    height: 14px;
-    fill: #9ca3af;
-  }
-  
-  .show-status {
-    min-width: 80px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-align: center;
-    text-transform: uppercase;
-  }
-  
-  .status-airing {
-    background: #10b981;
-    color: white;
-  }
-  
-  .status-upcoming {
-    background: #f59e0b;
-    color: white;
-  }
-  
-  .status-ongoing {
-    background: #3b82f6;
-    color: white;
-  }
-  
-  /* Show More Button */
-  .show-more-btn {
-    background: #2a2f45;
-    color: white;
-    border: 1px solid #3a4055;
-    padding: 12px 25px;
-    border-radius: 30px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-top: 20px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .show-more-btn:hover {
-    background: #bb3a67;
-    border-color: #bb3a67;
-    transform: translateY(-2px);
-  }
-  
-  .show-more-btn svg {
-    width: 18px;
-    height: 18px;
-    fill: white;
-    transition: transform 0.3s;
-  }
-  
-  .show-more-btn.expanded svg {
-    transform: rotate(180deg);
-  }
-  
-  .hidden-shows {
-    display: none;
-  }
-  
-  .hidden-shows.expanded {
-    display: block;
-  }
-  
-  /* Loading State */
-  .schedule-loading {
-    text-align: center;
-    padding: 40px;
-    color: #9ca3af;
-  }
-  
-  .schedule-loading svg {
-    width: 40px;
-    height: 40px;
-    fill: #bb3a67;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  /* No Shows Message */
-  .no-shows {
-    text-align: center;
-    padding: 40px;
-    color: #9ca3af;
-    font-style: italic;
-  }
-  
-  /* Mobile Responsive */
-  @media (max-width: 768px) {
-    .world-timer {
-      position: static;
-      margin-bottom: 15px;
-      width: fit-content;
-    }
-    
-    .horizon-text {
-      padding-right: 0;
-      font-size: 1.1rem;
-    }
-    
-    .scroll-arrow {
-      display: none !important;
-    }
-    
-    .day-card {
-      width: 70px;
-      padding: 10px 3px;
-    }
-    
-    .day-name {
-      font-size: 0.9rem;
-    }
-    
-    .show-item {
-      flex-wrap: wrap;
-      padding: 12px 10px;
-    }
-    
-    .show-time {
-      min-width: 70px;
-      font-size: 0.9rem;
-    }
-    
-    .show-title {
-      width: 100%;
-      order: 2;
-      padding: 8px 0 0 0;
-      white-space: normal;
-    }
-    
-    .show-episode {
-      min-width: auto;
-      margin-left: auto;
-    }
-    
-    .show-status {
-      min-width: 60px;
-      font-size: 0.7rem;
-      padding: 3px 6px;
-    }
-    
-    .show-more-btn {
-      width: 100%;
-      justify-content: center;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .show-item {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
-    }
-    
-    .show-time {
-      width: 100%;
-    }
-    
-    .show-episode {
-      margin-left: 0;
-    }
-    
-    .show-status {
-      align-self: flex-start;
-    }
-  }
+#esw-outer{display:none;}
+#esw-outer.esw-homepage{display:block;}
+:root{
+  --esw-bg:#0d1b2e;
+  --esw-card:#0f2847;
+  --esw-surface:#1a3a5c;
+  --esw-primary:#2563a8;
+  --esw-accent:#3b82f6;
+  --esw-light:#93c5fd;
+  --esw-pale:#e0f0ff;
+  --esw-white:#ffffff;
+  --esw-muted:#cbd5e1;
+  --esw-dim:#64748b;
+  --esw-warn:#f59e0b;
+}
+#esw{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:var(--esw-bg);
+  border:1px solid var(--esw-surface);
+  border-radius:14px;
+  overflow:hidden;
+  width:100%;
+  max-width:780px;
+  margin:16px auto;
+}
+.esw-head{
+  background:var(--esw-card);
+  border-bottom:1px solid var(--esw-surface);
+  padding:10px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.esw-title{
+  font-size:13px;
+  font-weight:700;
+  color:var(--esw-white);
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+.esw-clock{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  background:var(--esw-surface);
+  border:1px solid var(--esw-primary);
+  border-radius:999px;
+  padding:5px 13px;
+  flex-shrink:0;
+}
+.esw-clock-world{
+  width:15px;
+  height:15px;
+  flex-shrink:0;
+}
+.esw-clock-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  line-height:1;
+  gap:2px;
+}
+.esw-clock-tz{
+  font-size:9px;
+  font-weight:700;
+  color:var(--esw-dim);
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.esw-clock-row{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
+}
+.esw-clock-date{
+  font-size:11px;
+  font-weight:600;
+  color:var(--esw-muted);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.2px;
+}
+.esw-clock-sep{
+  font-size:10px;
+  color:var(--esw-dim);
+  line-height:1;
+}
+.esw-clock-time{
+  font-size:12px;
+  font-weight:700;
+  color:var(--esw-light);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.5px;
+}
+.esw-days{
+  display:flex;
+  align-items:center;
+  padding:10px 10px;
+  border-bottom:1px solid var(--esw-surface);
+  gap:0;
+}
+.esw-nav{
+  background:none;
+  border:none;
+  color:var(--esw-dim);
+  cursor:pointer;
+  width:28px;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  border-radius:6px;
+  transition:color .2s,background .2s;
+}
+.esw-nav:hover{color:var(--esw-accent);background:var(--esw-surface);}
+.esw-days-scroll{
+  display:flex;
+  gap:5px;
+  flex:1;
+  overflow:hidden;
+  justify-content:space-between;
+}
+.esw-day-card{
+  flex:1;
+  min-width:0;
+  background:var(--esw-card);
+  border:1px solid var(--esw-surface);
+  border-radius:10px;
+  padding:7px 3px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .18s;
+  user-select:none;
+}
+.esw-day-card:hover{border-color:var(--esw-accent);background:var(--esw-surface);}
+.esw-day-card.esw-active{background:var(--esw-primary);border-color:var(--esw-accent);}
+.esw-day-card.esw-today{border-color:var(--esw-warn) !important;}
+.esw-day-card.esw-today .esw-dc-day{color:var(--esw-warn);}
+.esw-dc-day{font-size:9px;font-weight:700;color:var(--esw-dim);text-transform:uppercase;letter-spacing:.5px;}
+.esw-dc-date{font-size:17px;font-weight:800;color:var(--esw-white);line-height:1.1;margin:2px 0;}
+.esw-dc-month{font-size:9px;color:var(--esw-muted);letter-spacing:.3px;}
+.esw-day-card.esw-active .esw-dc-day,
+.esw-day-card.esw-active .esw-dc-date,
+.esw-day-card.esw-active .esw-dc-month{color:var(--esw-white);}
+.esw-day-card.esw-today.esw-active .esw-dc-day{color:var(--esw-warn);}
+.esw-body{padding:10px 12px 14px;}
+.esw-status-bar{
+  font-size:11px;
+  color:var(--esw-dim);
+  padding:4px 0 8px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.esw-rows{display:flex;flex-direction:column;gap:5px;}
+.esw-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--esw-card);
+  border:1px solid var(--esw-surface);
+  border-radius:9px;
+  padding:9px 10px;
+  cursor:pointer;
+  transition:all .18s;
+  text-decoration:none;
+  color:inherit;
+}
+.esw-row:hover{border-color:var(--esw-accent);background:var(--esw-surface);}
+.esw-row-time{
+  font-size:12px;
+  font-weight:700;
+  color:var(--esw-light);
+  min-width:42px;
+  font-variant-numeric:tabular-nums;
+  flex-shrink:0;
+}
+.esw-row-title{
+  flex:1;
+  font-size:13px;
+  font-weight:500;
+  color:var(--esw-white);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  min-width:0;
+}
+.esw-row-ep{
+  font-size:11px;
+  color:var(--esw-muted);
+  background:var(--esw-surface);
+  border:1px solid var(--esw-primary);
+  border-radius:5px;
+  padding:2px 7px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.esw-row-btn{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:var(--esw-primary);
+  border:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  transition:background .2s;
+  text-decoration:none;
+}
+.esw-row-btn:hover{background:var(--esw-accent);}
+.esw-row-btn svg{width:13px;height:13px;display:block;}
+.esw-aired{opacity:.5;}
+.esw-aired .esw-row-time{color:var(--esw-dim);}
+.esw-more-wrap{margin-top:8px;display:flex;justify-content:flex-end;}
+.esw-more-btn{
+  background:none;
+  border:1px solid var(--esw-primary);
+  color:var(--esw-accent);
+  border-radius:7px;
+  padding:5px 14px;
+  font-size:12px;
+  cursor:pointer;
+  transition:all .2s;
+  font-family:inherit;
+}
+.esw-more-btn:hover{background:var(--esw-primary);color:var(--esw-white);}
+.esw-empty{text-align:center;padding:28px 12px;color:var(--esw-dim);font-size:13px;}
+.esw-spinner{text-align:center;padding:20px;color:var(--esw-dim);font-size:12px;}
+@media(max-width:540px){
+  .esw-clock{padding:4px 10px;gap:5px;}
+  .esw-clock-date{font-size:10px;}
+  .esw-clock-time{font-size:11px;}
+  .esw-clock-tz{font-size:8px;}
+  .esw-dc-date{font-size:14px;}
+  .esw-row-title{font-size:12px;}
+  .esw-days{padding:8px 6px;}
+  .esw-head{padding:8px 10px;}
+}
+@media(max-width:360px){
+  .esw-clock-date,.esw-clock-sep{display:none;}
+}
 </style>
 
-<div class="schedule-countdown-container" id="scheduleContainer">
-  <!-- World Timer - Top Right -->
-  <div class="world-timer" id="worldTimer">
-    <svg viewBox="0 0 24 24">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-13v4l5 3-5 3v-4H9v-6h2.5z"/>
-    </svg>
-    <span class="timer-display" id="timerDisplay">Loading...</span>
-  </div>
-  
-  <!-- On The Horizon Text -->
-  <div class="horizon-text">📺 On The Horizon</div>
-  
-  <!-- Horizontal Scroll Container -->
-  <div class="days-scroll-container">
-    <div class="scroll-arrow left-arrow" id="leftArrow">
-      <svg viewBox="0 0 24 24">
-        <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
-      </svg>
-    </div>
-    
-    <div class="scroll-arrow right-arrow" id="rightArrow">
-      <svg viewBox="0 0 24 24">
-        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-      </svg>
-    </div>
-    
-    <div class="days-scroll" id="daysScroll"></div>
-  </div>
-  
-  <!-- Shows List Container -->
-  <div class="shows-list-container">
-    <div class="shows-list" id="showsList">
-      <div class="schedule-loading">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-        </svg>
-        <p>Loading schedule...</p>
+<div id="esw-outer">
+  <div id="esw">
+
+    <!-- Header -->
+    <div class="esw-head">
+      <div class="esw-title">
+        <svg width="15" height="15" viewbox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </line></line></line></rect></svg>
+        Estimate Schedule
+      </div>
+
+      <!-- Datetime pill: globe + TZ + DD/MM/YYYY · HH:MM:SS AM/PM -->
+      <div class="esw-clock">
+        <svg class="esw-clock-world" viewbox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M2 12h20"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </path></path></circle></svg>
+        <div class="esw-clock-inner">
+          <span class="esw-clock-tz" id="esw-tz">GMT+0</span>
+          <div class="esw-clock-row">
+            <span class="esw-clock-date" id="esw-date">01/01/2026</span>
+            <span class="esw-clock-sep">·</span>
+            <span class="esw-clock-time" id="esw-time">12:00:00 AM</span>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <!-- Show More Button -->
-    <button class="show-more-btn" id="showMoreBtn">
-      <svg viewBox="0 0 24 24">
-        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-      </svg>
-      Show More
-    </button>
+
+    <!-- Day selector -->
+    <div class="esw-days">
+      <button class="esw-nav" id="esw-prev">
+        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></polyline></svg>
+      </button>
+      <div class="esw-days-scroll" id="esw-days-scroll"></div>
+      <button class="esw-nav" id="esw-next">
+        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></polyline></svg>
+      </button>
+    </div>
+
+    <!-- Episode rows -->
+    <div class="esw-body">
+      <div class="esw-status-bar" id="esw-status">
+        <svg width="12" height="12" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></path></circle></svg>
+        Loading schedule...
+      </div>
+      <div class="esw-rows" id="esw-rows">
+        <div class="esw-spinner">Fetching airing shows...</div>
+      </div>
+      <div class="esw-more-wrap" id="esw-more-wrap" style="display:none;">
+        <button class="esw-more-btn" id="esw-more-btn">Show more</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <script>
 //<![CDATA[
-(function() {
-  // Configuration
-  const SCHEDULE_CONFIG = {
-    maxShowsDefault: 10,
-    weekStartDay: 5, // Friday (0 = Sunday, 1 = Monday, etc.)
-    validTypes: ['TV', 'Series', 'Drama', 'Anime'],
-    validStatuses: ['Ongoing', 'Airing', 'Upcoming']
-  };
-  
-  let currentShows = [];
-  let filteredShows = [];
-  let currentPage = 1;
-  let showsPerPage = SCHEDULE_CONFIG.maxShowsDefault;
-  let expanded = false;
-  let selectedDay = null;
-  
-  // Initialize world timer
-  function initWorldTimer() {
-    updateWorldTimer();
-    setInterval(updateWorldTimer, 1000);
+(function(){
+
+/* ═══════════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════════ */
+var LABELS = [
+  'Airing','airing',
+  'Ongoing','ongoing',
+  'Anime','anime',
+  'Series','series',
+  'Show','show'
+];
+var DEFAULT_SHOW = 9;
+var MAX_POSTS    = 80;
+
+/* ═══════════════════════════════════════════════
+   TIMEZONE OFFSET MAP  (country/code → UTC hours)
+═══════════════════════════════════════════════ */
+var TZ = {
+  'japan':9,'jst':9,'jp':9,
+  'usa':-5,'us':-5,'united states':-5,'america':-5,
+  'est':-5,'cst':-6,'mst':-7,'pst':-8,
+  'uk':0,'gb':0,'gmt':0,'bst':1,'united kingdom':0,
+  'korea':9,'kst':9,'kr':9,'south korea':9,
+  'china':8,'cn':8,
+  'india':5.5,'ist':5.5,'in':5.5,
+  'pakistan':5,'pkt':5,'pk':5,
+  'bangladesh':6,'bdt':6,'bd':6,
+  'indonesia':7,'wib':7,'id':7,
+  'thailand':7,'th':7,
+  'malaysia':8,'my':8,'myt':8,
+  'philippines':8,'ph':8,'pht':8,
+  'singapore':8,'sg':8,'sgt':8,
+  'australia':10,'aest':10,'au':10,
+  'germany':1,'de':1,'cet':1,
+  'france':1,'fr':1,
+  'italy':1,'it':1,
+  'spain':1,'es':1,
+  'netherlands':1,'nl':1,
+  'sweden':1,'se':1,
+  'poland':1,'pl':1,
+  'ukraine':2,'ua':2,
+  'russia':3,'ru':3,'msk':3,
+  'turkey':3,'tr':3,
+  'brazil':-3,'br':-3,
+  'argentina':-3,'ar':-3,
+  'colombia':-5,'co':-5,
+  'mexico':-6,'mx':-6,
+  'canada':-5,'ca':-5,
+  'uae':4,'ae':4,'dubai':4,
+  'saudi arabia':3,
+  'egypt':2,'eg':2,
+  'south africa':2,'za':2,
+  'nigeria':1,'ng':1,
+  'kenya':3,'ke':3,
+  'new zealand':12,'nz':12
+};
+
+/* Common UTC-offset → abbreviation for clock display */
+var TZ_ABBR = {
+  '-12':'UTC-12','-11':'UTC-11','-10':'HST','-9':'AKST',
+  '-8':'PST','-7':'MST','-6':'CST','-5':'EST',
+  '-4':'AST','-3':'BRT','-2':'UTC-02','-1':'UTC-01',
+  '0':'GMT','1':'CET','2':'EET','3':'MSK','3.5':'IRST',
+  '4':'GST','4.5':'AFT','5':'PKT','5.5':'IST','5.75':'NPT',
+  '6':'BST','6.5':'MMT','7':'ICT','8':'SGT',
+  '9':'JST','9.5':'ACST','10':'AEST',
+  '11':'SBT','12':'NZST','13':'TOT','14':'LINT'
+};
+
+/* ═══════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════ */
+var allScheduleData = [];
+var weekOffset = 0;
+var selDay     = 0;
+var showCount  = DEFAULT_SHOW;
+var weekDays   = [];
+
+/* ═══════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════ */
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function esc(s){
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function localOffset(){
+  return -(new Date().getTimezoneOffset()) / 60;
+}
+
+/* Build a readable TZ string like "GMT+6" or known abbreviation */
+function buildTZLabel(offset){
+  var key = String(offset);
+  if(TZ_ABBR[key]) return TZ_ABBR[key];
+  var sign = offset >= 0 ? '+' : '-';
+  var abs  = Math.abs(offset);
+  var h    = Math.floor(abs);
+  var m    = Math.round((abs - h) * 60);
+  return 'GMT' + sign + (m > 0 ? h + ':' + pad(m) : h);
+}
+
+function countryOffset(country){
+  if(!country) return 9;
+  var k = country.trim().toLowerCase();
+  return (k in TZ) ? TZ[k] : 9;
+}
+
+function convertTime(airTime, airCountry){
+  var lo = localOffset();
+  var so = countryOffset(airCountry);
+  var p  = (airTime||'00:00').split(':');
+  var h  = parseInt(p[0])||0;
+  var m  = parseInt(p[1])||0;
+  var total = h*60 + m + Math.round((lo - so)*60);
+  var hh = Math.floor(total/60) % 24;
+  var mm = total % 60;
+  if(hh < 0) hh += 24;
+  if(mm < 0){ mm += 60; hh = (hh-1+24)%24; }
+  return pad(hh) + ':' + pad(mm);
+}
+
+function localAirDate(airDate, airTime, airCountry){
+  var so = countryOffset(airCountry);
+  var lo = localOffset();
+  var dp = (airDate||'').split('-');
+  var tp = (airTime||'00:00').split(':');
+  var utcMs = Date.UTC(
+    parseInt(dp[0])||2026, (parseInt(dp[1])||1)-1, parseInt(dp[2])||1,
+    parseInt(tp[0])||0, parseInt(tp[1])||0
+  ) - so * 3600000;
+  return new Date(utcMs + lo * 3600000);
+}
+
+function sameDay(a, b){
+  return a.getFullYear()===b.getFullYear()
+      && a.getMonth()===b.getMonth()
+      && a.getDate()===b.getDate();
+}
+function isToday(d){ return sameDay(d, new Date()); }
+
+/* ═══════════════════════════════════════════════
+   CLOCK  — updates every second
+   Format: TZ label / DD/MM/YYYY · HH:MM:SS AM/PM
+═══════════════════════════════════════════════ */
+function startClock(){
+  var off   = localOffset();
+  var tzEl  = document.getElementById('esw-tz');
+  if(tzEl) tzEl.textContent = buildTZLabel(off);
+
+  function tick(){
+    var n    = new Date();
+    var h    = n.getHours();
+    var mi   = n.getMinutes();
+    var s    = n.getSeconds();
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    var h12  = h % 12 || 12;
+
+    var timeEl = document.getElementById('esw-time');
+    var dateEl = document.getElementById('esw-date');
+
+    if(timeEl) timeEl.textContent = pad(h12)+':'+pad(mi)+':'+pad(s)+' '+ampm;
+    if(dateEl) dateEl.textContent = pad(n.getDate())+'/'+pad(n.getMonth()+1)+'/'+n.getFullYear();
   }
-  
-  function updateWorldTimer() {
-    const timerDisplay = document.getElementById('timerDisplay');
-    if (!timerDisplay) return;
-    
-    const now = new Date();
-    
-    // Get timezone offset
-    const offset = -now.getTimezoneOffset();
-    const offsetHours = Math.floor(Math.abs(offset) / 60);
-    const offsetMins = Math.abs(offset) % 60;
-    const offsetSign = offset >= 0 ? '+' : '-';
-    const offsetStr = `GMT${offsetSign}${offsetHours.toString().padStart(2, '0')}:${offsetMins.toString().padStart(2, '0')}`;
-    
-    // Format date
-    const dateStr = now.toLocaleDateString('en-US', {
-      month: 'numeric',
-      day: 'numeric',
-      year: 'numeric'
+  tick();
+  setInterval(tick, 1000);
+}
+
+/* ═══════════════════════════════════════════════
+   WEEK BUILDER
+═══════════════════════════════════════════════ */
+function buildWeek(){
+  var now   = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var sun   = new Date(today);
+  sun.setDate(today.getDate() - today.getDay() + weekOffset * 7);
+  var days = [];
+  for(var i=0; i<7; i++){
+    var d = new Date(sun);
+    d.setDate(sun.getDate() + i);
+    days.push(d);
+  }
+  return days;
+}
+
+function autoSelectToday(){
+  weekDays = buildWeek();
+  var found = -1;
+  for(var i=0; i<weekDays.length; i++){
+    if(isToday(weekDays[i])){ found = i; break; }
+  }
+  selDay = found >= 0 ? found : 0;
+}
+
+/* ═══════════════════════════════════════════════
+   RENDER DAYS
+═══════════════════════════════════════════════ */
+var DAY_S  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var MON_S  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var DAY_F  = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+function renderDays(){
+  weekDays = buildWeek();
+  var scroll = document.getElementById('esw-days-scroll');
+  if(!scroll) return;
+  var html = '';
+  for(var i=0; i<7; i++){
+    var d   = weekDays[i];
+    var cls = 'esw-day-card';
+    if(isToday(d)) cls += ' esw-today';
+    if(i === selDay) cls += ' esw-active';
+    html += '<div class="'+cls+'" data-esw-i="'+i+'">'
+          + '<div class="esw-dc-day">'+DAY_S[d.getDay()]+'</div>'
+          + '<div class="esw-dc-date">'+d.getDate()+'</div>'
+          + '<div class="esw-dc-month">'+MON_S[d.getMonth()]+'</div>'
+          + '</div>';
+  }
+  scroll.innerHTML = html;
+  var cards = scroll.querySelectorAll('.esw-day-card');
+  for(var j=0; j<cards.length; j++){
+    (function(card){
+      card.addEventListener('click', function(){
+        selDay = parseInt(card.getAttribute('data-esw-i'));
+        showCount = DEFAULT_SHOW;
+        renderDays();
+        renderRows();
+      });
+    })(cards[j]);
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   EPISODE LOGIC
+═══════════════════════════════════════════════ */
+function getEpisodesForDay(dayDate){
+  var result = [];
+  var now    = new Date();
+  for(var p=0; p<allScheduleData.length; p++){
+    var post   = allScheduleData[p];
+    var sorted = post.episodes.slice().sort(function(a,b){
+      return new Date(a.airDate) - new Date(b.airDate);
     });
-    
-    // Format time
-    let hours = now.getHours();
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // 0 should be 12
-    
-    timerDisplay.textContent = `(${offsetStr}) ${dateStr} ${hours}:${minutes}:${seconds} ${ampm}`;
-  }
-  
-  // Generate next 14 days (current week + next week)
-  function generateDayCards() {
-    const daysScroll = document.getElementById('daysScroll');
-    if (!daysScroll) return;
-    
-    const today = new Date();
-    const currentDay = today.getDay(); // 0-6
-    
-    // Find the most recent Friday
-    let daysToAdd = (currentDay - SCHEDULE_CONFIG.weekStartDay + 7) % 7;
-    let startDate = new Date(today);
-    startDate.setDate(today.getDate() - daysToAdd);
-    
-    let html = '';
-    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    
-    // Generate 14 days (current week + next week)
-    for (let i = 0; i < 14; i++) {
-      const date = new Date(startDate);
-      date.setDate(startDate.getDate() + i);
-      
-      const dayName = dayNames[date.getDay()];
-      const monthName = monthNames[date.getMonth()];
-      const dayNumber = date.getDate();
-      const isToday = date.toDateString() === today.toDateString();
-      
-      html += `
-        <div class="day-card ${isToday ? 'active' : ''}" data-date="${date.toISOString().split('T')[0]}" data-day="${date.getDay()}" data-month="${date.getMonth()}" data-daynum="${dayNumber}">
-          <div class="day-name">${dayName}</div>
-          <div class="date-container">
-            <span class="month-name">${monthName}</span>
-            <span class="day-number">${dayNumber}</span>
-          </div>
-        </div>
-      `;
-      
-      if (isToday) {
-        selectedDay = date.toISOString().split('T')[0];
+    for(var e=0; e<sorted.length; e++){
+      var ep        = sorted[e];
+      var localDate = localAirDate(ep.airDate, ep.airTime, ep.airCountry);
+      if(sameDay(localDate, dayDate)){
+        result.push({
+          time:      convertTime(ep.airTime, ep.airCountry),
+          title:     post.title,
+          url:       post.url,
+          ep:        ep.episodeNumber,
+          localDate: localDate,
+          aired:     localDate < now
+        });
+        break; /* one upcoming ep per show per day */
       }
     }
-    
-    daysScroll.innerHTML = html;
-    
-    // Add click handlers to day cards
-    document.querySelectorAll('.day-card').forEach(card => {
-      card.addEventListener('click', function() {
-        document.querySelectorAll('.day-card').forEach(c => c.classList.remove('active'));
-        this.classList.add('active');
-        selectedDay = this.dataset.date;
-        filterShowsByDay(selectedDay);
-      });
-    });
   }
-  
-  // Fetch shows from Blogger feed
-  function fetchShows() {
-    const script = document.createElement('script');
-    script.src = '/feeds/posts/default?alt=json-in-script&max-results=50&orderby=published&callback=handleScheduleResponse';
-    script.onerror = () => {
-      document.getElementById('showsList').innerHTML = '<div class="no-shows">Failed to load schedule</div>';
-    };
-    document.head.appendChild(script);
+  result.sort(function(a,b){ return a.time.localeCompare(b.time); });
+  return result;
+}
+
+/* ═══════════════════════════════════════════════
+   RENDER ROWS
+═══════════════════════════════════════════════ */
+function renderRows(){
+  var dayDate  = weekDays[selDay];
+  if(!dayDate) return;
+  var episodes = getEpisodesForDay(dayDate);
+  var rowsEl   = document.getElementById('esw-rows');
+  var statusEl = document.getElementById('esw-status');
+  var moreWrap = document.getElementById('esw-more-wrap');
+  var moreBtn  = document.getElementById('esw-more-btn');
+  if(!rowsEl) return;
+
+  var dLabel = isToday(dayDate) ? 'Today' : DAY_F[dayDate.getDay()];
+  statusEl.innerHTML =
+    '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> '
+    + esc(dLabel) + ', ' + MON_S[dayDate.getMonth()] + ' ' + dayDate.getDate()
+    + ' &mdash; ' + episodes.length + ' episode' + (episodes.length!==1?'s':'');
+
+  if(episodes.length === 0){
+    rowsEl.innerHTML = '<div class="esw-empty">No episodes scheduled for this day</div>';
+    moreWrap.style.display = 'none';
+    return;
   }
-  
-  // Handle Blogger response
-  window.handleScheduleResponse = function(data) {
-    if (data.feed.entry && data.feed.entry.length > 0) {
-      parseShowsFromFeed(data.feed.entry);
-    } else {
-      document.getElementById('showsList').innerHTML = '<div class="no-shows">No shows found</div>';
-    }
-  };
-  
-  // Parse shows from feed
-  function parseShowsFromFeed(entries) {
-    currentShows = [];
-    
-    entries.forEach(entry => {
-      const title = entry.title.$t;
-      const link = entry.link.find(l => l.rel === 'alternate').href;
-      const content = entry.content ? entry.content.$t : '';
-      
-      // Extract type from labels
-      const labels = entry.category ? entry.category.map(c => c.term) : [];
-      
-      // Check if show is valid (TV, Series, Drama, Anime)
-      const isValidType = labels.some(label => 
-        SCHEDULE_CONFIG.validTypes.includes(label)
-      );
-      
-      // Check status
-      const status = labels.find(label => 
-        SCHEDULE_CONFIG.validStatuses.includes(label)
-      ) || 'Airing';
-      
-      // Generate random time for demo (in production, extract from post)
-      const hour = Math.floor(Math.random() * 12) + 18; // 18-23
-      const minute = Math.floor(Math.random() * 4) * 15; // 0,15,30,45
-      const timeStr = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-      
-      // Generate random episode
-      const episode = Math.floor(Math.random() * 12) + 1;
-      
-      // Generate random date within next 14 days
-      const date = new Date();
-      date.setDate(date.getDate() + Math.floor(Math.random() * 14));
-      const dateStr = date.toISOString().split('T')[0];
-      
-      // Extract thumbnail
-      let thumbnail = '';
-      if (entry.media$thumbnail) {
-        thumbnail = entry.media$thumbnail.url.replace(/\/s[0-9]+(-c)?/, '/s100');
-      }
-      
-      currentShows.push({
-        id: entry.id.$t,
-        title: title,
-        link: link,
-        type: labels.find(l => SCHEDULE_CONFIG.validTypes.includes(l)) || 'Anime',
-        status: status,
-        time: timeStr,
-        episode: episode,
-        date: dateStr,
-        thumbnail: thumbnail,
-        labels: labels
-      });
-    });
-    
-    // Sort by date and time
-    currentShows.sort((a, b) => {
-      if (a.date === b.date) {
-        return a.time.localeCompare(b.time);
-      }
-      return a.date.localeCompare(b.date);
-    });
-    
-    // Filter for today initially
-    const today = new Date().toISOString().split('T')[0];
-    filterShowsByDay(today);
+
+  var visible = episodes.slice(0, showCount);
+  var html = '';
+  for(var i=0; i<visible.length; i++){
+    var ep       = visible[i];
+    var airedCls = ep.aired ? ' esw-aired' : '';
+    var safeUrl  = esc(ep.url);
+    html += '<a class="esw-row'+airedCls+'" href="'+safeUrl+'" target="_self" rel="noopener">'
+          + '<span class="esw-row-time">'+esc(ep.time)+'</span>'
+          + '<span class="esw-row-title">'+esc(ep.title)+'</span>'
+          + '<span class="esw-row-ep">EP '+pad(ep.ep)+'</span>'
+          + '<span class="esw-row-btn" title="Happy Stream"'
+          +   ' onclick="event.preventDefault();event.stopPropagation();window.open(\''+safeUrl+'\',\'_blank\')">'
+          +   '<svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
+          + '</span>'
+          + '</a>';
   }
-  
-  // Filter shows by selected day
-  function filterShowsByDay(dateStr) {
-    filteredShows = currentShows.filter(show => show.date === dateStr);
-    renderShows();
-  }
-  
-  // Render shows list
-  function renderShows() {
-    const showsList = document.getElementById('showsList');
-    const showMoreBtn = document.getElementById('showMoreBtn');
-    
-    if (!showsList) return;
-    
-    if (filteredShows.length === 0) {
-      showsList.innerHTML = '<div class="no-shows">No shows scheduled for this day</div>';
-      showMoreBtn.style.display = 'none';
-      return;
-    }
-    
-    showMoreBtn.style.display = 'inline-flex';
-    
-    const startIndex = 0;
-    const endIndex = expanded ? filteredShows.length : Math.min(showsPerPage, filteredShows.length);
-    const visibleShows = filteredShows.slice(startIndex, endIndex);
-    const hiddenShows = filteredShows.slice(endIndex);
-    
-    let html = '';
-    
-    visibleShows.forEach(show => {
-      const statusClass = 
-        show.status === 'Airing' ? 'status-airing' : 
-        show.status === 'Upcoming' ? 'status-upcoming' : 
-        'status-ongoing';
-      
-      html += `
-        <a href="${show.link}" class="show-item" target="_blank">
-          <span class="show-time">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-13v4l5 3-5 3v-4H9v-6h2.5z"/>
-            </svg>
-            ${show.time}
-          </span>
-          <span class="show-title">${show.title}</span>
-          <span class="show-episode">
-            <svg viewBox="0 0 24 24">
-              <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zM10 9h8v2h-8zm0 3h6v2h-6z"/>
-            </svg>
-            Ep ${show.episode}
-          </span>
-          <span class="show-status ${statusClass}">${show.status}</span>
-        </a>
-      `;
-    });
-    
-    if (hiddenShows.length > 0) {
-      html += `<div class="hidden-shows ${expanded ? 'expanded' : ''}" id="hiddenShows">`;
-      hiddenShows.forEach(show => {
-        const statusClass = 
-          show.status === 'Airing' ? 'status-airing' : 
-          show.status === 'Upcoming' ? 'status-upcoming' : 
-          'status-ongoing';
-        
-        html += `
-          <a href="${show.link}" class="show-item" target="_blank">
-            <span class="show-time">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-13v4l5 3-5 3v-4H9v-6h2.5z"/>
-              </svg>
-              ${show.time}
-            </span>
-            <span class="show-title">${show.title}</span>
-            <span class="show-episode">
-              <svg viewBox="0 0 24 24">
-                <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zM10 9h8v2h-8zm0 3h6v2h-6z"/>
-              </svg>
-              Ep ${show.episode}
-            </span>
-            <span class="show-status ${statusClass}">${show.status}</span>
-          </a>
-        `;
-      });
-      html += '</div>';
-    }
-    
-    showsList.innerHTML = html;
-    
-    // Update button text
-    const btn = document.getElementById('showMoreBtn');
-    if (expanded) {
-      btn.innerHTML = `
-        <svg viewBox="0 0 24 24" style="transform: rotate(180deg);">
-          <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-        </svg>
-        Show Less
-      `;
-      btn.classList.add('expanded');
-    } else {
-      btn.innerHTML = `
-        <svg viewBox="0 0 24 24">
-          <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-        </svg>
-        Show More (${filteredShows.length - showsPerPage} more)
-      `;
-      btn.classList.remove('expanded');
-    }
-  }
-  
-  // Initialize horizontal scroll with arrows
-  function initHorizontalScroll() {
-    const scrollContainer = document.getElementById('daysScroll');
-    const leftArrow = document.getElementById('leftArrow');
-    const rightArrow = document.getElementById('rightArrow');
-    
-    if (!scrollContainer || !leftArrow || !rightArrow) return;
-    
-    function updateArrows() {
-      const isAtStart = scrollContainer.scrollLeft <= 5;
-      const isAtEnd = scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 5;
-      
-      leftArrow.classList.toggle('hidden', isAtStart);
-      rightArrow.classList.toggle('hidden', isAtEnd);
-    }
-    
-    leftArrow.addEventListener('click', () => {
-      scrollContainer.scrollBy({ left: -200, behavior: 'smooth' });
-    });
-    
-    rightArrow.addEventListener('click', () => {
-      scrollContainer.scrollBy({ left: 200, behavior: 'smooth' });
-    });
-    
-    scrollContainer.addEventListener('scroll', updateArrows);
-    window.addEventListener('resize', updateArrows);
-    
-    setTimeout(updateArrows, 100);
-  }
-  
-  // Show More/Less button functionality
-  document.getElementById('showMoreBtn').addEventListener('click', function() {
-    expanded = !expanded;
-    renderShows();
-  });
-  
-  // Initialize everything
-  function init() {
-    initWorldTimer();
-    generateDayCards();
-    initHorizontalScroll();
-    fetchShows();
-  }
-  
-  // Start when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+  rowsEl.innerHTML = html;
+
+  if(episodes.length > showCount){
+    moreWrap.style.display = 'flex';
+    moreBtn.textContent = 'Show more (' + (episodes.length - showCount) + ' more)';
   } else {
-    init();
+    moreWrap.style.display = 'none';
   }
+}
+
+/* ═══════════════════════════════════════════════
+   RSS / JSONP FETCH
+═══════════════════════════════════════════════ */
+function parseScheduleMeta(htmlStr){
+  var tmp   = document.createElement('div');
+  tmp.innerHTML = htmlStr;
+  var metas = tmp.querySelectorAll('.schedule-meta');
+  var eps   = [];
+  for(var i=0; i<metas.length; i++){
+    var m          = metas[i];
+    var airDate    = ((m.querySelector('.air-date')   ||{}).textContent||'').trim();
+    var airTime    = ((m.querySelector('.air-time')   ||{}).textContent||'00:00').trim();
+    var airCountry = ((m.querySelector('.air-country')||{}).textContent||'Japan').trim();
+    var epNum      = ((m.querySelector('.episode-number')||{}).textContent||'01').trim();
+    if(airDate){
+      eps.push({
+        airDate:       airDate,
+        airTime:       airTime,
+        airCountry:    airCountry,
+        episodeNumber: parseInt(epNum)||1
+      });
+    }
+  }
+  return eps;
+}
+
+function fetchLabel(label, cb){
+  var cbName = '_esw_' + Math.random().toString(36).slice(2);
+  var s      = document.createElement('script');
+  window[cbName] = function(data){
+    try{ delete window[cbName]; }catch(e){}
+    if(s.parentNode) s.parentNode.removeChild(s);
+    cb(null, data);
+  };
+  s.onerror = function(){
+    try{ delete window[cbName]; }catch(e){}
+    cb('err');
+  };
+  s.src = '/feeds/posts/default/-/' + encodeURIComponent(label)
+        + '?alt=json&max-results=' + MAX_POSTS + '&v=2&callback=' + cbName;
+  document.head.appendChild(s);
+}
+
+function fetchAllLabels(){
+  var seenIds = {};
+  var pending = LABELS.length;
+  var combined = [];
+
+  function done(){
+    allScheduleData = combined;
+    autoSelectToday();
+    renderDays();
+    renderRows();
+    if(combined.length === 0){
+      var el = document.getElementById('esw-rows');
+      if(el) el.innerHTML = '<div class="esw-empty">No schedule data found.</div>';
+    }
+  }
+
+  function onResult(err, data){
+    if(!err && data && data.feed && data.feed.entry){
+      var entries = data.feed.entry;
+      for(var i=0; i<entries.length; i++){
+        var entry = entries[i];
+        var id    = (entry.id && entry.id.$t) ? entry.id.$t : ('_'+Math.random());
+        if(seenIds[id]) continue;
+        seenIds[id] = 1;
+        var title   = (entry.title && entry.title.$t) ? entry.title.$t : 'Unknown Show';
+        var url     = '';
+        var links   = entry.link || [];
+        for(var j=0; j<links.length; j++){
+          if(links[j].rel === 'alternate'){ url = links[j].href; break; }
+        }
+        var content = (entry.content && entry.content.$t)
+                    || (entry.summary && entry.summary.$t) || '';
+        var eps = parseScheduleMeta(content);
+        if(eps.length > 0) combined.push({ title:title, url:url, episodes:eps });
+      }
+    }
+    if(--pending === 0) done();
+  }
+
+  for(var i=0; i<LABELS.length; i++) fetchLabel(LABELS[i], onResult);
+}
+
+/* ═══════════════════════════════════════════════
+   HOMEPAGE DETECTION
+═══════════════════════════════════════════════ */
+function isHomepage(){
+  var loc = window.location.pathname;
+  return loc === '/' || loc === '/index.html' || loc === '';
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+function init(){
+  var outer = document.getElementById('esw-outer');
+  if(!outer || !isHomepage()) return;
+  outer.classList.add('esw-homepage');
+
+  startClock();
+
+  document.getElementById('esw-prev').addEventListener('click', function(){
+    weekOffset--;
+    autoSelectToday();
+    renderDays();
+    renderRows();
+  });
+  document.getElementById('esw-next').addEventListener('click', function(){
+    weekOffset++;
+    selDay = 0;
+    renderDays();
+    renderRows();
+  });
+  document.getElementById('esw-more-btn').addEventListener('click', function(){
+    showCount += DEFAULT_SHOW;
+    renderRows();
+  });
+
+  fetchAllLabels();
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
 })();
 //]]>
 </script>
