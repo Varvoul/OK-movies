@@ -1,0 +1,720 @@
+<style>
+    /* --- Base Styles & Responsive Player (16:9, Full Width) --- */
+    html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body { font-family: 'Inter', sans-serif; background-color: #171a29; color: #e5e7eb; min-height: 100vh; }
+    * { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(73,139,187,0.3); border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(73,139,187,0.5); }
+    .video-container-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; height: 100%; overflow: hidden; border-radius: 0.75rem; background: #000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    .episode-list-item { transition: all 0.2s ease; border-left: 3px solid transparent; padding: 12px 16px; border-radius: 8px; margin-bottom: 6px; background-color: #141a25; cursor: pointer; color: #e5e7eb; font-size: 14px; line-height: 1.4; word-break: break-word; border: 1px solid #2d3347; }
+    @media (max-width: 640px) { .episode-list-item { padding: 14px 16px; font-size: 15px; } }
+    .episode-list-item:hover { background-color: #1e2533 !important; border-left: 3px solid #498BBB; transform: translateX(4px); box-shadow: 0 2px 8px rgba(73,139,187,0.2); }
+    .episode-list-item.active { background-color: #1e2533 !important; border-left: 3px solid #498BBB; font-weight: 500; border-color: #498BBB; }
+    .server-btn { transition: all 0.15s ease; cursor: pointer; background-color: #141a25 !important; color: #e5e7eb !important; border: 1px solid #2d3347; padding: 8px 12px; font-size: 13px; font-weight: 500; border-radius: 6px; min-width: 60px; text-align: center; touch-action: manipulation; }
+    @media (max-width: 480px) { .server-btn { padding: 10px 8px; font-size: 12px; min-width: 55px; } }
+    .server-btn:hover { background-color: #1e2533 !important; border-color: #498BBB; }
+    .server-btn.active-server { background-color: #498BBB !important; color: white !important; border-color: #498BBB !important; }
+    .server-btn:active { transform: scale(0.97); }
+    .season-btn { transition: all 0.2s ease; padding: 10px 16px; border-radius: 8px; font-weight: 500; cursor: pointer; border: 1px solid transparent; background-color: #141a25 !important; color: #e5e7eb; font-size: 14px; touch-action: manipulation; white-space: nowrap; }
+    @media (max-width: 640px) { .season-btn { padding: 12px 16px; font-size: 14px; flex: 0 0 auto; } }
+    .season-btn.active-season { background: #1e2533 !important; border-color: #498BBB !important; color: #498BBB; }
+    .season-btn:hover:not(.active-season) { background: #1e2533 !important; border-color: #2d3347; }
+    .season-btn:active { transform: scale(0.97); }
+    .player-section { max-width: 1200px; margin: 0 auto; padding: 12px; }
+    @media (min-width: 640px) { .player-section { padding: 16px; } }
+    @media (min-width: 1024px) { .player-section { padding: 20px; } }
+    .controls-panel { background: #171a29; border-radius: 16px; padding: 16px; margin-top: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); border: 1px solid #2d3347; color: #e5e7eb; }
+    @media (min-width: 640px) { .controls-panel { padding: 20px; border-radius: 20px; } }
+    @media (min-width: 1024px) { .controls-panel { padding: 24px; } }
+    .section-title { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: #f3f4f6; }
+    @media (min-width: 640px) { .section-title { font-size: 1.1rem; margin-bottom: 16px; } }
+    .server-category { margin-bottom: 16px; }
+    @media (min-width: 640px) { .server-category { margin-bottom: 20px; } }
+    .server-category-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #9ca3af; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
+    @media (min-width: 640px) { .server-category-label { font-size: 0.8rem; margin-bottom: 10px; } }
+    .server-buttons-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    @media (max-width: 480px) { .server-buttons-row { gap: 6px; } }
+    .episodes-grid { display: flex; flex-direction: column; gap: 6px; max-height: 350px; overflow-y: auto; padding-right: 8px; }
+    @media (min-width: 640px) { .episodes-grid { max-height: 400px; gap: 8px; } }
+    @media (min-width: 1024px) { .episodes-grid { max-height: 450px; } }
+    .seasons-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+    @media (max-width: 640px) { .seasons-row { gap: 8px; } }
+    .season-grid-item { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 4/1; cursor: pointer; border: 2px solid transparent; transition: all 0.2s ease; }
+    .season-grid-item:hover { border-color: #498BBB; transform: scale(1.02); }
+    .season-grid-item.active-season { border-color: #498BBB; box-shadow: 0 0 15px rgba(73,139,187,0.5); }
+    .season-grid-bg { width: 100%; height: 100%; background-size: cover; background-position: center; filter: blur(8px) brightness(0.5); transform: scale(1.1); }
+    .season-grid-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); }
+    .season-grid-title { color: white; font-weight: 700; font-size: 0.90rem; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
+    .video-loading-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; backdrop-filter: blur(4px); border-radius: 12px; }
+    @media (min-width: 640px) { .video-loading-overlay { font-size: 1.5rem; } }
+    .current-info { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; font-size: 0.9rem; background: #141a25; padding: 16px; border-radius: 12px; color: #d1d5db; border: 1px solid #2d3347; }
+    @media (min-width: 640px) { .current-info { flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 16px; } }
+    .info-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    @media (min-width: 640px) { .info-row { gap: 16px; } }
+    .info-item { display: flex; align-items: center; background: #171a29; padding: 6px 12px; border-radius: 20px; border: 1px solid #2d3347; }
+    .info-item span:first-child { color: #9ca3af; margin-right: 6px; font-size: 0.8rem; }
+    .info-value { font-weight: 600; color: #498BBB; font-size: 0.9rem; }
+    .nav-buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; width: 100%; }
+    @media (min-width: 640px) { .nav-buttons { width: auto; gap: 10px; } }
+    .nav-btn { background: #141a25; border: 1px solid #2d3347; color: #e5e7eb; padding: 10px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; transition: all 0.2s; flex: 1 1 auto; touch-action: manipulation; min-height: 44px; }
+    @media (min-width: 480px) { .nav-btn { flex: 0 1 auto; padding: 8px 20px; } }
+    @media (min-width: 640px) { .nav-btn { min-height: auto; padding: 8px 16px; } }
+    .nav-btn:hover { background: #1e2533; border-color: #498BBB; color: white; }
+    .nav-btn:active { transform: scale(0.96); }
+    .add-to-list-wrapper { position: relative; display: inline-block; }
+    .add-to-list-btn { background: #141a25; border: 1px solid #498BBB; color: #e5e7eb; padding: 10px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; transition: all 0.2s; flex: 1 1 auto; touch-action: manipulation; min-height: 44px; white-space: nowrap; }
+    @media (min-width: 480px) { .add-to-list-btn { flex: 0 1 auto; padding: 8px 20px; } }
+    @media (min-width: 640px) { .add-to-list-btn { min-height: auto; padding: 8px 16px; } }
+    .add-to-list-btn:hover { background: #498BBB; color: white; }
+    .add-to-list-btn:active { transform: scale(0.96); }
+    .status-dropdown { position: absolute; top: calc(100% + 8px); right: 0; background: #1e2533; border: 1px solid #2d3347; border-radius: 12px; min-width: 200px; z-index: 1000; box-shadow: 0 8px 20px rgba(0,0,0,0.4); overflow: hidden; backdrop-filter: blur(8px); }
+    .status-dropdown.hidden { display: none; }
+    .status-option { display: flex; align-items: center; gap: 12px; padding: 10px 16px; cursor: pointer; transition: background 0.2s; color: white; font-size: 0.9rem; border-bottom: 1px solid #2d3347; }
+    .status-option:last-child { border-bottom: none; }
+    .status-option:hover { background: #2a3147; }
+    .status-option svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .status-option svg path, .status-option svg circle, .status-option svg line { stroke: white; fill: none; }
+    .status-option .option-text { flex: 1; }
+    .status-badges-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; justify-content: center; min-height: 40px; }
+    .status-badge { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid #1297b5; border-radius: 40px; padding: 6px 12px 6px 10px; font-size: 0.8rem; font-weight: 500; color: white; transition: all 0.2s; }
+    .status-badge svg { width: 16px; height: 16px; }
+    .status-badge svg path, .status-badge svg circle, .status-badge svg line { stroke: white; fill: none; }
+    .badge-remove { cursor: pointer; margin-left: 4px; font-size: 14px; font-weight: bold; color: #aaa; transition: color 0.2s; display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; }
+    .badge-remove:hover { color: #ff6b6b; background: rgba(255,255,255,0.1); }
+    .server-message { font-size: 0.85rem; color: #fcd34d; background: rgba(20,26,37,0.95); padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; border-left: 4px solid #fbbf24; border: 1px solid #2d3347; line-height: 1.5; }
+    @media (min-width: 640px) { .server-message { font-size: 0.9rem; padding: 12px 20px; } }
+    .helper-note { font-size: 0.75rem; color: #9ca3af; margin-top: 16px; text-align: center; padding: 8px; background: #141a25; border-radius: 20px; border: 1px solid #2d3347; }
+    .synopsis-container { position: relative; cursor: pointer; color: #ddd; line-height: 1.6; font-size: 0.95rem; background: #1e2235; padding: 20px; border-radius: 8px; margin-bottom: 20px; transition: all 0.3s ease; border-left: 3px solid #4685b2; max-height: 150px; overflow: hidden; }
+    .synopsis-container.expanded { max-height: 1000px; transition: max-height 0.5s ease-in-out; }
+    .synopsis-container::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: linear-gradient(to bottom, transparent, #1e2235); pointer-events: none; opacity: 1; transition: opacity 0.3s ease; }
+    .synopsis-container.expanded::after { opacity: 0; }
+    .synopsis-container::before { content: 'Click to read more'; position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: #4685b2; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; opacity: 0; transition: opacity 0.3s ease; z-index: 2; white-space: nowrap; pointer-events: none; }
+    .synopsis-container.expanded::before { content: 'Click to collapse'; background: #2a2f45; }
+    .synopsis-container:hover::before { opacity: 1; }
+    .synopsis-container.expanded:hover::before { opacity: 1; }
+    .synopsis-container:hover { border-left-color: #5c9ed4; }
+    .synopsis-container.expanded { cursor: pointer; }
+    .server-icon { background-color: rgba(255,255,255,0.05); border-radius: 6px; padding: 3px; box-sizing: content-box; transition: all 0.2s ease; }
+    .server-icon:hover { background-color: rgba(73,139,187,0.2); }
+    .server-category:has(.active-server) .server-icon path, .server-category:has(.active-server) .server-icon circle, .server-category:has(.active-server) .server-icon line { stroke: #498BBB; }
+    .server-category:has(.active-server) .server-icon { background-color: rgba(73,139,187,0.3); }
+</style>
+
+<!-- Player Section -->
+<div class="player-section" id="standalone-player">
+    <div class="video-container-wrapper" id="video-player-container-main">
+        <div class="video-loading-overlay" id="video-loading-overlay-main"><span>▶ Watch Now</span></div>
+    </div>
+    <div class="controls-panel">
+        <div class="current-info">
+            <div class="info-row">
+                <div class="info-item"><span>Season:</span> <span class="info-value" id="display-season">1</span></div>
+                <div class="info-item"><span>Episode:</span> <span class="info-value" id="display-episode">1</span></div>
+                <div class="info-item"><span>Server:</span> <span class="info-value" id="display-server">SUB-HD-01</span></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-episode-btn">◀ Prev</button>
+                <button class="nav-btn" id="next-episode-btn">Next ▶</button>
+                <div class="add-to-list-wrapper">
+                    <button class="add-to-list-btn" id="add-to-list-btn">+ Add to List</button>
+                    <div class="status-dropdown hidden" id="status-dropdown">
+                        <div class="status-option" data-status="Planning"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 8V12L15 15" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.5"/></svg><span class="option-text">Planning</span></div>
+                        <div class="status-option" data-status="Watching"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 12C2 12 5 4 12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12Z" stroke="white" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="white" stroke-width="1.5"/></svg><span class="option-text">Watching</span></div>
+                        <div class="status-option" data-status="Completed"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.5"/></svg><span class="option-text">Completed</span></div>
+                        <div class="status-option" data-status="Re-watching"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C14.5 4 16.5 5 18 6.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M20 4V8H16" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8V12L15 15" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg><span class="option-text">Re-watching</span></div>
+                        <div class="status-option" data-status="Dropped"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M6 6L18 18" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.5"/></svg><span class="option-text">Dropped</span></div>
+                        <div class="status-option" data-status="My Favourite"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="option-text">My Favourite</span></div>
+                        <div class="status-option" data-status="Remove"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg><span class="option-text">Remove</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="status-badges-container" class="status-badges-container"></div>
+        <div class="server-message" id="server-message">If the current server is down, please try other servers.</div>
+        
+        <!-- SUB Servers -->
+        <div class="server-category">
+            <div class="server-category-label"><svg class="server-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 12C2 15.7712 2 17.6569 3.17157 18.8284C4.34315 20 6.22876 20 10 20H14C17.7712 20 19.6569 20 20.8284 18.8284C22 17.6569 22 15.7712 22 12C22 8.22876 22 6.34315 20.8284 5.17157C19.6569 4 17.7712 4 14 4H10C6.22876 4 4.34315 4 3.17157 5.17157C2.51839 5.82475 2.22937 6.69989 2.10149 8" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/><path d="M10 16H6" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/><path d="M14 13H18" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/><path d="M14 16H12.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/><path d="M9.5 13H11.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/><path d="M18 16H16.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/><path d="M6 13H7" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/></svg><span>SUB</span></div>
+            <div class="server-buttons-row" id="server-group-sub">
+                <button class="server-btn" data-server="SUB-HD-01" data-domain="vidsrc-embed.ru">HD-01</button>
+                <button class="server-btn" data-server="SUB-HD-02" data-domain="vidsrc-embed.su">HD-02</button>
+                <button class="server-btn" data-server="SUB-HD-03" data-domain="vsrc.su">HD-03</button>
+                <button class="server-btn" data-server="SUB-HD-04" data-domain="2embed">HD-04</button>
+            </div>
+        </div>
+        
+        <!-- RAW Servers -->
+        <div class="server-category">
+            <div class="server-category-label"><svg class="server-icon" width="20" height="20" viewBox="0 0 512 512"><circle cx="160" cy="96" r="48" style="fill:none;stroke:#9ca3af;stroke-width:32"/><circle cx="160" cy="416" r="48" style="fill:none;stroke:#9ca3af;stroke-width:32"/><line x1="160" y1="368" x2="160" y2="144" style="fill:none;stroke:#9ca3af;stroke-width:32"/><circle cx="352" cy="160" r="48" style="fill:none;stroke:#9ca3af;stroke-width:32"/><path d="M352,208c0,128-192,48-192,160" style="fill:none;stroke:#9ca3af;stroke-width:32"/></svg><span>RAW</span></div>
+            <div class="server-buttons-row" id="server-group-raw">
+                <button class="server-btn" data-server="RAW-HD-01" data-domain="vidsrc-embed.ru">HD-01</button>
+                <button class="server-btn" data-server="RAW-HD-02" data-domain="vidsrc-embed.su">HD-02</button>
+                <button class="server-btn" data-server="RAW-HD-03" data-domain="vsrc.su">HD-03</button>
+                <button class="server-btn" data-server="RAW-HD-04" data-domain="2embed">HD-04</button>
+            </div>
+        </div>
+        
+        <!-- Seasons Selection (Grid with blurred posters) -->
+        <div style="margin-top: 16px;">
+            <div class="section-title">Watch More Seasons</div>
+            <div class="seasons-row" id="seasons-container"></div>
+        </div>
+        
+        <!-- Episodes Selection -->
+        <div style="margin-top: 16px;">
+            <div class="section-title">Select Episode</div>
+            <div class="episodes-grid custom-scrollbar" id="episodes-container"></div>
+        </div>
+        <div class="helper-note">* Select season → episode → server to load video</div>
+    </div>
+</div>
+
+<link href="https://cdn.tailwindcss.com" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<span><!--more--></span>
+
+<!--[ Thumbnail / Poster ]-->
+<div style="display: none;">
+  <img id="poster-image" src="https://image.tmdb.org/t/p/original/tbV8IzncsSxLIkH9tcaPKsnKcVS.jpg" alt="Show Poster" />
+</div>
+
+<!--[ Backdrop ]-->
+<div class="post-backdrop" style="display: none;">
+  <img id="backdrop-image" alt="Show Backdrop" src="https://via.placeholder.com/1920x1080?text=Loading...">
+</div>
+
+<!--[ Synopsis ]-->
+<p id="synopsis" class="synopsis-container">Loading synopsis...</p>
+
+<!--[ Extra information ]-->
+<div id="extra-info">
+  <div class="info-organized" id="metadata-container">
+    <div id="meta-status-row"><strong>Status:</strong> <span id="meta-status">-</span></div>
+    <div><strong>Country:</strong> <span id="meta-country"><a href="#">-</a></span></div>
+    <div><strong>Title:</strong> <span id="meta-title">-</span></div>
+    <div><strong>Original:</strong> <span id="meta-original">-</span></div>
+    <div id="meta-local-row"><strong id="meta-local-label">Local</strong> <span id="meta-local-title">-</span></div>
+    <div><strong>Synonyms:</strong> <span id="meta-synonyms">-</span></div>
+    <div><strong>Aired:</strong> <span id="meta-aired">-</span></div>
+    <div><strong>Premiered:</strong> <span id="meta-premiered">-</span></div>
+    <div><strong>Episode:</strong> <span id="meta-episodes">-</span></div>
+    <div><strong>Broadcast:</strong> <span id="meta-broadcast">-</span></div>
+    <div><strong>Duration:</strong> <span id="meta-duration">-</span></div>
+    <div><strong>Popularity:</strong> <span id="meta-popularity">-</span></div>
+    <div><strong>Score:</strong> <span id="meta-score">-</span></div>
+    <div><strong>Studio:</strong> <span id="meta-studio">-</span></div>
+    <div><strong>Producer:</strong> <span id="meta-producer">-</span></div>
+  </div>
+</div>
+
+<!--[ Cast Members Section ]-->
+<div id="cast-section-wrapper" style="background-color: #171a29; padding: 20px; border-radius: 16px; margin: 20px 0; font-family: 'Inter', sans-serif;">
+  <style>
+    .cast-scroll-container::-webkit-scrollbar { height: 4px; }
+    .cast-scroll-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 4px; }
+    .cast-scroll-container::-webkit-scrollbar-thumb { background: rgba(73,139,187,0.3); border-radius: 4px; }
+    .cast-scroll-container::-webkit-scrollbar-thumb:hover { background: rgba(73,139,187,0.5); }
+    .cast-nav-arrow { transition: all 0.3s ease; }
+    .cast-nav-arrow.hidden { opacity: 0.3; pointer-events: none; cursor: default; }
+    @media (max-width: 767px) { .cast-nav-arrow { display: none !important; } }
+    @media (min-width: 768px) { .cast-nav-arrow { display: flex !important; } }
+    .cast-card .profile-image-frame { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 3px solid #1d93ad; }
+    .cast-card:hover .profile-image-frame { border-color: #7ec8e0; box-shadow: 0 0 12px rgba(126, 200, 224, 0.4); transform: scale(1.02); }
+    .cast-card { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 140px; padding: 15px 12px; border-radius: 16px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: none; flex-shrink: 0; cursor: pointer; transition: none; }
+    .cast-card:hover { background: rgba(255,255,255,0.05); transform: none; }
+  </style>
+  <div style="margin-bottom: 30px; position: relative;">
+    <strong style="color: white; display: block; margin-bottom: 15px; font-size: 1.1rem; letter-spacing: 0.5px;">CAST MEMBERS</strong>
+    <div class="cast-nav-arrow left-arrow" style="position: absolute; left: -15px; top: 55%; transform: translateY(-50%); z-index: 10; cursor: pointer; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); width: 40px; height: 40px; border-radius: 50%; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onmouseover="this.style.background='rgba(126,200,224,0.4)'; this.style.borderColor='#7ec8e0'" onmouseout="this.style.background='rgba(0,0,0,0.3)'; this.style.borderColor='rgba(255,255,255,0.2)'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="cast-nav-arrow right-arrow" style="position: absolute; right: -15px; top: 55%; transform: translateY(-50%); z-index: 10; cursor: pointer; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); width: 40px; height: 40px; border-radius: 50%; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onmouseover="this.style.background='rgba(126,200,224,0.4)'; this.style.borderColor='#7ec8e0'" onmouseout="this.style.background='rgba(0,0,0,0.3)'; this.style.borderColor='rgba(255,255,255,0.2)'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="cast-scroll-container" style="overflow-x: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: #1d93ad rgba(255,255,255,0.1); padding: 5px 5px 15px 5px; margin: 0 -5px; position: relative;">
+      <div id="cast-members-list" style="display: flex; flex-direction: row; gap: 20px; min-width: min-content; padding: 0 5px;"></div>
+    </div>
+    <div style="text-align: right; margin-top: 8px; color: #777; font-size: 0.75rem; display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18L15 12L9 6" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Swipe to scroll more</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ========== CONFIGURATION – REPLACE WITH YOUR IDs ==========
+    const tmdbId = "281010";        // ← Your TMDB series ID
+    const imdbId = "tt39837101";    // ← Your IMDb ID
+    // ==========================================================
+
+    // Your Cloudflare Worker Proxy (no API key exposed)
+    const TMDB_PROXY = 'https://tmdb-proxy.bionmovies47.workers.dev';
+
+    // Helper: Build a proxy URL with the correct ?path= parameter
+    function buildProxyUrl(endpoint) {
+      return `${TMDB_PROXY}?path=${encodeURIComponent(endpoint)}`;
+    }
+
+    // DOM elements
+    const container = document.getElementById('video-player-container-main');
+    const overlay = document.getElementById('video-loading-overlay-main');
+    const displaySeason = document.getElementById('display-season');
+    const displayEpisode = document.getElementById('display-episode');
+    const displayServer = document.getElementById('display-server');
+    const seasonsContainer = document.getElementById('seasons-container');
+    const episodesContainer = document.getElementById('episodes-container');
+    const serverBtns = document.querySelectorAll('.server-btn');
+    const prevBtn = document.getElementById('prev-episode-btn');
+    const nextBtn = document.getElementById('next-episode-btn');
+    const addToListBtn = document.getElementById('add-to-list-btn');
+    const dropdown = document.getElementById('status-dropdown');
+    const badgesContainer = document.getElementById('status-badges-container');
+
+    let tvData = null;
+    let currentSeason = 1;
+    let currentEpisode = 1;
+    let currentServer = 'SUB-HD-01';
+    let episodesList = [];
+    let seasonEpisodesCache = {};
+
+    // Status management (unchanged)
+    const STATUS_STORAGE_KEY = 'anime_watch_status_list';
+    let selectedStatuses = [];
+
+    function loadStatusesFromStorage() {
+        const stored = localStorage.getItem(STATUS_STORAGE_KEY);
+        if (stored) {
+            try { selectedStatuses = JSON.parse(stored); if (!Array.isArray(selectedStatuses)) selectedStatuses = []; } 
+            catch(e) { selectedStatuses = []; }
+        }
+        renderBadges();
+        updateButtonAppearance();
+    }
+    function saveStatusesToStorage() {
+        localStorage.setItem(STATUS_STORAGE_KEY, JSON.stringify(selectedStatuses));
+        renderBadges();
+        updateButtonAppearance();
+    }
+    function renderBadges() {
+        if (!badgesContainer) return;
+        if (selectedStatuses.length === 0) { badgesContainer.innerHTML = ''; return; }
+        let html = '';
+        selectedStatuses.forEach(status => {
+            html += `<div class="status-badge">${status} <span class="badge-remove" data-status="${status}">✕</span></div>`;
+        });
+        badgesContainer.innerHTML = html;
+        document.querySelectorAll('.badge-remove').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selectedStatuses = selectedStatuses.filter(s => s !== btn.dataset.status);
+                saveStatusesToStorage();
+            });
+        });
+    }
+    function updateButtonAppearance() {
+        if (selectedStatuses.length > 0) {
+            addToListBtn.innerHTML = '✎ Edit List';
+            addToListBtn.style.background = '#498BBB';
+        } else {
+            addToListBtn.innerHTML = '+ Add to List';
+            addToListBtn.style.background = '#141a25';
+        }
+    }
+    function addStatus(status) {
+        if (status === 'Remove') { selectedStatuses = []; saveStatusesToStorage(); closeDropdown(); return; }
+        if (selectedStatuses.includes(status)) {
+            selectedStatuses = selectedStatuses.filter(s => s !== status);
+        } else {
+            if (selectedStatuses.length >= 2) { alert('Max 2 statuses'); return; }
+            selectedStatuses.push(status);
+        }
+        saveStatusesToStorage();
+        closeDropdown();
+    }
+    function toggleDropdown() { dropdown.classList.toggle('hidden'); }
+    function closeDropdown() { dropdown.classList.add('hidden'); }
+    function initStatusDropdown() {
+        document.querySelectorAll('.status-option').forEach(opt => {
+            opt.addEventListener('click', (e) => {
+                e.stopPropagation();
+                addStatus(opt.dataset.status);
+            });
+        });
+        addToListBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDropdown();
+        });
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.add-to-list-wrapper')) closeDropdown();
+        });
+        loadStatusesFromStorage();
+    }
+
+    // Helper: get domain for server
+    function getDomainForServer(server) {
+        const btn = Array.from(serverBtns).find(b => b.dataset.server === server);
+        return btn ? btn.dataset.domain : 'vidsrc-embed.ru';
+    }
+
+    // Build embed URL
+    function buildEmbedUrl(server, season, episode) {
+        const domain = getDomainForServer(server);
+        const is2embed = domain === '2embed';
+        if (is2embed) {
+            const id = imdbId || tmdbId;
+            return `https://www.2embed.online/embed/tv/${id}/${season}/${episode}`;
+        } else {
+            const base = imdbId 
+                ? `https://${domain}/embed/tv/${imdbId}/${season}-${episode}`
+                : `https://${domain}/embed/tv?tmdb=${tmdbId}&season=${season}&episode=${episode}`;
+            const params = new URLSearchParams();
+            params.set('autoplay', '1');
+            params.set('autonext', '1');
+            if (server.includes('DUB')) params.set('ds_lang', 'en');
+            return `${base}?${params.toString()}`;
+        }
+    }
+
+    // Load video
+    function loadVideo(server, season, episode) {
+        const embedUrl = buildEmbedUrl(server, season, episode);
+        container.innerHTML = `<iframe class="video-container" src="${embedUrl}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>`;
+        overlay.style.display = 'none';
+        displayServer.textContent = server;
+        displaySeason.textContent = season;
+        displayEpisode.textContent = episode;
+        serverBtns.forEach(btn => btn.classList.remove('active-server'));
+        const activeBtn = Array.from(serverBtns).find(b => b.dataset.server === server);
+        if (activeBtn) activeBtn.classList.add('active-server');
+    }
+
+    // ========== TMDB DATA FETCH ==========
+    async function fetchTVDetails() {
+        const endpoint = `/tv/${tmdbId}?append_to_response=credits`;
+        const url = buildProxyUrl(endpoint);
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`TMDB error: ${response.status}`);
+        return response.json();
+    }
+
+    async function fetchSeasonDetails(seasonNum) {
+        const endpoint = `/tv/${tmdbId}/season/${seasonNum}`;
+        const url = buildProxyUrl(endpoint);
+        const response = await fetch(url);
+        if (!response.ok) return null;
+        return response.json();
+    }
+
+    // ========== HELPERS ==========
+    function getCountryFullName(code) {
+        const map = {
+            KR: 'South Korea', JP: 'Japan', US: 'United States', CN: 'China', GB: 'United Kingdom',
+            IN: 'India', FR: 'France', DE: 'Germany', IT: 'Italy', ES: 'Spain', MX: 'Mexico',
+            CA: 'Canada', AU: 'Australia', BR: 'Brazil', TR: 'Turkey', PH: 'Philippines',
+            ID: 'Indonesia', TH: 'Thailand', VN: 'Vietnam', RU: 'Russia', ZA: 'South Africa',
+            AR: 'Argentina', EG: 'Egypt', NG: 'Nigeria', KE: 'Kenya', SA: 'Saudi Arabia',
+            AE: 'United Arab Emirates', SG: 'Singapore', MY: 'Malaysia', HK: 'Hong Kong',
+            TW: 'Taiwan', PK: 'Pakistan', BD: 'Bangladesh'
+        };
+        return map[code] || code;
+    }
+
+    function getLanguageLabel(langCode) {
+        const map = {
+            ko: 'Korean', ja: 'Japanese', zh: 'Chinese', en: 'English', hi: 'Hindi',
+            fr: 'French', de: 'German', it: 'Italian', es: 'Spanish', pt: 'Portuguese',
+            th: 'Thai', vi: 'Vietnamese', id: 'Indonesian', tr: 'Turkish', ar: 'Arabic'
+        };
+        return map[langCode] || langCode.toUpperCase();
+    }
+
+    function monthToSeason(month) {
+        if ([12,1,2].includes(month)) return 'Winter';
+        if ([3,4,5].includes(month)) return 'Spring';
+        if ([6,7,8].includes(month)) return 'Summer';
+        return 'Fall';
+    }
+
+    function detectDefaultSeason(title, originalTitle) {
+        const texts = [title, originalTitle].filter(Boolean);
+        for (const text of texts) {
+            // Match "Season 2" or "2nd Season" or "S2"
+            let match = text.match(/Season\s+(\d+)/i) || text.match(/(\d+)(?:st|nd|rd|th)?\s*Season/i) || text.match(/S(\d+)/i);
+            if (match) return parseInt(match[1], 10);
+        }
+        return 1;
+    }
+
+    // ========== METADATA RENDERING ==========
+    function populateMetadata(data) {
+        const countryCode = data.origin_country?.[0] || '';
+        const countryFull = getCountryFullName(countryCode);
+        const title = data.name || 'N/A';
+        const originalTitle = data.original_name || title;
+        const langCode = data.original_language;
+        const languageLabel = getLanguageLabel(langCode);
+
+        // Status field
+        const statusMap = {
+            'Returning Series': 'Returning Series',
+            'Ended': 'Finished Airing',
+            'Canceled': 'Canceled',
+            'In Production': 'Upcoming',
+            'Pilot': 'Pilot'
+        };
+        document.getElementById('meta-status').textContent = statusMap[data.status] || data.status || 'N/A';
+
+        // Country
+        document.getElementById('meta-country').innerHTML = `<a href="/search?q=${encodeURIComponent(countryFull)}">${countryFull}</a>`;
+
+        // Title (English)
+        document.getElementById('meta-title').textContent = title;
+
+        // Original title: "NativeTitle EnglishTitle" (space separated)
+        let originalDisplay = originalTitle;
+        if (originalTitle !== title) {
+            originalDisplay = originalTitle + ' ' + title;
+        }
+        document.getElementById('meta-original').textContent = originalDisplay;
+
+        // Dynamic local language field (replaces Japanese)
+        document.getElementById('meta-local-label').textContent = languageLabel;
+        document.getElementById('meta-local-title').textContent = originalTitle; // native script
+
+        // Synonyms: eng title ; original title ; local title
+        let synonyms = title;
+        if (originalTitle !== title) synonyms += '; ' + originalTitle;
+        // local title is same as originalTitle, so no need to duplicate
+        document.getElementById('meta-synonyms').textContent = synonyms || 'N/A';
+
+        // Aired
+        const firstAir = data.first_air_date || '';
+        const lastAir = data.last_air_date || '';
+        const aired = firstAir ? (lastAir ? `${firstAir} to ${lastAir}` : firstAir) : 'N/A';
+        document.getElementById('meta-aired').textContent = aired;
+
+        // Premiered: season + year, linked
+        if (firstAir) {
+            const d = new Date(firstAir);
+            const season = monthToSeason(d.getMonth() + 1);
+            const year = d.getFullYear();
+            document.getElementById('meta-premiered').innerHTML = `<a href="/search?q=${season}+${year}">${season} ${year}</a>`;
+        } else {
+            document.getElementById('meta-premiered').textContent = 'N/A';
+        }
+
+        // Episodes
+        document.getElementById('meta-episodes').textContent = data.number_of_episodes || 'N/A';
+
+        // Broadcast
+        document.getElementById('meta-broadcast').textContent = data.networks?.[0]?.name || 'N/A';
+
+        // Duration
+        const duration = data.episode_run_time?.length ? `${data.episode_run_time[0]} min. per ep.` : 'N/A';
+        document.getElementById('meta-duration').textContent = duration;
+
+        // Popularity (replaces certification)
+        document.getElementById('meta-popularity').textContent = data.popularity ? data.popularity.toFixed(1) : 'N/A';
+
+        // Score
+        document.getElementById('meta-score').innerHTML = `⭐ TMDB: ${data.vote_average?.toFixed(1) || 'N/A'}`;
+
+        // Studio (networks/production companies)
+        const studios = data.networks?.map(n => n.name).join(', ') || data.production_companies?.map(c => c.name).join(', ') || 'N/A';
+        document.getElementById('meta-studio').innerHTML = studios.split(',').map(s => `<a href="/search?q=${s.trim()}">${s.trim()}</a>`).join(', ');
+
+        // Producer
+        const producers = data.production_companies?.map(c => c.name).join(', ') || 'N/A';
+        document.getElementById('meta-producer').textContent = producers;
+
+        // Poster & Backdrop
+        if (data.poster_path) {
+            document.getElementById('poster-image').src = `https://image.tmdb.org/t/p/w500${data.poster_path}`;
+        }
+        if (data.backdrop_path) {
+            document.getElementById('backdrop-image').src = `https://image.tmdb.org/t/p/original${data.backdrop_path}`;
+        }
+        document.getElementById('synopsis').textContent = data.overview || 'No synopsis available.';
+    }
+
+    // ========== CAST ==========
+    async function populateCast(data) {
+        const castList = document.getElementById('cast-members-list');
+        if (!castList) return;
+        const credits = data.credits || {};
+        const cast = credits.cast || [];
+        let html = '';
+        for (let i = 0; i < Math.min(cast.length, 15); i++) {
+            const member = cast[i];
+            const profilePath = member.profile_path 
+                ? `https://image.tmdb.org/t/p/w185${member.profile_path}`
+                : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90"%3E%3Ccircle cx="45" cy="45" r="45" fill="%23333"/%3E%3Ctext x="45" y="55" font-size="30" text-anchor="middle" fill="%23aaa"%3E?%3C/text%3E%3C/svg%3E';
+            html += `<a href="/search?q=${encodeURIComponent(member.name)}" class="cast-card" target="_self">
+                <div class="profile-image-frame" style="width: 90px; height: 90px; border-radius: 50%; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 12px;">
+                    <img src="${profilePath}" alt="${member.name}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
+                <div style="text-align: center; width: 100%;">
+                    <div style="color: white; font-weight: 600; font-size: 0.95rem; margin-bottom: 4px;">${member.name}</div>
+                    <div style="color: #aaa; font-size: 0.75rem;">${member.character || ''}</div>
+                </div>
+            </a>`;
+        }
+        castList.innerHTML = html || '<div style="color:#aaa; padding:20px;">No cast information available.</div>';
+    }
+
+    // ========== SEASONS & EPISODES ==========
+    async function renderSeasons() {
+        seasonsContainer.innerHTML = '';
+        for (let i = 1; i <= tvData.number_of_seasons; i++) {
+            const seasonData = await fetchSeasonDetails(i);
+            const posterUrl = seasonData?.poster_path 
+                ? `https://image.tmdb.org/t/p/w200${seasonData.poster_path}`
+                : (tvData.poster_path ? `https://image.tmdb.org/t/p/w200${tvData.poster_path}` : 'https://via.placeholder.com/200x300?text=S'+i);
+            const div = document.createElement('div');
+            div.className = 'season-grid-item' + (i === currentSeason ? ' active-season' : '');
+            div.dataset.season = i;
+            div.innerHTML = `<div class="season-grid-bg" style="background-image: url('${posterUrl}');"></div>
+                            <div class="season-grid-content"><span class="season-grid-title">Season ${i}</span></div>`;
+            div.addEventListener('click', async () => {
+                currentSeason = i;
+                renderSeasons();
+                await loadEpisodesForSeason(i);
+                document.querySelectorAll('.season-grid-item').forEach(el => el.classList.remove('active-season'));
+                div.classList.add('active-season');
+                const activeServer = document.querySelector('.server-btn.active-server');
+                if (activeServer) loadVideo(activeServer.dataset.server, currentSeason, currentEpisode);
+            });
+            seasonsContainer.appendChild(div);
+        }
+    }
+
+    async function loadEpisodesForSeason(seasonNum) {
+        if (seasonEpisodesCache[seasonNum]) {
+            episodesList = seasonEpisodesCache[seasonNum];
+        } else {
+            const endpoint = `/tv/${tmdbId}/season/${seasonNum}`;
+            const url = buildProxyUrl(endpoint);
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Season fetch failed');
+            const seasonData = await response.json();
+            episodesList = seasonData.episodes || [];
+            seasonEpisodesCache[seasonNum] = episodesList;
+        }
+        renderEpisodes();
+        if (episodesList.length > 0) {
+            currentEpisode = episodesList[0].episode_number;
+            displayEpisode.textContent = currentEpisode;
+        }
+    }
+
+    function renderEpisodes() {
+        episodesContainer.innerHTML = '';
+        episodesList.forEach(ep => {
+            const div = document.createElement('div');
+            div.className = 'episode-list-item' + (ep.episode_number === currentEpisode ? ' active' : '');
+            div.dataset.episode = ep.episode_number;
+            div.textContent = `EP ${ep.episode_number.toString().padStart(2, '0')}: ${ep.name || 'Episode ' + ep.episode_number}`;
+            div.addEventListener('click', () => {
+                currentEpisode = ep.episode_number;
+                renderEpisodes();
+                const activeServer = document.querySelector('.server-btn.active-server');
+                if (activeServer) loadVideo(activeServer.dataset.server, currentSeason, currentEpisode);
+                displayEpisode.textContent = currentEpisode;
+            });
+            episodesContainer.appendChild(div);
+        });
+    }
+
+    function setupNavigation() {
+        prevBtn.addEventListener('click', () => {
+            const index = episodesList.findIndex(ep => ep.episode_number === currentEpisode);
+            if (index > 0) {
+                currentEpisode = episodesList[index - 1].episode_number;
+                renderEpisodes();
+                const activeServer = document.querySelector('.server-btn.active-server');
+                if (activeServer) loadVideo(activeServer.dataset.server, currentSeason, currentEpisode);
+                displayEpisode.textContent = currentEpisode;
+            }
+        });
+        nextBtn.addEventListener('click', () => {
+            const index = episodesList.findIndex(ep => ep.episode_number === currentEpisode);
+            if (index < episodesList.length - 1) {
+                currentEpisode = episodesList[index + 1].episode_number;
+                renderEpisodes();
+                const activeServer = document.querySelector('.server-btn.active-server');
+                if (activeServer) loadVideo(activeServer.dataset.server, currentSeason, currentEpisode);
+                displayEpisode.textContent = currentEpisode;
+            }
+        });
+    }
+
+    // ========== INITIALIZATION ==========
+    async function init() {
+        try {
+            tvData = await fetchTVDetails();
+            populateMetadata(tvData);
+            await populateCast(tvData);
+
+            // Auto-detect default season from title
+            const detectedSeason = detectDefaultSeason(tvData.name, tvData.original_name);
+            currentSeason = detectedSeason;
+            // Ensure we don't exceed available seasons
+            if (currentSeason > tvData.number_of_seasons) currentSeason = 1;
+
+            await renderSeasons();
+            await loadEpisodesForSeason(currentSeason);
+            
+            serverBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const server = this.dataset.server;
+                    currentServer = server;
+                    loadVideo(server, currentSeason, currentEpisode);
+                });
+            });
+            
+            const defaultBtn = document.querySelector(`[data-server="${currentServer}"]`);
+            if (defaultBtn) defaultBtn.classList.add('active-server');
+            
+            setTimeout(() => {
+                if (defaultBtn) loadVideo(defaultBtn.dataset.server, currentSeason, currentEpisode);
+            }, 800);
+            
+            setupNavigation();
+            initStatusDropdown();
+            
+            document.getElementById('synopsis').addEventListener('click', function() { this.classList.toggle('expanded'); });
+            
+            // Cast scroll arrows
+            (function(){
+                const cont = document.querySelector('#cast-section-wrapper .cast-scroll-container');
+                const left = document.querySelector('#cast-section-wrapper .left-arrow');
+                const right = document.querySelector('#cast-section-wrapper .right-arrow');
+                if (cont && left && right) {
+                    left.addEventListener('click', () => cont.scrollBy({ left: -300, behavior: 'smooth' }));
+                    right.addEventListener('click', () => cont.scrollBy({ left: 300, behavior: 'smooth' }));
+                    const update = () => {
+                        left.classList.toggle('hidden', cont.scrollLeft <= 5);
+                        right.classList.toggle('hidden', cont.scrollLeft + cont.clientWidth >= cont.scrollWidth - 5);
+                    };
+                    cont.addEventListener('scroll', update);
+                    window.addEventListener('resize', update);
+                    setTimeout(update, 100);
+                }
+            })();
+            
+        } catch (error) {
+            console.error(error);
+            document.querySelector('.player-section').innerHTML = `<p style="color:red; padding:20px;">Error loading show: ${error.message}</p>`;
+        }
+    }
+
+    init();
+  })();
+</script>
