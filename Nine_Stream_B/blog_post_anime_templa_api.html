@@ -265,10 +265,10 @@
 
 <!-- Poster & Backdrop (hidden) -->
 <div style="display:none">
-    <img id="poster-image" src="" alt="Anime Poster">
+    <img id="poster-image" src="https://i.postimg.cc/G2GbtxYk/a6d6ed28297a61ae221d86ecbf71fd57.jpg" alt="Anime Poster">
 </div>
 <div class="post-backdrop" style="display:none">
-    <img id="backdrop-image" src="" alt="Anime Backdrop">
+    <img id="backdrop-image" src="https://i.postimg.cc/Pq178333/749d71d146232f9905b1a5c56bf1641b.jpg" alt="Wistoria season 02 Anime Backdrop">
 </div>
 
 <!-- Synopsis -->
@@ -321,19 +321,32 @@
     // ================================================================
     //  CONFIGURATION – replace with your real IDs
     // ================================================================
-    const tmdbId = "127532";                 // TMDB series ID
-    const imdbId = "tt21209876";             // IMDb ID (optional)
-    const mainMalId = "58567";               // Main MAL ID (default season & metadata)
+    const tmdbId = "245842";                 // TMDB series ID
+    const imdbId = "tt31889371";             // IMDb ID (optional)
+    const mainMalId = "59983";               // Main MAL ID (default season & metadata)
     const seasonMalIds = {
-        1: "52299",                         // Season 1 MAL ID
-        2: "58567",                         // Season 2 MAL ID
-        3: ""                               // Season 3 ... (empty = fallback)
+        1: "58059",                         // Season 1 MAL ID
+        2: "59983",                         // Season 2 MAL ID
+        // Add more season IDs as needed
     };
     // ================================================================
 
-    const TMDB_KEY   = '4b74c1869ddd11a353501e4b4268307c';
-    const TMDB_BASE  = 'https://api.themoviedb.org/3';
+    // Cloudflare Worker Proxy (keeps TMDB API key safe)
+    const TMDB_PROXY = 'https://tmdb-proxy.bionmovies47.workers.dev';
     const JIKAN_BASE = 'https://api.jikan.moe/v4';
+
+    // Helper: Build proxy URL with ?path= parameter
+    function tmdbProxyUrl(endpoint) {
+        return `${TMDB_PROXY}?path=${encodeURIComponent(endpoint)}`;
+    }
+
+    // Generic TMDB fetch through the proxy
+    async function tmdbFetch(endpoint) {
+        const url = tmdbProxyUrl(endpoint);
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`TMDB error: ${res.status}`);
+        return res.json();
+    }
 
     // Domain mapping for HD numbers
     const DOMAIN_MAP = {
@@ -490,19 +503,15 @@
         return (await res.json()).data || [];
     }
 
-    // ========== TMDB API ==========
+    // ========== TMDB API (via proxy) ==========
     async function fetchTMDBShow() {
-        const res = await fetch(`${TMDB_BASE}/tv/${tmdbId}?api_key=${TMDB_KEY}`);
-        if (!res.ok) throw new Error('TMDB show fetch failed');
-        return res.json();
+        return tmdbFetch(`/tv/${tmdbId}`);
     }
     async function fetchTMDBSeason(num) {
         if (seasonCache[num]) return seasonCache[num];
-        const res = await fetch(`${TMDB_BASE}/tv/${tmdbId}/season/${num}?api_key=${TMDB_KEY}`);
-        if (!res.ok) return null;
-        const d = await res.json();
-        seasonCache[num] = d;
-        return d;
+        const data = await tmdbFetch(`/tv/${tmdbId}/season/${num}`);
+        seasonCache[num] = data;
+        return data;
     }
 
     // ========== COUNTRY FULL NAME ==========
@@ -708,14 +717,12 @@
 
     // ========== VIDEO PLAYER ==========
     function getServerSuffix(server) {
-        // Extract HD-XX part
         const parts = server.split('-');
         return parts[parts.length-1]; // e.g., "01"
     }
     function buildEmbedUrl(server, season, episode) {
         const suffix = getServerSuffix(server);
         if (suffix === '04') {
-            // 2embed format
             const id = imdbId || tmdbId;
             return `https://www.2embed.online/tv-2embed.php?id=${id}&season=${season}&episode=${episode}`;
         }
@@ -728,8 +735,8 @@
             autonext: '1'
         });
         if (server.startsWith('SUB') || server.startsWith('DUB')) {
-    params.set('ds_lang', 'en');
-}
+            params.set('ds_lang', 'en');
+        }
         return `https://${domain}/embed/tv?${params.toString()}`;
     }
     function loadVideo(server, season, episode) {
@@ -749,10 +756,9 @@
     // ========== SEASONS GRID ==========
     function renderSeasons() {
         seasonsContainer.innerHTML = '';
-        // Get season numbers from seasonMalIds, sorted
         const seasonNums = Object.keys(seasonMalIds)
             .map(Number)
-            .filter(k => seasonMalIds[k] !== '')  // include even if empty string? we'll include but fallback to TMDB
+            .filter(k => seasonMalIds[k] !== '')
             .sort((a,b) => a - b);
         const poster = animeJikan?.images?.jpg?.large_image_url || '';
         seasonNums.forEach(seasonNum => {
@@ -789,7 +795,6 @@
         } else {
             episodesList = await getTMDBEpisodesFallback(seasonNum);
         }
-        // set currentEpisode to first if not already set by saved progress
         const saved = loadWatchProgress();
         if (saved && saved.season === seasonNum) {
             const found = episodesList.find(e => e.episode_number === saved.episode);
